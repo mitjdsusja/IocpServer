@@ -2,8 +2,6 @@
 
 class SocketManager{
 public:
-	static void Test();
-
 	static bool SetEnv();
 	static void Clear() { WSACleanup(); }
 

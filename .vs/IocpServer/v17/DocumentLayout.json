@@ -1,0 +1,113 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\SEONG\\Desktop\\IocpServer\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C9300992-5BD8-4713-9C6C-73968ED9DB61}|IocpServer\\IocpServer.vcxproj|C:\\Users\\SEONG\\Desktop\\IocpServer\\IocpServer\\ServerMain.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{C9300992-5BD8-4713-9C6C-73968ED9DB61}|IocpServer\\IocpServer.vcxproj|solutionrelative:IocpServer\\ServerMain.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A40B4E76-D5BD-47F8-B1EE-5DCB1109443C}|ServerLib\\ServerLib.vcxproj|C:\\Users\\SEONG\\Desktop\\IocpServer\\ServerLib\\SocketManager.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A40B4E76-D5BD-47F8-B1EE-5DCB1109443C}|ServerLib\\ServerLib.vcxproj|solutionrelative:ServerLib\\SocketManager.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A40B4E76-D5BD-47F8-B1EE-5DCB1109443C}|ServerLib\\ServerLib.vcxproj|C:\\Users\\SEONG\\Desktop\\IocpServer\\ServerLib\\SocketManager.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A40B4E76-D5BD-47F8-B1EE-5DCB1109443C}|ServerLib\\ServerLib.vcxproj|solutionrelative:ServerLib\\SocketManager.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{71FCC76C-ECB6-468E-B5AF-2899BE838D94}|IocpClient\\IocpClient.vcxproj|C:\\Users\\SEONG\\Desktop\\IocpServer\\IocpClient\\ClientMain.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{71FCC76C-ECB6-468E-B5AF-2899BE838D94}|IocpClient\\IocpClient.vcxproj|solutionrelative:IocpClient\\ClientMain.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A40B4E76-D5BD-47F8-B1EE-5DCB1109443C}|ServerLib\\ServerLib.vcxproj|C:\\Users\\SEONG\\Desktop\\IocpServer\\ServerLib\\NetAddress.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A40B4E76-D5BD-47F8-B1EE-5DCB1109443C}|ServerLib\\ServerLib.vcxproj|solutionrelative:ServerLib\\NetAddress.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 189,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ClientMain.cpp",
+              "DocumentMoniker": "C:\\Users\\SEONG\\Desktop\\IocpServer\\IocpClient\\ClientMain.cpp",
+              "RelativeDocumentMoniker": "IocpClient\\ClientMain.cpp",
+              "ToolTip": "C:\\Users\\SEONG\\Desktop\\IocpServer\\IocpClient\\ClientMain.cpp",
+              "RelativeToolTip": "IocpClient\\ClientMain.cpp",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-08-27T20:18:49.887Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SocketManager.h",
+              "DocumentMoniker": "C:\\Users\\SEONG\\Desktop\\IocpServer\\ServerLib\\SocketManager.h",
+              "RelativeDocumentMoniker": "ServerLib\\SocketManager.h",
+              "ToolTip": "C:\\Users\\SEONG\\Desktop\\IocpServer\\ServerLib\\SocketManager.h",
+              "RelativeToolTip": "ServerLib\\SocketManager.h",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAMAAAAHAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-08-27T20:10:07.455Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 189,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ServerMain.cpp",
+              "DocumentMoniker": "C:\\Users\\SEONG\\Desktop\\IocpServer\\IocpServer\\ServerMain.cpp",
+              "RelativeDocumentMoniker": "IocpServer\\ServerMain.cpp",
+              "ToolTip": "C:\\Users\\SEONG\\Desktop\\IocpServer\\IocpServer\\ServerMain.cpp",
+              "RelativeToolTip": "IocpServer\\ServerMain.cpp",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-08-27T19:55:35.657Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "NetAddress.cpp",
+              "DocumentMoniker": "C:\\Users\\SEONG\\Desktop\\IocpServer\\ServerLib\\NetAddress.cpp",
+              "RelativeDocumentMoniker": "ServerLib\\NetAddress.cpp",
+              "ToolTip": "C:\\Users\\SEONG\\Desktop\\IocpServer\\ServerLib\\NetAddress.cpp",
+              "RelativeToolTip": "ServerLib\\NetAddress.cpp",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-08-27T19:54:15.058Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SocketManager.cpp",
+              "DocumentMoniker": "C:\\Users\\SEONG\\Desktop\\IocpServer\\ServerLib\\SocketManager.cpp",
+              "RelativeDocumentMoniker": "ServerLib\\SocketManager.cpp",
+              "ToolTip": "C:\\Users\\SEONG\\Desktop\\IocpServer\\ServerLib\\SocketManager.cpp",
+              "RelativeToolTip": "ServerLib\\SocketManager.cpp",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAgwCUAAAAYAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-08-27T20:10:11.625Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

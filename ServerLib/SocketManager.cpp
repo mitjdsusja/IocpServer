@@ -5,11 +5,6 @@ LPFN_CONNECTEX SocketManager::ConnectEx = nullptr;
 LPFN_DISCONNECTEX SocketManager::DisconnectEx = nullptr;
 LPFN_ACCEPTEX SocketManager::AcceptEx = nullptr;
 
-void SocketManager::Test()
-{
-}
-
-
 bool SocketManager::SetEnv(){
 
 	WSADATA wsaData;
@@ -35,6 +30,7 @@ SOCKET SocketManager::CreateSocket(){
 	if (socket == INVALID_SOCKET) {
 		int32 err = WSAGetLastError();
 		HandleError(L"CreateSocket Error", err);
+		
 	}
 	return socket;
 }
