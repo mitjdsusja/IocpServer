@@ -1,11 +1,10 @@
 *.tlog
 *.pdb
 *.obj
-*.vcxproj.user
 *.ilk
 *.idb
 *.pch
 *.log
 
-/ExeFile
+/Application
 /x64
