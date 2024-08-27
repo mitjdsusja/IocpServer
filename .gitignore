@@ -6,6 +6,6 @@
 *.pch
 *.log
 
-/Application
-*/x64
-/.vs
+Application/
+x64/
+.vs/
