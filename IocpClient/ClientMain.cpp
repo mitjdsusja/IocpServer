@@ -1,8 +1,12 @@
 #include "pch.h"
 
 int main() {
-	SOCKET listenSocket = SocketManager::CreateSocket();
 	SocketManager::SetEnv();
-	SocketManager::BindAnyAddress(listenSocket, 7777);
 
+	SOCKET listenSocket = SocketManager::CreateSocket();
+
+	NetAddress address(L"127.0.0.1", 7777);
+	SocketManager::Bind(listenSocket, address);
+
+	
 }
