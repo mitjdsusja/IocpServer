@@ -20,7 +20,7 @@ void CompletionPortHandler::GetCompletionEvent(){
 	DWORD numOfBytes = 0;
 	ULONG_PTR key = 0;
 	OverlappedEvent* overlapped = nullptr;
-	if (true == GetQueuedCompletionStatus(_completionPort, &numOfBytes, &key, (LPOVERLAPPED*)&overlapped, INFINITE)) {
+	if (TRUE == GetQueuedCompletionStatus(_completionPort, &numOfBytes, &key, (LPOVERLAPPED*)&overlapped, INFINITE)) {
 		switch (overlapped->_eventType) {
 			case EventType::ACCEPT: 
 				cout << "[ACCEPT] " << endl;
