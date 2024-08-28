@@ -1,4 +1,5 @@
 #pragma once
+#include "OverlappedEvent.h"
 
 class SocketManager{
 public:
@@ -13,8 +14,11 @@ public:
 	static bool Listen(SOCKET socket, int32 backlog = SOMAXCONN);
 	static bool Send();
 	static bool Recv();
-	static bool Accept(SOCKET listenSocket, SOCKET AcceptSocket, BYTE* recvBuf, OVERLAPPED* overlapped);
+	static bool Accept(SOCKET listenSocket, SOCKET AcceptSocket, BYTE* recvBuf, AcceptEvent* acceptEvent);
 	
+public:
+	static HANDLE CompletionPort() { return _completionPort; }
+
 public:
 	static LPFN_CONNECTEX ConnectEx;
 	static LPFN_DISCONNECTEX DisconnectEx;
@@ -26,6 +30,6 @@ private:
 	static void HandleError(wstring msg, int32 errorCode);
 
 private:
-	static HANDLE completionPort;
+	static HANDLE _completionPort;
 };
 

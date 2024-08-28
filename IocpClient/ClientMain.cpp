@@ -3,10 +3,14 @@
 int main() {
 	SocketManager::SetEnv();
 
-	SOCKET listenSocket = SocketManager::CreateSocket();
+	SOCKET serverSocket = SocketManager::CreateSocket();
 
-	NetAddress address(L"127.0.0.1", 7777);
-	SocketManager::Bind(listenSocket, address);
+	NetAddress serverAddr(L"127.0.0.1", 7777);
 
-	
+	DWORD bytes = 0;
+	OVERLAPPED overlapped = {};
+	SocketManager::ConnectEx(serverSocket, (SOCKADDR*)&serverAddr.GetSockAddr(), sizeof(SOCKADDR), nullptr, 0, &bytes, &overlapped);
+
+
+
 }

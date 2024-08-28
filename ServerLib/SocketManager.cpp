@@ -5,7 +5,7 @@ LPFN_CONNECTEX SocketManager::ConnectEx = nullptr;
 LPFN_DISCONNECTEX SocketManager::DisconnectEx = nullptr;
 LPFN_ACCEPTEX SocketManager::AcceptEx = nullptr;
 
-HANDLE SocketManager::completionPort = nullptr;
+HANDLE SocketManager::_completionPort = nullptr;
 
 bool SocketManager::SetEnv(){
 
@@ -24,7 +24,7 @@ bool SocketManager::SetEnv(){
 	flag = BindWindowFunction(dummySocket, WSAID_ACCEPTEX, (LPVOID*)&AcceptEx);
 	closesocket(dummySocket);
 
-	HANDLE completionPort = CreateIoCompletionPort(INVALID_HANDLE_VALUE, 0, 0, 0);
+	_completionPort = CreateIoCompletionPort(INVALID_HANDLE_VALUE, 0, 0, 0);
 
 	return flag;
 }
@@ -42,7 +42,7 @@ SOCKET SocketManager::CreateSocket(){
 
 bool SocketManager::RegisterHandle(HANDLE handle, ULONG_PTR key){
 
-	if (NULL == CreateIoCompletionPort(handle, completionPort, key, NULL)) {
+	if (NULL == CreateIoCompletionPort(handle, _completionPort, key, NULL)) {
 		int32 err = WSAGetLastError();
 		HandleError(L"RegisterHandle", err);
 
@@ -103,10 +103,10 @@ bool SocketManager::Recv()
 	return false;
 }
 
-bool SocketManager::Accept(SOCKET listenSocket, SOCKET AcceptSocket,BYTE* recvBuf, OVERLAPPED* overlapped){
+bool SocketManager::Accept(SOCKET listenSocket, SOCKET AcceptSocket,BYTE* recvBuf, AcceptEvent* acceptEvent){
 	
 	DWORD bytes = 0;
-	if (false == AcceptEx(listenSocket, AcceptSocket, recvBuf, 0, sizeof(SOCKADDR_IN) + 16, sizeof(SOCKADDR_IN) + 16, &bytes, overlapped)) {
+	if (false == AcceptEx(listenSocket, AcceptSocket, recvBuf, 0, sizeof(SOCKADDR_IN) + 16, sizeof(SOCKADDR_IN) + 16, &bytes, (LPOVERLAPPED)acceptEvent)) {
 		int32 err = WSAGetLastError();
 
 		if (err != WSA_IO_PENDING) {
