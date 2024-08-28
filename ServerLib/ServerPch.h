@@ -2,7 +2,6 @@
 
 #include <iostream> 
 #include <vector>
-#include <thread>
 
 using namespace std;
 
@@ -13,6 +12,7 @@ using namespace std;
 #pragma comment(lib, "Mswsock.lib")
 
 #include "types.h"
+#include "ErrorHandler.h"
 
 #include "NetAddress.h"
 #include "SocketManager.h"

@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CompletionPortHandler.cpp" />
+    <ClCompile Include="ErrorHandler.cpp" />
     <ClCompile Include="NetAddress.cpp" />
     <ClCompile Include="OverlappedEvent.cpp" />
     <ClCompile Include="pch.cpp">
@@ -29,13 +31,17 @@
     </ClCompile>
     <ClCompile Include="ServerPch.cpp" />
     <ClCompile Include="SocketManager.cpp" />
+    <ClCompile Include="ThreadManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CompletionPortHandler.h" />
+    <ClInclude Include="ErrorHandler.h" />
     <ClInclude Include="NetAddress.h" />
     <ClInclude Include="OverlappedEvent.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="ServerPch.h" />
     <ClInclude Include="SocketManager.h" />
+    <ClInclude Include="ThreadManager.h" />
     <ClInclude Include="types.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

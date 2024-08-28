@@ -6,8 +6,14 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ServerLib", "ServerLib\ServerLib.vcxproj", "{A40B4E76-D5BD-47F8-B1EE-5DCB1109443C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IocpClient", "IocpClient\IocpClient.vcxproj", "{71FCC76C-ECB6-468E-B5AF-2899BE838D94}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A40B4E76-D5BD-47F8-B1EE-5DCB1109443C} = {A40B4E76-D5BD-47F8-B1EE-5DCB1109443C}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IocpServer", "IocpServer\IocpServer.vcxproj", "{C9300992-5BD8-4713-9C6C-73968ED9DB61}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A40B4E76-D5BD-47F8-B1EE-5DCB1109443C} = {A40B4E76-D5BD-47F8-B1EE-5DCB1109443C}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
