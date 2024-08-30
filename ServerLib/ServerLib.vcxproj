@@ -30,6 +30,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="ServerPch.cpp" />
+    <ClCompile Include="Session.cpp" />
     <ClCompile Include="SocketManager.cpp" />
     <ClCompile Include="ThreadManager.cpp" />
   </ItemGroup>
@@ -40,6 +41,7 @@
     <ClInclude Include="OverlappedEvent.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="ServerPch.h" />
+    <ClInclude Include="Session.h" />
     <ClInclude Include="SocketManager.h" />
     <ClInclude Include="ThreadManager.h" />
     <ClInclude Include="types.h" />
