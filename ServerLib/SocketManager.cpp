@@ -83,8 +83,8 @@ bool SocketManager::Send(){
 	return false;
 }
 
-bool SocketManager::Recv()
-{
+bool SocketManager::Recv(){
+
 	return false;
 }
 

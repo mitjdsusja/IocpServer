@@ -42,6 +42,15 @@
     <ClCompile Include="Session.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="SendBuffer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="BufferPool.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="RecvBuffer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ServerPch.h">
@@ -72,6 +81,15 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Session.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SendBuffer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="BufferPool.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="RecvBuffer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

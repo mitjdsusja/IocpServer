@@ -1,6 +1,18 @@
 #include "pch.h"
 #include "Session.h"
 
+Session::Session(NetAddress address) : _address(address){
+
+	_peerSocket = SocketManager::CreateSocket();
+	_recvBuffer = new RecvBuffer(RECV_BUFFER_SIZE);
+}
+
+Session::~Session(){
+
+	closesocket(_peerSocket);
+	delete _recvBuffer;
+}
+
 void Session::Accept(){
 
 }

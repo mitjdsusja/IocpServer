@@ -17,6 +17,7 @@ bool CompletionPortHandler::RegisterHandle(HANDLE handle, ULONG_PTR key){
 }
 
 void CompletionPortHandler::GetCompletionEvent(){
+
 	DWORD numOfBytes = 0;
 	ULONG_PTR key = 0;
 	OverlappedEvent* overlapped = nullptr;

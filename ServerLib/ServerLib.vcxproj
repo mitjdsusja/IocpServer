@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BufferPool.cpp" />
     <ClCompile Include="CompletionPortHandler.cpp" />
     <ClCompile Include="ErrorHandler.cpp" />
     <ClCompile Include="NetAddress.cpp" />
@@ -29,17 +30,22 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="RecvBuffer.cpp" />
+    <ClCompile Include="SendBuffer.cpp" />
     <ClCompile Include="ServerPch.cpp" />
     <ClCompile Include="Session.cpp" />
     <ClCompile Include="SocketManager.cpp" />
     <ClCompile Include="ThreadManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BufferPool.h" />
     <ClInclude Include="CompletionPortHandler.h" />
     <ClInclude Include="ErrorHandler.h" />
     <ClInclude Include="NetAddress.h" />
     <ClInclude Include="OverlappedEvent.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="RecvBuffer.h" />
+    <ClInclude Include="SendBuffer.h" />
     <ClInclude Include="ServerPch.h" />
     <ClInclude Include="Session.h" />
     <ClInclude Include="SocketManager.h" />
