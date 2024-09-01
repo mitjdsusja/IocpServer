@@ -1,12 +1,14 @@
 #pragma once
 
+class Session;
+
 enum EventType {
+
 	ACCEPT = 1,
 	CONNECT = 2,
 	DISCONNECT = 3,
 	SEND = 4,
 	RECV = 5,
-
 };
 
 class OverlappedEvent : public OVERLAPPED{
@@ -15,6 +17,7 @@ public:
 
 public:
 	EventType _eventType;
+	Session* session;
 };
 
 class AcceptEvent : public OverlappedEvent {

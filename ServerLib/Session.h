@@ -5,16 +5,17 @@ class Session{
 		RECV_BUFFER_SIZE = 4096,
 	};
 public:
-	Session(NetAddress address);
+	Session();
 	~Session();
 
-	void Accept();
-	void Connect();
+	void Connect(NetAddress peerAddress);
 	void Send();
 	void Recv();
 
-public:
-	void RegisterAccept();
+	SOCKET GetSocket() { return _peerSocket; }
+	RecvBuffer* GetRecvBuffer() { return _recvBuffer; }
+
+private:
 	void RegisterConnect();
 	void RegisterSend();
 	void RegisterRecv();
@@ -29,6 +30,6 @@ private:
 	SendEvent _sendEvent = {};
 	RecvEvent _recvEvent = {};
 	ConnectEvent _connectEvent = {};
-	AcceptEvent _acceptEvent = {};
+
 };
 

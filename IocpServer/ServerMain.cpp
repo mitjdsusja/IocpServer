@@ -1,27 +1,23 @@
 #include "pch.h"
 #include <thread>
 
+#include "Listener.h"
 #include "CompletionPortHandler.h"
 
 int main() {
 	SocketManager::SetEnv();
 
-	SOCKET listenSocket = SocketManager::CreateSocket();
-
 	NetAddress address(L"127.0.0.1", 7777);
-	SocketManager::Bind(listenSocket, address);
-	SocketManager::Listen(listenSocket);
-	cout << "Complete Set" << endl;
+	Listener* listener = new Listener();
+	listener->SetEnv(address);
+	cout << "Complete ListenerSet" << endl;
 
-
-	SOCKET clientSocket = SocketManager::CreateSocket();
+	// Register completionPort
 	CompletionPortHandler* completionPortHandler = new CompletionPortHandler();
-	completionPortHandler->RegisterHandle((HANDLE)listenSocket, (ULONG_PTR)0);
+	completionPortHandler->RegisterHandle((HANDLE)listener->GetSocket(), (ULONG_PTR)0);
 
-	BYTE recvBuf[100] = {};
-	AcceptEvent* acceptEvent = new AcceptEvent();
-	SocketManager::Accept(listenSocket, clientSocket, recvBuf, acceptEvent);
-
+	// Accept
+	listener->Start(10);
 
 	while (true) {
 		completionPortHandler->GetCompletionEvent();

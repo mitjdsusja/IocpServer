@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Session.h"
 
-Session::Session(NetAddress address) : _address(address){
+Session::Session() {
 
 	_peerSocket = SocketManager::CreateSocket();
 	_recvBuffer = new RecvBuffer(RECV_BUFFER_SIZE);
@@ -9,16 +9,20 @@ Session::Session(NetAddress address) : _address(address){
 
 Session::~Session(){
 
-	closesocket(_peerSocket);
+	if (INVALID_SOCKET != _peerSocket) {
+		closesocket(_peerSocket);
+	}
+
 	delete _recvBuffer;
 }
 
-void Session::Accept(){
+void Session::Connect(NetAddress peerAddress){
 
-}
+	_address = peerAddress;
+	SocketManager::BindAnyAddress(_peerSocket, 0);
 
-void Session::Connect(){
-
+	DWORD bytes = 0;
+	SocketManager::Connect(_peerSocket, (SOCKADDR*)&_address.GetSockAddr(), &_connectEvent);
 }
 
 void Session::Send(){
@@ -26,10 +30,6 @@ void Session::Send(){
 }
 
 void Session::Recv(){
-
-}
-
-void Session::RegisterAccept(){
 
 }
 

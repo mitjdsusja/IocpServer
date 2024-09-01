@@ -20,3 +20,4 @@ using namespace std;
 #include "OverlappedEvent.h"
 #include "SendBuffer.h"
 #include "RecvBuffer.h"
+#include "Session.h"

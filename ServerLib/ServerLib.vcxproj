@@ -22,6 +22,7 @@
     <ClCompile Include="BufferPool.cpp" />
     <ClCompile Include="CompletionPortHandler.cpp" />
     <ClCompile Include="ErrorHandler.cpp" />
+    <ClCompile Include="Listener.cpp" />
     <ClCompile Include="NetAddress.cpp" />
     <ClCompile Include="OverlappedEvent.cpp" />
     <ClCompile Include="pch.cpp">
@@ -41,6 +42,7 @@
     <ClInclude Include="BufferPool.h" />
     <ClInclude Include="CompletionPortHandler.h" />
     <ClInclude Include="ErrorHandler.h" />
+    <ClInclude Include="Listener.h" />
     <ClInclude Include="NetAddress.h" />
     <ClInclude Include="OverlappedEvent.h" />
     <ClInclude Include="pch.h" />
