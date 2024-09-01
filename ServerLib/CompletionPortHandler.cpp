@@ -22,26 +22,7 @@ void CompletionPortHandler::GetCompletionEvent(){
 	ULONG_PTR key = 0;
 	OverlappedEvent* overlapped = nullptr;
 	if (TRUE == GetQueuedCompletionStatus(_completionPort, &numOfBytes, &key, (LPOVERLAPPED*)&overlapped, INFINITE)) {
-		switch (overlapped->_eventType) {
-			case EventType::ACCEPT: 
-				cout << "[ACCEPT] " << endl;
-				break;
-			case EventType::CONNECT:
-				cout << "[CONNECT] " << endl;
-				break;
-			case EventType::DISCONNECT:
-				cout << "[DISCONNECT] " << endl;
-				break;
-			case EventType::SEND:
-				cout << "[SEND] " << endl;
-				break;
-			case EventType::RECV:
-				cout << "[RECV] " << endl;
-				break;
-			default:
-				cout << "[DEFAULT] " << endl;
-				break;
-		}
+		overlapped->_owner->Process(overlapped, numOfBytes);
 	}
 	else {
 		int32 err = WSAGetLastError();

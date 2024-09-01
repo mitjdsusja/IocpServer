@@ -1,6 +1,9 @@
 #pragma once
+#include "SocketEntity.h"
 
-class Session{
+class Session : public SocketEntity{
+	friend class Listener;
+
 	enum {
 		RECV_BUFFER_SIZE = 4096,
 	};
@@ -14,15 +17,20 @@ public:
 
 	SOCKET GetSocket() { return _peerSocket; }
 	RecvBuffer* GetRecvBuffer() { return _recvBuffer; }
+	NetAddress& GetPeerAddressRef() { return _peerAddress; }
+
+	void Process(OverlappedEvent* event, int32 numOfBytes) override;
 
 private:
 	void RegisterConnect();
 	void RegisterSend();
 	void RegisterRecv();
 
+	void SetPeerAddress(NetAddress address) { _peerAddress = address; }
+
 private:
 	SOCKET _peerSocket;
-	NetAddress _address;
+	NetAddress _peerAddress;
 
 	RecvBuffer* _recvBuffer = nullptr;
 

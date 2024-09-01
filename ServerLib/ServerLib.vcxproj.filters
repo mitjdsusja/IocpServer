@@ -54,6 +54,9 @@
     <ClCompile Include="Listener.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="SocketEntity.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ServerPch.h">
@@ -96,6 +99,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Listener.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SocketEntity.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

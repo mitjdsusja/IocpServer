@@ -9,7 +9,7 @@ int main() {
 	Session* serverSession = new Session();
 
 	NetAddress serverAddr(L"127.0.0.1", 7777);
-	SocketManager::BindAnyAddress(serverSession->GetSocket(), 0);
+
 	CompletionPortHandler* completionPortHandler = new CompletionPortHandler();
 	completionPortHandler->RegisterHandle((HANDLE)serverSession->GetSocket(), (ULONG_PTR)0);
 

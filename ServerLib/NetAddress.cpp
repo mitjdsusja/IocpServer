@@ -28,7 +28,9 @@ void NetAddress::SetSockAddr(wstring ip, uint16 port){
 
 wstring NetAddress::GetIpAddress(){
 
-	return wstring();
+	WCHAR buffer[100];
+	InetNtopW(AF_INET, &_sockAddr.sin_addr, buffer, sizeof(buffer) / sizeof(WCHAR));
+	return wstring(buffer);
 }
 
 IN_ADDR NetAddress::IpToSockAddr(const WCHAR* ip){

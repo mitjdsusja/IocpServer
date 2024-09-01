@@ -1,6 +1,7 @@
 #pragma once
 
 class Session;
+class SocketEntity;
 
 enum EventType {
 
@@ -17,13 +18,13 @@ public:
 
 public:
 	EventType _eventType;
-	Session* session;
+	SocketEntity* _owner = nullptr;
 };
 
 class AcceptEvent : public OverlappedEvent {
 public:
 	AcceptEvent() : OverlappedEvent(EventType::ACCEPT) { }
-
+	Session* _session = nullptr;
 };
 
 class ConnectEvent : public OverlappedEvent {

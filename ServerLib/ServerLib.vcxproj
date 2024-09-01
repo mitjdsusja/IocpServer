@@ -35,6 +35,7 @@
     <ClCompile Include="SendBuffer.cpp" />
     <ClCompile Include="ServerPch.cpp" />
     <ClCompile Include="Session.cpp" />
+    <ClCompile Include="SocketEntity.cpp" />
     <ClCompile Include="SocketManager.cpp" />
     <ClCompile Include="ThreadManager.cpp" />
   </ItemGroup>
@@ -50,6 +51,7 @@
     <ClInclude Include="SendBuffer.h" />
     <ClInclude Include="ServerPch.h" />
     <ClInclude Include="Session.h" />
+    <ClInclude Include="SocketEntity.h" />
     <ClInclude Include="SocketManager.h" />
     <ClInclude Include="ThreadManager.h" />
     <ClInclude Include="types.h" />
