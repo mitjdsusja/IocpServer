@@ -32,14 +32,17 @@ void Session::Connect(NetAddress peerAddress){
 
 void Session::Send(){
 
+	// TODO : Send Msg
 }
 
 void Session::Recv(){
 
+	// TODO : Recv Msg
 }
 
 void Session::Process(OverlappedEvent* event, int32 numOfBytes){
 
+	// TODO  : Mapping Function
 	switch (event->_eventType) {
 	case EventType::CONNECT:
 		cout << "[CONNECT] " << endl;
@@ -61,14 +64,17 @@ void Session::Process(OverlappedEvent* event, int32 numOfBytes){
 
 void Session::RegisterConnect(){
 
+	// TODO : 
 }
 
 void Session::RegisterSend(){
 
+	// TODO : 
 }
 
 void Session::RegisterRecv(){
 
+	// TODO : 
 }
 
 
