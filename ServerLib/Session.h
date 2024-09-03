@@ -7,6 +7,7 @@ class Session : public SocketEntity{
 	enum {
 		RECV_BUFFER_SIZE = 4096,
 	};
+
 public:
 	Session();
 	~Session();

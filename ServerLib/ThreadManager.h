@@ -9,6 +9,7 @@ public:
 
 	void Launch(function<void(void)> callback);
 	void Join();
+
 private:
 	vector<thread> _threads;
 

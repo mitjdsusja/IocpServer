@@ -3,6 +3,10 @@
 
 #include "CompletionPortHandler.h"
 
+enum {
+	WORKER_THREAD_COUNT = 5,
+};
+
 int main() {
 	SocketManager::SetEnv();
 
@@ -16,6 +20,10 @@ int main() {
 	this_thread::sleep_for(1s);
 	serverSession->Connect(serverAddr);
 
+	// Create Thread GQCS
+	for (int32 i = 0; i < WORKER_THREAD_COUNT; i++) {
+
+	}
 	while (true) {
 		
 		completionPortHandler->GetCompletionEvent();
