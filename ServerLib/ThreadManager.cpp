@@ -12,13 +12,19 @@ ThreadManager::~ThreadManager(){
 
 void ThreadManager::Launch(function<void(void)> callback){
 
-	thread t(callback);
-	_threads.push_back(t);
+	lock_guard<mutex> _lock(_mutex);
+
+	_threads.push_back(thread([=]() {
+		callback();
+		}));
 }
 
 void ThreadManager::Join(){
 
 	for (thread& t : _threads) {
-		t.join();
+		if (t.joinable()) {
+			t.join();
+		}
 	}
+	_threads.clear();
 }

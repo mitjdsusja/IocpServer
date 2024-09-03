@@ -1,7 +1,7 @@
 #include "pch.h"
-#include "ServerGlobal.h"
+#include "ThreadManager.h"
 
-class ThreadManager* GThreadManager = nullptr;
+ThreadManager* GThreadManager = nullptr;
 
 class ServerGlobal {
 public:
@@ -13,4 +13,4 @@ public:
 		delete GThreadManager;
 	}
 
-}ServerGlobal;
+}GServerGlobal;

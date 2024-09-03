@@ -1,7 +1,6 @@
 #include "pch.h"
-#include <thread>
-
 #include "CompletionPortHandler.h"
+#include "ThreadManager.h"
 
 enum {
 	WORKER_THREAD_COUNT = 5,
