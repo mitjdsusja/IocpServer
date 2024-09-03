@@ -1,4 +1,4 @@
 #pragma once
 #include "ThreadManager.h"
 
-extern ThreadManager* GThreadManager;
+extern class ThreadManager* GThreadManager;

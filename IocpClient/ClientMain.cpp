@@ -22,12 +22,11 @@ int main() {
 
 	// Create Thread GQCS
 	for (int32 i = 0; i < WORKER_THREAD_COUNT; i++) {
-
-	}
-	while (true) {
-		
-		completionPortHandler->GetCompletionEvent();
-		cout << "LOOP" << endl;
+		GThreadManager->Launch([=]() {
+				completionPortHandler->GetCompletionEvent();
+				cout << "LOOP" << endl;
+		});
 	}
 
+	GThreadManager->Join();
 }

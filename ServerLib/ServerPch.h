@@ -13,8 +13,9 @@ using namespace std;
 #pragma comment(lib, "Mswsock.lib")
 
 #include "types.h"
-#include "ErrorHandler.h"
 
+#include "ServerGlobal.h"
+#include "ErrorHandler.h"
 #include "NetAddress.h"
 #include "SocketManager.h"
 #include "OverlappedEvent.h"
