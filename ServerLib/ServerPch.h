@@ -3,6 +3,8 @@
 #include <iostream> 
 #include <vector>
 #include <mutex>
+#include <queue>
+#include <atomic>
 
 using namespace std;
 

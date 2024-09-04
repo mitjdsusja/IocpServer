@@ -13,7 +13,7 @@ public:
 	~Session();
 
 	void Connect(NetAddress peerAddress);
-	void Send();
+	void Send(SendBuffer* sendBuffer);
 	void Recv();
 
 	SOCKET GetSocket() { return _peerSocket; }
@@ -23,9 +23,13 @@ public:
 	void Process(OverlappedEvent* event, int32 numOfBytes) override;
 
 private:
-	void RegisterConnect();
-	void RegisterSend(SOCKET targetSocket, SendEvent* sendEvent);
+	void RegisterConnect(NetAddress& peerAddress);
+	void RegisterSend();
 	void RegisterRecv();
+
+	void ProcessConnect();
+	void ProcessSend();
+	void ProcessRecv();
 
 	void SetPeerAddress(NetAddress address) { _peerAddress = address; }
 
@@ -33,9 +37,14 @@ private:
 	SOCKET _peerSocket;
 	NetAddress _peerAddress;
 
+	queue<SendBuffer*> sendQueue;
 	RecvBuffer* _recvBuffer = nullptr;
 
+	bool sendRegistered = false;
+
 private:
+	mutex _mutex;
+
 	SendEvent _sendEvent = {};
 	RecvEvent _recvEvent = {};
 	ConnectEvent _connectEvent = {};

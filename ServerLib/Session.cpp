@@ -26,14 +26,27 @@ void Session::Connect(NetAddress peerAddress){
 	_peerAddress = peerAddress;
 	SocketManager::BindAnyAddress(_peerSocket, 0);
 
-	DWORD bytes = 0;
-	SocketManager::Connect(_peerSocket, (SOCKADDR*)&_peerAddress.GetSockAddr(), &_connectEvent);
+	RegisterConnect(peerAddress);
+
+	
 }
 
-void Session::Send(){
+void Session::Send(SendBuffer* sendBuffer){
 
 	// TODO : Send Msg
+	{
+		lock_guard<mutex> _lock(_mutex);
+		sendQueue.push(sendBuffer);
 
+		if (sendRegistered == true) {
+			return;
+		}
+		else {
+			sendRegistered = true;
+		}
+	}
+
+	RegisterSend();
 }
 
 void Session::Recv(){
@@ -63,32 +76,48 @@ void Session::Process(OverlappedEvent* event, int32 numOfBytes){
 	}
 }
 
-void Session::RegisterConnect(){
+void Session::RegisterConnect(NetAddress& peerAddress){
 
-	// TODO : 
+	SocketManager::Connect(_peerSocket, (SOCKADDR*)&_peerAddress.GetSockAddr(), &_connectEvent);
 }
 
-void Session::RegisterSend(SOCKET targetSocket, SendEvent* sendEvent){
+void Session::RegisterSend(){
 
 	// TODO : Pop SendQueue 
 	//
+	vector<SendBuffer*> sendBuffers;
+	int32 bufferCount;
+	{
+		lock_guard<mutex> _lock(_mutex);
 
-	WCHAR sendBuffer[100] = L"SEND MSG";
-	int32 bufLen = 100;
-	WSABUF wsaBuf;
-	wsaBuf.buf = (CHAR*)sendBuffer;
-	wsaBuf.len = bufLen;
+		bufferCount = sendQueue.size();
+		sendBuffers.resize(bufferCount);
+
+		for (int32 i = 0;i < bufferCount;i++) {
+
+			sendBuffers[i] = sendQueue.front();
+			sendQueue.pop();
+		}
+	}
 
 	DWORD bytes = 0;
-	if (SocketManager::Send(targetSocket, wsaBuf, 0, sendEvent)) {
-		// TODO :
-		
+	if (false == SocketManager::Send(_peerSocket, sendBuffers[0], bufferCount, &_sendEvent)) {
+		// TODO : failed send data Process 
+		//		  Push SendQueue - RESEND
+		for (int32 i = 0;i < bufferCount;i++) {
+			Send(sendBuffers[i]);
+		}
 	}
+
+	sendRegistered = false;
 }
 
 void Session::RegisterRecv(){
 
 	// TODO : 
+	if (false == SocketManager::Recv(_peerSocket, _recvBuffer, _recvBuffer->FreeSize(), &_recvEvent)) {
+
+	}
 }
 
 
