@@ -33,6 +33,7 @@ void Session::Connect(NetAddress peerAddress){
 void Session::Send(){
 
 	// TODO : Send Msg
+
 }
 
 void Session::Recv(){
@@ -67,9 +68,22 @@ void Session::RegisterConnect(){
 	// TODO : 
 }
 
-void Session::RegisterSend(){
+void Session::RegisterSend(SOCKET targetSocket, SendEvent* sendEvent){
 
-	// TODO : 
+	// TODO : Pop SendQueue 
+	//
+
+	WCHAR sendBuffer[100] = L"SEND MSG";
+	int32 bufLen = 100;
+	WSABUF wsaBuf;
+	wsaBuf.buf = (CHAR*)sendBuffer;
+	wsaBuf.len = bufLen;
+
+	DWORD bytes = 0;
+	if (SocketManager::Send(targetSocket, wsaBuf, 0, sendEvent)) {
+		// TODO :
+		
+	}
 }
 
 void Session::RegisterRecv(){

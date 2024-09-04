@@ -1,8 +1,12 @@
 #include "pch.h"
-//#include <thread>
 
 #include "Listener.h"
 #include "CompletionPortHandler.h"
+#include "ThreadManager.h"
+
+enum {
+	GQCS_THREAD_COUNT = 5,
+};
 
 int main() {
 	SocketManager::SetEnv();
@@ -19,9 +23,14 @@ int main() {
 	// Accept
 	listener->Start(10);
 
-	while (true) {
-		completionPortHandler->GetCompletionEvent();
-		cout << "LOOP" << endl;
+	
+	// Create Thread GQCS
+	for (int32 i = 0; i < GQCS_THREAD_COUNT; i++) {
+		GThreadManager->Launch([=]() {
+			completionPortHandler->GetCompletionEvent();
+			cout << "CLIENT LOOP" << endl;
+			});
 	}
 
+	GThreadManager->Join();
 }

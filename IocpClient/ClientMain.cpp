@@ -1,9 +1,10 @@
 #include "pch.h"
+
 #include "CompletionPortHandler.h"
 #include "ThreadManager.h"
 
 enum {
-	WORKER_THREAD_COUNT = 5,
+	GQCS_THREAD_COUNT = 5,
 };
 
 int main() {
@@ -20,10 +21,10 @@ int main() {
 	serverSession->Connect(serverAddr);
 
 	// Create Thread GQCS
-	for (int32 i = 0; i < WORKER_THREAD_COUNT; i++) {
+	for (int32 i = 0; i < GQCS_THREAD_COUNT; i++) {
 		GThreadManager->Launch([=]() {
 				completionPortHandler->GetCompletionEvent();
-				cout << "LOOP" << endl;
+				cout << "CLIENT LOOP" << endl;
 		});
 	}
 

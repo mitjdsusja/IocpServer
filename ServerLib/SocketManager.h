@@ -12,7 +12,7 @@ public:
 	static bool Bind(SOCKET socket, NetAddress address);
 	static bool BindAnyAddress(SOCKET socket, uint16 port);
 	static bool Listen(SOCKET socket, int32 backlog = SOMAXCONN);
-	static bool Send();
+	static bool Send(SOCKET tartgetSocket, WSABUF& wsaBuf, int32 bufCount, SendEvent* sendEvent);
 	static bool Recv();
 	static bool Accept(SOCKET listenSocket, SOCKET AcceptSocket, BYTE* recvBuf, AcceptEvent* acceptEvent);
 	static bool Connect(SOCKET targetSocket, SOCKADDR* targetAddr, ConnectEvent* connectEvent);

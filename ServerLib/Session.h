@@ -24,7 +24,7 @@ public:
 
 private:
 	void RegisterConnect();
-	void RegisterSend();
+	void RegisterSend(SOCKET targetSocket, SendEvent* sendEvent);
 	void RegisterRecv();
 
 	void SetPeerAddress(NetAddress address) { _peerAddress = address; }

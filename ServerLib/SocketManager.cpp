@@ -78,9 +78,20 @@ bool SocketManager::Listen(SOCKET socket, int32 backlog) {
 	return true;
 }
 
-bool SocketManager::Send(){
+bool SocketManager::Send(SOCKET tartgetSocket, WSABUF& wsaBuf, int32 bufCount, SendEvent* sendEvent){
 	
-	return false;
+	DWORD bytes = 0;
+	if (SOCKET_ERROR == ::WSASend(tartgetSocket, &wsaBuf, (DWORD)bufCount, &bytes, 0, sendEvent, nullptr)) {
+		int32 errorCode = WSAGetLastError();
+		if (errorCode != WSA_IO_PENDING) {
+			ErrorHandler::HandleError(L"Send Error", errorCode);
+			// TODO : Process Error
+
+			return false;
+		}
+	}
+
+	return true;
 }
 
 bool SocketManager::Recv(){
