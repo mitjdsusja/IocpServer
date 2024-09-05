@@ -27,6 +27,8 @@ int main() {
 				cout << "CLIENT LOOP" << endl;
 		});
 	}
+	SendBuffer* sendBuffer = 
+	serverSession->Send()
 
 	GThreadManager->Join();
 }
