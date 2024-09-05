@@ -2,6 +2,7 @@
 
 #include "CompletionPortHandler.h"
 #include "ThreadManager.h"
+#include "BufferPool.h"
 
 enum {
 	GQCS_THREAD_COUNT = 5,
@@ -27,8 +28,17 @@ int main() {
 				cout << "CLIENT LOOP" << endl;
 		});
 	}
-	SendBuffer* sendBuffer = 
-	serverSession->Send()
+	SendBuffer* sendBuffer = GSendBufferPool->Pop();
+	BYTE* buffer = sendBuffer->Buffer();
+
+	wstring msg(L"Send Message");
+	int32 len = (msg.size() + 1) * sizeof(WCHAR);
+
+	memcpy(buffer, msg.c_str(), len);
+	sendBuffer->Write(len);
+
+	this_thread::sleep_for(1s);
+	serverSession->Send(sendBuffer);
 
 	GThreadManager->Join();
 }

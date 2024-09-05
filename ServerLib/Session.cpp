@@ -65,10 +65,10 @@ void Session::Process(OverlappedEvent* event, int32 numOfBytes){
 		cout << "[DISCONNECT] " << endl;
 		break;
 	case EventType::SEND:
-		cout << "[SEND] " << endl;
+		ProcessSend(event, numOfBytes);
 		break;
 	case EventType::RECV:
-		cout << "[RECV] " << endl;
+		ProcessRecv(event, numOfBytes);
 		break;
 	default:
 		cout << "[DEFAULT] " << endl;
@@ -115,9 +115,37 @@ void Session::RegisterSend(){
 void Session::RegisterRecv(){
 
 	// TODO : 
-	if (false == SocketManager::Recv(_peerSocket, _recvBuffer, _recvBuffer->FreeSize(), &_recvEvent)) {
+	if (false == SocketManager::Recv(_peerSocket, _recvBuffer, &_recvEvent)) {
 
 	}
+}
+
+void Session::ProcessConnect(OverlappedEvent* event, int32 processBytes){
+
+}
+
+void Session::ProcessSend(OverlappedEvent* event, int32 processBytes){
+
+	if (event->_eventType != EventType::SEND) {
+		ErrorHandler::HandleError(L"ProcessSend Error : INVALID EVENT TYPE");
+	}
+	cout << "[SEND] : Process Send " << endl;
+}
+
+void Session::ProcessRecv(OverlappedEvent* event, int32 processBytes){
+
+	if (event->_eventType != EventType::RECV) {
+		ErrorHandler::HandleError(L"ProcessRecv Error : INVALID EVENT TYPE");
+	}
+	BYTE* buffer = _recvBuffer->ReadPos();
+	WCHAR msg[100];
+	memcpy(msg, buffer, _recvBuffer->DataSize());
+	int32 recvLen = processBytes;
+	wcout << L"[RECV] RecvLen : " << recvLen << " | " 
+		<< "RecvData : " << msg << endl;
+
+
+	RegisterRecv();
 }
 
 

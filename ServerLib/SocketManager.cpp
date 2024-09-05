@@ -106,7 +106,7 @@ bool SocketManager::Send(SOCKET targetSocket, SendBuffer* sendBufferArray, int32
 	return true;
 }
 
-bool SocketManager::Recv(SOCKET targetSocket, RecvBuffer* bufferPtr, int32 bufferLen, RecvEvent* recvEvent){
+bool SocketManager::Recv(SOCKET targetSocket, RecvBuffer* recvBuffer, RecvEvent* recvEvent){
 
 	if (targetSocket == INVALID_SOCKET) {
 		ErrorHandler::HandleError(L"RECV INVALID SOCKET");
@@ -116,14 +116,13 @@ bool SocketManager::Recv(SOCKET targetSocket, RecvBuffer* bufferPtr, int32 buffe
 	DWORD recvBytes = 0;
 	DWORD flag = 0;
 	WSABUF wsaBuf;
-	wsaBuf.buf = (char*)bufferPtr;
-	wsaBuf.len = bufferLen;
+	wsaBuf.buf = (char*)recvBuffer->WritePos();
+	wsaBuf.len = recvBuffer->FreeSize();
 
-	if (SOCKET_ERROR == WSARecv(targetSocket, &wsaBuf, 1, NULL, &flag, recvEvent, NULL)) {
+	if (SOCKET_ERROR == WSARecv(targetSocket, &wsaBuf, 1, &recvBytes, &flag, recvEvent, NULL)) {
 		int32 err = WSAGetLastError();
 		if (err == WSA_IO_PENDING) {
-
-			return true;
+			// TODO : PENDING
 		}
 		else {
 			// TODO : Error
@@ -132,7 +131,7 @@ bool SocketManager::Recv(SOCKET targetSocket, RecvBuffer* bufferPtr, int32 buffe
 		}
 	}
 
-	
+	recvEvent->_owner->Process((OverlappedEvent*)recvEvent, recvBytes);
 	return true;
 }
 

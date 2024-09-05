@@ -19,7 +19,7 @@ SendBuffer* BufferPool::Pop(){
 
 	lock_guard<mutex> _lock(_mutex);
 
-	if (_buffers.empty() == false) {
+	if (_buffers.empty() == true) {
 		_bufferCount++;
 		return new SendBuffer(BUFFER_SIZE);
 	}

@@ -27,9 +27,9 @@ private:
 	void RegisterSend();
 	void RegisterRecv();
 
-	void ProcessConnect();
-	void ProcessSend();
-	void ProcessRecv();
+	void ProcessConnect(OverlappedEvent* event, int32 processBytes);
+	void ProcessSend(OverlappedEvent* event, int32 processBytes);
+	void ProcessRecv(OverlappedEvent* event, int32 processBytes);
 
 	void SetPeerAddress(NetAddress address) { _peerAddress = address; }
 
