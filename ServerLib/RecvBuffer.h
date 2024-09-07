@@ -15,6 +15,8 @@ public:
 	uint32 DataSize() { return _writePos - _readPos; }
 	uint32 FreeSize() { return _capacity - _writePos; }
 
+private:
+	void DataShift();
 
 private:
 	BYTE* _buffer;

@@ -34,5 +34,6 @@ void BufferPool::Push(SendBuffer* buffer){
 
 	lock_guard<mutex> _lock(_mutex);
 
+	buffer->Clear();
 	_buffers.push_back(buffer);
 }

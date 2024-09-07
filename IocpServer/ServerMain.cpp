@@ -10,14 +10,16 @@ enum {
 
 int main() {
 	SocketManager::SetEnv();
+	wcout.imbue(std::locale("kor"));
 
 	NetAddress address(L"127.0.0.1", 7777);
 	Listener* listener = new Listener();
-	listener->SetEnv(address);
+	CompletionPortHandler* completionPortHandler = new CompletionPortHandler();
+
+	listener->SetEnv(address, completionPortHandler);
 	cout << "Complete ListenerSet" << endl;
 
 	// Register completionPort
-	CompletionPortHandler* completionPortHandler = new CompletionPortHandler();
 	completionPortHandler->RegisterHandle((HANDLE)listener->GetSocket(), (ULONG_PTR)0);
 
 	// Accept
@@ -26,10 +28,14 @@ int main() {
 	
 	// Create Thread GQCS
 	for (int32 i = 0; i < GQCS_THREAD_COUNT; i++) {
+		cout << "Thread GQCS Start" << endl;
+
 		GThreadManager->Launch([=]() {
-			completionPortHandler->GetCompletionEvent();
-			cout << "CLIENT LOOP" << endl;
-			});
+			while (true) {
+				completionPortHandler->GetCompletionEvent();
+				cout << "Server LOOP" << endl;
+			}
+		});
 	}
 
 

@@ -20,6 +20,7 @@ public:
 	RecvBuffer* GetRecvBuffer() { return _recvBuffer; }
 	NetAddress& GetPeerAddressRef() { return _peerAddress; }
 
+
 	void Process(OverlappedEvent* event, int32 numOfBytes) override;
 
 private:
@@ -28,6 +29,7 @@ private:
 	void RegisterRecv();
 
 	void ProcessConnect(OverlappedEvent* event, int32 processBytes);
+	void ProcessDisconnect(OverlappedEvent* event, int32 ProcessBytes);
 	void ProcessSend(OverlappedEvent* event, int32 processBytes);
 	void ProcessRecv(OverlappedEvent* event, int32 processBytes);
 

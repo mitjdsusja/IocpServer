@@ -28,4 +28,5 @@ void SendBuffer::Clear(){
 
 	// TODO : Clear Buffer
 	// memset 0
+	_writePos = 0;
 }

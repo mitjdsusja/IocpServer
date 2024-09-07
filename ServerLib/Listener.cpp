@@ -14,12 +14,14 @@ Listener::~Listener(){
 	}
 }
 
-bool Listener::SetEnv(NetAddress myAddress){
+bool Listener::SetEnv(NetAddress myAddress, CompletionPortHandler* cpHandler){
 
 	_myAddress = myAddress;
 
 	if (false == SocketManager::Bind(_listenSocket, _myAddress)) return false;
 	if (false == SocketManager::Listen(_listenSocket)) return false;
+
+	_completionPortHandler = cpHandler;
 
 	return true;
 }
@@ -70,6 +72,7 @@ void Listener::ProcessAccept(AcceptEvent* acceptEvent) {
 	}
 
 	session->SetPeerAddress(NetAddress(sockAddr));
+	RegisterSocket(session->GetSocket());
 
 	OnAccept(session);
 
@@ -99,6 +102,11 @@ void Listener::RegisterAccept(AcceptEvent* acceptEvent){
 		acceptEvent->_session = peerSession;
 
 		SocketManager::Accept(_listenSocket, peerSession->GetSocket(), recvBuffer->WritePos(), acceptEvent);
+}
+
+void Listener::RegisterSocket(SOCKET socket){
+
+	_completionPortHandler->RegisterHandle((HANDLE)socket, 0);
 }
 
 void Listener::OnAccept(Session* session){

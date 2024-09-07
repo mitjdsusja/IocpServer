@@ -54,6 +54,7 @@ void Session::Recv(){
 	// TODO : Recv Msg
 }
 
+
 void Session::Process(OverlappedEvent* event, int32 numOfBytes){
 
 	// TODO  : Mapping Function
@@ -116,11 +117,16 @@ void Session::RegisterRecv(){
 
 	// TODO : 
 	if (false == SocketManager::Recv(_peerSocket, _recvBuffer, &_recvEvent)) {
-
+		
 	}
 }
 
 void Session::ProcessConnect(OverlappedEvent* event, int32 processBytes){
+
+}
+
+void Session::ProcessDisconnect(OverlappedEvent* event, int32 ProcessBytes){
+
 
 }
 
@@ -137,13 +143,17 @@ void Session::ProcessRecv(OverlappedEvent* event, int32 processBytes){
 	if (event->_eventType != EventType::RECV) {
 		ErrorHandler::HandleError(L"ProcessRecv Error : INVALID EVENT TYPE");
 	}
+
+	_recvBuffer->Write(processBytes);
+
 	BYTE* buffer = _recvBuffer->ReadPos();
 	WCHAR msg[100];
 	memcpy(msg, buffer, _recvBuffer->DataSize());
 	int32 recvLen = processBytes;
 	wcout << L"[RECV] RecvLen : " << recvLen << " | " 
-		<< "RecvData : " << msg << endl;
+		<< L"RecvData : " << msg << endl;
 
+	_recvBuffer->Read(processBytes);
 
 	RegisterRecv();
 }

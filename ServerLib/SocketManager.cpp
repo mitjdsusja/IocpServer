@@ -94,11 +94,14 @@ bool SocketManager::Send(SOCKET targetSocket, SendBuffer* sendBufferArray, int32
 
 	DWORD bytes = 0;
 	if (SOCKET_ERROR == ::WSASend(targetSocket, wsaBufs.data(), (DWORD)bufCount, &bytes, 0, sendEvent, nullptr)) {
-		int32 errorCode = WSAGetLastError();
-		if (errorCode != WSA_IO_PENDING) {
-			ErrorHandler::HandleError(L"Send Error", errorCode);
-			// TODO : Process Error
-
+		int32 err = WSAGetLastError();
+		if (err == WSA_IO_PENDING) {
+			// TODO : PENDING
+			return true;
+		}
+		else {
+			// TODO : Error
+			ErrorHandler::HandleError(L"Recv Failed", err);
 			return false;
 		}
 	}
@@ -123,6 +126,7 @@ bool SocketManager::Recv(SOCKET targetSocket, RecvBuffer* recvBuffer, RecvEvent*
 		int32 err = WSAGetLastError();
 		if (err == WSA_IO_PENDING) {
 			// TODO : PENDING
+			return true;
 		}
 		else {
 			// TODO : Error
@@ -131,7 +135,6 @@ bool SocketManager::Recv(SOCKET targetSocket, RecvBuffer* recvBuffer, RecvEvent*
 		}
 	}
 
-	recvEvent->_owner->Process((OverlappedEvent*)recvEvent, recvBytes);
 	return true;
 }
 
@@ -141,7 +144,10 @@ bool SocketManager::Accept(SOCKET listenSocket, SOCKET AcceptSocket,BYTE* recvBu
 	if (false == AcceptEx(listenSocket, AcceptSocket, recvBuf, 0, sizeof(SOCKADDR_IN) + 16, sizeof(SOCKADDR_IN) + 16, &bytes, (LPOVERLAPPED)acceptEvent)) {
 		int32 err = WSAGetLastError();
 
-		if (err != WSA_IO_PENDING) {
+		if (err == WSA_IO_PENDING) {
+			return true;
+		}
+		else {
 			ErrorHandler::HandleError(L"AcceptEx Error", err);
 
 			return false;
@@ -156,7 +162,10 @@ bool SocketManager::Connect(SOCKET targetSocket, SOCKADDR* targetAddr, ConnectEv
 	DWORD bytes = 0;
 	if (false == ConnectEx(targetSocket, targetAddr, sizeof(SOCKADDR), nullptr, 0, &bytes, connectEvent)) {
 		int32 err = WSAGetLastError();
-		if (err != WSA_IO_PENDING) {
+		if (err == WSA_IO_PENDING) {
+			return true;
+		}
+		else {
 			ErrorHandler::HandleError(L"Connect", err);
 
 			return false;
