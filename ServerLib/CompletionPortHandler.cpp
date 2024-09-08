@@ -8,12 +8,13 @@ CompletionPortHandler::CompletionPortHandler(){
 
 bool CompletionPortHandler::RegisterHandle(HANDLE handle, ULONG_PTR key){
 
-	if (NULL == CreateIoCompletionPort(handle, _completionPort, (ULONG_PTR)0, NULL)) {
+	if (NULL == CreateIoCompletionPort(handle, _completionPort, (ULONG_PTR)key, NULL)) {
 		int32 err = WSAGetLastError();
 		ErrorHandler::HandleError(L"RegisterHandle", err);
+		return false;
 	}
 
-	return false;
+	return true;
 }
 
 void CompletionPortHandler::GetCompletionEvent(){

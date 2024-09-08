@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include "CompletionPortHandler.h"
+#include "Service.h"
 #include "ThreadManager.h"
 #include "BufferPool.h"
 
@@ -9,24 +9,18 @@ enum {
 };
 
 int main() {
-	SocketManager::SetEnv();
+	wcout.imbue(std::locale("kor"));
 
-	Session* serverSession = new Session();
-
-	NetAddress serverAddr(L"127.0.0.1", 7777);
-
-	CompletionPortHandler* completionPortHandler = new CompletionPortHandler();
-	completionPortHandler->RegisterHandle((HANDLE)serverSession->GetSocket(), (ULONG_PTR)0);
+	ClientService* clientService = new ClientService(NetAddress(L"127.0.0.1", 7777), 10);
 
 	this_thread::sleep_for(1s);
-	serverSession->Connect(serverAddr);
 
+	clientService->Start();
 	// Create Thread GQCS
 	for (int32 i = 0; i < GQCS_THREAD_COUNT; i++) {
 		GThreadManager->Launch([=]() {
 			while (true) {
-				completionPortHandler->GetCompletionEvent();
-				cout << "Server LOOP" << endl;
+				clientService->CompletionEventThread();
 			}
 		});
 	}
@@ -49,7 +43,7 @@ int main() {
 	GSendBufferPool->Push(sendBuffer);
 	this_thread::sleep_for(0.5s);*/
 	
-	while (true) {
+	/*while (true) {
 		SendBuffer* sendBuffer = GSendBufferPool->Pop();
 		BYTE* buffer = sendBuffer->Buffer();
 
@@ -63,7 +57,7 @@ int main() {
 
 		GSendBufferPool->Push(sendBuffer);
 		this_thread::sleep_for(0.1s);
-	}
+	}*/
 	
 	
 	GThreadManager->Join();

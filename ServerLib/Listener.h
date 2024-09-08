@@ -1,16 +1,19 @@
 #pragma once
 #include "SocketEntity.h"
 #include "CompletionPortHandler.h"
+#include "Service.h"
+
+class Service;
 
 class Listener : public SocketEntity{
 
 public :
-	Listener();
+	Listener(Service* owner);
 	~Listener();
 
-	bool SetEnv(NetAddress myAddress, CompletionPortHandler* cpHandler);
+	void SetEnv(NetAddress myAddress);
 
-	void Start(int32 acceptCount);
+	void Start(int32 acceptCount = 10);
 	void ProcessAccept(AcceptEvent* acceptEvent);
 
 	SOCKET GetSocket() { return _listenSocket; }
@@ -19,13 +22,12 @@ public :
 
 private:
 	void RegisterAccept(AcceptEvent* acceptEvent);
-	void RegisterSocket(SOCKET socket);
 
 	void OnAccept(Session* session);
 
 private:
+	Service* _owner;
 	SOCKET _listenSocket;
-	CompletionPortHandler* _completionPortHandler;
 
 	NetAddress _myAddress;
 

@@ -1,10 +1,9 @@
 #include "pch.h"
 #include "Listener.h"
 
-Listener::Listener(){
+Listener::Listener(Service* owner) : _owner(owner){
 
 	_listenSocket = SocketManager::CreateSocket();
-
 }
 
 Listener::~Listener(){
@@ -14,16 +13,12 @@ Listener::~Listener(){
 	}
 }
 
-bool Listener::SetEnv(NetAddress myAddress, CompletionPortHandler* cpHandler){
+void Listener::SetEnv(NetAddress myAddress){
 
 	_myAddress = myAddress;
 
-	if (false == SocketManager::Bind(_listenSocket, _myAddress)) return false;
-	if (false == SocketManager::Listen(_listenSocket)) return false;
-
-	_completionPortHandler = cpHandler;
-
-	return true;
+	ASSERT_CRASH(false == SocketManager::Bind(_listenSocket, _myAddress));
+	ASSERT_CRASH(false == SocketManager::Listen(_listenSocket));
 }
 
 void Listener::Start(int32 acceptCount){
@@ -72,7 +67,7 @@ void Listener::ProcessAccept(AcceptEvent* acceptEvent) {
 	}
 
 	session->SetPeerAddress(NetAddress(sockAddr));
-	RegisterSocket(session->GetSocket());
+	_owner->RegisterHandle((HANDLE)session->GetSocket());
 
 	OnAccept(session);
 
@@ -102,11 +97,6 @@ void Listener::RegisterAccept(AcceptEvent* acceptEvent){
 		acceptEvent->_session = peerSession;
 
 		SocketManager::Accept(_listenSocket, peerSession->GetSocket(), recvBuffer->WritePos(), acceptEvent);
-}
-
-void Listener::RegisterSocket(SOCKET socket){
-
-	_completionPortHandler->RegisterHandle((HANDLE)socket, 0);
 }
 
 void Listener::OnAccept(Session* session){

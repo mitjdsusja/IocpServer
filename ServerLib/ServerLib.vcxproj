@@ -36,6 +36,7 @@
     <ClCompile Include="ServerGlobal.cpp" />
     <ClCompile Include="ServerPch.cpp" />
     <ClCompile Include="ServerTLS.cpp" />
+    <ClCompile Include="Service.cpp" />
     <ClCompile Include="Session.cpp" />
     <ClCompile Include="SocketEntity.cpp" />
     <ClCompile Include="SocketManager.cpp" />
@@ -46,6 +47,7 @@
     <ClInclude Include="CompletionPortHandler.h" />
     <ClInclude Include="ErrorHandler.h" />
     <ClInclude Include="Listener.h" />
+    <ClInclude Include="Mecro.h" />
     <ClInclude Include="NetAddress.h" />
     <ClInclude Include="OverlappedEvent.h" />
     <ClInclude Include="pch.h" />
@@ -54,6 +56,7 @@
     <ClInclude Include="ServerGlobal.h" />
     <ClInclude Include="ServerPch.h" />
     <ClInclude Include="ServerTLS.h" />
+    <ClInclude Include="Service.h" />
     <ClInclude Include="Session.h" />
     <ClInclude Include="SocketEntity.h" />
     <ClInclude Include="SocketManager.h" />

@@ -15,6 +15,7 @@ public:
 	void Connect(NetAddress peerAddress);
 	void Send(SendBuffer* sendBuffer);
 	void Recv();
+	void Disconnect();
 
 	SOCKET GetSocket() { return _peerSocket; }
 	RecvBuffer* GetRecvBuffer() { return _recvBuffer; }
@@ -31,7 +32,7 @@ private:
 	void ProcessConnect(OverlappedEvent* event, int32 processBytes);
 	void ProcessDisconnect(OverlappedEvent* event, int32 ProcessBytes);
 	void ProcessSend(OverlappedEvent* event, int32 processBytes);
-	void ProcessRecv(OverlappedEvent* event, int32 processBytes);
+	void ProcessRecv(OverlappedEvent* event, int32 recvBytes);
 
 	void SetPeerAddress(NetAddress address) { _peerAddress = address; }
 

@@ -54,6 +54,10 @@ void Session::Recv(){
 	// TODO : Recv Msg
 }
 
+void Session::Disconnect(){
+
+}
+
 
 void Session::Process(OverlappedEvent* event, int32 numOfBytes){
 
@@ -127,7 +131,7 @@ void Session::ProcessConnect(OverlappedEvent* event, int32 processBytes){
 
 void Session::ProcessDisconnect(OverlappedEvent* event, int32 ProcessBytes){
 
-
+	
 }
 
 void Session::ProcessSend(OverlappedEvent* event, int32 processBytes){
@@ -138,22 +142,28 @@ void Session::ProcessSend(OverlappedEvent* event, int32 processBytes){
 	cout << "[SEND] : Process Send " << endl;
 }
 
-void Session::ProcessRecv(OverlappedEvent* event, int32 processBytes){
+void Session::ProcessRecv(OverlappedEvent* event, int32 recvBytes){
 
 	if (event->_eventType != EventType::RECV) {
 		ErrorHandler::HandleError(L"ProcessRecv Error : INVALID EVENT TYPE");
+		return;
 	}
 
-	_recvBuffer->Write(processBytes);
+	if (recvBytes == 0) {
+		Disconnect();
+		return;
+	}
+
+	_recvBuffer->Write(recvBytes);
 
 	BYTE* buffer = _recvBuffer->ReadPos();
 	WCHAR msg[100];
 	memcpy(msg, buffer, _recvBuffer->DataSize());
-	int32 recvLen = processBytes;
+	int32 recvLen = recvBytes;
 	wcout << L"[RECV] RecvLen : " << recvLen << " | " 
 		<< L"RecvData : " << msg << endl;
 
-	_recvBuffer->Read(processBytes);
+	_recvBuffer->Read(recvBytes);
 
 	RegisterRecv();
 }

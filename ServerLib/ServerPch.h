@@ -5,6 +5,8 @@
 #include <mutex>
 #include <queue>
 #include <atomic>
+#include <set>
+#include <cassert>
 
 using namespace std;
 
@@ -15,6 +17,7 @@ using namespace std;
 #pragma comment(lib, "Mswsock.lib")
 
 #include "types.h"
+#include "Mecro.h"
 
 #include "ServerGlobal.h"
 #include "ErrorHandler.h"
