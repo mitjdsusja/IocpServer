@@ -1,24 +1,20 @@
 #include "pch.h"
 #include "Session.h"
 
-Session::Session() {
+Session::Session(Service* owner) : _owner(owner) {
 
 	_peerSocket = SocketManager::CreateSocket();
 	_recvBuffer = new RecvBuffer(RECV_BUFFER_SIZE);
-
-	// PTR
-	_sendEvent._owner = this;
-	_recvEvent._owner = this;
-	_connectEvent._owner = this;
 }
-
 Session::~Session(){
-
+	
 	if (INVALID_SOCKET != _peerSocket) {
 		closesocket(_peerSocket);
 	}
 
 	delete _recvBuffer;
+
+	cout << "~Session()" << endl;
 }
 
 void Session::Connect(NetAddress peerAddress){
@@ -27,8 +23,6 @@ void Session::Connect(NetAddress peerAddress){
 	SocketManager::BindAnyAddress(_peerSocket, 0);
 
 	RegisterConnect(peerAddress);
-
-	
 }
 
 void Session::Send(SendBuffer* sendBuffer){
@@ -56,6 +50,11 @@ void Session::Recv(){
 
 void Session::Disconnect(){
 
+	_owner->removeSession(shared_from_this());
+
+	if (_connectEvent._owner != nullptr) _connectEvent._owner = nullptr;
+	if (_sendEvent._owner != nullptr) _sendEvent._owner = nullptr;
+	if (_recvEvent._owner != nullptr) _recvEvent._owner = nullptr;
 }
 
 
@@ -83,13 +82,14 @@ void Session::Process(OverlappedEvent* event, int32 numOfBytes){
 
 void Session::RegisterConnect(NetAddress& peerAddress){
 
+	if (_connectEvent._owner == nullptr) _connectEvent._owner = shared_from_this();
 	SocketManager::Connect(_peerSocket, (SOCKADDR*)&_peerAddress.GetSockAddr(), &_connectEvent);
 }
 
 void Session::RegisterSend(){
 
-	// TODO : Pop SendQueue 
-	//
+	if (_sendEvent._owner == nullptr) _sendEvent._owner = shared_from_this();
+	
 	vector<SendBuffer*> sendBuffers;
 	int32 bufferCount;
 	{
@@ -119,7 +119,8 @@ void Session::RegisterSend(){
 
 void Session::RegisterRecv(){
 
-	// TODO : 
+	if (_recvEvent._owner == nullptr) _recvEvent._owner = shared_from_this();
+
 	if (false == SocketManager::Recv(_peerSocket, _recvBuffer, &_recvEvent)) {
 		
 	}
@@ -166,6 +167,10 @@ void Session::ProcessRecv(OverlappedEvent* event, int32 recvBytes){
 	_recvBuffer->Read(recvBytes);
 
 	RegisterRecv();
+}
+
+void Session::CleanResource(){
+	Disconnect();
 }
 
 

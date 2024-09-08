@@ -30,6 +30,9 @@ void CompletionPortHandler::GetCompletionEvent(){
 		if (err == WAIT_TIMEOUT) {
 			ErrorHandler::HandleError(L"GetQueuedCompletionStatus TIMEOUT", err);
 		}
+		else if (err == ERROR_NETNAME_DELETED) {
+			overlapped->_owner->CleanResource();
+		}
 		else {
 			ErrorHandler::HandleError(L"GetQueuedCompletionStatus", err);
 		}

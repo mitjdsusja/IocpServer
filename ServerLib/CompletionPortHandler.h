@@ -10,5 +10,6 @@ public:
 
 private:
 	HANDLE _completionPort = nullptr;
+
 };
 

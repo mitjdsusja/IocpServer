@@ -18,13 +18,13 @@ public:
 
 public:
 	EventType _eventType;
-	SocketEntity* _owner = nullptr;
+	shared_ptr<SocketEntity> _owner = nullptr;
 };
 
 class AcceptEvent : public OverlappedEvent {
 public:
 	AcceptEvent() : OverlappedEvent(EventType::ACCEPT) { }
-	Session* _session = nullptr;
+	shared_ptr<Session> _session = nullptr;
 };
 
 class ConnectEvent : public OverlappedEvent {

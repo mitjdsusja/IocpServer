@@ -26,7 +26,7 @@ void Listener::Start(int32 acceptCount){
 	for (int32 i = 0;i < acceptCount;i++) {
 
 		AcceptEvent* acceptEvent = new AcceptEvent();
-		acceptEvent->_owner = this;
+		acceptEvent->_owner = shared_from_this();
 		_acceptEvents.push_back(acceptEvent);
 		RegisterAccept(acceptEvent);
 	}
@@ -34,13 +34,12 @@ void Listener::Start(int32 acceptCount){
 
 void Listener::ProcessAccept(AcceptEvent* acceptEvent) {
 
-	Session* session = acceptEvent->_session;
+	shared_ptr<Session> session = acceptEvent->_session;
 	acceptEvent->_session = nullptr;
 
 	SOCKET socket = session->GetSocket();
 	if (socket == INVALID_SOCKET) {
 
-		delete session;
 		RegisterAccept(acceptEvent);
 		return;
 	}
@@ -50,7 +49,6 @@ void Listener::ProcessAccept(AcceptEvent* acceptEvent) {
 		int32 err = WSAGetLastError();
 		ErrorHandler::HandleError(L"setsockopt Error : ", err);
 
-		delete session;
 		RegisterAccept(acceptEvent);
 		return;
 	}
@@ -61,7 +59,6 @@ void Listener::ProcessAccept(AcceptEvent* acceptEvent) {
 		int32 err = WSAGetLastError();
 		ErrorHandler::HandleError(L"setsockopt Error : ", err);
 
-		delete session;
 		RegisterAccept(acceptEvent);
 		return;
 	}
@@ -71,8 +68,8 @@ void Listener::ProcessAccept(AcceptEvent* acceptEvent) {
 
 	OnAccept(session);
 
+	_owner->AddSession(session);
 	session->RegisterRecv();
-	// Service add session
 
 	RegisterAccept(acceptEvent);
 }
@@ -92,16 +89,28 @@ void Listener::Process(OverlappedEvent* event, int32 numOfBytes){
 
 void Listener::RegisterAccept(AcceptEvent* acceptEvent){
 
-		Session* peerSession = new Session();
+		shared_ptr<Session> peerSession = make_shared<Session>(_owner);
 		RecvBuffer* recvBuffer = peerSession->GetRecvBuffer();
 		acceptEvent->_session = peerSession;
 
 		SocketManager::Accept(_listenSocket, peerSession->GetSocket(), recvBuffer->WritePos(), acceptEvent);
 }
 
-void Listener::OnAccept(Session* session){
+void Listener::OnAccept(shared_ptr<Session> session) {
 
 	NetAddress peerAddress = session->GetPeerAddressRef();
 	wcout << L"[ACCEPT] " << "Address : " << peerAddress.GetIpAddress() << " Port : " << peerAddress.GetPort() << endl;
+}
+
+void Listener::CleanResource(){
+	
+	// TOOD : _owner에서 this ptr 제거
+	_owner = nullptr;
+	
+	for (AcceptEvent* event : _acceptEvents) {
+
+		event->_owner = nullptr;
+		delete event;
+	}
 }
 

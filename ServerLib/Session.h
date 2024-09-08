@@ -1,7 +1,8 @@
 #pragma once
 #include "SocketEntity.h"
+#include "Service.h"
 
-class Session : public SocketEntity{
+class Session : public SocketEntity, public enable_shared_from_this<Session>{
 	friend class Listener;
 
 	enum {
@@ -9,7 +10,7 @@ class Session : public SocketEntity{
 	};
 
 public:
-	Session();
+	Session(Service* owner);
 	~Session();
 
 	void Connect(NetAddress peerAddress);
@@ -23,6 +24,7 @@ public:
 
 
 	void Process(OverlappedEvent* event, int32 numOfBytes) override;
+	void CleanResource() override;
 
 private:
 	void RegisterConnect(NetAddress& peerAddress);
@@ -37,6 +39,7 @@ private:
 	void SetPeerAddress(NetAddress address) { _peerAddress = address; }
 
 private:
+	Service* _owner;
 	SOCKET _peerSocket;
 	NetAddress _peerAddress;
 

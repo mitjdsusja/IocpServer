@@ -15,14 +15,14 @@ public:
 
 	void CompletionEventThread();
 
-	void AddSession(Session* session);
-	void removeSession(Session* session);
+	void AddSession(shared_ptr<Session> session);
+	void removeSession(shared_ptr<Session> session);
 	void Broadcast(SendBuffer* sendBuffer);
 
 	void RegisterHandle(HANDLE handle);
 
 protected:
-	set<Session*> _sessions;
+	set<shared_ptr<Session>> _sessions;
 	CompletionPortHandler* _completionPortHandler;
 
 	NetAddress _address;
@@ -42,7 +42,7 @@ public:
 	virtual void Start() override;
 
 private:
-	Listener* _listener;
+	shared_ptr<Listener> _listener;
 
 };
 

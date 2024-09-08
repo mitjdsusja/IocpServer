@@ -5,7 +5,7 @@
 
 class Service;
 
-class Listener : public SocketEntity{
+class Listener : public SocketEntity, public enable_shared_from_this<Listener>{
 
 public :
 	Listener(Service* owner);
@@ -19,11 +19,13 @@ public :
 	SOCKET GetSocket() { return _listenSocket; }
 
 	void Process(OverlappedEvent* event, int32 numOfBytes) override;
+	void CleanResource() override;
+
 
 private:
 	void RegisterAccept(AcceptEvent* acceptEvent);
 
-	void OnAccept(Session* session);
+	void OnAccept(shared_ptr<Session> session);
 
 private:
 	Service* _owner;
