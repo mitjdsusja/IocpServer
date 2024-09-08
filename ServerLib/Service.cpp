@@ -26,6 +26,8 @@ void Service::removeSession(shared_ptr<Session> session){
 	lock_guard<mutex> _lock(_mutex);
 
 	_sessions.erase(session);
+	
+	cout << "Current Session Count : " << _sessions.size() << endl;
 }
 
 void Service::Broadcast(SendBuffer* sendBuffer){
@@ -65,6 +67,13 @@ ClientService::ClientService(NetAddress address, int32 maxSessionCount)
 	: Service(ServiceType::Client, address, maxSessionCount){
 
 	
+}
+
+void ClientService::SendMsg(SendBuffer* sendBuffer){
+
+	for (shared_ptr<Session> session : _sessions) {
+		session->Send(sendBuffer);
+	}
 }
 
 void ClientService::Start(){

@@ -50,6 +50,8 @@ class ClientService : public Service {
 public:
 	ClientService(NetAddress address, int32 maxSessionCount);
 
+	void SendMsg(SendBuffer* sendBuffer);
+
 	virtual void Start() override;
 
 private:

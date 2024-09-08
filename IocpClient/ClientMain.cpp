@@ -43,7 +43,7 @@ int main() {
 	GSendBufferPool->Push(sendBuffer);
 	this_thread::sleep_for(0.5s);*/
 	
-	/*while (true) {
+	while (true) {
 		SendBuffer* sendBuffer = GSendBufferPool->Pop();
 		BYTE* buffer = sendBuffer->Buffer();
 
@@ -53,11 +53,11 @@ int main() {
 		memcpy(buffer, msg.c_str(), len);
 		sendBuffer->Write(len);
 
-		serverSession->Send(sendBuffer);
+		clientService->SendMsg(sendBuffer);
 
 		GSendBufferPool->Push(sendBuffer);
 		this_thread::sleep_for(0.1s);
-	}*/
+	}
 	
 	
 	GThreadManager->Join();
