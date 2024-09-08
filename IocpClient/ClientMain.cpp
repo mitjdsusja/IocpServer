@@ -3,6 +3,7 @@
 #include "Service.h"
 #include "ThreadManager.h"
 #include "BufferPool.h"
+#include "PacketHandler.h"
 
 enum {
 	GQCS_THREAD_COUNT = 5,
@@ -45,18 +46,18 @@ int main() {
 	
 	while (true) {
 		SendBuffer* sendBuffer = GSendBufferPool->Pop();
-		BYTE* buffer = sendBuffer->Buffer();
+		Packet_C_SEND* packet = (Packet_C_SEND*)sendBuffer->Buffer();
+		
+		packet->id = 1;
+		packet->hp = 100;
+		packet->mp = 2345;
 
-		wstring msg(L"Send Message 첫 메세지 입니다. !!@@");
-		int32 len = (msg.size() + 1) * sizeof(WCHAR);
-
-		memcpy(buffer, msg.c_str(), len);
-		sendBuffer->Write(len);
+		sendBuffer->Write(sizeof(Packet_C_SEND));
 
 		clientService->SendMsg(sendBuffer);
 
 		GSendBufferPool->Push(sendBuffer);
-		this_thread::sleep_for(0.1s);
+		this_thread::sleep_for(0.5s);
 	}
 	
 	

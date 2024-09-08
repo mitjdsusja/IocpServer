@@ -128,6 +128,9 @@ bool SocketManager::Recv(SOCKET targetSocket, RecvBuffer* recvBuffer, RecvEvent*
 			// TODO : PENDING
 			return true;
 		}
+		else if (err == WSAECONNRESET) {
+			recvEvent->_owner->CleanResource();
+		}
 		else {
 			// TODO : Error
 			ErrorHandler::HandleError(L"Recv Failed", err);

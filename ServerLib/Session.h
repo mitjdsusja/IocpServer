@@ -6,7 +6,7 @@ class Session : public SocketEntity, public enable_shared_from_this<Session>{
 	friend class Listener;
 
 	enum {
-		RECV_BUFFER_SIZE = 4096,
+		RECV_BUFFER_SIZE = 4096 * 10,
 	};
 
 public:
@@ -25,6 +25,9 @@ public:
 
 	void Process(OverlappedEvent* event, int32 numOfBytes) override;
 	void CleanResource() override;
+
+	virtual int32 OnRecv(RecvBuffer* recvBuffer, int32 recvBytes) { return 0; }
+	virtual void OnSend(int32 sendBytes) {}
 
 private:
 	void RegisterConnect(NetAddress& peerAddress);
@@ -57,3 +60,20 @@ private:
 
 };
 
+class ServerSession : public Session {
+public:
+	virtual int32 OnRecv(RecvBuffer* recvBuffer, int32 recvBytes) override;
+	virtual void OnSend(int32 sendBytes) override;
+
+private:
+
+};
+
+class ClientSession : public Session {
+public:
+	virtual int32 OnRecv(RecvBuffer* recvBuffer, int32 recvBytes) override;
+	virtual void OnSend(int32 sendBytes) override;
+
+private:
+
+};

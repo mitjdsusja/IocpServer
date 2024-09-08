@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Session.h"
+#include "PacketHandler.h"
 
 Session::Session(Service* owner) : _owner(owner) {
 
@@ -157,14 +158,7 @@ void Session::ProcessRecv(OverlappedEvent* event, int32 recvBytes){
 
 	_recvBuffer->Write(recvBytes);
 
-	BYTE* buffer = _recvBuffer->ReadPos();
-	WCHAR msg[100];
-	memcpy(msg, buffer, _recvBuffer->DataSize());
-	int32 recvLen = recvBytes;
-	wcout << L"[RECV] RecvLen : " << recvLen << " | " 
-		<< L"RecvData : " << msg << endl;
-
-	_recvBuffer->Read(recvBytes);
+	OnRecv(_recvBuffer, recvBytes);
 
 	RegisterRecv();
 }
@@ -173,4 +167,40 @@ void Session::CleanResource(){
 	Disconnect();
 }
 
+int32 ServerSession::OnRecv(RecvBuffer* recvBuffer, int32 recvBytes){
 
+	if (recvBytes < sizeof(PacketHeader)) {
+		ASSERT_CRASH(false);
+	}
+
+	int32 processLen = 0;
+	while (true) {
+		BYTE* buffer = recvBuffer->ReadPos();
+		PacketHeader* header = (PacketHeader*)buffer;
+
+		if (recvBuffer->DataSize() < header->packetSize) {
+			break;
+		}
+
+		PacketHandler::HandlePacket(header);
+		recvBuffer->Read(header->packetSize);
+
+		processLen += header->packetSize;
+	}
+	return processLen;
+}
+
+void ServerSession::OnSend(int32 sendBytes){
+
+}
+
+int32 ClientSession::OnRecv(RecvBuffer* recvBuffer, int32 recvBytes){
+
+	int32 processLen = 0;
+
+	return processLen;
+}
+
+void ClientSession::OnSend(int32 sendBytes){
+
+}
