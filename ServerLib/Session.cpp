@@ -167,6 +167,15 @@ void Session::CleanResource(){
 	Disconnect();
 }
 
+ServerSession::ServerSession(Service* owner)
+	: Session(owner){
+
+}
+
+ServerSession::~ServerSession(){
+
+}
+
 int32 ServerSession::OnRecv(RecvBuffer* recvBuffer, int32 recvBytes){
 
 	if (recvBytes < sizeof(PacketHeader)) {
@@ -191,6 +200,15 @@ int32 ServerSession::OnRecv(RecvBuffer* recvBuffer, int32 recvBytes){
 }
 
 void ServerSession::OnSend(int32 sendBytes){
+
+}
+
+ClientSession::ClientSession(Service* owner)
+	: Session(owner){
+
+}
+
+ClientSession::~ClientSession(){
 
 }
 

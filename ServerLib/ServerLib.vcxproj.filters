@@ -16,6 +16,9 @@
     <Filter Include="Network">
       <UniqueIdentifier>{05b23613-0f6c-48ce-beaf-91fbb3be6c11}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Packet">
+      <UniqueIdentifier>{d0d425eb-379b-451f-8d5e-2a2c5bba7686}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ServerGlobal.cpp">
@@ -70,7 +73,7 @@
       <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="PacketHandler.cpp">
-      <Filter>Network</Filter>
+      <Filter>Packet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -132,7 +135,7 @@
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="PacketHandler.h">
-      <Filter>Network</Filter>
+      <Filter>Packet</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

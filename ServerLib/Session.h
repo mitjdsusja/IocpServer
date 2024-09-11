@@ -62,6 +62,9 @@ private:
 
 class ServerSession : public Session {
 public:
+	ServerSession(Service* owner);
+	~ServerSession();
+
 	virtual int32 OnRecv(RecvBuffer* recvBuffer, int32 recvBytes) override;
 	virtual void OnSend(int32 sendBytes) override;
 
@@ -71,6 +74,9 @@ private:
 
 class ClientSession : public Session {
 public:
+	ClientSession(Service* owner);
+	~ClientSession();
+
 	virtual int32 OnRecv(RecvBuffer* recvBuffer, int32 recvBytes) override;
 	virtual void OnSend(int32 sendBytes) override;
 

@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Listener.h"
 
+class ClientSession;
+
 Listener::Listener(Service* owner) : _owner(owner){
 
 	_listenSocket = SocketManager::CreateSocket();
@@ -89,7 +91,7 @@ void Listener::Process(OverlappedEvent* event, int32 numOfBytes){
 
 void Listener::RegisterAccept(AcceptEvent* acceptEvent){
 
-		shared_ptr<Session> peerSession = make_shared<Session>(_owner);
+		shared_ptr<ClientSession> peerSession = make_shared<ClientSession>(_owner);
 		RecvBuffer* recvBuffer = peerSession->GetRecvBuffer();
 		acceptEvent->_session = peerSession;
 
