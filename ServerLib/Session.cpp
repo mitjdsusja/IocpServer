@@ -157,8 +157,9 @@ void Session::ProcessRecv(OverlappedEvent* event, int32 recvBytes){
 	}
 
 	_recvBuffer->Write(recvBytes);
+	_recvBuffer->Read(OnRecv(_recvBuffer->ReadPos(), recvBytes));
 
-	OnRecv(_recvBuffer, recvBytes);
+	;
 
 	RegisterRecv();
 }
@@ -176,7 +177,7 @@ ServerSession::~ServerSession(){
 
 }
 
-int32 ServerSession::OnRecv(RecvBuffer* recvBuffer, int32 recvBytes){
+int32 ServerSession::OnRecv(BYTE* recvBuffer, int32 recvBytes){
 
 	if (recvBytes < sizeof(PacketHeader)) {
 		ASSERT_CRASH(false);
@@ -184,15 +185,10 @@ int32 ServerSession::OnRecv(RecvBuffer* recvBuffer, int32 recvBytes){
 
 	int32 processLen = 0;
 	while (true) {
-		BYTE* buffer = recvBuffer->ReadPos();
+		BYTE* buffer = recvBuffer;
 		PacketHeader* header = (PacketHeader*)buffer;
 
-		if (recvBuffer->DataSize() < header->packetSize) {
-			break;
-		}
-
 		PacketHandler::HandlePacket(header);
-		recvBuffer->Read(header->packetSize);
 
 		processLen += header->packetSize;
 	}
@@ -212,10 +208,29 @@ ClientSession::~ClientSession(){
 
 }
 
-int32 ClientSession::OnRecv(RecvBuffer* recvBuffer, int32 recvBytes){
+int32 ClientSession::OnRecv(BYTE* recvBuffer, int32 recvBytes){
 
+	if (recvBytes < sizeof(PacketHeader)) {
+		ASSERT_CRASH(false);
+	}
+
+	BYTE* buffer = recvBuffer;
 	int32 processLen = 0;
+	while (true) {
+		buffer += processLen;
+		PacketHeader* header = (PacketHeader*)buffer;
 
+		// TODO : Validate
+		if (recvBytes < header->packetSize) {
+			break;
+		}
+		PacketHandler::HandlePacket(header);
+
+		processLen += header->packetSize;
+		if (processLen >= recvBytes) {
+			break;
+		}
+	}
 	return processLen;
 }
 

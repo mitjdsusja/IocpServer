@@ -26,7 +26,7 @@ public:
 	void Process(OverlappedEvent* event, int32 numOfBytes) override;
 	void CleanResource() override;
 
-	virtual int32 OnRecv(RecvBuffer* recvBuffer, int32 recvBytes) { return 0; }
+	virtual int32 OnRecv(BYTE* recvBuffer, int32 recvBytes) { return 0; }
 	virtual void OnSend(int32 sendBytes) {}
 
 private:
@@ -65,7 +65,7 @@ public:
 	ServerSession(Service* owner);
 	~ServerSession();
 
-	virtual int32 OnRecv(RecvBuffer* recvBuffer, int32 recvBytes) override;
+	virtual int32 OnRecv(BYTE* recvBuffer, int32 recvBytes) override;
 	virtual void OnSend(int32 sendBytes) override;
 
 private:
@@ -77,7 +77,7 @@ public:
 	ClientSession(Service* owner);
 	~ClientSession();
 
-	virtual int32 OnRecv(RecvBuffer* recvBuffer, int32 recvBytes) override;
+	virtual int32 OnRecv(BYTE* recvBuffer, int32 recvBytes) override;
 	virtual void OnSend(int32 sendBytes) override;
 
 private:

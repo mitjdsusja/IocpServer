@@ -27,15 +27,19 @@ int main() {
 		});
 	}
 	
+	int32 id = 1;
 	while (true) {
 		SendBuffer* sendBuffer = GSendBufferPool->Pop();
 		Packet_C_SEND* packet = (Packet_C_SEND*)sendBuffer->Buffer();
 		
-		packet->id = 1;
+		packet->packetId = C_SEND;
+		packet->id = id++;
 		packet->hp = 100;
 		packet->mp = 2345;
 
 		sendBuffer->Write(sizeof(Packet_C_SEND));
+
+		packet->packetSize = sendBuffer->WriteSize();
 
 		clientService->SendMsg(sendBuffer);
 
