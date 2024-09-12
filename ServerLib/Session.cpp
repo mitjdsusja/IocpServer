@@ -183,14 +183,22 @@ int32 ServerSession::OnRecv(BYTE* recvBuffer, int32 recvBytes){
 		ASSERT_CRASH(false);
 	}
 
+	BYTE* buffer = recvBuffer;
 	int32 processLen = 0;
 	while (true) {
-		BYTE* buffer = recvBuffer;
+		buffer += processLen;
 		PacketHeader* header = (PacketHeader*)buffer;
 
+		// TODO : Validate
+		if (recvBytes < header->packetSize) {
+			break;
+		}
 		PacketHandler::HandlePacket(header);
 
 		processLen += header->packetSize;
+		if (processLen >= recvBytes) {
+			break;
+		}
 	}
 	return processLen;
 }
