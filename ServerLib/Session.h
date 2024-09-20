@@ -11,7 +11,7 @@ class Session : public SocketEntity, public enable_shared_from_this<Session>{
 
 public:
 	Session(Service* owner);
-	~Session();
+	virtual ~Session();
 
 	void Connect(NetAddress peerAddress);
 	void Send(SendBuffer* sendBuffer);
@@ -46,10 +46,11 @@ private:
 	SOCKET _peerSocket;
 	NetAddress _peerAddress;
 
-	queue<SendBuffer*> sendQueue;
+	queue<SendBuffer*> _sendQueue;
+	// TODO : Chage RAII
 	RecvBuffer* _recvBuffer = nullptr;
 
-	bool sendRegistered = false;
+	bool _sendRegistered = false;
 
 private:
 	mutex _mutex;

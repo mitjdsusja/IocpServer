@@ -9,6 +9,11 @@ Service::Service(ServiceType type, NetAddress address, int32 maxSessionCount)
 	_completionPortHandler = new CompletionPortHandler();
 }
 
+Service::~Service(){
+
+	_sessions.clear();
+}
+
 void Service::CompletionEventThread(){
 
 	_completionPortHandler->GetCompletionEvent();

@@ -1,18 +1,29 @@
 #include "pch.h"
 #include "Session.h"
 #include "PacketHandler.h"
+#include "BufferPool.h"
 
 Session::Session(Service* owner) : _owner(owner) {
 
 	_peerSocket = SocketManager::CreateSocket();
 	_recvBuffer = new RecvBuffer(RECV_BUFFER_SIZE);
 }
+
 Session::~Session(){
 	
+	_owner = nullptr;
 	if (INVALID_SOCKET != _peerSocket) {
 		closesocket(_peerSocket);
 	}
 
+	while (!_sendQueue.empty()) {
+		SendBuffer* sendBuffer = _sendQueue.front();
+		_sendQueue.pop();
+
+		GSendBufferPool->Push(sendBuffer);
+	}
+
+	// TODO : Chage RAII
 	delete _recvBuffer;
 
 	cout << "~Session()" << endl;
@@ -31,13 +42,13 @@ void Session::Send(SendBuffer* sendBuffer){
 	// TODO : Send Msg
 	{
 		lock_guard<mutex> _lock(_mutex);
-		sendQueue.push(sendBuffer);
+		_sendQueue.push(sendBuffer);
 
-		if (sendRegistered == true) {
+		if (_sendRegistered == true) {
 			return;
 		}
 		else {
-			sendRegistered = true;
+			_sendRegistered = true;
 		}
 	}
 
@@ -96,13 +107,13 @@ void Session::RegisterSend(){
 	{
 		lock_guard<mutex> _lock(_mutex);
 
-		bufferCount = sendQueue.size();
+		bufferCount = _sendQueue.size();
 		sendBuffers.resize(bufferCount);
 
 		for (int32 i = 0;i < bufferCount;i++) {
 
-			sendBuffers[i] = sendQueue.front();
-			sendQueue.pop();
+			sendBuffers[i] = _sendQueue.front();
+			_sendQueue.pop();
 		}
 	}
 
@@ -115,7 +126,7 @@ void Session::RegisterSend(){
 		}
 	}
 
-	sendRegistered = false;
+	_sendRegistered = false;
 }
 
 void Session::RegisterRecv(){
@@ -174,7 +185,7 @@ ServerSession::ServerSession(Service* owner)
 }
 
 ServerSession::~ServerSession(){
-
+	cout << "~ServerSession()" << endl;
 }
 
 int32 ServerSession::OnRecv(BYTE* recvBuffer, int32 recvBytes){
@@ -213,7 +224,7 @@ ClientSession::ClientSession(Service* owner)
 }
 
 ClientSession::~ClientSession(){
-
+	cout << "~ClientSession()" << endl;
 }
 
 int32 ClientSession::OnRecv(BYTE* recvBuffer, int32 recvBytes){

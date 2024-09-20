@@ -10,6 +10,7 @@ enum ServiceType {
 class Service{
 public:
 	Service(ServiceType type, NetAddress address, int32 maxSessionCount);
+	virtual ~Service();
 
 	virtual void Start() abstract;
 
