@@ -12,8 +12,8 @@ enum {
 int main() {
 	wcout.imbue(std::locale("kor"));
 
-	ClientService* clientService = new ClientService(NetAddress(L"127.0.0.1", 7777), 1);
-	//ClientService* clientService = new ClientService(NetAddress(L"192.168.0.8", 7777), 1);
+	//ClientService* clientService = new ClientService(NetAddress(L"127.0.0.1", 7777), 1);
+	ClientService* clientService = new ClientService(NetAddress(L"192.168.0.14", 7777), 1);
 
 	this_thread::sleep_for(1s);
 

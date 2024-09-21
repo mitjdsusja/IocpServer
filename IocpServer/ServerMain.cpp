@@ -10,8 +10,8 @@ enum {
 int main() {
 	wcout.imbue(std::locale("kor"));
 	
-	ServerService* serverService = new ServerService(NetAddress(L"127.0.0.1", 7777), 100);
-	//ClientService* clientService = new ClientService(NetAddress(L"192.168.0.8", 7777), 1);
+	//ServerService* serverService = new ServerService(NetAddress(L"127.0.0.1", 7777), 100);
+	ServerService* serverService = new ServerService(NetAddress(L"192.168.0.14", 7777), 10);
 
 	serverService->Start();
 	// Create Thread GQCS
