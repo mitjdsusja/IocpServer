@@ -1,29 +1,18 @@
 #include "pch.h"
 #include "Session.h"
 #include "PacketHandler.h"
-#include "BufferPool.h"
 
 Session::Session(Service* owner) : _owner(owner) {
 
 	_peerSocket = SocketManager::CreateSocket();
 	_recvBuffer = new RecvBuffer(RECV_BUFFER_SIZE);
 }
-
 Session::~Session(){
 	
-	_owner = nullptr;
 	if (INVALID_SOCKET != _peerSocket) {
 		closesocket(_peerSocket);
 	}
 
-	while (!_sendQueue.empty()) {
-		SendBuffer* sendBuffer = _sendQueue.front();
-		_sendQueue.pop();
-
-		GSendBufferPool->Push(sendBuffer);
-	}
-
-	// TODO : Chage RAII
 	delete _recvBuffer;
 
 	cout << "~Session()" << endl;
@@ -170,8 +159,6 @@ void Session::ProcessRecv(OverlappedEvent* event, int32 recvBytes){
 	_recvBuffer->Write(recvBytes);
 	_recvBuffer->Read(OnRecv(_recvBuffer->ReadPos(), recvBytes));
 
-	;
-
 	RegisterRecv();
 }
 
@@ -185,7 +172,7 @@ ServerSession::ServerSession(Service* owner)
 }
 
 ServerSession::~ServerSession(){
-	cout << "~ServerSession()" << endl;
+
 }
 
 int32 ServerSession::OnRecv(BYTE* recvBuffer, int32 recvBytes){
@@ -224,7 +211,7 @@ ClientSession::ClientSession(Service* owner)
 }
 
 ClientSession::~ClientSession(){
-	cout << "~ClientSession()" << endl;
+
 }
 
 int32 ClientSession::OnRecv(BYTE* recvBuffer, int32 recvBytes){

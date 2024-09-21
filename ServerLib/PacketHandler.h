@@ -5,6 +5,7 @@ enum PacketId {
 	DEFAULT = 1,
 	
 	C_SEND = 1001,
+	C_MOVE = 1002,
 
 	S_SEND = 2001,
 };
@@ -25,6 +26,15 @@ struct Packet_C_SEND{
 	int32 hp = 0;
 	int64 mp = 0;
 };
+
+struct Packet_C_MOVE {
+	int32 packetSize = 0;
+	int32 packetId = C_MOVE;
+
+	float posX = 0;
+	float posY = 0;
+	float posZ = 0;
+};
 #pragma pack(pop)
 
 class PacketHandler{
@@ -34,6 +44,7 @@ public:
 private:
 	static void Handle_S_SEND(PacketHeader* buffer);
 	static void Handle_C_SEND(PacketHeader* buffer);
+	static void Handle_C_MOVE(PacketHeader* buffer);
 };
 
 
