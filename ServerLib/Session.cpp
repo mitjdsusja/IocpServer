@@ -141,7 +141,7 @@ void Session::ProcessSend(OverlappedEvent* event, int32 processBytes){
 	if (event->_eventType != EventType::SEND) {
 		ErrorHandler::HandleError(L"ProcessSend Error : INVALID EVENT TYPE");
 	}
-	cout << "[SEND] : Process Send " << endl;
+	cout << "[SEND] : Process Send : " << processBytes << endl;
 }
 
 void Session::ProcessRecv(OverlappedEvent* event, int32 recvBytes){
@@ -172,7 +172,7 @@ ServerSession::ServerSession(Service* owner)
 }
 
 ServerSession::~ServerSession(){
-
+	cout << "~ServerSession()" << endl;
 }
 
 int32 ServerSession::OnRecv(BYTE* recvBuffer, int32 recvBytes){
@@ -187,11 +187,12 @@ int32 ServerSession::OnRecv(BYTE* recvBuffer, int32 recvBytes){
 		buffer = recvBuffer + processLen;
 		PacketHeader* header = (PacketHeader*)buffer;
 
-		// TODO : Validate
 		if (recvBytes < header->packetSize) {
 			break;
 		}
-		PacketHandler::HandlePacket(header);
+
+		// TODO : Validate
+		PacketHandler::HandlePacket(header, GetOwner());
 
 		processLen += header->packetSize;
 		if (processLen >= recvBytes) {
@@ -211,7 +212,7 @@ ClientSession::ClientSession(Service* owner)
 }
 
 ClientSession::~ClientSession(){
-
+	cout << "~ClientSession()" << endl;
 }
 
 int32 ClientSession::OnRecv(BYTE* recvBuffer, int32 recvBytes){
@@ -230,7 +231,7 @@ int32 ClientSession::OnRecv(BYTE* recvBuffer, int32 recvBytes){
 		if (recvBytes < header->packetSize) {
 			break;
 		}
-		PacketHandler::HandlePacket(header);
+		PacketHandler::HandlePacket(header, GetOwner());
 
 		processLen += header->packetSize;
 		if (processLen >= recvBytes) {

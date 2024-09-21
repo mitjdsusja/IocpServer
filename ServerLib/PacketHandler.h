@@ -8,6 +8,7 @@ enum PacketId {
 	C_MOVE = 1002,
 
 	S_SEND = 2001,
+	S_MOVE = 2002,
 };
 
 #pragma pack(push, 1)
@@ -31,6 +32,17 @@ struct Packet_C_MOVE {
 	int32 packetSize = 0;
 	int32 packetId = C_MOVE;
 
+	int32 playerId = 0;
+	float posX = 0;
+	float posY = 0;
+	float posZ = 0;
+};
+
+struct Packet_S_MOVE {
+	int32 packetSize = 0;
+	int32 packetId = C_MOVE;
+
+	int32 playerId = 0;
 	float posX = 0;
 	float posY = 0;
 	float posZ = 0;
@@ -39,12 +51,12 @@ struct Packet_C_MOVE {
 
 class PacketHandler{
 public:
-	static void HandlePacket(PacketHeader* buffer);
+	static void HandlePacket(PacketHeader* buffer, Service* service);
 
 private:
-	static void Handle_S_SEND(PacketHeader* buffer);
-	static void Handle_C_SEND(PacketHeader* buffer);
-	static void Handle_C_MOVE(PacketHeader* buffer);
+	static void Handle_S_SEND(PacketHeader* buffer, Service* service);
+	static void Handle_C_SEND(PacketHeader* buffer, Service* service);
+	static void Handle_C_MOVE(PacketHeader* buffer, Service* service);
 };
 
 

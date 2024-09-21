@@ -21,6 +21,7 @@ public:
 	SOCKET GetSocket() { return _peerSocket; }
 	RecvBuffer* GetRecvBuffer() { return _recvBuffer; }
 	NetAddress& GetPeerAddressRef() { return _peerAddress; }
+	Service* GetOwner() { return _owner; }
 
 
 	void Process(OverlappedEvent* event, int32 numOfBytes) override;
