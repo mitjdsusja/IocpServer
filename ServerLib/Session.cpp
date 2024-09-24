@@ -28,7 +28,6 @@ void Session::Connect(NetAddress peerAddress){
 
 void Session::Send(SendBuffer* sendBuffer){
 
-	// TODO : Send Msg
 	{
 		lock_guard<mutex> _lock(_mutex);
 		_sendQueue.push(sendBuffer);

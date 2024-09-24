@@ -2,7 +2,7 @@
 
 enum PacketId {
 
-	DEFAULT = 1,
+	none = 1,
 	
 	c_send = 1001,
 	c_pos = 1002,

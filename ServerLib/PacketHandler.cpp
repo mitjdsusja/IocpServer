@@ -2,6 +2,8 @@
 #include "PacketHandler.h"
 #include "BufferPool.h"
 
+//TODO : Mapping Function
+
 void PacketHandler::HandlePacket(PacketHeader* buffer, Service* service){
 	switch (buffer->packetId) {
 
@@ -46,6 +48,7 @@ void PacketHandler::Handle_C_Pos(PacketHeader* buffer, Service* service){
 	sendPacket->posY = packet->posY;
 	sendPacket->posZ = packet->posZ;
 	sendBuffer->Write(sendPacket->packetSize);
+
 	service->Broadcast(sendBuffer);
 	GSendBufferPool->Push(sendBuffer);
 }
