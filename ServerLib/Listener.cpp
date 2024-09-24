@@ -9,6 +9,11 @@ Listener::Listener(Service* owner) : _owner(owner){
 }
 
 Listener::~Listener(){
+	_owner = nullptr;
+
+	for (AcceptEvent* acceptEvent : _acceptEvents) {
+		delete acceptEvent;
+	}
 
 	if (INVALID_SOCKET != _listenSocket) {
 		closesocket(_listenSocket);

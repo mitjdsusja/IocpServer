@@ -30,14 +30,11 @@ int main() {
 	int32 id = 1;
 	while (true) {
 		SendBuffer* sendBuffer = GSendBufferPool->Pop();
-		Packet_C_SEND* packet = (Packet_C_SEND*)sendBuffer->Buffer();
+		Packet_C_Send* packet = (Packet_C_Send*)sendBuffer->Buffer();
 		
-		packet->packetId = C_SEND;
-		packet->id = id++;
-		packet->hp = 100;
-		packet->mp = 2345;
+		packet->packetId = c_send;
 
-		sendBuffer->Write(sizeof(Packet_C_SEND));
+		sendBuffer->Write(sizeof(Packet_C_Send));
 
 		packet->packetSize = sendBuffer->WriteSize();
 

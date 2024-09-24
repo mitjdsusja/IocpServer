@@ -1,9 +1,11 @@
 #include "pch.h"
 #include "BufferPool.h"
 
-BufferPool::BufferPool() : _bufferCount(BUFFER_COUNT){
+BufferPool::BufferPool() : _bufferCount(buffer_count){
 
-	_buffers.push_back(new SendBuffer(BUFFER_SIZE));
+	for (int32 i = 0; i < buffer_count; i++) {
+		_buffers.push_back(new SendBuffer(buffer_size));
+	}
 }
 
 BufferPool::~BufferPool(){
@@ -21,7 +23,7 @@ SendBuffer* BufferPool::Pop(){
 
 	if (_buffers.empty() == true) {
 		_bufferCount++;
-		return new SendBuffer(BUFFER_SIZE);
+		return new SendBuffer(buffer_size);
 	}
 
 	SendBuffer* sendBuffer = _buffers.back();

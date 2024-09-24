@@ -4,11 +4,15 @@
 
 //TODO : Mapping Function
 
+void PacketHandler::Init(){
+
+}
+
 void PacketHandler::HandlePacket(PacketHeader* buffer, Service* service){
 	switch (buffer->packetId) {
 
 	case c_send:
-		Handle_C_SEND(buffer, service);
+		Handle_C_Send(buffer, service);
 		break;
 	case c_pos:
 		Handle_C_Pos(buffer, service);
@@ -16,7 +20,7 @@ void PacketHandler::HandlePacket(PacketHeader* buffer, Service* service){
 
 
 	case s_send:
-		Handle_S_SEND(buffer, service);
+		Handle_S_Send(buffer, service);
 		break;
 	
 	default:
@@ -25,9 +29,9 @@ void PacketHandler::HandlePacket(PacketHeader* buffer, Service* service){
 	}
 }
 
-void PacketHandler::Handle_C_SEND(PacketHeader* buffer, Service* service){
+void PacketHandler::Handle_C_Send(PacketHeader* buffer, Service* service){
 
-	Packet_C_SEND* packet = (Packet_C_SEND*)buffer;
+	Packet_C_Send* packet = (Packet_C_Send*)buffer;
 	
 }
 
@@ -53,7 +57,7 @@ void PacketHandler::Handle_C_Pos(PacketHeader* buffer, Service* service){
 	GSendBufferPool->Push(sendBuffer);
 }
 
-void PacketHandler::Handle_S_SEND(PacketHeader* buffer, Service* service) {
+void PacketHandler::Handle_S_Send(PacketHeader* buffer, Service* service) {
 
 }
 

@@ -1,4 +1,5 @@
 #pragma once
+#include <functional>
 
 enum PacketId {
 
@@ -18,7 +19,7 @@ struct PacketHeader {
 	int32 packetId = 0;
 };
 
-struct Packet_C_SEND{
+struct Packet_C_Send{
 
 	int32 packetSize = 0;
 	int32 packetId = c_send;
@@ -45,15 +46,19 @@ struct Packet_S_Pos_Broadcast {
 };
 #pragma pack(pop)
 
+static function<void(PacketHeader* packet, Service* service)> packetHandleArray[UINT16_MAX];
+
 class PacketHandler{
+public:
+	static void Init();
 public:
 	static void HandlePacket(PacketHeader* buffer, Service* service);
 
 private:
-	static void Handle_C_SEND(PacketHeader* buffer, Service* service);
+	static void Handle_C_Send(PacketHeader* buffer, Service* service);
 	static void Handle_C_Pos(PacketHeader* buffer, Service* service);
 
-	static void Handle_S_SEND(PacketHeader* buffer, Service* service);
+	static void Handle_S_Send(PacketHeader* buffer, Service* service);
 	static void handle_S_Pos_Broadcast(PacketHeader* buffer, Service* service);
 
 };

@@ -2,8 +2,8 @@
 
 class BufferPool{
 	enum {
-		BUFFER_COUNT = 100,
-		BUFFER_SIZE = 4096
+		buffer_count = 100,
+		buffer_size = 4096
 	};
 
 public:
