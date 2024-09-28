@@ -3,13 +3,13 @@
 
 enum PacketId {
 
-	none = 1,
+	NONE = 1,
 	
-	c_send = 1001,
-	c_pos = 1002,
+	PKT_C_REQUEST_INFO = 1001,
+	PKT_C_POS = 1002,
 
-	s_send = 2001,
-	s_pos_broadcast = 2002,
+	PKT_S_RESPONE_INFO = 2001,
+	PKT_S_BROADCAST_POS = 2002,
 };
 
 #pragma pack(push, 1)
@@ -19,15 +19,15 @@ struct PacketHeader {
 	int32 packetId = 0;
 };
 
-struct Packet_C_Send{
+struct Packet_C_Request_Info{
 
 	int32 packetSize = 0;
-	int32 packetId = c_send;
+	int32 packetId = PKT_C_REQUEST_INFO;
 };
 
 struct Packet_C_Pos {
 	int32 packetSize = 0;
-	int32 packetId = c_pos;
+	int32 packetId = PKT_C_POS;
 
 	int32 playerId = 0;
 	float posX = 0;
@@ -35,9 +35,9 @@ struct Packet_C_Pos {
 	float posZ = 0;
 };
 
-struct Packet_S_Pos_Broadcast {
+struct Packet_S_Broadcast_Pos {
 	int32 packetSize = 0;
-	int32 packetId = s_pos_broadcast;
+	int32 packetId = PKT_S_BROADCAST_POS;
 
 	int32 playerId = 0;
 	float posX = 0;
@@ -46,20 +46,22 @@ struct Packet_S_Pos_Broadcast {
 };
 #pragma pack(pop)
 
-static function<void(PacketHeader* packet, Service* service)> packetHandleArray[UINT16_MAX];
+static function<void(shared_ptr<Session> session, PacketHeader* packet, Service* service)> packetHandleArray[UINT16_MAX];
 
 class PacketHandler{
 public:
 	static void Init();
 public:
-	static void HandlePacket(PacketHeader* buffer, Service* service);
+	static void HandlePacket(shared_ptr<Session> session, PacketHeader* buffer, Service* service);
 
 private:
-	static void Handle_C_Send(PacketHeader* buffer, Service* service);
-	static void Handle_C_Pos(PacketHeader* buffer, Service* service);
+	static void Handle_Invalid(shared_ptr<Session> session, PacketHeader* buffer, Service* service);
 
-	static void Handle_S_Send(PacketHeader* buffer, Service* service);
-	static void handle_S_Pos_Broadcast(PacketHeader* buffer, Service* service);
+	static void Handle_C_Request_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service);
+	static void Handle_C_Pos(shared_ptr<Session> session, PacketHeader* buffer, Service* service);
+
+	static void Handle_S_Respone_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service);
+	static void handle_S_Pos_Broadcast(shared_ptr<Session> session, PacketHeader* buffer, Service* service);
 
 };
 

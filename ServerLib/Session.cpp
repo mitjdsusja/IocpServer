@@ -191,7 +191,7 @@ int32 ServerSession::OnRecv(BYTE* recvBuffer, int32 recvBytes){
 		}
 
 		// TODO : Validate
-		PacketHandler::HandlePacket(header, GetOwner());
+		PacketHandler::HandlePacket(shared_from_this(), header, GetOwner());
 
 		processLen += header->packetSize;
 		if (processLen >= recvBytes) {
@@ -230,7 +230,7 @@ int32 ClientSession::OnRecv(BYTE* recvBuffer, int32 recvBytes){
 		if (recvBytes < header->packetSize) {
 			break;
 		}
-		PacketHandler::HandlePacket(header, GetOwner());
+		PacketHandler::HandlePacket(shared_from_this(), header, GetOwner());
 
 		processLen += header->packetSize;
 		if (processLen >= recvBytes) {
