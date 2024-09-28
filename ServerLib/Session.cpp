@@ -226,6 +226,7 @@ int32 ClientSession::OnRecv(BYTE* recvBuffer, int32 recvBytes){
 		buffer = recvBuffer + processLen;
 		PacketHeader* header = (PacketHeader*)buffer;
 
+		cout << "packetID : " << header->packetId << endl;
 		// TODO : Validate
 		if (recvBytes < header->packetSize) {
 			break;

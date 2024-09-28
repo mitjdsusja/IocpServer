@@ -13,7 +13,7 @@ void PacketHandler::Init(){
 	packetHandleArray[PKT_C_REQUEST_INFO] = Handle_C_Request_Info;
 	packetHandleArray[PKT_C_POS] = Handle_C_Pos;
 
-	packetHandleArray[PKT_S_RESPONE_INFO] = Handle_S_Respone_Info;
+	packetHandleArray[PKT_S_RESPONSE_INFO] = Handle_S_Response_Info;
 	packetHandleArray[PKT_S_BROADCAST_POS] = handle_S_Pos_Broadcast;
 }
 
@@ -29,7 +29,28 @@ void PacketHandler::Handle_Invalid(shared_ptr<Session> session, PacketHeader* bu
 
 void PacketHandler::Handle_C_Request_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
 
-	Packet_C_Request_Info* packet = (Packet_C_Request_Info*)buffer;
+	{
+		SendBuffer* sendBuffer = GSendBufferPool->Pop();
+		Packet_S_Response_Info* packet = (Packet_S_Response_Info*)sendBuffer->Buffer();
+
+		packet->packetId = PKT_S_RESPONSE_INFO;
+		packet->packetSize = sizeof(Packet_S_Response_Info);
+		packet->playerId = session->GetSessionId();
+
+		session->Send(sendBuffer);
+	}
+
+	{
+		SendBuffer* sendBuffer = GSendBufferPool->Pop();
+		Packet_S_Response_Info* packet = (Packet_S_Response_Info*)sendBuffer->Buffer();
+
+		// TODO : Process PKT_S_ADDCLIENT
+		packet->packetId = PKT_S_RESPONSE_INFO;
+		packet->packetSize = sizeof(Packet_S_Response_Info);
+		packet->playerId = session->GetSessionId();
+
+		service->Broadcast(sendBuffer);
+	}
 }
 
 void PacketHandler::Handle_C_Pos(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
@@ -43,7 +64,7 @@ void PacketHandler::Handle_C_Pos(shared_ptr<Session> session, PacketHeader* buff
 	Packet_S_Broadcast_Pos* sendPacket = (Packet_S_Broadcast_Pos*)sendBuffer->Buffer();
 
 	sendPacket->packetId = PKT_S_BROADCAST_POS;
-	sendPacket->packetSize = sizeof(PKT_S_BROADCAST_POS);
+	sendPacket->packetSize = sizeof(Packet_S_Broadcast_Pos);
 	sendPacket->playerId = packet->playerId;
 	sendPacket->posX = packet->posX;
 	sendPacket->posY = packet->posY;
@@ -54,7 +75,7 @@ void PacketHandler::Handle_C_Pos(shared_ptr<Session> session, PacketHeader* buff
 	GSendBufferPool->Push(sendBuffer);
 }
 
-void PacketHandler::Handle_S_Respone_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service) {
+void PacketHandler::Handle_S_Response_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service) {
 
 }
 

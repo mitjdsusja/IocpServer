@@ -22,6 +22,9 @@ public:
 	RecvBuffer* GetRecvBuffer() { return _recvBuffer; }
 	NetAddress& GetPeerAddressRef() { return _peerAddress; }
 	Service* GetOwner() { return _owner; }
+	int32 GetSessionId() { return _sessionId; }
+
+	void SetSessionId(int32 id) { _sessionId = id; }
 
 
 	void Process(OverlappedEvent* event, int32 numOfBytes) override;
@@ -42,6 +45,7 @@ private:
 
 	void SetPeerAddress(NetAddress address) { _peerAddress = address; }
 
+
 private:
 	Service* _owner;
 	SOCKET _peerSocket;
@@ -60,6 +64,8 @@ private:
 	RecvEvent _recvEvent = {};
 	ConnectEvent _connectEvent = {};
 
+private:
+	int32 _sessionId = 0;
 };
 
 class ServerSession : public Session {

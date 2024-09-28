@@ -23,6 +23,8 @@ void Service::AddSession(shared_ptr<Session> session){
 
 	lock_guard<mutex> _lock(_mutex);
 
+	_curSessionCount++;
+	session->SetSessionId(_curSessionCount);
 	_sessions.insert(session);
 }
 
@@ -30,6 +32,7 @@ void Service::removeSession(shared_ptr<Session> session){
 
 	lock_guard<mutex> _lock(_mutex);
 
+	_curSessionCount--;
 	_sessions.erase(session);
 	
 	cout << "Current Session Count : " << _sessions.size() << endl;
