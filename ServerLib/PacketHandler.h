@@ -52,6 +52,12 @@ struct Packet_S_Broadcast_Pos {
 	float posY = 0;
 	float posZ = 0;
 };
+
+struct Packet_S_Addplayer {
+	int32 packetSize = 0;
+	int32 packetId = PKT_S_ADDPLAYER;
+
+};
 #pragma pack(pop)
 
 static function<void(shared_ptr<Session> session, PacketHeader* packet, Service* service)> packetHandleArray[UINT16_MAX];
@@ -70,7 +76,7 @@ private:
 
 	static void Handle_S_Response_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service);
 	static void handle_S_Pos_Broadcast(shared_ptr<Session> session, PacketHeader* buffer, Service* service);
-
+	
 };
 
 

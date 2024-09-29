@@ -25,6 +25,7 @@ void PacketHandler::HandlePacket(shared_ptr<Session> session, PacketHeader* buff
 void PacketHandler::Handle_Invalid(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
 
 	// TODO : Log
+	ErrorHandler::HandleError(L"INVALID PACKET ID");
 }
 
 void PacketHandler::Handle_C_Request_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
@@ -36,20 +37,23 @@ void PacketHandler::Handle_C_Request_Info(shared_ptr<Session> session, PacketHea
 		packet->packetId = PKT_S_RESPONSE_INFO;
 		packet->packetSize = sizeof(Packet_S_Response_Info);
 		packet->playerId = session->GetSessionId();
+		sendBuffer->Write(packet->packetSize);
 
 		session->Send(sendBuffer);
+		GSendBufferPool->Push(sendBuffer);
 	}
 
 	{
 		SendBuffer* sendBuffer = GSendBufferPool->Pop();
 		Packet_S_Response_Info* packet = (Packet_S_Response_Info*)sendBuffer->Buffer();
 
-		// TODO : Process PKT_S_ADDCLIENT
-		packet->packetId = PKT_S_RESPONSE_INFO;
-		packet->packetSize = sizeof(Packet_S_Response_Info);
+		packet->packetId = PKT_S_ADDPLAYER;
+		packet->packetSize = sizeof(Packet_S_Addplayer);
 		packet->playerId = session->GetSessionId();
+		sendBuffer->Write(packet->packetSize);
 
 		service->Broadcast(sendBuffer);
+		GSendBufferPool->Push(sendBuffer);
 	}
 }
 

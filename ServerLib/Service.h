@@ -29,6 +29,7 @@ protected:
 	NetAddress _address;
 	int32 _maxSessionCount = 0;
 	int32 _curSessionCount = 0;
+	int32 _playerId = 1;
 
 	ServiceType _serviceType; 
 

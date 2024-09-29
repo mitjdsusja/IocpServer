@@ -140,7 +140,7 @@ void Session::ProcessSend(OverlappedEvent* event, int32 processBytes){
 	if (event->_eventType != EventType::SEND) {
 		ErrorHandler::HandleError(L"ProcessSend Error : INVALID EVENT TYPE");
 	}
-	cout << "[SEND] : Process Send : " << processBytes << endl;
+	//cout << "[SEND] : Process Send : " << processBytes << endl;
 }
 
 void Session::ProcessRecv(OverlappedEvent* event, int32 recvBytes){
@@ -226,7 +226,7 @@ int32 ClientSession::OnRecv(BYTE* recvBuffer, int32 recvBytes){
 		buffer = recvBuffer + processLen;
 		PacketHeader* header = (PacketHeader*)buffer;
 
-		cout << "packetID : " << header->packetId << endl;
+		//cout << "packetID : " << header->packetId << endl;
 		// TODO : Validate
 		if (recvBytes < header->packetSize) {
 			break;
