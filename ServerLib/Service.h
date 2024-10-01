@@ -20,6 +20,9 @@ public:
 	void removeSession(shared_ptr<Session> session);
 	void Broadcast(SendBuffer* sendBuffer);
 
+	int32 GetCurSessionCount() { return _curSessionCount; }
+	void GetUserIdList(int32* array);
+
 	void RegisterHandle(HANDLE handle);
 
 protected:
@@ -30,6 +33,7 @@ protected:
 	int32 _maxSessionCount = 0;
 	int32 _curSessionCount = 0;
 	int32 _playerId = 1;
+	set<int32> _playerList;
 
 	ServiceType _serviceType; 
 

@@ -24,6 +24,7 @@ void Service::AddSession(shared_ptr<Session> session){
 	lock_guard<mutex> _lock(_mutex);
 
 	_curSessionCount++;
+	_playerList.insert(_playerId);
 	session->SetSessionId(_playerId++);
 	_sessions.insert(session);
 }
@@ -34,6 +35,7 @@ void Service::removeSession(shared_ptr<Session> session){
 
 	_curSessionCount--;
 	_sessions.erase(session);
+	_playerList.erase(_playerId);
 	
 	cout << "Current Session Count : " << _sessions.size() << endl;
 }
@@ -50,6 +52,14 @@ void Service::Broadcast(SendBuffer* sendBuffer){
 	}
 
 	GSendBufferPool->Push(sendBuffer);
+}
+
+void Service::GetUserIdList(int32* array){
+
+	int index = 0;
+	for (shared_ptr<Session> session : _sessions) {
+		array[index] = session.get()->GetSessionId();
+	}
 }
 
 void Service::RegisterHandle(HANDLE handle){

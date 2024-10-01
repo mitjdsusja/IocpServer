@@ -55,7 +55,12 @@ struct Packet_S_Response_Other_User_Info {
 	int32 packetSize = 0;
 	int32 packetId = PKT_S_RESPONSE_OTHER_USER_INFO;
 
-	int32 playerId = 0;
+	int32 playerCount = 0;
+
+	void AppendUserIdData(BYTE* packet, int32 userId) {
+		packet += sizeof(int32) * (3 + playerCount);
+		memcpy(packet, &userId, sizeof(int32));
+	}
 };
 struct Packet_S_Broadcast_Pos {
 	int32 packetSize = 0;

@@ -24,7 +24,6 @@ void PacketHandler::HandlePacket(shared_ptr<Session> session, PacketHeader* buff
 
 void PacketHandler::Handle_Invalid(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
 
-	// TODO : Log
 	ErrorHandler::HandleError(L"INVALID PACKET ID");
 }
 
@@ -45,6 +44,19 @@ void PacketHandler::Handle_C_Request_User_Info(shared_ptr<Session> session, Pack
 void PacketHandler::Handle_C_Request_Other_User_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
 
 	// TODO : Send Other User Info
+	SendBuffer* sendBuffer = GSendBufferPool->Pop();
+	Packet_S_Response_Other_User_Info* packet = (Packet_S_Response_Other_User_Info*)sendBuffer->Buffer();
+
+	packet->packetId = PKT_S_RESPONSE_OTHER_USER_INFO;
+	packet->playerCount = service->GetCurSessionCount();
+	packet->packetSize = sizeof(packet->playerCount);
+
+	int32* playerArray = new int32[packet->playerCount];
+	service->GetUserIdList(playerArray);
+	for (int32 i = 0; i < packet->playerCount; i++) {
+		packet->AppendUserIdData((BYTE*)packet, playerArray[i]);
+		packet->packetSize += sizeof(int32);
+	}
 }
 
 void PacketHandler::Handle_C_Send_Pos(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
