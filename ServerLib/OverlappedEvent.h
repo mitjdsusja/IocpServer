@@ -1,4 +1,5 @@
 #pragma once
+#include "BufferPool.h"
 
 class Session;
 class SocketEntity;
@@ -43,6 +44,15 @@ class SendEvent : public OverlappedEvent {
 public:
 	SendEvent() : OverlappedEvent(EventType::SEND) { }
 
+	void BufferClear() {
+		for (SendBuffer* sendBuffer : _sendBuffers) {
+			GSendBufferPool->Push(sendBuffer);
+		}
+		_sendBuffers.clear();
+	}
+
+public:
+	vector<SendBuffer*> _sendBuffers;
 };
 
 class RecvEvent : public OverlappedEvent {

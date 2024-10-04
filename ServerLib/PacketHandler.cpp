@@ -11,10 +11,13 @@ void PacketHandler::Init(){
 	}
 
 	packetHandleArray[PKT_C_REQUEST_USER_INFO] = Handle_C_Request_User_Info;
+	packetHandleArray[PKT_C_REQUEST_OTHER_USER_INFO] = Handle_C_Request_Other_User_Info;
 	packetHandleArray[PKT_C_SEND_POS] = Handle_C_Send_Pos;
 
 	packetHandleArray[PKT_S_RESPONSE_USER_INFO] = Handle_S_Response_User_Info;
+	packetHandleArray[PKT_S_RESPONSE_OTHER_USER_INFO] = Handle_S_Response_Other_User_Info;
 	packetHandleArray[PKT_S_BROADCAST_POS] = Handle_S_Broadcast_Pos;
+	packetHandleArray[PKT_S_ADD_USER] = Handle_S_Add_User;
 }
 
 void PacketHandler::HandlePacket(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
@@ -24,7 +27,7 @@ void PacketHandler::HandlePacket(shared_ptr<Session> session, PacketHeader* buff
 
 void PacketHandler::Handle_Invalid(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
 
-	ErrorHandler::HandleError(L"INVALID PACKET ID");
+	ErrorHandler::HandleError(L"INVALID PACKET ID", buffer->packetId);
 }
 
 void PacketHandler::Handle_C_Request_User_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
@@ -38,25 +41,26 @@ void PacketHandler::Handle_C_Request_User_Info(shared_ptr<Session> session, Pack
 	sendBuffer->Write(packet->packetSize);
 
 	session->Send(sendBuffer);
-	GSendBufferPool->Push(sendBuffer);
 }
 
 void PacketHandler::Handle_C_Request_Other_User_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
 
-	// TODO : Send Other User Info
 	SendBuffer* sendBuffer = GSendBufferPool->Pop();
 	Packet_S_Response_Other_User_Info* packet = (Packet_S_Response_Other_User_Info*)sendBuffer->Buffer();
 
 	packet->packetId = PKT_S_RESPONSE_OTHER_USER_INFO;
-	packet->playerCount = service->GetCurSessionCount();
-	packet->packetSize = sizeof(packet->playerCount);
-
-	int32* playerArray = new int32[packet->playerCount];
+	packet->playerCount = 0;
+	packet->packetSize = sizeof(Packet_S_Response_Other_User_Info);
+	int32 playerCount = service->GetCurSessionCount();
+	int32* playerArray = new int32[playerCount];
 	service->GetUserIdList(playerArray);
-	for (int32 i = 0; i < packet->playerCount; i++) {
+	for (int32 i = 0; i < playerCount; i++) {
 		packet->AppendUserIdData((BYTE*)packet, playerArray[i]);
 		packet->packetSize += sizeof(int32);
 	}
+	sendBuffer->Write(packet->packetSize);
+
+	session->Send(sendBuffer);
 }
 
 void PacketHandler::Handle_C_Send_Pos(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
@@ -78,7 +82,6 @@ void PacketHandler::Handle_C_Send_Pos(shared_ptr<Session> session, PacketHeader*
 	sendBuffer->Write(sendPacket->packetSize);
 
 	service->Broadcast(sendBuffer);
-	GSendBufferPool->Push(sendBuffer);
 }
 
 void PacketHandler::Handle_S_Response_User_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service) {

@@ -101,6 +101,7 @@ void Session::RegisterSend(){
 		for (int32 i = 0;i < bufferCount;i++) {
 
 			sendBuffers[i] = _sendQueue.front();
+			_sendEvent._sendBuffers.push_back(sendBuffers[i]);
 			_sendQueue.pop();
 		}
 	}
@@ -110,6 +111,7 @@ void Session::RegisterSend(){
 		// TODO : failed send data Process 
 		//		  Push SendQueue - RESEND
 		for (int32 i = 0;i < bufferCount;i++) {
+			_sendEvent._sendBuffers.clear();
 			Send(sendBuffers[i]);
 		}
 	}
@@ -140,7 +142,10 @@ void Session::ProcessSend(OverlappedEvent* event, int32 processBytes){
 	if (event->_eventType != EventType::SEND) {
 		ErrorHandler::HandleError(L"ProcessSend Error : INVALID EVENT TYPE");
 	}
-	//cout << "[SEND] : Process Send : " << processBytes << endl;
+
+	SendEvent* sendEvent = (SendEvent*)event;
+	sendEvent->BufferClear();
+	cout << "[SEND] : Process Send : " << processBytes << endl;
 }
 
 void Session::ProcessRecv(OverlappedEvent* event, int32 recvBytes){
@@ -226,6 +231,8 @@ int32 ClientSession::OnRecv(BYTE* recvBuffer, int32 recvBytes){
 		buffer = recvBuffer + processLen;
 		PacketHeader* header = (PacketHeader*)buffer;
 
+		cout << "[RECV] PacketId : " << header->packetId << endl;
+
 		//cout << "packetID : " << header->packetId << endl;
 		// TODO : Validate
 		if (recvBytes < header->packetSize) {
@@ -237,7 +244,6 @@ int32 ClientSession::OnRecv(BYTE* recvBuffer, int32 recvBytes){
 		if (processLen >= recvBytes) {
 			break;
 		}
-		cout << processLen << endl;
 	}
 	return processLen;
 }

@@ -60,6 +60,7 @@ struct Packet_S_Response_Other_User_Info {
 	void AppendUserIdData(BYTE* packet, int32 userId) {
 		packet += sizeof(int32) * (3 + playerCount);
 		memcpy(packet, &userId, sizeof(int32));
+		playerCount++;
 	}
 };
 struct Packet_S_Broadcast_Pos {

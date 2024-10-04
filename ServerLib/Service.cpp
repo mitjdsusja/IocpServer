@@ -46,7 +46,7 @@ void Service::Broadcast(SendBuffer* sendBuffer){
 
 	for (shared_ptr<Session> session : _sessions) {
 		SendBuffer* sendBuf = GSendBufferPool->Pop();
-		int32 size = sizeof(sendBuffer);
+		int32 size = sizeof(SendBuffer);
 		memcpy(sendBuf, sendBuffer, size);
 		session->Send(sendBuf);
 	}
@@ -58,7 +58,8 @@ void Service::GetUserIdList(int32* array){
 
 	int index = 0;
 	for (shared_ptr<Session> session : _sessions) {
-		array[index] = session.get()->GetSessionId();
+		int32 sessionID = session.get()->GetSessionId();
+		array[index++] = session.get()->GetSessionId();
 	}
 }
 

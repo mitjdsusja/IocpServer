@@ -1,4 +1,5 @@
 #pragma once
+#include "SendBuffer.h"
 
 class BufferPool{
 	enum {
