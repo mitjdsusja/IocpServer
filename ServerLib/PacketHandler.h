@@ -76,6 +76,7 @@ struct Packet_S_Add_User {
 	int32 packetSize = 0;
 	int32 packetId = PKT_S_ADD_USER;
 
+	int32 playerId = 0;
 };
 #pragma pack(pop)
 

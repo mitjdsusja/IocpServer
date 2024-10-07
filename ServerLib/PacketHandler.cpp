@@ -32,15 +32,30 @@ void PacketHandler::Handle_Invalid(shared_ptr<Session> session, PacketHeader* bu
 
 void PacketHandler::Handle_C_Request_User_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
 
-	SendBuffer* sendBuffer = GSendBufferPool->Pop();
-	Packet_S_Response_User_Info* packet = (Packet_S_Response_User_Info*)sendBuffer->Buffer();
+	{
+		// Send User Info
+		SendBuffer* sendBuffer = GSendBufferPool->Pop();
+		Packet_S_Response_User_Info* packet = (Packet_S_Response_User_Info*)sendBuffer->Buffer();
 
-	packet->packetId = PKT_S_RESPONSE_USER_INFO;
-	packet->packetSize = sizeof(Packet_S_Response_User_Info);
-	packet->playerId = session->GetSessionId();
-	sendBuffer->Write(packet->packetSize);
+		packet->packetId = PKT_S_RESPONSE_USER_INFO;
+		packet->packetSize = sizeof(Packet_S_Response_User_Info);
+		packet->playerId = session->GetSessionId();
+		sendBuffer->Write(packet->packetSize);
 
-	session->Send(sendBuffer);
+		session->Send(sendBuffer);
+	}
+	{
+		// Send Add User
+		SendBuffer* sendBuffer = GSendBufferPool->Pop();
+		Packet_S_Add_User* packet = (Packet_S_Add_User*)sendBuffer->Buffer();
+
+		packet->packetId = PKT_S_ADD_USER;
+		packet->packetSize = sizeof(Packet_S_Add_User);
+		packet->playerId = session->GetSessionId();
+		sendBuffer->Write(packet->packetSize);
+
+		service->Broadcast(sendBuffer);
+	}
 }
 
 void PacketHandler::Handle_C_Request_Other_User_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service){

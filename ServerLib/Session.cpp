@@ -115,8 +115,6 @@ void Session::RegisterSend(){
 			Send(sendBuffers[i]);
 		}
 	}
-
-	_sendRegistered = false;
 }
 
 void Session::RegisterRecv(){
@@ -145,7 +143,19 @@ void Session::ProcessSend(OverlappedEvent* event, int32 processBytes){
 
 	SendEvent* sendEvent = (SendEvent*)event;
 	sendEvent->BufferClear();
-	cout << "[SEND] : Process Send : " << processBytes << endl;
+
+	OnSend(processBytes);
+
+	{
+		lock_guard<mutex> _lock(_mutex);
+		if (_sendQueue.empty()) {
+			_sendRegistered = false;
+			return;
+		}
+	}
+	
+	RegisterSend();
+	//cout << "[SEND] : Process Send : " << processBytes << endl;
 }
 
 void Session::ProcessRecv(OverlappedEvent* event, int32 recvBytes){
@@ -231,7 +241,7 @@ int32 ClientSession::OnRecv(BYTE* recvBuffer, int32 recvBytes){
 		buffer = recvBuffer + processLen;
 		PacketHeader* header = (PacketHeader*)buffer;
 
-		cout << "[RECV] PacketId : " << header->packetId << endl;
+		//cout << "[RECV] PacketId : " << header->packetId << endl;
 
 		//cout << "packetID : " << header->packetId << endl;
 		// TODO : Validate

@@ -44,10 +44,12 @@ void Service::Broadcast(SendBuffer* sendBuffer){
 
 	lock_guard<mutex> _lock(_mutex);
 
+	int32 sendLen = sendBuffer->WriteSize();
+
 	for (shared_ptr<Session> session : _sessions) {
 		SendBuffer* sendBuf = GSendBufferPool->Pop();
-		int32 size = sizeof(SendBuffer);
-		memcpy(sendBuf, sendBuffer, size);
+		memcpy(sendBuf->Buffer(), sendBuffer->Buffer(), sendLen);
+		sendBuf->Write(sendLen);
 		session->Send(sendBuf);
 	}
 
