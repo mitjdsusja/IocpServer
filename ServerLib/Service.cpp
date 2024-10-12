@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Service.h"
 #include "BufferPool.h"
+#include "PacketHandler.h"
 
 Service::Service(ServiceType type, NetAddress address, int32 maxSessionCount) 
 	: _serviceType(type), _address(address), _maxSessionCount(maxSessionCount){

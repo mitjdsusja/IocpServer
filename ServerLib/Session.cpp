@@ -87,7 +87,7 @@ void Session::RegisterConnect(NetAddress& peerAddress){
 }
 
 void Session::RegisterSend(){
-
+	
 	if (_sendEvent._owner == nullptr) _sendEvent._owner = shared_from_this();
 	
 	vector<SendBuffer*> sendBuffers;
@@ -201,11 +201,13 @@ int32 ServerSession::OnRecv(BYTE* recvBuffer, int32 recvBytes){
 		buffer = recvBuffer + processLen;
 		PacketHeader* header = (PacketHeader*)buffer;
 
+		//cout << "[RECV] PacketId : " << header->packetId << endl;
+
+		//cout << "packetID : " << header->packetId << endl;
+		// TODO : Validate
 		if (recvBytes < header->packetSize) {
 			break;
 		}
-
-		// TODO : Validate
 		PacketHandler::HandlePacket(shared_from_this(), header, GetOwner());
 
 		processLen += header->packetSize;
