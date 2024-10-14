@@ -22,6 +22,7 @@ void PacketHandler::Init(){
 
 void PacketHandler::HandlePacket(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
 	PacketHeader* header = buffer;
+
 	packetHandleArray[header->packetId](session, header, service);
 }
 
@@ -99,23 +100,27 @@ void PacketHandler::Handle_C_Send_Pos(shared_ptr<Session> session, PacketHeader*
 	service->Broadcast(sendBuffer);
 }
 
+/*-------------------------------------------
+
+--------------------------------------------*/
+
 void PacketHandler::Handle_S_Response_User_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service) {
 	// TODO : ERROR LOG
 	Packet_S_Response_User_Info* packet = (Packet_S_Response_User_Info*)buffer;
 
-	cout << "[Recv] PacketID : " << packet->packetId << " " << "UserID : " << packet->playerId << endl;
+	//cout << "[Recv] PacketID : " << packet->packetId << " " << "UserID : " << packet->playerId << endl;
 }
 
 void PacketHandler::Handle_S_Response_Other_User_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
 
 	Packet_S_Response_Other_User_Info* packet = (Packet_S_Response_Other_User_Info*)buffer;
 
-	cout << "[Recv] PacketID : " << packet->packetId << endl;
+	//cout << "[Recv] PacketID : " << packet->packetId << endl;
 	for (int32 i = 0; i < packet->playerCount; i++) {
 		int32 userId = 0;
 		// TODO : Deserialization
 
-		cout << "UserID : " << userId << endl;
+		//cout << "UserID : " << userId << endl;
 	}
 }
 

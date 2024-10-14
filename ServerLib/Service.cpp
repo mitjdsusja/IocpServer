@@ -25,6 +25,7 @@ void Service::AddSession(shared_ptr<Session> session){
 	lock_guard<mutex> _lock(_mutex);
 
 	_curSessionCount++;
+	cout << "Add Session : " << _curSessionCount << endl;
 	_playerList.insert(_playerId);
 	session->SetSessionId(_playerId++);
 	_sessions.insert(session);

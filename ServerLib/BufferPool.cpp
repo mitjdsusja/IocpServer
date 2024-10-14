@@ -23,6 +23,7 @@ SendBuffer* BufferPool::Pop(){
 
 	if (_buffers.empty() == true) {
 		_bufferCount++;
+		cout << "Total Buffer Count : " << _bufferCount << endl;
 		return new SendBuffer(buffer_size);
 	}
 
