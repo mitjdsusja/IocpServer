@@ -3,18 +3,18 @@
 #include "BufferPool.h"
 
 ThreadManager* GThreadManager = nullptr;
-BufferPool* GSendBufferPool = nullptr;
+//BufferPool* GSendBufferPool = nullptr;
 
 class ServerGlobal {
 public:
 	ServerGlobal() {
 		GThreadManager = new ThreadManager();
-		GSendBufferPool = new BufferPool();
+		//GSendBufferPool = new BufferPool();
 	}
 
 	~ServerGlobal() {
 		delete GThreadManager;
-		delete GSendBufferPool;
+		//delete GSendkBufferPool;
 	}
 
 }GServerGlobal;

@@ -49,13 +49,13 @@ void Service::Broadcast(SendBuffer* sendBuffer){
 	int32 sendLen = sendBuffer->WriteSize();
 
 	for (shared_ptr<Session> session : _sessions) {
-		SendBuffer* sendBuf = GSendBufferPool->Pop();
+		SendBuffer* sendBuf = LSendBufferPool->Pop();
 		memcpy(sendBuf->Buffer(), sendBuffer->Buffer(), sendLen);
 		sendBuf->Write(sendLen);
 		session->Send(sendBuf);
 	}
 
-	GSendBufferPool->Push(sendBuffer);
+	LSendBufferPool->Push(sendBuffer);
 }
 
 void Service::GetUserIdList(int32* array){

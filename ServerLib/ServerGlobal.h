@@ -1,4 +1,4 @@
 #pragma once
 
 extern class ThreadManager* GThreadManager;
-extern class BufferPool* GSendBufferPool;
+//extern class BufferPool* GSendBufferPool;

@@ -46,7 +46,7 @@ public:
 
 	void BufferClear() {
 		for (SendBuffer* sendBuffer : _sendBuffers) {
-			GSendBufferPool->Push(sendBuffer);
+			LSendBufferPool->Push(sendBuffer);
 		}
 		_sendBuffers.clear();
 	}

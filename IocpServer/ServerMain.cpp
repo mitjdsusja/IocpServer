@@ -17,13 +17,13 @@ int main() {
 	SYSTEM_INFO sysInfo;
 	GetSystemInfo(&sysInfo);
 	
-	//ServerService* serverService = new ServerService(NetAddress(L"127.0.0.1", 7777), 100);
-	ServerService* serverService = new ServerService(NetAddress(L"192.168.0.14", 7777), 10);
+	ServerService* serverService = new ServerService(NetAddress(L"127.0.0.1", 7777), 100);
+	//ServerService* serverService = new ServerService(NetAddress(L"192.168.0.14", 7777), 10);
 	PacketHandler::Init();
 
 	serverService->Start();
 	// Create Thread GQCS
-	for (int32 i = 0; i < sysInfo.dwNumberOfProcessors * 2; i++) {
+	for (int32 i = 0; i < (int32)sysInfo.dwNumberOfProcessors * 2; i++) {
 		cout << "Thread GQCS Start" << endl;
 
 		GThreadManager->Launch([=]() {

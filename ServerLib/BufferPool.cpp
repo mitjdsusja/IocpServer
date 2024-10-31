@@ -19,8 +19,6 @@ BufferPool::~BufferPool(){
 
 SendBuffer* BufferPool::Pop(){
 
-	lock_guard<mutex> _lock(_mutex);
-
 	if (_buffers.empty() == true) {
 		_bufferCount++;
 		cout << "Total Buffer Count : " << _bufferCount << endl;
@@ -34,8 +32,6 @@ SendBuffer* BufferPool::Pop(){
 }
 
 void BufferPool::Push(SendBuffer* buffer){
-
-	lock_guard<mutex> _lock(_mutex);
 
 	buffer->Clear();
 	_buffers.push_back(buffer);

@@ -19,6 +19,7 @@ using namespace std;
 #include "types.h"
 #include "Mecro.h"
 
+#include "ServerTLS.h"
 #include "ServerGlobal.h"
 #include "ErrorHandler.h"
 #include "NetAddress.h"

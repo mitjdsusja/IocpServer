@@ -35,7 +35,7 @@ void PacketHandler::Handle_C_Request_User_Info(shared_ptr<Session> session, Pack
 
 	{
 		// Send User Info
-		SendBuffer* sendBuffer = GSendBufferPool->Pop();
+		SendBuffer* sendBuffer = LSendBufferPool->Pop();
 		Packet_S_Response_User_Info* packet = (Packet_S_Response_User_Info*)sendBuffer->Buffer();
 
 		packet->packetId = PKT_S_RESPONSE_USER_INFO;
@@ -47,7 +47,7 @@ void PacketHandler::Handle_C_Request_User_Info(shared_ptr<Session> session, Pack
 	}
 	{
 		// Send Add User
-		SendBuffer* sendBuffer = GSendBufferPool->Pop();
+		SendBuffer* sendBuffer = LSendBufferPool->Pop();
 		Packet_S_Add_User* packet = (Packet_S_Add_User*)sendBuffer->Buffer();
 
 		packet->packetId = PKT_S_ADD_USER;
@@ -61,7 +61,7 @@ void PacketHandler::Handle_C_Request_User_Info(shared_ptr<Session> session, Pack
 
 void PacketHandler::Handle_C_Request_Other_User_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
 
-	SendBuffer* sendBuffer = GSendBufferPool->Pop();
+	SendBuffer* sendBuffer = LSendBufferPool->Pop();
 	Packet_S_Response_Other_User_Info* packet = (Packet_S_Response_Other_User_Info*)sendBuffer->Buffer();
 
 	packet->packetId = PKT_S_RESPONSE_OTHER_USER_INFO;
@@ -86,7 +86,7 @@ void PacketHandler::Handle_C_Send_Pos(shared_ptr<Session> session, PacketHeader*
 	//cout << " Packet PosY : " << packet->posY;
 	//cout << " Packet PosZ : " << packet->posZ << endl;
 
-	SendBuffer* sendBuffer = GSendBufferPool->Pop();
+	SendBuffer* sendBuffer = LSendBufferPool->Pop();
 	Packet_S_Broadcast_Pos* sendPacket = (Packet_S_Broadcast_Pos*)sendBuffer->Buffer();
 
 	sendPacket->packetId = PKT_S_BROADCAST_POS;
