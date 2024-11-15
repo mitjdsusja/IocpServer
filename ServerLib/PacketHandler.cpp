@@ -108,7 +108,7 @@ void PacketHandler::Handle_S_Response_User_Info(shared_ptr<Session> session, Pac
 	// TODO : ERROR LOG
 	Packet_S_Response_User_Info* packet = (Packet_S_Response_User_Info*)buffer;
 
-	//cout << "[Recv] PacketID : " << packet->packetId << " " << "UserID : " << packet->playerId << endl;
+	cout << "[Recv] PacketID : " << packet->packetId << " " << "UserID : " << packet->playerId << endl;
 }
 
 void PacketHandler::Handle_S_Response_Other_User_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service){

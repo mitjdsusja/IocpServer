@@ -27,6 +27,9 @@ int main() {
 		});
 	}
 
+	LSendBufferPool = new BufferPool();
+
+	this_thread::sleep_for(1s);
 	
 	// Get User Info
 	{
@@ -42,17 +45,17 @@ int main() {
 	}
 
 	// Get Other User Info
-	{
-		SendBuffer* sendBuffer = LSendBufferPool->Pop();
-		Packet_C_Request_Other_User_Info* packet = (Packet_C_Request_Other_User_Info*)sendBuffer->Buffer();
+	//{
+	//	SendBuffer* sendBuffer = LSendBufferPool->Pop();
+	//	Packet_C_Request_Other_User_Info* packet = (Packet_C_Request_Other_User_Info*)sendBuffer->Buffer();
 
-		packet->packetId = PKT_C_REQUEST_OTHER_USER_INFO;
-		packet->packetSize = sizeof(Packet_C_Request_Other_User_Info);
+	//	packet->packetId = PKT_C_REQUEST_OTHER_USER_INFO;
+	//	packet->packetSize = sizeof(Packet_C_Request_Other_User_Info);
 
-		sendBuffer->Write(packet->packetSize);
+	//	sendBuffer->Write(packet->packetSize);
 
-		clientService->SendMsg(sendBuffer);
-	}
+	//	clientService->SendMsg(sendBuffer);
+	//}
 
 	while (true) {
 

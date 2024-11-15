@@ -190,7 +190,7 @@ ServerSession::~ServerSession(){
 }
 
 int32 ServerSession::OnRecv(BYTE* recvBuffer, int32 recvBytes){
-	
+	cout << "AA" << endl;
 	if (recvBytes < sizeof(PacketHeader)) {
 		ASSERT_CRASH(false);
 	}
@@ -201,7 +201,7 @@ int32 ServerSession::OnRecv(BYTE* recvBuffer, int32 recvBytes){
 		buffer = recvBuffer + processLen;
 		PacketHeader* header = (PacketHeader*)buffer;
 
-		//cout << "[RECV] PacketId : " << header->packetId << endl;
+		cout << "[RECV] " << " PacketId : " << header->packetId << endl;
 
 		//cout << "packetID : " << header->packetId << endl;
 		// TODO : Validate
@@ -219,7 +219,7 @@ int32 ServerSession::OnRecv(BYTE* recvBuffer, int32 recvBytes){
 }
 
 void ServerSession::OnSend(int32 sendBytes){
-
+	cout << "[SEND] " << "sendBytes : " << sendBytes << endl;
 }
 
 ClientSession::ClientSession(Service* owner)
@@ -243,7 +243,7 @@ int32 ClientSession::OnRecv(BYTE* recvBuffer, int32 recvBytes){
 		buffer = recvBuffer + processLen;
 		PacketHeader* header = (PacketHeader*)buffer;
 
-		//cout << "[RECV] " << "SessionId : " << GetSessionId() << " PacketId : " << header->packetId << endl;
+		cout << "[RECV] " << "SessionId : " << GetSessionId() << " PacketId : " << header->packetId << endl;
 
 		//cout << "packetID : " << header->packetId << endl;
 		// TODO : Validate
@@ -261,5 +261,5 @@ int32 ClientSession::OnRecv(BYTE* recvBuffer, int32 recvBytes){
 }
 
 void ClientSession::OnSend(int32 sendBytes){
-
+	cout << "[SEND] " << "sendBytes : " << sendBytes << endl;
 }
