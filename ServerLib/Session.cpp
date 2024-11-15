@@ -63,7 +63,7 @@ void Session::Process(OverlappedEvent* event, int32 numOfBytes){
 	// TODO  : Mapping Function
 	switch (event->_eventType) {
 	case EventType::CONNECT:
-		cout << "[CONNECT] " << endl;
+		ProcessConnect(event, numOfBytes);
 		break;
 	case EventType::DISCONNECT:
 		cout << "[DISCONNECT] " << endl;
@@ -127,7 +127,9 @@ void Session::RegisterRecv(){
 }
 
 void Session::ProcessConnect(OverlappedEvent* event, int32 processBytes){
+	cout << "[Connect] Connect Server" << endl;
 
+	RegisterRecv();
 }
 
 void Session::ProcessDisconnect(OverlappedEvent* event, int32 ProcessBytes){
