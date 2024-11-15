@@ -190,7 +190,6 @@ ServerSession::~ServerSession(){
 }
 
 int32 ServerSession::OnRecv(BYTE* recvBuffer, int32 recvBytes){
-	cout << "AA" << endl;
 	if (recvBytes < sizeof(PacketHeader)) {
 		ASSERT_CRASH(false);
 	}

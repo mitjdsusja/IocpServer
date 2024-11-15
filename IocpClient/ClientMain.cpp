@@ -16,6 +16,8 @@ int main() {
 	//ClientService* clientService = new ClientService(NetAddress(L"192.168.0.14", 7777), 1);
 
 	this_thread::sleep_for(1s);
+	
+	PacketHandler::Init();
 
 	clientService->Start();
 	// Create Thread GQCS
