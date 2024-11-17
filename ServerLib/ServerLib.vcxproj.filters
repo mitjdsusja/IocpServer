@@ -19,6 +19,9 @@
     <Filter Include="Packet">
       <UniqueIdentifier>{d0d425eb-379b-451f-8d5e-2a2c5bba7686}</UniqueIdentifier>
     </Filter>
+    <Filter Include="protobuf">
+      <UniqueIdentifier>{cd1f99fe-66a0-4f7b-9af8-6f49698816c2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ServerGlobal.cpp">
@@ -137,5 +140,13 @@
     <ClInclude Include="PacketHandler.h">
       <Filter>Packet</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\protobuf\messageTest.proto">
+      <Filter>protobuf</Filter>
+    </None>
+    <None Include="..\protobuf\protobuf.bat">
+      <Filter>protobuf</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "PacketHandler.h"
 #include "BufferPool.h"
+#include "messageTest.pb.h"
 
 //TODO : Mapping Function
 
@@ -10,14 +11,14 @@ void PacketHandler::Init(){
 		packetHandleArray[i] = Handle_Invalid;
 	}
 
-	packetHandleArray[PKT_C_REQUEST_USER_INFO] = Handle_C_Request_User_Info;
-	packetHandleArray[PKT_C_REQUEST_OTHER_USER_INFO] = Handle_C_Request_Other_User_Info;
-	packetHandleArray[PKT_C_SEND_POS] = Handle_C_Send_Pos;
+	packetHandleArray[PKT_CS_REQUEST_USER_INFO] = Handle_CS_Request_User_Info;
+	packetHandleArray[PKT_CS_REQUEST_OTHER_USER_INFO] = Handle_CS_Request_Other_User_Info;
+	packetHandleArray[PKT_CS_SEND_POS] = Handle_CS_Send_Pos;
 
-	packetHandleArray[PKT_S_RESPONSE_USER_INFO] = Handle_S_Response_User_Info;
-	packetHandleArray[PKT_S_RESPONSE_OTHER_USER_INFO] = Handle_S_Response_Other_User_Info;
-	packetHandleArray[PKT_S_BROADCAST_POS] = Handle_S_Broadcast_Pos;
-	packetHandleArray[PKT_S_ADD_USER] = Handle_S_Add_User;
+	packetHandleArray[PKT_SC_RESPONSE_USER_INFO] = Handle_SC_Response_User_Info;
+	packetHandleArray[PKT_SC_RESPONSE_OTHER_USER_INFO] = Handle_SC_Response_Other_User_Info;
+	packetHandleArray[PKT_SC_BROADCAST_POS] = Handle_SC_Broadcast_Pos;
+	packetHandleArray[PKT_SC_ADD_USER] = Handle_SC_Add_User;
 }
 
 void PacketHandler::HandlePacket(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
@@ -31,14 +32,14 @@ void PacketHandler::Handle_Invalid(shared_ptr<Session> session, PacketHeader* bu
 	ErrorHandler::HandleError(L"INVALID PACKET ID", buffer->packetId);
 }
 
-void PacketHandler::Handle_C_Request_User_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
+void PacketHandler::Handle_CS_Request_User_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
 
 	{
 		// Send User Info
 		SendBuffer* sendBuffer = LSendBufferPool->Pop();
 		Packet_S_Response_User_Info* packet = (Packet_S_Response_User_Info*)sendBuffer->Buffer();
 
-		packet->packetId = PKT_S_RESPONSE_USER_INFO;
+		packet->packetId = PKT_SC_RESPONSE_USER_INFO;
 		packet->packetSize = sizeof(Packet_S_Response_User_Info);
 		packet->playerId = session->GetSessionId();
 		sendBuffer->Write(packet->packetSize);
@@ -50,7 +51,7 @@ void PacketHandler::Handle_C_Request_User_Info(shared_ptr<Session> session, Pack
 		SendBuffer* sendBuffer = LSendBufferPool->Pop();
 		Packet_S_Add_User* packet = (Packet_S_Add_User*)sendBuffer->Buffer();
 
-		packet->packetId = PKT_S_ADD_USER;
+		packet->packetId = PKT_SC_ADD_USER;
 		packet->packetSize = sizeof(Packet_S_Add_User);
 		packet->playerId = session->GetSessionId();
 		sendBuffer->Write(packet->packetSize);
@@ -59,12 +60,12 @@ void PacketHandler::Handle_C_Request_User_Info(shared_ptr<Session> session, Pack
 	}
 }
 
-void PacketHandler::Handle_C_Request_Other_User_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
+void PacketHandler::Handle_CS_Request_Other_User_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
 
 	SendBuffer* sendBuffer = LSendBufferPool->Pop();
 	Packet_S_Response_Other_User_Info* packet = (Packet_S_Response_Other_User_Info*)sendBuffer->Buffer();
 
-	packet->packetId = PKT_S_RESPONSE_OTHER_USER_INFO;
+	packet->packetId = PKT_SC_RESPONSE_OTHER_USER_INFO;
 	packet->playerCount = 0;
 	packet->packetSize = sizeof(Packet_S_Response_Other_User_Info);
 	int32 playerCount = service->GetCurSessionCount();
@@ -79,7 +80,7 @@ void PacketHandler::Handle_C_Request_Other_User_Info(shared_ptr<Session> session
 	session->Send(sendBuffer);
 }
 
-void PacketHandler::Handle_C_Send_Pos(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
+void PacketHandler::Handle_CS_Send_Pos(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
 	Packet_C_Send_Pos* packet = (Packet_C_Send_Pos*)buffer;
 
 	//cout << " Packet PosX : " << packet->posX;
@@ -89,7 +90,7 @@ void PacketHandler::Handle_C_Send_Pos(shared_ptr<Session> session, PacketHeader*
 	SendBuffer* sendBuffer = LSendBufferPool->Pop();
 	Packet_S_Broadcast_Pos* sendPacket = (Packet_S_Broadcast_Pos*)sendBuffer->Buffer();
 
-	sendPacket->packetId = PKT_S_BROADCAST_POS;
+	sendPacket->packetId = PKT_SC_BROADCAST_POS;
 	sendPacket->packetSize = sizeof(Packet_S_Broadcast_Pos);
 	sendPacket->playerId = packet->playerId;
 	sendPacket->posX = packet->posX;
@@ -104,14 +105,14 @@ void PacketHandler::Handle_C_Send_Pos(shared_ptr<Session> session, PacketHeader*
 
 --------------------------------------------*/
 
-void PacketHandler::Handle_S_Response_User_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service) {
+void PacketHandler::Handle_SC_Response_User_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service) {
 	// TODO : ERROR LOG
 	Packet_S_Response_User_Info* packet = (Packet_S_Response_User_Info*)buffer;
 
 	cout << "[Recv] PacketID : " << packet->packetId << " " << "UserID : " << packet->playerId << endl;
 }
 
-void PacketHandler::Handle_S_Response_Other_User_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
+void PacketHandler::Handle_SC_Response_Other_User_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
 
 	Packet_S_Response_Other_User_Info* packet = (Packet_S_Response_Other_User_Info*)buffer;
 
@@ -124,10 +125,10 @@ void PacketHandler::Handle_S_Response_Other_User_Info(shared_ptr<Session> sessio
 	}
 }
 
-void PacketHandler::Handle_S_Broadcast_Pos(shared_ptr<Session> session, PacketHeader* buffer, Service* service) {
+void PacketHandler::Handle_SC_Broadcast_Pos(shared_ptr<Session> session, PacketHeader* buffer, Service* service) {
 	// TODO : ERROR LOG
 }
 
-void PacketHandler::Handle_S_Add_User(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
+void PacketHandler::Handle_SC_Add_User(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
 
 }

@@ -1,0 +1,37 @@
+syntax = "proto2";
+
+package msgTest;
+
+message UserInfo{
+	message Pos{
+		optional int32 posX = 1 [default = 0];
+		optional int32 posY = 2 [default = 0];
+		optional int32 posZ = 3 [default = 0];
+	}
+
+	message Vel{
+		optional int32 vecX = 1 [default = 0];
+		optional int32 vecY = 2 [default = 0];
+		optional int32 vecZ = 3 [default = 0];
+	}
+
+	required int32 id = 1;
+	required Pos pos = 2;
+	required Vel vec = 3;
+}
+
+message CS_Send_User_Info{
+	required UserInfo userInfo = 1;
+}
+
+message SC_Response_User_Info{
+	required UserInfo userInfo = 1;
+}
+
+message SC_Broadcast_User_Info{
+	repeated UserInfo usersInfo = 1;
+}
+
+message SC_Add_User{
+	required UserInfo usersInfo = 1;
+}
