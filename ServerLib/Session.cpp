@@ -2,6 +2,7 @@
 #include "Session.h"
 #include "PacketHandler.h"
 
+
 Session::Session(Service* owner) : _owner(owner) {
 
 	_peerSocket = SocketManager::CreateSocket();
