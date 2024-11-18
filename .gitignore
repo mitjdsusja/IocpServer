@@ -6,7 +6,7 @@
 *.pch
 *.log
 
-.Libraries/
+Libraries/
 
 Application/
 */x64/
