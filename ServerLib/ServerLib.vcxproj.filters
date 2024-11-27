@@ -78,6 +78,9 @@
     <ClCompile Include="PacketHandler.cpp">
       <Filter>Packet</Filter>
     </ClCompile>
+    <ClCompile Include="messageTest.pb.cc">
+      <Filter>protobuf</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -139,6 +142,9 @@
     </ClInclude>
     <ClInclude Include="PacketHandler.h">
       <Filter>Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="messageTest.pb.h">
+      <Filter>protobuf</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
