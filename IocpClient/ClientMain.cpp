@@ -35,15 +35,6 @@ int main() {
 	
 	// Get User Info
 	{
-		SendBuffer* sendBuffer = LSendBufferPool->Pop();
-		Packet_C_Request_User_Info* packet = (Packet_C_Request_User_Info*)sendBuffer->Buffer();
-
-		packet->packetId = PKT_CS_REQUEST_USER_INFO;
-		packet->packetSize = sizeof(Packet_C_Request_User_Info);
-
-		sendBuffer->Write(packet->packetSize);
-
-		clientService->SendMsg(sendBuffer);
 	}
 
 	// Get Other User Info
