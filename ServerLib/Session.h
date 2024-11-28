@@ -1,6 +1,7 @@
 #pragma once
 #include "SocketEntity.h"
 #include "Service.h"
+#include "User.h"
 
 class Session : public SocketEntity, public enable_shared_from_this<Session>{
 	friend class Listener;
@@ -22,9 +23,9 @@ public:
 	RecvBuffer* GetRecvBuffer() { return _recvBuffer; }
 	NetAddress& GetPeerAddressRef() { return _peerAddress; }
 	Service* GetOwner() { return _owner; }
-	int32 GetSessionId() { return _sessionId; }
+	int32 GetSessionId() { return _userInfo.GetId(); }
 
-	void SetSessionId(int32 id) { _sessionId = id; }
+	void SetSessionId(int32 id) { _userInfo.SetId(id); }
 
 
 	void Process(OverlappedEvent* event, int32 numOfBytes) override;
@@ -65,7 +66,8 @@ private:
 	ConnectEvent _connectEvent = {};
 
 private:
-	int32 _sessionId = 0;
+	UserInfo _userInfo = {};
+
 };
 
 class ServerSession : public Session {
