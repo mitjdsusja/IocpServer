@@ -2,15 +2,15 @@
 #include "ServerPch.h"
 
 struct Position {
-	int32 x;
-	int32 y;
-	int32 z;
+	int32 x = 0;
+	int32 y = 0;
+	int32 z = 0;
 };
 
 struct Velocity {
-	int32 x;
-	int32 y;
-	int32 z;
+	int32 x = 0;
+	int32 y = 0;
+	int32 z = 0;
 };
 
 class UserInfo {
