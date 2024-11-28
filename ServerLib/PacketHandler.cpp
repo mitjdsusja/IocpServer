@@ -37,8 +37,15 @@ void PacketHandler::Handle_CS_Request_User_Info(shared_ptr<Session> session, Pac
 
 	{
 		// Send User Info
-		msgTest::SC_Response_User_Info userInfo;
-		SendBuffer* sendBuffer = MakeSendBuffer(userInfo, PacketId::PKT_SC_RESPONSE_USER_INFO);
+		msgTest::SC_Response_User_Info packetUserInfo;
+		msgTest::UserInfo* userInfo = packetUserInfo.mutable_userinfo();
+		msgTest::UserInfo::Position* position = userInfo->mutable_position();
+		msgTest::UserInfo::Velocity* velocity = userInfo->mutable_velocity();
+
+		position->set_x(10);
+		userInfo->set_id(session->GetSessionId());
+
+		SendBuffer* sendBuffer = MakeSendBuffer(packetUserInfo, PacketId::PKT_SC_RESPONSE_USER_INFO);
 
 		session->Send(sendBuffer);
 	}
@@ -58,7 +65,16 @@ void PacketHandler::Handle_CS_Send_Pos(shared_ptr<Session> session, PacketHeader
 --------------------------------------------*/
 
 void PacketHandler::Handle_SC_Response_User_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service) {
+	msgTest::SC_Response_User_Info packetUserInfo;
+	PacketHeader* header = (PacketHeader*)buffer;
+	int32 dataSize = header->packetSize - sizeof(PacketHeader);
 
+	packetUserInfo.ParseFromArray(&header[1], dataSize);
+
+	cout << "User Id : " << packetUserInfo.userinfo().id() << endl;
+	cout << "UserPos " << "X : " << packetUserInfo.userinfo().position().x() << " ";
+	cout << "UserPos " << "Y : " << packetUserInfo.userinfo().position().y() << " ";
+	cout << "UserPos " << "Z : " << packetUserInfo.userinfo().position().z() << " " << endl;
 }
 
 void PacketHandler::Handle_SC_Response_Other_User_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service){

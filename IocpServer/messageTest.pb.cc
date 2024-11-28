@@ -21,44 +21,44 @@ namespace _pb = ::PROTOBUF_NAMESPACE_ID;
 namespace _pbi = _pb::internal;
 
 namespace msgTest {
-PROTOBUF_CONSTEXPR UserInfo_Pos::UserInfo_Pos(
+PROTOBUF_CONSTEXPR UserInfo_Position::UserInfo_Position(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_._has_bits_)*/{}
   , /*decltype(_impl_._cached_size_)*/{}
-  , /*decltype(_impl_.posx_)*/0
-  , /*decltype(_impl_.posy_)*/0
-  , /*decltype(_impl_.posz_)*/0} {}
-struct UserInfo_PosDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR UserInfo_PosDefaultTypeInternal()
+  , /*decltype(_impl_.x_)*/0
+  , /*decltype(_impl_.y_)*/0
+  , /*decltype(_impl_.z_)*/0} {}
+struct UserInfo_PositionDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR UserInfo_PositionDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
-  ~UserInfo_PosDefaultTypeInternal() {}
+  ~UserInfo_PositionDefaultTypeInternal() {}
   union {
-    UserInfo_Pos _instance;
+    UserInfo_Position _instance;
   };
 };
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 UserInfo_PosDefaultTypeInternal _UserInfo_Pos_default_instance_;
-PROTOBUF_CONSTEXPR UserInfo_Vel::UserInfo_Vel(
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 UserInfo_PositionDefaultTypeInternal _UserInfo_Position_default_instance_;
+PROTOBUF_CONSTEXPR UserInfo_Velocity::UserInfo_Velocity(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_._has_bits_)*/{}
   , /*decltype(_impl_._cached_size_)*/{}
-  , /*decltype(_impl_.vecx_)*/0
-  , /*decltype(_impl_.vecy_)*/0
-  , /*decltype(_impl_.vecz_)*/0} {}
-struct UserInfo_VelDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR UserInfo_VelDefaultTypeInternal()
+  , /*decltype(_impl_.x_)*/0
+  , /*decltype(_impl_.y_)*/0
+  , /*decltype(_impl_.z_)*/0} {}
+struct UserInfo_VelocityDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR UserInfo_VelocityDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
-  ~UserInfo_VelDefaultTypeInternal() {}
+  ~UserInfo_VelocityDefaultTypeInternal() {}
   union {
-    UserInfo_Vel _instance;
+    UserInfo_Velocity _instance;
   };
 };
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 UserInfo_VelDefaultTypeInternal _UserInfo_Vel_default_instance_;
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 UserInfo_VelocityDefaultTypeInternal _UserInfo_Velocity_default_instance_;
 PROTOBUF_CONSTEXPR UserInfo::UserInfo(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_._has_bits_)*/{}
   , /*decltype(_impl_._cached_size_)*/{}
-  , /*decltype(_impl_.pos_)*/nullptr
-  , /*decltype(_impl_.vec_)*/nullptr
+  , /*decltype(_impl_.position_)*/nullptr
+  , /*decltype(_impl_.velocity_)*/nullptr
   , /*decltype(_impl_.id_)*/0} {}
 struct UserInfoDefaultTypeInternal {
   PROTOBUF_CONSTEXPR UserInfoDefaultTypeInternal()
@@ -83,6 +83,17 @@ struct CS_Send_User_InfoDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CS_Send_User_InfoDefaultTypeInternal _CS_Send_User_Info_default_instance_;
+PROTOBUF_CONSTEXPR CS_Request_User_Info::CS_Request_User_Info(
+    ::_pbi::ConstantInitialized) {}
+struct CS_Request_User_InfoDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR CS_Request_User_InfoDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~CS_Request_User_InfoDefaultTypeInternal() {}
+  union {
+    CS_Request_User_Info _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CS_Request_User_InfoDefaultTypeInternal _CS_Request_User_Info_default_instance_;
 PROTOBUF_CONSTEXPR SC_Response_User_Info::SC_Response_User_Info(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_._has_bits_)*/{}
@@ -125,32 +136,32 @@ struct SC_Add_UserDefaultTypeInternal {
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SC_Add_UserDefaultTypeInternal _SC_Add_User_default_instance_;
 }  // namespace msgTest
-static ::_pb::Metadata file_level_metadata_messageTest_2eproto[7];
+static ::_pb::Metadata file_level_metadata_messageTest_2eproto[8];
 static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_messageTest_2eproto = nullptr;
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_messageTest_2eproto = nullptr;
 
 const uint32_t TableStruct_messageTest_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  PROTOBUF_FIELD_OFFSET(::msgTest::UserInfo_Pos, _impl_._has_bits_),
-  PROTOBUF_FIELD_OFFSET(::msgTest::UserInfo_Pos, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::msgTest::UserInfo_Position, _impl_._has_bits_),
+  PROTOBUF_FIELD_OFFSET(::msgTest::UserInfo_Position, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::msgTest::UserInfo_Pos, _impl_.posx_),
-  PROTOBUF_FIELD_OFFSET(::msgTest::UserInfo_Pos, _impl_.posy_),
-  PROTOBUF_FIELD_OFFSET(::msgTest::UserInfo_Pos, _impl_.posz_),
+  PROTOBUF_FIELD_OFFSET(::msgTest::UserInfo_Position, _impl_.x_),
+  PROTOBUF_FIELD_OFFSET(::msgTest::UserInfo_Position, _impl_.y_),
+  PROTOBUF_FIELD_OFFSET(::msgTest::UserInfo_Position, _impl_.z_),
   0,
   1,
   2,
-  PROTOBUF_FIELD_OFFSET(::msgTest::UserInfo_Vel, _impl_._has_bits_),
-  PROTOBUF_FIELD_OFFSET(::msgTest::UserInfo_Vel, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::msgTest::UserInfo_Velocity, _impl_._has_bits_),
+  PROTOBUF_FIELD_OFFSET(::msgTest::UserInfo_Velocity, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::msgTest::UserInfo_Vel, _impl_.vecx_),
-  PROTOBUF_FIELD_OFFSET(::msgTest::UserInfo_Vel, _impl_.vecy_),
-  PROTOBUF_FIELD_OFFSET(::msgTest::UserInfo_Vel, _impl_.vecz_),
+  PROTOBUF_FIELD_OFFSET(::msgTest::UserInfo_Velocity, _impl_.x_),
+  PROTOBUF_FIELD_OFFSET(::msgTest::UserInfo_Velocity, _impl_.y_),
+  PROTOBUF_FIELD_OFFSET(::msgTest::UserInfo_Velocity, _impl_.z_),
   0,
   1,
   2,
@@ -161,8 +172,8 @@ const uint32_t TableStruct_messageTest_2eproto::offsets[] PROTOBUF_SECTION_VARIA
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::msgTest::UserInfo, _impl_.id_),
-  PROTOBUF_FIELD_OFFSET(::msgTest::UserInfo, _impl_.pos_),
-  PROTOBUF_FIELD_OFFSET(::msgTest::UserInfo, _impl_.vec_),
+  PROTOBUF_FIELD_OFFSET(::msgTest::UserInfo, _impl_.position_),
+  PROTOBUF_FIELD_OFFSET(::msgTest::UserInfo, _impl_.velocity_),
   2,
   0,
   1,
@@ -174,6 +185,12 @@ const uint32_t TableStruct_messageTest_2eproto::offsets[] PROTOBUF_SECTION_VARIA
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::msgTest::CS_Send_User_Info, _impl_.userinfo_),
   0,
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::msgTest::CS_Request_User_Info, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::msgTest::SC_Response_User_Info, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::msgTest::SC_Response_User_Info, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -199,44 +216,47 @@ const uint32_t TableStruct_messageTest_2eproto::offsets[] PROTOBUF_SECTION_VARIA
   0,
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, 9, -1, sizeof(::msgTest::UserInfo_Pos)},
-  { 12, 21, -1, sizeof(::msgTest::UserInfo_Vel)},
+  { 0, 9, -1, sizeof(::msgTest::UserInfo_Position)},
+  { 12, 21, -1, sizeof(::msgTest::UserInfo_Velocity)},
   { 24, 33, -1, sizeof(::msgTest::UserInfo)},
   { 36, 43, -1, sizeof(::msgTest::CS_Send_User_Info)},
-  { 44, 51, -1, sizeof(::msgTest::SC_Response_User_Info)},
-  { 52, -1, -1, sizeof(::msgTest::SC_Broadcast_User_Info)},
-  { 59, 66, -1, sizeof(::msgTest::SC_Add_User)},
+  { 44, -1, -1, sizeof(::msgTest::CS_Request_User_Info)},
+  { 50, 57, -1, sizeof(::msgTest::SC_Response_User_Info)},
+  { 58, -1, -1, sizeof(::msgTest::SC_Broadcast_User_Info)},
+  { 65, 72, -1, sizeof(::msgTest::SC_Add_User)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
-  &::msgTest::_UserInfo_Pos_default_instance_._instance,
-  &::msgTest::_UserInfo_Vel_default_instance_._instance,
+  &::msgTest::_UserInfo_Position_default_instance_._instance,
+  &::msgTest::_UserInfo_Velocity_default_instance_._instance,
   &::msgTest::_UserInfo_default_instance_._instance,
   &::msgTest::_CS_Send_User_Info_default_instance_._instance,
+  &::msgTest::_CS_Request_User_Info_default_instance_._instance,
   &::msgTest::_SC_Response_User_Info_default_instance_._instance,
   &::msgTest::_SC_Broadcast_User_Info_default_instance_._instance,
   &::msgTest::_SC_Add_User_default_instance_._instance,
 };
 
 const char descriptor_table_protodef_messageTest_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\021messageTest.proto\022\007msgTest\"\322\001\n\010UserInf"
-  "o\022\n\n\002id\030\001 \002(\005\022\"\n\003pos\030\002 \002(\0132\025.msgTest.Use"
-  "rInfo.Pos\022\"\n\003vec\030\003 \002(\0132\025.msgTest.UserInf"
-  "o.Vel\0328\n\003Pos\022\017\n\004posX\030\001 \001(\005:\0010\022\017\n\004posY\030\002 "
-  "\001(\005:\0010\022\017\n\004posZ\030\003 \001(\005:\0010\0328\n\003Vel\022\017\n\004vecX\030\001"
-  " \001(\005:\0010\022\017\n\004vecY\030\002 \001(\005:\0010\022\017\n\004vecZ\030\003 \001(\005:\001"
-  "0\"8\n\021CS_Send_User_Info\022#\n\010userInfo\030\001 \002(\013"
-  "2\021.msgTest.UserInfo\"<\n\025SC_Response_User_"
-  "Info\022#\n\010userInfo\030\001 \002(\0132\021.msgTest.UserInf"
-  "o\">\n\026SC_Broadcast_User_Info\022$\n\tusersInfo"
-  "\030\001 \003(\0132\021.msgTest.UserInfo\"3\n\013SC_Add_User"
-  "\022$\n\tusersInfo\030\001 \002(\0132\021.msgTest.UserInfo"
+  "\n\021messageTest.proto\022\007msgTest\"\336\001\n\010UserInf"
+  "o\022\n\n\002id\030\001 \002(\005\022,\n\010position\030\002 \002(\0132\032.msgTes"
+  "t.UserInfo.Position\022,\n\010velocity\030\003 \002(\0132\032."
+  "msgTest.UserInfo.Velocity\0324\n\010Position\022\014\n"
+  "\001x\030\001 \001(\005:\0010\022\014\n\001y\030\002 \001(\005:\0010\022\014\n\001z\030\003 \001(\005:\0010\032"
+  "4\n\010Velocity\022\014\n\001x\030\001 \001(\005:\0010\022\014\n\001y\030\002 \001(\005:\0010\022"
+  "\014\n\001z\030\003 \001(\005:\0010\"8\n\021CS_Send_User_Info\022#\n\010us"
+  "erInfo\030\001 \002(\0132\021.msgTest.UserInfo\"\026\n\024CS_Re"
+  "quest_User_Info\"<\n\025SC_Response_User_Info"
+  "\022#\n\010userInfo\030\001 \002(\0132\021.msgTest.UserInfo\">\n"
+  "\026SC_Broadcast_User_Info\022$\n\tusersInfo\030\001 \003"
+  "(\0132\021.msgTest.UserInfo\"3\n\013SC_Add_User\022$\n\t"
+  "usersInfo\030\001 \002(\0132\021.msgTest.UserInfo"
   ;
 static ::_pbi::once_flag descriptor_table_messageTest_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_messageTest_2eproto = {
-    false, false, 478, descriptor_table_protodef_messageTest_2eproto,
+    false, false, 514, descriptor_table_protodef_messageTest_2eproto,
     "messageTest.proto",
-    &descriptor_table_messageTest_2eproto_once, nullptr, 0, 7,
+    &descriptor_table_messageTest_2eproto_once, nullptr, 0, 8,
     schemas, file_default_instances, TableStruct_messageTest_2eproto::offsets,
     file_level_metadata_messageTest_2eproto, file_level_enum_descriptors_messageTest_2eproto,
     file_level_service_descriptors_messageTest_2eproto,
@@ -251,58 +271,58 @@ namespace msgTest {
 
 // ===================================================================
 
-class UserInfo_Pos::_Internal {
+class UserInfo_Position::_Internal {
  public:
-  using HasBits = decltype(std::declval<UserInfo_Pos>()._impl_._has_bits_);
-  static void set_has_posx(HasBits* has_bits) {
+  using HasBits = decltype(std::declval<UserInfo_Position>()._impl_._has_bits_);
+  static void set_has_x(HasBits* has_bits) {
     (*has_bits)[0] |= 1u;
   }
-  static void set_has_posy(HasBits* has_bits) {
+  static void set_has_y(HasBits* has_bits) {
     (*has_bits)[0] |= 2u;
   }
-  static void set_has_posz(HasBits* has_bits) {
+  static void set_has_z(HasBits* has_bits) {
     (*has_bits)[0] |= 4u;
   }
 };
 
-UserInfo_Pos::UserInfo_Pos(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+UserInfo_Position::UserInfo_Position(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:msgTest.UserInfo.Pos)
+  // @@protoc_insertion_point(arena_constructor:msgTest.UserInfo.Position)
 }
-UserInfo_Pos::UserInfo_Pos(const UserInfo_Pos& from)
+UserInfo_Position::UserInfo_Position(const UserInfo_Position& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
-  UserInfo_Pos* const _this = this; (void)_this;
+  UserInfo_Position* const _this = this; (void)_this;
   new (&_impl_) Impl_{
       decltype(_impl_._has_bits_){from._impl_._has_bits_}
     , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.posx_){}
-    , decltype(_impl_.posy_){}
-    , decltype(_impl_.posz_){}};
+    , decltype(_impl_.x_){}
+    , decltype(_impl_.y_){}
+    , decltype(_impl_.z_){}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::memcpy(&_impl_.posx_, &from._impl_.posx_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.posz_) -
-    reinterpret_cast<char*>(&_impl_.posx_)) + sizeof(_impl_.posz_));
-  // @@protoc_insertion_point(copy_constructor:msgTest.UserInfo.Pos)
+  ::memcpy(&_impl_.x_, &from._impl_.x_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.z_) -
+    reinterpret_cast<char*>(&_impl_.x_)) + sizeof(_impl_.z_));
+  // @@protoc_insertion_point(copy_constructor:msgTest.UserInfo.Position)
 }
 
-inline void UserInfo_Pos::SharedCtor(
+inline void UserInfo_Position::SharedCtor(
     ::_pb::Arena* arena, bool is_message_owned) {
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_._has_bits_){}
     , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.posx_){0}
-    , decltype(_impl_.posy_){0}
-    , decltype(_impl_.posz_){0}
+    , decltype(_impl_.x_){0}
+    , decltype(_impl_.y_){0}
+    , decltype(_impl_.z_){0}
   };
 }
 
-UserInfo_Pos::~UserInfo_Pos() {
-  // @@protoc_insertion_point(destructor:msgTest.UserInfo.Pos)
+UserInfo_Position::~UserInfo_Position() {
+  // @@protoc_insertion_point(destructor:msgTest.UserInfo.Position)
   if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
   (void)arena;
     return;
@@ -310,60 +330,60 @@ UserInfo_Pos::~UserInfo_Pos() {
   SharedDtor();
 }
 
-inline void UserInfo_Pos::SharedDtor() {
+inline void UserInfo_Position::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
 }
 
-void UserInfo_Pos::SetCachedSize(int size) const {
+void UserInfo_Position::SetCachedSize(int size) const {
   _impl_._cached_size_.Set(size);
 }
 
-void UserInfo_Pos::Clear() {
-// @@protoc_insertion_point(message_clear_start:msgTest.UserInfo.Pos)
+void UserInfo_Position::Clear() {
+// @@protoc_insertion_point(message_clear_start:msgTest.UserInfo.Position)
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000007u) {
-    ::memset(&_impl_.posx_, 0, static_cast<size_t>(
-        reinterpret_cast<char*>(&_impl_.posz_) -
-        reinterpret_cast<char*>(&_impl_.posx_)) + sizeof(_impl_.posz_));
+    ::memset(&_impl_.x_, 0, static_cast<size_t>(
+        reinterpret_cast<char*>(&_impl_.z_) -
+        reinterpret_cast<char*>(&_impl_.x_)) + sizeof(_impl_.z_));
   }
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-const char* UserInfo_Pos::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+const char* UserInfo_Position::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // optional int32 posX = 1 [default = 0];
+      // optional int32 x = 1 [default = 0];
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
-          _Internal::set_has_posx(&has_bits);
-          _impl_.posx_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          _Internal::set_has_x(&has_bits);
+          _impl_.x_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // optional int32 posY = 2 [default = 0];
+      // optional int32 y = 2 [default = 0];
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
-          _Internal::set_has_posy(&has_bits);
-          _impl_.posy_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          _Internal::set_has_y(&has_bits);
+          _impl_.y_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // optional int32 posZ = 3 [default = 0];
+      // optional int32 z = 3 [default = 0];
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
-          _Internal::set_has_posz(&has_bits);
-          _impl_.posz_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          _Internal::set_has_z(&has_bits);
+          _impl_.z_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -392,41 +412,41 @@ failure:
 #undef CHK_
 }
 
-uint8_t* UserInfo_Pos::_InternalSerialize(
+uint8_t* UserInfo_Position::_InternalSerialize(
     uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:msgTest.UserInfo.Pos)
+  // @@protoc_insertion_point(serialize_to_array_start:msgTest.UserInfo.Position)
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
   cached_has_bits = _impl_._has_bits_[0];
-  // optional int32 posX = 1 [default = 0];
+  // optional int32 x = 1 [default = 0];
   if (cached_has_bits & 0x00000001u) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_posx(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_x(), target);
   }
 
-  // optional int32 posY = 2 [default = 0];
+  // optional int32 y = 2 [default = 0];
   if (cached_has_bits & 0x00000002u) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_posy(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_y(), target);
   }
 
-  // optional int32 posZ = 3 [default = 0];
+  // optional int32 z = 3 [default = 0];
   if (cached_has_bits & 0x00000004u) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_posz(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_z(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:msgTest.UserInfo.Pos)
+  // @@protoc_insertion_point(serialize_to_array_end:msgTest.UserInfo.Position)
   return target;
 }
 
-size_t UserInfo_Pos::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:msgTest.UserInfo.Pos)
+size_t UserInfo_Position::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:msgTest.UserInfo.Position)
   size_t total_size = 0;
 
   uint32_t cached_has_bits = 0;
@@ -435,36 +455,36 @@ size_t UserInfo_Pos::ByteSizeLong() const {
 
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000007u) {
-    // optional int32 posX = 1 [default = 0];
+    // optional int32 x = 1 [default = 0];
     if (cached_has_bits & 0x00000001u) {
-      total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_posx());
+      total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_x());
     }
 
-    // optional int32 posY = 2 [default = 0];
+    // optional int32 y = 2 [default = 0];
     if (cached_has_bits & 0x00000002u) {
-      total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_posy());
+      total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_y());
     }
 
-    // optional int32 posZ = 3 [default = 0];
+    // optional int32 z = 3 [default = 0];
     if (cached_has_bits & 0x00000004u) {
-      total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_posz());
+      total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_z());
     }
 
   }
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData UserInfo_Pos::_class_data_ = {
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData UserInfo_Position::_class_data_ = {
     ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    UserInfo_Pos::MergeImpl
+    UserInfo_Position::MergeImpl
 };
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*UserInfo_Pos::GetClassData() const { return &_class_data_; }
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*UserInfo_Position::GetClassData() const { return &_class_data_; }
 
 
-void UserInfo_Pos::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<UserInfo_Pos*>(&to_msg);
-  auto& from = static_cast<const UserInfo_Pos&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:msgTest.UserInfo.Pos)
+void UserInfo_Position::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<UserInfo_Position*>(&to_msg);
+  auto& from = static_cast<const UserInfo_Position&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:msgTest.UserInfo.Position)
   GOOGLE_DCHECK_NE(&from, _this);
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -472,43 +492,43 @@ void UserInfo_Pos::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::P
   cached_has_bits = from._impl_._has_bits_[0];
   if (cached_has_bits & 0x00000007u) {
     if (cached_has_bits & 0x00000001u) {
-      _this->_impl_.posx_ = from._impl_.posx_;
+      _this->_impl_.x_ = from._impl_.x_;
     }
     if (cached_has_bits & 0x00000002u) {
-      _this->_impl_.posy_ = from._impl_.posy_;
+      _this->_impl_.y_ = from._impl_.y_;
     }
     if (cached_has_bits & 0x00000004u) {
-      _this->_impl_.posz_ = from._impl_.posz_;
+      _this->_impl_.z_ = from._impl_.z_;
     }
     _this->_impl_._has_bits_[0] |= cached_has_bits;
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void UserInfo_Pos::CopyFrom(const UserInfo_Pos& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:msgTest.UserInfo.Pos)
+void UserInfo_Position::CopyFrom(const UserInfo_Position& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:msgTest.UserInfo.Position)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool UserInfo_Pos::IsInitialized() const {
+bool UserInfo_Position::IsInitialized() const {
   return true;
 }
 
-void UserInfo_Pos::InternalSwap(UserInfo_Pos* other) {
+void UserInfo_Position::InternalSwap(UserInfo_Position* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(UserInfo_Pos, _impl_.posz_)
-      + sizeof(UserInfo_Pos::_impl_.posz_)
-      - PROTOBUF_FIELD_OFFSET(UserInfo_Pos, _impl_.posx_)>(
-          reinterpret_cast<char*>(&_impl_.posx_),
-          reinterpret_cast<char*>(&other->_impl_.posx_));
+      PROTOBUF_FIELD_OFFSET(UserInfo_Position, _impl_.z_)
+      + sizeof(UserInfo_Position::_impl_.z_)
+      - PROTOBUF_FIELD_OFFSET(UserInfo_Position, _impl_.x_)>(
+          reinterpret_cast<char*>(&_impl_.x_),
+          reinterpret_cast<char*>(&other->_impl_.x_));
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata UserInfo_Pos::GetMetadata() const {
+::PROTOBUF_NAMESPACE_ID::Metadata UserInfo_Position::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_messageTest_2eproto_getter, &descriptor_table_messageTest_2eproto_once,
       file_level_metadata_messageTest_2eproto[0]);
@@ -516,58 +536,58 @@ void UserInfo_Pos::InternalSwap(UserInfo_Pos* other) {
 
 // ===================================================================
 
-class UserInfo_Vel::_Internal {
+class UserInfo_Velocity::_Internal {
  public:
-  using HasBits = decltype(std::declval<UserInfo_Vel>()._impl_._has_bits_);
-  static void set_has_vecx(HasBits* has_bits) {
+  using HasBits = decltype(std::declval<UserInfo_Velocity>()._impl_._has_bits_);
+  static void set_has_x(HasBits* has_bits) {
     (*has_bits)[0] |= 1u;
   }
-  static void set_has_vecy(HasBits* has_bits) {
+  static void set_has_y(HasBits* has_bits) {
     (*has_bits)[0] |= 2u;
   }
-  static void set_has_vecz(HasBits* has_bits) {
+  static void set_has_z(HasBits* has_bits) {
     (*has_bits)[0] |= 4u;
   }
 };
 
-UserInfo_Vel::UserInfo_Vel(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+UserInfo_Velocity::UserInfo_Velocity(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:msgTest.UserInfo.Vel)
+  // @@protoc_insertion_point(arena_constructor:msgTest.UserInfo.Velocity)
 }
-UserInfo_Vel::UserInfo_Vel(const UserInfo_Vel& from)
+UserInfo_Velocity::UserInfo_Velocity(const UserInfo_Velocity& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
-  UserInfo_Vel* const _this = this; (void)_this;
+  UserInfo_Velocity* const _this = this; (void)_this;
   new (&_impl_) Impl_{
       decltype(_impl_._has_bits_){from._impl_._has_bits_}
     , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.vecx_){}
-    , decltype(_impl_.vecy_){}
-    , decltype(_impl_.vecz_){}};
+    , decltype(_impl_.x_){}
+    , decltype(_impl_.y_){}
+    , decltype(_impl_.z_){}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::memcpy(&_impl_.vecx_, &from._impl_.vecx_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.vecz_) -
-    reinterpret_cast<char*>(&_impl_.vecx_)) + sizeof(_impl_.vecz_));
-  // @@protoc_insertion_point(copy_constructor:msgTest.UserInfo.Vel)
+  ::memcpy(&_impl_.x_, &from._impl_.x_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.z_) -
+    reinterpret_cast<char*>(&_impl_.x_)) + sizeof(_impl_.z_));
+  // @@protoc_insertion_point(copy_constructor:msgTest.UserInfo.Velocity)
 }
 
-inline void UserInfo_Vel::SharedCtor(
+inline void UserInfo_Velocity::SharedCtor(
     ::_pb::Arena* arena, bool is_message_owned) {
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_._has_bits_){}
     , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.vecx_){0}
-    , decltype(_impl_.vecy_){0}
-    , decltype(_impl_.vecz_){0}
+    , decltype(_impl_.x_){0}
+    , decltype(_impl_.y_){0}
+    , decltype(_impl_.z_){0}
   };
 }
 
-UserInfo_Vel::~UserInfo_Vel() {
-  // @@protoc_insertion_point(destructor:msgTest.UserInfo.Vel)
+UserInfo_Velocity::~UserInfo_Velocity() {
+  // @@protoc_insertion_point(destructor:msgTest.UserInfo.Velocity)
   if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
   (void)arena;
     return;
@@ -575,60 +595,60 @@ UserInfo_Vel::~UserInfo_Vel() {
   SharedDtor();
 }
 
-inline void UserInfo_Vel::SharedDtor() {
+inline void UserInfo_Velocity::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
 }
 
-void UserInfo_Vel::SetCachedSize(int size) const {
+void UserInfo_Velocity::SetCachedSize(int size) const {
   _impl_._cached_size_.Set(size);
 }
 
-void UserInfo_Vel::Clear() {
-// @@protoc_insertion_point(message_clear_start:msgTest.UserInfo.Vel)
+void UserInfo_Velocity::Clear() {
+// @@protoc_insertion_point(message_clear_start:msgTest.UserInfo.Velocity)
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000007u) {
-    ::memset(&_impl_.vecx_, 0, static_cast<size_t>(
-        reinterpret_cast<char*>(&_impl_.vecz_) -
-        reinterpret_cast<char*>(&_impl_.vecx_)) + sizeof(_impl_.vecz_));
+    ::memset(&_impl_.x_, 0, static_cast<size_t>(
+        reinterpret_cast<char*>(&_impl_.z_) -
+        reinterpret_cast<char*>(&_impl_.x_)) + sizeof(_impl_.z_));
   }
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-const char* UserInfo_Vel::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+const char* UserInfo_Velocity::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // optional int32 vecX = 1 [default = 0];
+      // optional int32 x = 1 [default = 0];
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
-          _Internal::set_has_vecx(&has_bits);
-          _impl_.vecx_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          _Internal::set_has_x(&has_bits);
+          _impl_.x_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // optional int32 vecY = 2 [default = 0];
+      // optional int32 y = 2 [default = 0];
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
-          _Internal::set_has_vecy(&has_bits);
-          _impl_.vecy_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          _Internal::set_has_y(&has_bits);
+          _impl_.y_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // optional int32 vecZ = 3 [default = 0];
+      // optional int32 z = 3 [default = 0];
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
-          _Internal::set_has_vecz(&has_bits);
-          _impl_.vecz_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          _Internal::set_has_z(&has_bits);
+          _impl_.z_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -657,41 +677,41 @@ failure:
 #undef CHK_
 }
 
-uint8_t* UserInfo_Vel::_InternalSerialize(
+uint8_t* UserInfo_Velocity::_InternalSerialize(
     uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:msgTest.UserInfo.Vel)
+  // @@protoc_insertion_point(serialize_to_array_start:msgTest.UserInfo.Velocity)
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
   cached_has_bits = _impl_._has_bits_[0];
-  // optional int32 vecX = 1 [default = 0];
+  // optional int32 x = 1 [default = 0];
   if (cached_has_bits & 0x00000001u) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_vecx(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_x(), target);
   }
 
-  // optional int32 vecY = 2 [default = 0];
+  // optional int32 y = 2 [default = 0];
   if (cached_has_bits & 0x00000002u) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_vecy(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_y(), target);
   }
 
-  // optional int32 vecZ = 3 [default = 0];
+  // optional int32 z = 3 [default = 0];
   if (cached_has_bits & 0x00000004u) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_vecz(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_z(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:msgTest.UserInfo.Vel)
+  // @@protoc_insertion_point(serialize_to_array_end:msgTest.UserInfo.Velocity)
   return target;
 }
 
-size_t UserInfo_Vel::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:msgTest.UserInfo.Vel)
+size_t UserInfo_Velocity::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:msgTest.UserInfo.Velocity)
   size_t total_size = 0;
 
   uint32_t cached_has_bits = 0;
@@ -700,36 +720,36 @@ size_t UserInfo_Vel::ByteSizeLong() const {
 
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000007u) {
-    // optional int32 vecX = 1 [default = 0];
+    // optional int32 x = 1 [default = 0];
     if (cached_has_bits & 0x00000001u) {
-      total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_vecx());
+      total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_x());
     }
 
-    // optional int32 vecY = 2 [default = 0];
+    // optional int32 y = 2 [default = 0];
     if (cached_has_bits & 0x00000002u) {
-      total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_vecy());
+      total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_y());
     }
 
-    // optional int32 vecZ = 3 [default = 0];
+    // optional int32 z = 3 [default = 0];
     if (cached_has_bits & 0x00000004u) {
-      total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_vecz());
+      total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_z());
     }
 
   }
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData UserInfo_Vel::_class_data_ = {
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData UserInfo_Velocity::_class_data_ = {
     ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    UserInfo_Vel::MergeImpl
+    UserInfo_Velocity::MergeImpl
 };
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*UserInfo_Vel::GetClassData() const { return &_class_data_; }
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*UserInfo_Velocity::GetClassData() const { return &_class_data_; }
 
 
-void UserInfo_Vel::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<UserInfo_Vel*>(&to_msg);
-  auto& from = static_cast<const UserInfo_Vel&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:msgTest.UserInfo.Vel)
+void UserInfo_Velocity::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<UserInfo_Velocity*>(&to_msg);
+  auto& from = static_cast<const UserInfo_Velocity&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:msgTest.UserInfo.Velocity)
   GOOGLE_DCHECK_NE(&from, _this);
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -737,43 +757,43 @@ void UserInfo_Vel::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::P
   cached_has_bits = from._impl_._has_bits_[0];
   if (cached_has_bits & 0x00000007u) {
     if (cached_has_bits & 0x00000001u) {
-      _this->_impl_.vecx_ = from._impl_.vecx_;
+      _this->_impl_.x_ = from._impl_.x_;
     }
     if (cached_has_bits & 0x00000002u) {
-      _this->_impl_.vecy_ = from._impl_.vecy_;
+      _this->_impl_.y_ = from._impl_.y_;
     }
     if (cached_has_bits & 0x00000004u) {
-      _this->_impl_.vecz_ = from._impl_.vecz_;
+      _this->_impl_.z_ = from._impl_.z_;
     }
     _this->_impl_._has_bits_[0] |= cached_has_bits;
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void UserInfo_Vel::CopyFrom(const UserInfo_Vel& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:msgTest.UserInfo.Vel)
+void UserInfo_Velocity::CopyFrom(const UserInfo_Velocity& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:msgTest.UserInfo.Velocity)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool UserInfo_Vel::IsInitialized() const {
+bool UserInfo_Velocity::IsInitialized() const {
   return true;
 }
 
-void UserInfo_Vel::InternalSwap(UserInfo_Vel* other) {
+void UserInfo_Velocity::InternalSwap(UserInfo_Velocity* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(UserInfo_Vel, _impl_.vecz_)
-      + sizeof(UserInfo_Vel::_impl_.vecz_)
-      - PROTOBUF_FIELD_OFFSET(UserInfo_Vel, _impl_.vecx_)>(
-          reinterpret_cast<char*>(&_impl_.vecx_),
-          reinterpret_cast<char*>(&other->_impl_.vecx_));
+      PROTOBUF_FIELD_OFFSET(UserInfo_Velocity, _impl_.z_)
+      + sizeof(UserInfo_Velocity::_impl_.z_)
+      - PROTOBUF_FIELD_OFFSET(UserInfo_Velocity, _impl_.x_)>(
+          reinterpret_cast<char*>(&_impl_.x_),
+          reinterpret_cast<char*>(&other->_impl_.x_));
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata UserInfo_Vel::GetMetadata() const {
+::PROTOBUF_NAMESPACE_ID::Metadata UserInfo_Velocity::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_messageTest_2eproto_getter, &descriptor_table_messageTest_2eproto_once,
       file_level_metadata_messageTest_2eproto[1]);
@@ -787,12 +807,12 @@ class UserInfo::_Internal {
   static void set_has_id(HasBits* has_bits) {
     (*has_bits)[0] |= 4u;
   }
-  static const ::msgTest::UserInfo_Pos& pos(const UserInfo* msg);
-  static void set_has_pos(HasBits* has_bits) {
+  static const ::msgTest::UserInfo_Position& position(const UserInfo* msg);
+  static void set_has_position(HasBits* has_bits) {
     (*has_bits)[0] |= 1u;
   }
-  static const ::msgTest::UserInfo_Vel& vec(const UserInfo* msg);
-  static void set_has_vec(HasBits* has_bits) {
+  static const ::msgTest::UserInfo_Velocity& velocity(const UserInfo* msg);
+  static void set_has_velocity(HasBits* has_bits) {
     (*has_bits)[0] |= 2u;
   }
   static bool MissingRequiredFields(const HasBits& has_bits) {
@@ -800,13 +820,13 @@ class UserInfo::_Internal {
   }
 };
 
-const ::msgTest::UserInfo_Pos&
-UserInfo::_Internal::pos(const UserInfo* msg) {
-  return *msg->_impl_.pos_;
+const ::msgTest::UserInfo_Position&
+UserInfo::_Internal::position(const UserInfo* msg) {
+  return *msg->_impl_.position_;
 }
-const ::msgTest::UserInfo_Vel&
-UserInfo::_Internal::vec(const UserInfo* msg) {
-  return *msg->_impl_.vec_;
+const ::msgTest::UserInfo_Velocity&
+UserInfo::_Internal::velocity(const UserInfo* msg) {
+  return *msg->_impl_.velocity_;
 }
 UserInfo::UserInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
@@ -820,16 +840,16 @@ UserInfo::UserInfo(const UserInfo& from)
   new (&_impl_) Impl_{
       decltype(_impl_._has_bits_){from._impl_._has_bits_}
     , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.pos_){nullptr}
-    , decltype(_impl_.vec_){nullptr}
+    , decltype(_impl_.position_){nullptr}
+    , decltype(_impl_.velocity_){nullptr}
     , decltype(_impl_.id_){}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  if (from._internal_has_pos()) {
-    _this->_impl_.pos_ = new ::msgTest::UserInfo_Pos(*from._impl_.pos_);
+  if (from._internal_has_position()) {
+    _this->_impl_.position_ = new ::msgTest::UserInfo_Position(*from._impl_.position_);
   }
-  if (from._internal_has_vec()) {
-    _this->_impl_.vec_ = new ::msgTest::UserInfo_Vel(*from._impl_.vec_);
+  if (from._internal_has_velocity()) {
+    _this->_impl_.velocity_ = new ::msgTest::UserInfo_Velocity(*from._impl_.velocity_);
   }
   _this->_impl_.id_ = from._impl_.id_;
   // @@protoc_insertion_point(copy_constructor:msgTest.UserInfo)
@@ -842,8 +862,8 @@ inline void UserInfo::SharedCtor(
   new (&_impl_) Impl_{
       decltype(_impl_._has_bits_){}
     , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.pos_){nullptr}
-    , decltype(_impl_.vec_){nullptr}
+    , decltype(_impl_.position_){nullptr}
+    , decltype(_impl_.velocity_){nullptr}
     , decltype(_impl_.id_){0}
   };
 }
@@ -859,8 +879,8 @@ UserInfo::~UserInfo() {
 
 inline void UserInfo::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  if (this != internal_default_instance()) delete _impl_.pos_;
-  if (this != internal_default_instance()) delete _impl_.vec_;
+  if (this != internal_default_instance()) delete _impl_.position_;
+  if (this != internal_default_instance()) delete _impl_.velocity_;
 }
 
 void UserInfo::SetCachedSize(int size) const {
@@ -876,12 +896,12 @@ void UserInfo::Clear() {
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000003u) {
     if (cached_has_bits & 0x00000001u) {
-      GOOGLE_DCHECK(_impl_.pos_ != nullptr);
-      _impl_.pos_->Clear();
+      GOOGLE_DCHECK(_impl_.position_ != nullptr);
+      _impl_.position_->Clear();
     }
     if (cached_has_bits & 0x00000002u) {
-      GOOGLE_DCHECK(_impl_.vec_ != nullptr);
-      _impl_.vec_->Clear();
+      GOOGLE_DCHECK(_impl_.velocity_ != nullptr);
+      _impl_.velocity_->Clear();
     }
   }
   _impl_.id_ = 0;
@@ -905,18 +925,18 @@ const char* UserInfo::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx)
         } else
           goto handle_unusual;
         continue;
-      // required .msgTest.UserInfo.Pos pos = 2;
+      // required .msgTest.UserInfo.Position position = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          ptr = ctx->ParseMessage(_internal_mutable_pos(), ptr);
+          ptr = ctx->ParseMessage(_internal_mutable_position(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // required .msgTest.UserInfo.Vel vec = 3;
+      // required .msgTest.UserInfo.Velocity velocity = 3;
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
-          ptr = ctx->ParseMessage(_internal_mutable_vec(), ptr);
+          ptr = ctx->ParseMessage(_internal_mutable_velocity(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -958,18 +978,18 @@ uint8_t* UserInfo::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_id(), target);
   }
 
-  // required .msgTest.UserInfo.Pos pos = 2;
+  // required .msgTest.UserInfo.Position position = 2;
   if (cached_has_bits & 0x00000001u) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(2, _Internal::pos(this),
-        _Internal::pos(this).GetCachedSize(), target, stream);
+      InternalWriteMessage(2, _Internal::position(this),
+        _Internal::position(this).GetCachedSize(), target, stream);
   }
 
-  // required .msgTest.UserInfo.Vel vec = 3;
+  // required .msgTest.UserInfo.Velocity velocity = 3;
   if (cached_has_bits & 0x00000002u) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(3, _Internal::vec(this),
-        _Internal::vec(this).GetCachedSize(), target, stream);
+      InternalWriteMessage(3, _Internal::velocity(this),
+        _Internal::velocity(this).GetCachedSize(), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -984,18 +1004,18 @@ size_t UserInfo::RequiredFieldsByteSizeFallback() const {
 // @@protoc_insertion_point(required_fields_byte_size_fallback_start:msgTest.UserInfo)
   size_t total_size = 0;
 
-  if (_internal_has_pos()) {
-    // required .msgTest.UserInfo.Pos pos = 2;
+  if (_internal_has_position()) {
+    // required .msgTest.UserInfo.Position position = 2;
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.pos_);
+        *_impl_.position_);
   }
 
-  if (_internal_has_vec()) {
-    // required .msgTest.UserInfo.Vel vec = 3;
+  if (_internal_has_velocity()) {
+    // required .msgTest.UserInfo.Velocity velocity = 3;
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.vec_);
+        *_impl_.velocity_);
   }
 
   if (_internal_has_id()) {
@@ -1010,15 +1030,15 @@ size_t UserInfo::ByteSizeLong() const {
   size_t total_size = 0;
 
   if (((_impl_._has_bits_[0] & 0x00000007) ^ 0x00000007) == 0) {  // All required fields are present.
-    // required .msgTest.UserInfo.Pos pos = 2;
+    // required .msgTest.UserInfo.Position position = 2;
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.pos_);
+        *_impl_.position_);
 
-    // required .msgTest.UserInfo.Vel vec = 3;
+    // required .msgTest.UserInfo.Velocity velocity = 3;
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.vec_);
+        *_impl_.velocity_);
 
     // required int32 id = 1;
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_id());
@@ -1051,12 +1071,12 @@ void UserInfo::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTO
   cached_has_bits = from._impl_._has_bits_[0];
   if (cached_has_bits & 0x00000007u) {
     if (cached_has_bits & 0x00000001u) {
-      _this->_internal_mutable_pos()->::msgTest::UserInfo_Pos::MergeFrom(
-          from._internal_pos());
+      _this->_internal_mutable_position()->::msgTest::UserInfo_Position::MergeFrom(
+          from._internal_position());
     }
     if (cached_has_bits & 0x00000002u) {
-      _this->_internal_mutable_vec()->::msgTest::UserInfo_Vel::MergeFrom(
-          from._internal_vec());
+      _this->_internal_mutable_velocity()->::msgTest::UserInfo_Velocity::MergeFrom(
+          from._internal_velocity());
     }
     if (cached_has_bits & 0x00000004u) {
       _this->_impl_.id_ = from._impl_.id_;
@@ -1085,9 +1105,9 @@ void UserInfo::InternalSwap(UserInfo* other) {
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(UserInfo, _impl_.id_)
       + sizeof(UserInfo::_impl_.id_)
-      - PROTOBUF_FIELD_OFFSET(UserInfo, _impl_.pos_)>(
-          reinterpret_cast<char*>(&_impl_.pos_),
-          reinterpret_cast<char*>(&other->_impl_.pos_));
+      - PROTOBUF_FIELD_OFFSET(UserInfo, _impl_.position_)>(
+          reinterpret_cast<char*>(&_impl_.position_),
+          reinterpret_cast<char*>(&other->_impl_.position_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata UserInfo::GetMetadata() const {
@@ -1309,6 +1329,46 @@ void CS_Send_User_Info::InternalSwap(CS_Send_User_Info* other) {
 
 // ===================================================================
 
+class CS_Request_User_Info::_Internal {
+ public:
+};
+
+CS_Request_User_Info::CS_Request_User_Info(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase(arena, is_message_owned) {
+  // @@protoc_insertion_point(arena_constructor:msgTest.CS_Request_User_Info)
+}
+CS_Request_User_Info::CS_Request_User_Info(const CS_Request_User_Info& from)
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase() {
+  CS_Request_User_Info* const _this = this; (void)_this;
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:msgTest.CS_Request_User_Info)
+}
+
+
+
+
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData CS_Request_User_Info::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyImpl,
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeImpl,
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*CS_Request_User_Info::GetClassData() const { return &_class_data_; }
+
+
+
+
+
+
+
+::PROTOBUF_NAMESPACE_ID::Metadata CS_Request_User_Info::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_messageTest_2eproto_getter, &descriptor_table_messageTest_2eproto_once,
+      file_level_metadata_messageTest_2eproto[4]);
+}
+
+// ===================================================================
+
 class SC_Response_User_Info::_Internal {
  public:
   using HasBits = decltype(std::declval<SC_Response_User_Info>()._impl_._has_bits_);
@@ -1515,7 +1575,7 @@ void SC_Response_User_Info::InternalSwap(SC_Response_User_Info* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SC_Response_User_Info::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_messageTest_2eproto_getter, &descriptor_table_messageTest_2eproto_once,
-      file_level_metadata_messageTest_2eproto[4]);
+      file_level_metadata_messageTest_2eproto[5]);
 }
 
 // ===================================================================
@@ -1702,7 +1762,7 @@ void SC_Broadcast_User_Info::InternalSwap(SC_Broadcast_User_Info* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SC_Broadcast_User_Info::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_messageTest_2eproto_getter, &descriptor_table_messageTest_2eproto_once,
-      file_level_metadata_messageTest_2eproto[5]);
+      file_level_metadata_messageTest_2eproto[6]);
 }
 
 // ===================================================================
@@ -1913,19 +1973,19 @@ void SC_Add_User::InternalSwap(SC_Add_User* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SC_Add_User::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_messageTest_2eproto_getter, &descriptor_table_messageTest_2eproto_once,
-      file_level_metadata_messageTest_2eproto[6]);
+      file_level_metadata_messageTest_2eproto[7]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace msgTest
 PROTOBUF_NAMESPACE_OPEN
-template<> PROTOBUF_NOINLINE ::msgTest::UserInfo_Pos*
-Arena::CreateMaybeMessage< ::msgTest::UserInfo_Pos >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::msgTest::UserInfo_Pos >(arena);
+template<> PROTOBUF_NOINLINE ::msgTest::UserInfo_Position*
+Arena::CreateMaybeMessage< ::msgTest::UserInfo_Position >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::msgTest::UserInfo_Position >(arena);
 }
-template<> PROTOBUF_NOINLINE ::msgTest::UserInfo_Vel*
-Arena::CreateMaybeMessage< ::msgTest::UserInfo_Vel >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::msgTest::UserInfo_Vel >(arena);
+template<> PROTOBUF_NOINLINE ::msgTest::UserInfo_Velocity*
+Arena::CreateMaybeMessage< ::msgTest::UserInfo_Velocity >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::msgTest::UserInfo_Velocity >(arena);
 }
 template<> PROTOBUF_NOINLINE ::msgTest::UserInfo*
 Arena::CreateMaybeMessage< ::msgTest::UserInfo >(Arena* arena) {
@@ -1934,6 +1994,10 @@ Arena::CreateMaybeMessage< ::msgTest::UserInfo >(Arena* arena) {
 template<> PROTOBUF_NOINLINE ::msgTest::CS_Send_User_Info*
 Arena::CreateMaybeMessage< ::msgTest::CS_Send_User_Info >(Arena* arena) {
   return Arena::CreateMessageInternal< ::msgTest::CS_Send_User_Info >(arena);
+}
+template<> PROTOBUF_NOINLINE ::msgTest::CS_Request_User_Info*
+Arena::CreateMaybeMessage< ::msgTest::CS_Request_User_Info >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::msgTest::CS_Request_User_Info >(arena);
 }
 template<> PROTOBUF_NOINLINE ::msgTest::SC_Response_User_Info*
 Arena::CreateMaybeMessage< ::msgTest::SC_Response_User_Info >(Arena* arena) {

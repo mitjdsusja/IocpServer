@@ -37,7 +37,10 @@ int main() {
 	
 	// Get User Info
 	{
-		msgTest::CS_Send_User_Info userInfo;
+		msgTest::CS_Request_User_Info userInfo;
+		SendBuffer* sendBuffer = PacketHandler::MakeSendBuffer(userInfo, PacketId::PKT_CS_REQUEST_USER_INFO);
+
+		clientService->SendMsg(sendBuffer);
 	}
 
 	// Get Other User Info
