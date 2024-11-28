@@ -22,6 +22,9 @@
     <Filter Include="protobuf">
       <UniqueIdentifier>{cd1f99fe-66a0-4f7b-9af8-6f49698816c2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Contents">
+      <UniqueIdentifier>{2143cbb4-c047-438b-a189-9427c83c99fa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ServerGlobal.cpp">
@@ -80,6 +83,9 @@
     </ClCompile>
     <ClCompile Include="messageTest.pb.cc">
       <Filter>protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="User.cpp">
+      <Filter>Contents</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +151,9 @@
     </ClInclude>
     <ClInclude Include="messageTest.pb.h">
       <Filter>protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="User.h">
+      <Filter>Contents</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

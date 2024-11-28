@@ -1,6 +1,18 @@
 #pragma once
 #include "ServerPch.h"
 
+struct Position {
+	int32 x;
+	int32 y;
+	int32 z;
+};
+
+struct Velocity {
+	int32 x;
+	int32 y;
+	int32 z;
+};
+
 class UserInfo {
 public:
 	int32 GetId() { return _id; }
@@ -18,14 +30,3 @@ private:
 
 };
 
-struct Position {
-	int32 x;
-	int32 y;
-	int32 z;
-};
-
-struct Velocity {
-	int32 x;
-	int32 y;
-	int32 z;
-};
