@@ -23,6 +23,7 @@ void PacketHandler::Init(){
 }
 
 void PacketHandler::HandlePacket(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
+
 	PacketHeader* header = buffer;
 
 	packetHandleArray[header->packetId](session, header, service);
@@ -56,6 +57,8 @@ void PacketHandler::Handle_CS_Request_User_Info(shared_ptr<Session> session, Pac
 		msgTest::UserInfo::Position* position = userInfo->mutable_position();
 		msgTest::UserInfo::Velocity* velocity = userInfo->mutable_velocity();
 
+		userInfo->set_id(session->GetSessionId());
+
 		SendBuffer* sendBuffer = MakeSendBuffer(packetUserInfo, PacketId::PKT_SC_ADD_USER);
 
 		service->Broadcast(sendBuffer);
@@ -73,10 +76,11 @@ void PacketHandler::Handle_CS_Send_Pos(shared_ptr<Session> session, PacketHeader
 --------------------------------------------*/
 
 void PacketHandler::Handle_SC_Response_User_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service) {
-	msgTest::SC_Response_User_Info packetUserInfo;
+
 	PacketHeader* header = (PacketHeader*)buffer;
 	int32 dataSize = header->packetSize - sizeof(PacketHeader);
 
+	msgTest::SC_Response_User_Info packetUserInfo;
 	packetUserInfo.ParseFromArray(&header[1], dataSize);
 
 	cout << "User Id : " << packetUserInfo.userinfo().id() << endl;
@@ -95,4 +99,14 @@ void PacketHandler::Handle_SC_Broadcast_Pos(shared_ptr<Session> session, PacketH
 
 void PacketHandler::Handle_SC_Add_User(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
 
+	PacketHeader* header = (PacketHeader*)buffer;
+	int32 dataSize = header->packetSize - sizeof(PacketHeader);
+
+	msgTest::SC_Add_User packetAddUser;
+	packetAddUser.ParseFromArray(&header[1], dataSize);
+
+	cout << "Add User ID :" << packetAddUser.userinfo().id() << endl;
+	cout << "UserPos " << "X : " << packetAddUser.userinfo().position().x() << " ";
+	cout << "UserPos " << "Y : " << packetAddUser.userinfo().position().y() << " ";
+	cout << "UserPos " << "Z : " << packetAddUser.userinfo().position().z() << " " << endl;
 }
