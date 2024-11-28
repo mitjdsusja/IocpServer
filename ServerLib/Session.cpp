@@ -96,7 +96,7 @@ void Session::RegisterSend(){
 	{
 		lock_guard<mutex> _lock(_mutex);
 
-		bufferCount = _sendQueue.size();
+		bufferCount = (int32)_sendQueue.size();
 		sendBuffers.resize(bufferCount);
 
 		for (int32 i = 0;i < bufferCount;i++) {

@@ -5,6 +5,8 @@
 #include "BufferPool.h"
 #include "PacketHandler.h"
 
+#include "messageTest.pb.h"
+
 enum {
 	GQCS_THREAD_COUNT = 5,
 };
@@ -35,6 +37,7 @@ int main() {
 	
 	// Get User Info
 	{
+		msgTest::CS_Send_User_Info userInfo;
 	}
 
 	// Get Other User Info

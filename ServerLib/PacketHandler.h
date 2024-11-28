@@ -88,6 +88,9 @@ public:
 public:
 	static void HandlePacket(shared_ptr<Session> session, PacketHeader* buffer, Service* service);
 
+	template<typename T>
+	static SendBuffer* MakeSendBuffer(T& packet, PacketId packetId);
+
 private:
 	static void Handle_Invalid(shared_ptr<Session> session, PacketHeader* buffer, Service* service);
 
@@ -101,5 +104,19 @@ private:
 	static void Handle_SC_Add_User(shared_ptr<Session> session, PacketHeader* buffer, Service* service);
 };
 
+template<typename T>
+SendBuffer* PacketHandler::MakeSendBuffer(T& packet, PacketId packetId){
+	SendBuffer* sendBuffer = LSendBufferPool->Pop();
+	PacketHeader* header = (PacketHeader*)sendBuffer->Buffer();
 
+	int32 dataSize = (int32)packet.ByteSizeLong();
+	int32 packetSize = sizeof(PacketHeader) + dataSize;
 
+	header->packetId = packetId;
+	header->packetSize = packetSize;
+
+	packet.SerializeToArray(&header[1], dataSize);
+
+	sendBuffer->Write(packetSize);
+	return sendBuffer;
+}

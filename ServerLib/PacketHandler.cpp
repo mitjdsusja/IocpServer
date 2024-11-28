@@ -38,6 +38,9 @@ void PacketHandler::Handle_CS_Request_User_Info(shared_ptr<Session> session, Pac
 	{
 		// Send User Info
 		msgTest::SC_Response_User_Info userInfo;
+		SendBuffer* sendBuffer = MakeSendBuffer(userInfo, PacketId::PKT_SC_RESPONSE_USER_INFO);
+
+		session->Send(sendBuffer);
 	}
 	{
 		// Send Add User
