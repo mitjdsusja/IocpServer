@@ -125,7 +125,7 @@ PROTOBUF_CONSTEXPR SC_Add_User::SC_Add_User(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_._has_bits_)*/{}
   , /*decltype(_impl_._cached_size_)*/{}
-  , /*decltype(_impl_.usersinfo_)*/nullptr} {}
+  , /*decltype(_impl_.userinfo_)*/nullptr} {}
 struct SC_Add_UserDefaultTypeInternal {
   PROTOBUF_CONSTEXPR SC_Add_UserDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -212,7 +212,7 @@ const uint32_t TableStruct_messageTest_2eproto::offsets[] PROTOBUF_SECTION_VARIA
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::msgTest::SC_Add_User, _impl_.usersinfo_),
+  PROTOBUF_FIELD_OFFSET(::msgTest::SC_Add_User, _impl_.userinfo_),
   0,
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
@@ -249,12 +249,12 @@ const char descriptor_table_protodef_messageTest_2eproto[] PROTOBUF_SECTION_VARI
   "quest_User_Info\"<\n\025SC_Response_User_Info"
   "\022#\n\010userInfo\030\001 \002(\0132\021.msgTest.UserInfo\">\n"
   "\026SC_Broadcast_User_Info\022$\n\tusersInfo\030\001 \003"
-  "(\0132\021.msgTest.UserInfo\"3\n\013SC_Add_User\022$\n\t"
-  "usersInfo\030\001 \002(\0132\021.msgTest.UserInfo"
+  "(\0132\021.msgTest.UserInfo\"2\n\013SC_Add_User\022#\n\010"
+  "userInfo\030\001 \002(\0132\021.msgTest.UserInfo"
   ;
 static ::_pbi::once_flag descriptor_table_messageTest_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_messageTest_2eproto = {
-    false, false, 514, descriptor_table_protodef_messageTest_2eproto,
+    false, false, 513, descriptor_table_protodef_messageTest_2eproto,
     "messageTest.proto",
     &descriptor_table_messageTest_2eproto_once, nullptr, 0, 8,
     schemas, file_default_instances, TableStruct_messageTest_2eproto::offsets,
@@ -1770,8 +1770,8 @@ void SC_Broadcast_User_Info::InternalSwap(SC_Broadcast_User_Info* other) {
 class SC_Add_User::_Internal {
  public:
   using HasBits = decltype(std::declval<SC_Add_User>()._impl_._has_bits_);
-  static const ::msgTest::UserInfo& usersinfo(const SC_Add_User* msg);
-  static void set_has_usersinfo(HasBits* has_bits) {
+  static const ::msgTest::UserInfo& userinfo(const SC_Add_User* msg);
+  static void set_has_userinfo(HasBits* has_bits) {
     (*has_bits)[0] |= 1u;
   }
   static bool MissingRequiredFields(const HasBits& has_bits) {
@@ -1780,8 +1780,8 @@ class SC_Add_User::_Internal {
 };
 
 const ::msgTest::UserInfo&
-SC_Add_User::_Internal::usersinfo(const SC_Add_User* msg) {
-  return *msg->_impl_.usersinfo_;
+SC_Add_User::_Internal::userinfo(const SC_Add_User* msg) {
+  return *msg->_impl_.userinfo_;
 }
 SC_Add_User::SC_Add_User(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
@@ -1795,11 +1795,11 @@ SC_Add_User::SC_Add_User(const SC_Add_User& from)
   new (&_impl_) Impl_{
       decltype(_impl_._has_bits_){from._impl_._has_bits_}
     , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.usersinfo_){nullptr}};
+    , decltype(_impl_.userinfo_){nullptr}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  if (from._internal_has_usersinfo()) {
-    _this->_impl_.usersinfo_ = new ::msgTest::UserInfo(*from._impl_.usersinfo_);
+  if (from._internal_has_userinfo()) {
+    _this->_impl_.userinfo_ = new ::msgTest::UserInfo(*from._impl_.userinfo_);
   }
   // @@protoc_insertion_point(copy_constructor:msgTest.SC_Add_User)
 }
@@ -1811,7 +1811,7 @@ inline void SC_Add_User::SharedCtor(
   new (&_impl_) Impl_{
       decltype(_impl_._has_bits_){}
     , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.usersinfo_){nullptr}
+    , decltype(_impl_.userinfo_){nullptr}
   };
 }
 
@@ -1826,7 +1826,7 @@ SC_Add_User::~SC_Add_User() {
 
 inline void SC_Add_User::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  if (this != internal_default_instance()) delete _impl_.usersinfo_;
+  if (this != internal_default_instance()) delete _impl_.userinfo_;
 }
 
 void SC_Add_User::SetCachedSize(int size) const {
@@ -1841,8 +1841,8 @@ void SC_Add_User::Clear() {
 
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
-    GOOGLE_DCHECK(_impl_.usersinfo_ != nullptr);
-    _impl_.usersinfo_->Clear();
+    GOOGLE_DCHECK(_impl_.userinfo_ != nullptr);
+    _impl_.userinfo_->Clear();
   }
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
@@ -1855,10 +1855,10 @@ const char* SC_Add_User::_InternalParse(const char* ptr, ::_pbi::ParseContext* c
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // required .msgTest.UserInfo usersInfo = 1;
+      // required .msgTest.UserInfo userInfo = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
-          ptr = ctx->ParseMessage(_internal_mutable_usersinfo(), ptr);
+          ptr = ctx->ParseMessage(_internal_mutable_userinfo(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -1894,11 +1894,11 @@ uint8_t* SC_Add_User::_InternalSerialize(
   (void) cached_has_bits;
 
   cached_has_bits = _impl_._has_bits_[0];
-  // required .msgTest.UserInfo usersInfo = 1;
+  // required .msgTest.UserInfo userInfo = 1;
   if (cached_has_bits & 0x00000001u) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(1, _Internal::usersinfo(this),
-        _Internal::usersinfo(this).GetCachedSize(), target, stream);
+      InternalWriteMessage(1, _Internal::userinfo(this),
+        _Internal::userinfo(this).GetCachedSize(), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1913,11 +1913,11 @@ size_t SC_Add_User::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:msgTest.SC_Add_User)
   size_t total_size = 0;
 
-  // required .msgTest.UserInfo usersInfo = 1;
-  if (_internal_has_usersinfo()) {
+  // required .msgTest.UserInfo userInfo = 1;
+  if (_internal_has_userinfo()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.usersinfo_);
+        *_impl_.userinfo_);
   }
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
@@ -1941,9 +1941,9 @@ void SC_Add_User::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PR
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from._internal_has_usersinfo()) {
-    _this->_internal_mutable_usersinfo()->::msgTest::UserInfo::MergeFrom(
-        from._internal_usersinfo());
+  if (from._internal_has_userinfo()) {
+    _this->_internal_mutable_userinfo()->::msgTest::UserInfo::MergeFrom(
+        from._internal_userinfo());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -1957,8 +1957,8 @@ void SC_Add_User::CopyFrom(const SC_Add_User& from) {
 
 bool SC_Add_User::IsInitialized() const {
   if (_Internal::MissingRequiredFields(_impl_._has_bits_)) return false;
-  if (_internal_has_usersinfo()) {
-    if (!_impl_.usersinfo_->IsInitialized()) return false;
+  if (_internal_has_userinfo()) {
+    if (!_impl_.userinfo_->IsInitialized()) return false;
   }
   return true;
 }
@@ -1967,7 +1967,7 @@ void SC_Add_User::InternalSwap(SC_Add_User* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  swap(_impl_.usersinfo_, other->_impl_.usersinfo_);
+  swap(_impl_.userinfo_, other->_impl_.userinfo_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata SC_Add_User::GetMetadata() const {

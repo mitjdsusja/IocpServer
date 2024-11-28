@@ -50,7 +50,15 @@ void PacketHandler::Handle_CS_Request_User_Info(shared_ptr<Session> session, Pac
 		session->Send(sendBuffer);
 	}
 	{
-		// Send Add User
+		// Send Add Users
+		msgTest::SC_Add_User packetUserInfo;
+		msgTest::UserInfo* userInfo = packetUserInfo.mutable_userinfo();
+		msgTest::UserInfo::Position* position = userInfo->mutable_position();
+		msgTest::UserInfo::Velocity* velocity = userInfo->mutable_velocity();
+
+		SendBuffer* sendBuffer = MakeSendBuffer(packetUserInfo, PacketId::PKT_SC_ADD_USER);
+
+		service->Broadcast(sendBuffer);
 	}
 }
 

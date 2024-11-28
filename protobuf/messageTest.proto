@@ -36,5 +36,5 @@ message SC_Broadcast_User_Info{
 }
 
 message SC_Add_User{
-	required UserInfo usersInfo = 1;
+	required UserInfo userInfo = 1;
 }

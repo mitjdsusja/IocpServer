@@ -1418,25 +1418,25 @@ class SC_Add_User final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kUsersInfoFieldNumber = 1,
+    kUserInfoFieldNumber = 1,
   };
-  // required .msgTest.UserInfo usersInfo = 1;
-  bool has_usersinfo() const;
+  // required .msgTest.UserInfo userInfo = 1;
+  bool has_userinfo() const;
   private:
-  bool _internal_has_usersinfo() const;
+  bool _internal_has_userinfo() const;
   public:
-  void clear_usersinfo();
-  const ::msgTest::UserInfo& usersinfo() const;
-  PROTOBUF_NODISCARD ::msgTest::UserInfo* release_usersinfo();
-  ::msgTest::UserInfo* mutable_usersinfo();
-  void set_allocated_usersinfo(::msgTest::UserInfo* usersinfo);
+  void clear_userinfo();
+  const ::msgTest::UserInfo& userinfo() const;
+  PROTOBUF_NODISCARD ::msgTest::UserInfo* release_userinfo();
+  ::msgTest::UserInfo* mutable_userinfo();
+  void set_allocated_userinfo(::msgTest::UserInfo* userinfo);
   private:
-  const ::msgTest::UserInfo& _internal_usersinfo() const;
-  ::msgTest::UserInfo* _internal_mutable_usersinfo();
+  const ::msgTest::UserInfo& _internal_userinfo() const;
+  ::msgTest::UserInfo* _internal_mutable_userinfo();
   public:
-  void unsafe_arena_set_allocated_usersinfo(
-      ::msgTest::UserInfo* usersinfo);
-  ::msgTest::UserInfo* unsafe_arena_release_usersinfo();
+  void unsafe_arena_set_allocated_userinfo(
+      ::msgTest::UserInfo* userinfo);
+  ::msgTest::UserInfo* unsafe_arena_release_userinfo();
 
   // @@protoc_insertion_point(class_scope:msgTest.SC_Add_User)
  private:
@@ -1448,7 +1448,7 @@ class SC_Add_User final :
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-    ::msgTest::UserInfo* usersinfo_;
+    ::msgTest::UserInfo* userinfo_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_messageTest_2eproto;
@@ -2088,45 +2088,45 @@ SC_Broadcast_User_Info::usersinfo() const {
 
 // SC_Add_User
 
-// required .msgTest.UserInfo usersInfo = 1;
-inline bool SC_Add_User::_internal_has_usersinfo() const {
+// required .msgTest.UserInfo userInfo = 1;
+inline bool SC_Add_User::_internal_has_userinfo() const {
   bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
-  PROTOBUF_ASSUME(!value || _impl_.usersinfo_ != nullptr);
+  PROTOBUF_ASSUME(!value || _impl_.userinfo_ != nullptr);
   return value;
 }
-inline bool SC_Add_User::has_usersinfo() const {
-  return _internal_has_usersinfo();
+inline bool SC_Add_User::has_userinfo() const {
+  return _internal_has_userinfo();
 }
-inline void SC_Add_User::clear_usersinfo() {
-  if (_impl_.usersinfo_ != nullptr) _impl_.usersinfo_->Clear();
+inline void SC_Add_User::clear_userinfo() {
+  if (_impl_.userinfo_ != nullptr) _impl_.userinfo_->Clear();
   _impl_._has_bits_[0] &= ~0x00000001u;
 }
-inline const ::msgTest::UserInfo& SC_Add_User::_internal_usersinfo() const {
-  const ::msgTest::UserInfo* p = _impl_.usersinfo_;
+inline const ::msgTest::UserInfo& SC_Add_User::_internal_userinfo() const {
+  const ::msgTest::UserInfo* p = _impl_.userinfo_;
   return p != nullptr ? *p : reinterpret_cast<const ::msgTest::UserInfo&>(
       ::msgTest::_UserInfo_default_instance_);
 }
-inline const ::msgTest::UserInfo& SC_Add_User::usersinfo() const {
-  // @@protoc_insertion_point(field_get:msgTest.SC_Add_User.usersInfo)
-  return _internal_usersinfo();
+inline const ::msgTest::UserInfo& SC_Add_User::userinfo() const {
+  // @@protoc_insertion_point(field_get:msgTest.SC_Add_User.userInfo)
+  return _internal_userinfo();
 }
-inline void SC_Add_User::unsafe_arena_set_allocated_usersinfo(
-    ::msgTest::UserInfo* usersinfo) {
+inline void SC_Add_User::unsafe_arena_set_allocated_userinfo(
+    ::msgTest::UserInfo* userinfo) {
   if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.usersinfo_);
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.userinfo_);
   }
-  _impl_.usersinfo_ = usersinfo;
-  if (usersinfo) {
+  _impl_.userinfo_ = userinfo;
+  if (userinfo) {
     _impl_._has_bits_[0] |= 0x00000001u;
   } else {
     _impl_._has_bits_[0] &= ~0x00000001u;
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:msgTest.SC_Add_User.usersInfo)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:msgTest.SC_Add_User.userInfo)
 }
-inline ::msgTest::UserInfo* SC_Add_User::release_usersinfo() {
+inline ::msgTest::UserInfo* SC_Add_User::release_userinfo() {
   _impl_._has_bits_[0] &= ~0x00000001u;
-  ::msgTest::UserInfo* temp = _impl_.usersinfo_;
-  _impl_.usersinfo_ = nullptr;
+  ::msgTest::UserInfo* temp = _impl_.userinfo_;
+  _impl_.userinfo_ = nullptr;
 #ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
   auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
   temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
@@ -2138,44 +2138,44 @@ inline ::msgTest::UserInfo* SC_Add_User::release_usersinfo() {
 #endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
   return temp;
 }
-inline ::msgTest::UserInfo* SC_Add_User::unsafe_arena_release_usersinfo() {
-  // @@protoc_insertion_point(field_release:msgTest.SC_Add_User.usersInfo)
+inline ::msgTest::UserInfo* SC_Add_User::unsafe_arena_release_userinfo() {
+  // @@protoc_insertion_point(field_release:msgTest.SC_Add_User.userInfo)
   _impl_._has_bits_[0] &= ~0x00000001u;
-  ::msgTest::UserInfo* temp = _impl_.usersinfo_;
-  _impl_.usersinfo_ = nullptr;
+  ::msgTest::UserInfo* temp = _impl_.userinfo_;
+  _impl_.userinfo_ = nullptr;
   return temp;
 }
-inline ::msgTest::UserInfo* SC_Add_User::_internal_mutable_usersinfo() {
+inline ::msgTest::UserInfo* SC_Add_User::_internal_mutable_userinfo() {
   _impl_._has_bits_[0] |= 0x00000001u;
-  if (_impl_.usersinfo_ == nullptr) {
+  if (_impl_.userinfo_ == nullptr) {
     auto* p = CreateMaybeMessage<::msgTest::UserInfo>(GetArenaForAllocation());
-    _impl_.usersinfo_ = p;
+    _impl_.userinfo_ = p;
   }
-  return _impl_.usersinfo_;
+  return _impl_.userinfo_;
 }
-inline ::msgTest::UserInfo* SC_Add_User::mutable_usersinfo() {
-  ::msgTest::UserInfo* _msg = _internal_mutable_usersinfo();
-  // @@protoc_insertion_point(field_mutable:msgTest.SC_Add_User.usersInfo)
+inline ::msgTest::UserInfo* SC_Add_User::mutable_userinfo() {
+  ::msgTest::UserInfo* _msg = _internal_mutable_userinfo();
+  // @@protoc_insertion_point(field_mutable:msgTest.SC_Add_User.userInfo)
   return _msg;
 }
-inline void SC_Add_User::set_allocated_usersinfo(::msgTest::UserInfo* usersinfo) {
+inline void SC_Add_User::set_allocated_userinfo(::msgTest::UserInfo* userinfo) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
   if (message_arena == nullptr) {
-    delete _impl_.usersinfo_;
+    delete _impl_.userinfo_;
   }
-  if (usersinfo) {
+  if (userinfo) {
     ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(usersinfo);
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(userinfo);
     if (message_arena != submessage_arena) {
-      usersinfo = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, usersinfo, submessage_arena);
+      userinfo = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, userinfo, submessage_arena);
     }
     _impl_._has_bits_[0] |= 0x00000001u;
   } else {
     _impl_._has_bits_[0] &= ~0x00000001u;
   }
-  _impl_.usersinfo_ = usersinfo;
-  // @@protoc_insertion_point(field_set_allocated:msgTest.SC_Add_User.usersInfo)
+  _impl_.userinfo_ = userinfo;
+  // @@protoc_insertion_point(field_set_allocated:msgTest.SC_Add_User.userInfo)
 }
 
 #ifdef __GNUC__
