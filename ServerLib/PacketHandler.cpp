@@ -66,13 +66,23 @@ void PacketHandler::Handle_CS_Request_User_Info(shared_ptr<Session> session, Pac
 }
 
 void PacketHandler::Handle_CS_Request_Other_User_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
+
+	// Get User Info
+	
+
+	// Set User Info 
+	msgTest::SC_Broadcast_User_Info packetUsersInfo;
+	
+
+	SendBuffer* sendBuffer;
+	session->Send(sendBuffer);
 }
 
 void PacketHandler::Handle_CS_Send_Pos(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
 }
 
 /*-------------------------------------------
-
+	
 --------------------------------------------*/
 
 void PacketHandler::Handle_SC_Response_User_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service) {
