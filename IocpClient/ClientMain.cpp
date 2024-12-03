@@ -37,24 +37,19 @@ int main() {
 	
 	// Get User Info
 	{
-		msgTest::CS_Request_User_Info userInfo;
-		SendBuffer* sendBuffer = PacketHandler::MakeSendBuffer(userInfo, PacketId::PKT_CS_REQUEST_USER_INFO);
+		msgTest::CS_Request_User_Info packetRequestUserInfo;
+		SendBuffer* sendBuffer = PacketHandler::MakeSendBuffer(packetRequestUserInfo, PacketId::PKT_CS_REQUEST_USER_INFO);
 
 		clientService->SendMsg(sendBuffer);
 	}
 
-	// Get Other User Info
-	//{
-	//	SendBuffer* sendBuffer = LSendBufferPool->Pop();
-	//	Packet_C_Request_Other_User_Info* packet = (Packet_C_Request_Other_User_Info*)sendBuffer->Buffer();
+	//Get Other User Info
+	{
+		msgTest::CS_Request_Other_User_Info packetOtherUserInfo;
 
-	//	packet->packetId = PKT_C_REQUEST_OTHER_USER_INFO;
-	//	packet->packetSize = sizeof(Packet_C_Request_Other_User_Info);
-
-	//	sendBuffer->Write(packet->packetSize);
-
-	//	clientService->SendMsg(sendBuffer);
-	//}
+		SendBuffer* sendBuffer = PacketHandler::MakeSendBuffer(packetOtherUserInfo, PacketId::PKT_CS_REQUEST_OTHER_USER_INFO);
+		clientService->SendMsg(sendBuffer);
+	}
 
 	while (true) {
 
