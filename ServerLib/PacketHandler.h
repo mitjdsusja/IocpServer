@@ -22,6 +22,10 @@ struct PacketHeader {
 
 	int32 packetSize = 0;
 	int32 packetId = 0;
+
+	int32 GetDataSize() {
+		return packetSize - sizeof(PacketHeader);
+	}
 };
 //
 //struct Packet_C_Request_User_Info{

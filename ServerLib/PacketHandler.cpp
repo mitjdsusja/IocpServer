@@ -43,7 +43,6 @@ void PacketHandler::Handle_CS_Request_User_Info(shared_ptr<Session> session, Pac
 		msgTest::UserInfo::Position* position = userInfo->mutable_position();
 		msgTest::UserInfo::Velocity* velocity = userInfo->mutable_velocity();
 
-		position->set_x(10);
 		userInfo->set_id(session->GetSessionId());
 
 		SendBuffer* sendBuffer = MakeSendBuffer(packetUserInfo, PacketId::PKT_SC_RESPONSE_USER_INFO);
@@ -67,8 +66,8 @@ void PacketHandler::Handle_CS_Request_User_Info(shared_ptr<Session> session, Pac
 
 void PacketHandler::Handle_CS_Request_Other_User_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
 
+	//Send Other User Info
 	{
-		//Send Other User Info
 		msgTest::SC_Response_Other_User_Info packetUsersInfo;
 		
 		vector<UserInfo> usersInfo;
@@ -118,6 +117,10 @@ void PacketHandler::Handle_SC_Response_User_Info(shared_ptr<Session> session, Pa
 }
 
 void PacketHandler::Handle_SC_Response_Other_User_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
+
+	PacketHeader* header = (PacketHeader*)buffer;
+	int32 dataSize = header->GetDataSize();
+
 
 }
 

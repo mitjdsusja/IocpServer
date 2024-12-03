@@ -25,10 +25,19 @@ message CS_Send_User_Info{
 }
 
 message CS_Request_User_Info{
+
+}
+
+message CS_Request_Other_User_Info{
+
 }
 
 message SC_Response_User_Info{
 	required UserInfo userInfo = 1;
+}
+
+message SC_Response_Other_User_Info{
+    repeated UserInfo usersInfo = 1;
 }
 
 message SC_Broadcast_User_Info{

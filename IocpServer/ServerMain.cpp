@@ -33,7 +33,5 @@ int main() {
 		});
 	}
 
-
-
 	GThreadManager->Join();
 }

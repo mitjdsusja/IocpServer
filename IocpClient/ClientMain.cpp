@@ -56,6 +56,5 @@ int main() {
 		this_thread::sleep_for(0.5s);
 	}
 	
-	
 	GThreadManager->Join();
 }
