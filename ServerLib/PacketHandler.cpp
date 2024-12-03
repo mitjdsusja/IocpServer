@@ -67,18 +67,36 @@ void PacketHandler::Handle_CS_Request_User_Info(shared_ptr<Session> session, Pac
 
 void PacketHandler::Handle_CS_Request_Other_User_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
 
-	// Get User Info
-	
+	{
+		//Send Other User Info
+		msgTest::SC_Response_Other_User_Info packetUsersInfo;
+		
+		vector<UserInfo> usersInfo;
+		service->GetUsersInfo(usersInfo);
 
-	// Set User Info 
-	msgTest::SC_Broadcast_User_Info packetUsersInfo;
-	
+		for (UserInfo info : usersInfo) {
+			msgTest::UserInfo* userInfo = packetUsersInfo.add_usersinfo();
+			msgTest::UserInfo::Position* position = userInfo->mutable_position();
+			msgTest::UserInfo::Velocity* velocity = userInfo->mutable_velocity();
 
-	SendBuffer* sendBuffer;
-	session->Send(sendBuffer);
+			Position userPos = info.GetPosition();
+			Velocity userVel = info.GetVelocity();
+			userInfo->set_id(info.GetId());
+			position->set_x(userPos.x);
+			position->set_y(userPos.y);
+			position->set_z(userPos.z);
+			velocity->set_x(userVel.x);
+			velocity->set_y(userVel.y);
+			velocity->set_z(userVel.z);
+		}
+
+		SendBuffer* sendBuffer = MakeSendBuffer(packetUsersInfo, PacketId::PKT_SC_RESPONSE_OTHER_USER_INFO);
+		session->Send(sendBuffer);
+	}
 }
 
 void PacketHandler::Handle_CS_Send_Pos(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
+
 }
 
 /*-------------------------------------------

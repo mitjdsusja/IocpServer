@@ -1,6 +1,7 @@
 #pragma once
 #include "CompletionPortHandler.h"
 #include "Listener.h"
+#include "User.h"
 
 enum ServiceType {
 	Server,
@@ -23,8 +24,8 @@ public:
 	// Users
 	int32 GetCurSessionCount() { return _curSessionCount; }
 	void GetUserIdList(int32* array);
-	vector<UserInfo&> GetUsersInfo();
-
+	void GetUsersInfo(vector<UserInfo> userInfoList);
+	
 	void RegisterHandle(HANDLE handle);
 
 protected:
