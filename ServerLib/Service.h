@@ -23,6 +23,7 @@ public:
 	// Users
 	int32 GetCurSessionCount() { return _curSessionCount; }
 	void GetUserIdList(int32* array);
+	vector<UserInfo&> GetUsersInfo();
 
 	void RegisterHandle(HANDLE handle);
 

@@ -67,6 +67,17 @@ void Service::GetUserIdList(int32* array){
 	}
 }
 
+vector<UserInfo&> Service::GetUsersInfo(){
+	vector<UserInfo&> usersInfo;
+
+	set<shared_ptr<Session>>::iterator iter;
+	for (iter = _sessions.begin(); iter != _sessions.end(); iter++) {
+		usersInfo.push_back((*iter)->GetUserInfo());
+	}
+
+	return usersInfo;
+}
+
 void Service::RegisterHandle(HANDLE handle){
 
 	_completionPortHandler->RegisterHandle(handle);
