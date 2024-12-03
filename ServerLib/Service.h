@@ -23,7 +23,6 @@ public:
 	// Users
 	int32 GetCurSessionCount() { return _curSessionCount; }
 	void GetUserIdList(int32* array);
-	set<shared_ptr<Session>> GetSessions() { return _sessions; }
 
 	void RegisterHandle(HANDLE handle);
 
