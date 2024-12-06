@@ -67,12 +67,10 @@ void Service::GetUserIdList(int32* array){
 	}
 }
 
-void Service::GetUsersInfo(vector<UserInfo> userInfoList){
+void Service::GetUsersInfo(vector<UserInfo*>& userInfoList){
 	
-	set<shared_ptr<Session>>::iterator iter;
-	for (iter = _sessions.begin(); iter != _sessions.end(); iter++) {
-		UserInfo& userInfo = (*iter)->GetUserInfo();
-		userInfoList.push_back(userInfo);
+	for (const auto& session : _sessions) {
+		userInfoList.push_back(&session->GetUserInfo());
 	}
 }
 

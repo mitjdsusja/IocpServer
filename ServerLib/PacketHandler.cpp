@@ -70,17 +70,17 @@ void PacketHandler::Handle_CS_Request_Other_User_Info(shared_ptr<Session> sessio
 	{
 		msgTest::SC_Response_Other_User_Info packetUsersInfo;
 		
-		vector<UserInfo> usersInfo;
+		vector<UserInfo*> usersInfo;
 		service->GetUsersInfo(usersInfo);
 
-		for (UserInfo info : usersInfo) {
+		for (UserInfo* info : usersInfo) {
 			msgTest::UserInfo* userInfo = packetUsersInfo.add_usersinfo();
 			msgTest::UserInfo::Position* position = userInfo->mutable_position();
 			msgTest::UserInfo::Velocity* velocity = userInfo->mutable_velocity();
 
-			Position userPos = info.GetPosition();
-			Velocity userVel = info.GetVelocity();
-			userInfo->set_id(info.GetId());
+			Position& userPos = info->GetPosition();
+			Velocity& userVel = info->GetVelocity();
+			userInfo->set_id(info->GetId());
 			position->set_x(userPos.x);
 			position->set_y(userPos.y);
 			position->set_z(userPos.z);
@@ -105,7 +105,7 @@ void PacketHandler::Handle_CS_Send_Pos(shared_ptr<Session> session, PacketHeader
 void PacketHandler::Handle_SC_Response_User_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service) {
 
 	PacketHeader* header = (PacketHeader*)buffer;
-	int32 dataSize = header->packetSize - sizeof(PacketHeader);
+	int32 dataSize = header->GetDataSize();
 
 	msgTest::SC_Response_User_Info packetUserInfo;
 	packetUserInfo.ParseFromArray(&header[1], dataSize);
@@ -121,7 +121,18 @@ void PacketHandler::Handle_SC_Response_Other_User_Info(shared_ptr<Session> sessi
 	PacketHeader* header = (PacketHeader*)buffer;
 	int32 dataSize = header->GetDataSize();
 
-
+	msgTest::SC_Response_Other_User_Info packetOtherUserInfo;
+	packetOtherUserInfo.ParseFromArray(&header[1], dataSize);
+	
+	for (msgTest::UserInfo userInfo : packetOtherUserInfo.usersinfo()) {
+		cout << "User[" << userInfo.id() << "]";
+		cout << "position [x:" << userInfo.position().x() << ", ";
+		cout << "y:" << userInfo.position().y() << ", ";
+		cout << "z:" << userInfo.position().z() << "]";
+		cout << "velocity [x:" << userInfo.velocity().x() << ", ";
+		cout << "y:" << userInfo.velocity().y() << ", ";
+		cout << "z:" << userInfo.velocity().z() << "]";
+	}
 }
 
 void PacketHandler::Handle_SC_Broadcast_Pos(shared_ptr<Session> session, PacketHeader* buffer, Service* service) {
@@ -131,7 +142,7 @@ void PacketHandler::Handle_SC_Broadcast_Pos(shared_ptr<Session> session, PacketH
 void PacketHandler::Handle_SC_Add_User(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
 
 	PacketHeader* header = (PacketHeader*)buffer;
-	int32 dataSize = header->packetSize - sizeof(PacketHeader);
+	int32 dataSize = header->GetDataSize();
 
 	msgTest::SC_Add_User packetAddUser;
 	packetAddUser.ParseFromArray(&header[1], dataSize);
