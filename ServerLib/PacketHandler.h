@@ -90,22 +90,22 @@ class PacketHandler{
 public:
 	static void Init();
 public:
-	static void HandlePacket(shared_ptr<Session> session, PacketHeader* buffer, Service* service);
+	static void HandlePacket(shared_ptr<Session> session, PacketHeader* dataBuffer, Service* service);
 
 	template<typename T>
 	static Buffer* MakeSendBuffer(T& packet, PacketId packetId);
 
 private:
-	static void Handle_Invalid(shared_ptr<Session> session, PacketHeader* buffer, Service* service);
+	static void Handle_Invalid(shared_ptr<Session> session, Buffer* dataBuffer, Service* service);
 
-	static void Handle_CS_Request_User_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service);
-	static void Handle_CS_Request_Other_User_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service);
-	static void Handle_CS_Send_Pos(shared_ptr<Session> session, PacketHeader* buffer, Service* service);
+	static void Handle_CS_Request_User_Info(shared_ptr<Session> session, PacketHeader* dataBuffer, Service* service);
+	static void Handle_CS_Request_Other_User_Info(shared_ptr<Session> session, PacketHeader* dataBuffer, Service* service);
+	static void Handle_CS_Send_Pos(shared_ptr<Session> session, PacketHeader* dataBuffer, Service* service);
 
-	static void Handle_SC_Response_User_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service);
-	static void Handle_SC_Response_Other_User_Info(shared_ptr<Session> session, PacketHeader* buffer, Service* service);
-	static void Handle_SC_Broadcast_Pos(shared_ptr<Session> session, PacketHeader* buffer, Service* service);
-	static void Handle_SC_Add_User(shared_ptr<Session> session, PacketHeader* buffer, Service* service);
+	static void Handle_SC_Response_User_Info(shared_ptr<Session> session, PacketHeader* dataBuffer, Service* service);
+	static void Handle_SC_Response_Other_User_Info(shared_ptr<Session> session, PacketHeader* dataBuffer, Service* service);
+	static void Handle_SC_Broadcast_Pos(shared_ptr<Session> session, PacketHeader* dataBuffer, Service* service);
+	static void Handle_SC_Add_User(shared_ptr<Session> session, PacketHeader* dataBuffer, Service* service);
 };
 
 template<typename T>
