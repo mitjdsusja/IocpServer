@@ -1,5 +1,5 @@
 #pragma once
-#include "SendBuffer.h"
+#include "Buffer.h"
 
 class BufferPool{
 	enum {
@@ -11,12 +11,11 @@ public:
 	BufferPool();
 	~BufferPool();
 
-	SendBuffer* Pop();
-	void Push(SendBuffer* buffer);
+	Buffer* Pop();
+	void Push(Buffer* buffer);
 
 private:
-	vector<SendBuffer*> _buffers;
+	vector<Buffer*> _buffers;
 	int32 _bufferCount = 0;
 
 };
-

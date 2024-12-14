@@ -48,7 +48,7 @@
     <ClCompile Include="RecvBuffer.cpp">
       <Filter>Buffer</Filter>
     </ClCompile>
-    <ClCompile Include="SendBuffer.cpp">
+    <ClCompile Include="Buffer.cpp">
       <Filter>Buffer</Filter>
     </ClCompile>
     <ClCompile Include="ErrorHandler.cpp">
@@ -110,7 +110,7 @@
     <ClInclude Include="ThreadManager.h">
       <Filter>Thread</Filter>
     </ClInclude>
-    <ClInclude Include="SendBuffer.h">
+    <ClInclude Include="Buffer.h">
       <Filter>Buffer</Filter>
     </ClInclude>
     <ClInclude Include="RecvBuffer.h">

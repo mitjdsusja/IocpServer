@@ -45,14 +45,14 @@ public:
 	SendEvent() : OverlappedEvent(EventType::SEND) { }
 
 	void BufferClear() {
-		for (SendBuffer* sendBuffer : _sendBuffers) {
+		for (Buffer* sendBuffer : _sendBuffers) {
 			LSendBufferPool->Push(sendBuffer);
 		}
 		_sendBuffers.clear();
 	}
 
 public:
-	vector<SendBuffer*> _sendBuffers;
+	vector<Buffer*> _sendBuffers;
 };
 
 class RecvEvent : public OverlappedEvent {

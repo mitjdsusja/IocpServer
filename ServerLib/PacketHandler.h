@@ -93,7 +93,7 @@ public:
 	static void HandlePacket(shared_ptr<Session> session, PacketHeader* buffer, Service* service);
 
 	template<typename T>
-	static SendBuffer* MakeSendBuffer(T& packet, PacketId packetId);
+	static Buffer* MakeSendBuffer(T& packet, PacketId packetId);
 
 private:
 	static void Handle_Invalid(shared_ptr<Session> session, PacketHeader* buffer, Service* service);
@@ -109,9 +109,9 @@ private:
 };
 
 template<typename T>
-SendBuffer* PacketHandler::MakeSendBuffer(T& packet, PacketId packetId){
-	SendBuffer* sendBuffer = LSendBufferPool->Pop();
-	PacketHeader* header = (PacketHeader*)sendBuffer->Buffer();
+Buffer* PacketHandler::MakeSendBuffer(T& packet, PacketId packetId){
+	Buffer* sendBuffer = LSendBufferPool->Pop();
+	PacketHeader* header = (PacketHeader*)sendBuffer->GetBuffer();
 
 	int32 dataSize = (int32)packet.ByteSizeLong();
 	int32 packetSize = sizeof(PacketHeader) + dataSize;

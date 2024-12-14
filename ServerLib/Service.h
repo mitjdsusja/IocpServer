@@ -19,7 +19,7 @@ public:
 
 	void AddSession(shared_ptr<Session> session);
 	void removeSession(shared_ptr<Session> session);
-	void Broadcast(SendBuffer* sendBuffer);
+	void Broadcast(Buffer* sendBuffer);
 
 	// Users
 	int32 GetCurSessionCount() { return _curSessionCount; }
@@ -60,7 +60,7 @@ class ClientService : public Service {
 public:
 	ClientService(NetAddress address, int32 maxSessionCount);
 
-	void SendMsg(SendBuffer* sendBuffer);
+	void SendMsg(Buffer* sendBuffer);
 
 	virtual void Start() override;
 

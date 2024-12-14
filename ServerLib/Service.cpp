@@ -42,15 +42,15 @@ void Service::removeSession(shared_ptr<Session> session){
 	cout << "Current Session Count : " << _sessions.size() << endl;
 }
 
-void Service::Broadcast(SendBuffer* sendBuffer){
+void Service::Broadcast(Buffer* sendBuffer){
 
 	lock_guard<mutex> _lock(_mutex);
 
 	int32 sendLen = sendBuffer->WriteSize();
 
 	for (shared_ptr<Session> session : _sessions) {
-		SendBuffer* sendBuf = LSendBufferPool->Pop();
-		memcpy(sendBuf->Buffer(), sendBuffer->Buffer(), sendLen);
+		Buffer* sendBuf = LSendBufferPool->Pop();
+		memcpy(sendBuf->GetBuffer(), sendBuffer->GetBuffer(), sendLen);
 		sendBuf->Write(sendLen);
 		session->Send(sendBuf);
 	}
@@ -99,7 +99,7 @@ ClientService::ClientService(NetAddress address, int32 maxSessionCount)
 	
 }
 
-void ClientService::SendMsg(SendBuffer* sendBuffer){
+void ClientService::SendMsg(Buffer* sendBuffer){
 
 	for (shared_ptr<Session> session : _sessions) {
 		session->Send(sendBuffer);

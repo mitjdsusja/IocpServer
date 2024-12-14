@@ -78,7 +78,7 @@ bool SocketManager::Listen(SOCKET socket, int32 backlog) {
 	return true;
 }
 
-bool SocketManager::Send(SOCKET targetSocket, SendBuffer* sendBufferArray, int32 bufCount, SendEvent* sendEvent){
+bool SocketManager::Send(SOCKET targetSocket, Buffer* sendBufferArray, int32 bufCount, SendEvent* sendEvent){
 	
 	if (targetSocket == INVALID_SOCKET) {
 		ErrorHandler::HandleError(L"RECV INVALID SOCKET");
@@ -88,7 +88,7 @@ bool SocketManager::Send(SOCKET targetSocket, SendBuffer* sendBufferArray, int32
 	vector<WSABUF> wsaBufs;
 	wsaBufs.resize(bufCount);
 	for (int32 i = 0;i < bufCount;i++) {
-		wsaBufs[i].buf = (char*)sendBufferArray->Buffer();
+		wsaBufs[i].buf = (char*)sendBufferArray->GetBuffer();
 		wsaBufs[i].len = sendBufferArray->WriteSize();
 	}
 

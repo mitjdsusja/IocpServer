@@ -40,7 +40,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="RecvBuffer.cpp" />
-    <ClCompile Include="SendBuffer.cpp" />
+    <ClCompile Include="Buffer.cpp" />
     <ClCompile Include="ServerGlobal.cpp" />
     <ClCompile Include="ServerPch.cpp" />
     <ClCompile Include="ServerTLS.cpp" />
@@ -64,7 +64,7 @@
     <ClInclude Include="PacketHandler.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="RecvBuffer.h" />
-    <ClInclude Include="SendBuffer.h" />
+    <ClInclude Include="Buffer.h" />
     <ClInclude Include="ServerGlobal.h" />
     <ClInclude Include="ServerPch.h" />
     <ClInclude Include="ServerTLS.h" />

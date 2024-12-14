@@ -1,12 +1,12 @@
 #include "pch.h"
-#include "SendBuffer.h"
+#include "Buffer.h"
 
-SendBuffer::SendBuffer(uint32 bufferSize) : _capacity(bufferSize){
+Buffer::Buffer(uint32 bufferSize) : _capacity(bufferSize){
 
 	_buffer = new BYTE[_capacity];
 }
 
-SendBuffer::~SendBuffer(){
+Buffer::~Buffer(){
 
 	if (_buffer != nullptr) {
 		delete _buffer;
@@ -14,7 +14,7 @@ SendBuffer::~SendBuffer(){
 	_buffer = nullptr;
 }
 
-bool SendBuffer::Write(uint32 writeSize){
+bool Buffer::Write(uint32 writeSize){
 
 	if (_capacity - _writePos < writeSize) {
 		return false;
@@ -24,7 +24,7 @@ bool SendBuffer::Write(uint32 writeSize){
 	return true;
 }
 
-void SendBuffer::Clear(){
+void Buffer::Clear(){
 
 	_writePos = 0;
 }

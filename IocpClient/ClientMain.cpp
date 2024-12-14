@@ -38,7 +38,7 @@ int main() {
 	// Get User Info
 	{
 		msgTest::CS_Request_User_Info packetRequestUserInfo;
-		SendBuffer* sendBuffer = PacketHandler::MakeSendBuffer(packetRequestUserInfo, PacketId::PKT_CS_REQUEST_USER_INFO);
+		Buffer* sendBuffer = PacketHandler::MakeSendBuffer(packetRequestUserInfo, PacketId::PKT_CS_REQUEST_USER_INFO);
 
 		clientService->SendMsg(sendBuffer);
 	}
@@ -47,7 +47,7 @@ int main() {
 	{
 		msgTest::CS_Request_Other_User_Info packetOtherUserInfo;
 
-		SendBuffer* sendBuffer = PacketHandler::MakeSendBuffer(packetOtherUserInfo, PacketId::PKT_CS_REQUEST_OTHER_USER_INFO);
+		Buffer* sendBuffer = PacketHandler::MakeSendBuffer(packetOtherUserInfo, PacketId::PKT_CS_REQUEST_OTHER_USER_INFO);
 		clientService->SendMsg(sendBuffer);
 	}
 

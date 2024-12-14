@@ -27,7 +27,7 @@ void Session::Connect(NetAddress peerAddress){
 	RegisterConnect(peerAddress);
 }
 
-void Session::Send(SendBuffer* sendBuffer){
+void Session::Send(Buffer* sendBuffer){
 
 	{
 		lock_guard<mutex> _lock(_mutex);
@@ -91,7 +91,7 @@ void Session::RegisterSend(){
 	
 	if (_sendEvent._owner == nullptr) _sendEvent._owner = shared_from_this();
 	
-	vector<SendBuffer*> sendBuffers;
+	vector<Buffer*> sendBuffers;
 	int32 bufferCount;
 	{
 		lock_guard<mutex> _lock(_mutex);

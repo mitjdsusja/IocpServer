@@ -45,7 +45,7 @@ void PacketHandler::Handle_CS_Request_User_Info(shared_ptr<Session> session, Pac
 
 		userInfo->set_id(session->GetSessionId());
 
-		SendBuffer* sendBuffer = MakeSendBuffer(packetUserInfo, PacketId::PKT_SC_RESPONSE_USER_INFO);
+		Buffer* sendBuffer = MakeSendBuffer(packetUserInfo, PacketId::PKT_SC_RESPONSE_USER_INFO);
 
 		session->Send(sendBuffer);
 	}
@@ -58,7 +58,7 @@ void PacketHandler::Handle_CS_Request_User_Info(shared_ptr<Session> session, Pac
 
 		userInfo->set_id(session->GetSessionId());
 
-		SendBuffer* sendBuffer = MakeSendBuffer(packetUserInfo, PacketId::PKT_SC_ADD_USER);
+		Buffer* sendBuffer = MakeSendBuffer(packetUserInfo, PacketId::PKT_SC_ADD_USER);
 
 		service->Broadcast(sendBuffer);
 	}
@@ -89,7 +89,7 @@ void PacketHandler::Handle_CS_Request_Other_User_Info(shared_ptr<Session> sessio
 			velocity->set_z(userVel.z);
 		}
 
-		SendBuffer* sendBuffer = MakeSendBuffer(packetUsersInfo, PacketId::PKT_SC_RESPONSE_OTHER_USER_INFO);
+		Buffer* sendBuffer = MakeSendBuffer(packetUsersInfo, PacketId::PKT_SC_RESPONSE_OTHER_USER_INFO);
 		session->Send(sendBuffer);
 	}
 }

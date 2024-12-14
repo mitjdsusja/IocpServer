@@ -1,14 +1,14 @@
 #pragma once
 
-class SendBuffer {
+class Buffer {
 public:
-	SendBuffer(uint32 bufferSize);
-	~SendBuffer();
+	Buffer(uint32 bufferSize);
+	~Buffer();
 
 	bool Write(uint32 writeSize);
 	void Clear();
 
-	BYTE* Buffer() { return _buffer; }
+	BYTE* GetBuffer() { return _buffer; }
 	uint32 Capacity() { return _capacity; }
 	uint32 WriteSize() { return _writePos; }
 

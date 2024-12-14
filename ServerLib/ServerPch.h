@@ -25,6 +25,6 @@ using namespace std;
 #include "NetAddress.h"
 #include "SocketManager.h"
 #include "OverlappedEvent.h"
-#include "SendBuffer.h"
+#include "Buffer.h"
 #include "RecvBuffer.h"
 #include "Session.h"
