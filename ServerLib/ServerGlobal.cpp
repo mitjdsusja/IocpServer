@@ -1,20 +1,21 @@
 #include "pch.h"
 #include "ThreadManager.h"
 #include "BufferPool.h"
+#include "JobQueue.h"
 
 ThreadManager* GThreadManager = nullptr;
-//BufferPool* GSendBufferPool = nullptr;
+JobQueue* GJobQueue = nullptr;
 
 class ServerGlobal {
 public:
 	ServerGlobal() {
 		GThreadManager = new ThreadManager();
-		//GSendBufferPool = new BufferPool();
+		GJobQueue = new JobQueue();
 	}
 
 	~ServerGlobal() {
 		delete GThreadManager;
-		//delete GSendkBufferPool;
+		delete GJobQueue;
 	}
 
 }GServerGlobal;

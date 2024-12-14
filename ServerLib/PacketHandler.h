@@ -84,7 +84,7 @@ struct PacketHeader {
 //};
 #pragma pack(pop)
 
-static function<void(shared_ptr<Session> session, PacketHeader* packet, Service* service)> packetHandleArray[UINT16_MAX];
+static function<void(shared_ptr<Session> session, shared_ptr<Buffer> packet, Service* service)> packetHandleArray[UINT16_MAX];
 
 class PacketHandler{
 public:
@@ -96,16 +96,16 @@ public:
 	static Buffer* MakeSendBuffer(T& packet, PacketId packetId);
 
 private:
-	static void Handle_Invalid(shared_ptr<Session> session, Buffer* dataBuffer, Service* service);
+	static void Handle_Invalid(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
 
-	static void Handle_CS_Request_User_Info(shared_ptr<Session> session, PacketHeader* dataBuffer, Service* service);
-	static void Handle_CS_Request_Other_User_Info(shared_ptr<Session> session, PacketHeader* dataBuffer, Service* service);
-	static void Handle_CS_Send_Pos(shared_ptr<Session> session, PacketHeader* dataBuffer, Service* service);
+	static void Handle_CS_Request_User_Info(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_CS_Request_Other_User_Info(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_CS_Send_Pos(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
 
-	static void Handle_SC_Response_User_Info(shared_ptr<Session> session, PacketHeader* dataBuffer, Service* service);
-	static void Handle_SC_Response_Other_User_Info(shared_ptr<Session> session, PacketHeader* dataBuffer, Service* service);
-	static void Handle_SC_Broadcast_Pos(shared_ptr<Session> session, PacketHeader* dataBuffer, Service* service);
-	static void Handle_SC_Add_User(shared_ptr<Session> session, PacketHeader* dataBuffer, Service* service);
+	static void Handle_SC_Response_User_Info(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_SC_Response_Other_User_Info(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_SC_Broadcast_Pos(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_SC_Add_User(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
 };
 
 template<typename T>

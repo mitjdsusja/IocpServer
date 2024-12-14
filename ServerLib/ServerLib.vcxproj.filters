@@ -90,6 +90,9 @@
     <ClCompile Include="LockFreeQueue.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
+    <ClCompile Include="JobQueue.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -159,6 +162,9 @@
       <Filter>Contents</Filter>
     </ClInclude>
     <ClInclude Include="LockFreeQueue.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="JobQueue.h">
       <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>

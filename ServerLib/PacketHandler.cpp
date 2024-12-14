@@ -1,5 +1,8 @@
 #include "pch.h"
 #include "PacketHandler.h"
+#include "ServerGlobal.h"
+
+#include "JobQueue.h"
 #include "BufferPool.h"
 
 #include "messageTest.pb.h"
@@ -22,21 +25,29 @@ void PacketHandler::Init(){
 	packetHandleArray[PKT_SC_ADD_USER] = Handle_SC_Add_User;
 }
 
-void PacketHandler::HandlePacket(shared_ptr<Session> session, PacketHeader* dataBuffer, Service* service){
+void PacketHandler::HandlePacket(shared_ptr<Session> session, PacketHeader* dataBuffer, Service* service) {
 
-	Buffer* buffer = LBufferPool->Pop();
+	shared_ptr<Buffer> buffer(LBufferPool->Pop(),
+		[](Buffer* buffer) { LBufferPool->Push(buffer); });
+
 	memcpy(buffer->GetBuffer(), dataBuffer, dataBuffer->packetSize);
 
+	int32 packetId = dataBuffer->packetId;
+
 	// push jobQueue
-	packetHandleArray[dataBuffer->packetId](session, dataBuffer, service);
+	GJobQueue->Push([session, buffer, service, packetId]() {
+		packetHandleArray[packetId](session, buffer, service);
+		});
 }
 
-void PacketHandler::Handle_Invalid(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
+void PacketHandler::Handle_Invalid(shared_ptr<Session> session, shared_ptr<Buffer> buffer, Service* service){
 
-	ErrorHandler::HandleError(L"INVALID PACKET ID", buffer->packetId);
+	PacketHeader* header = (PacketHeader*)buffer->GetBuffer();
+
+	ErrorHandler::HandleError(L"INVALID PACKET ID", header->packetId);
 }
 
-void PacketHandler::Handle_CS_Request_User_Info(shared_ptr<Session> session, PacketHeader* dataBuffer, Service* service){
+void PacketHandler::Handle_CS_Request_User_Info(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service){
 
 	{
 		// Send User Info
@@ -66,7 +77,7 @@ void PacketHandler::Handle_CS_Request_User_Info(shared_ptr<Session> session, Pac
 	}
 }
 
-void PacketHandler::Handle_CS_Request_Other_User_Info(shared_ptr<Session> session, PacketHeader* dataBuffer, Service* service){
+void PacketHandler::Handle_CS_Request_Other_User_Info(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service){
 
 	//Send Other User Info
 	{
@@ -96,7 +107,7 @@ void PacketHandler::Handle_CS_Request_Other_User_Info(shared_ptr<Session> sessio
 	}
 }
 
-void PacketHandler::Handle_CS_Send_Pos(shared_ptr<Session> session, PacketHeader* dataBuffer, Service* service){
+void PacketHandler::Handle_CS_Send_Pos(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service){
 
 }
 
@@ -104,9 +115,9 @@ void PacketHandler::Handle_CS_Send_Pos(shared_ptr<Session> session, PacketHeader
 	
 --------------------------------------------*/
 
-void PacketHandler::Handle_SC_Response_User_Info(shared_ptr<Session> session, PacketHeader* dataBuffer, Service* service) {
+void PacketHandler::Handle_SC_Response_User_Info(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
-	PacketHeader* header = (PacketHeader*)dataBuffer;
+	PacketHeader* header = (PacketHeader*)dataBuffer->GetBuffer();
 	int32 dataSize = header->GetDataSize();
 
 	msgTest::SC_Response_User_Info packetUserInfo;
@@ -118,9 +129,9 @@ void PacketHandler::Handle_SC_Response_User_Info(shared_ptr<Session> session, Pa
 	cout << "UserPos " << "Z : " << packetUserInfo.userinfo().position().z() << " " << endl;
 }
 
-void PacketHandler::Handle_SC_Response_Other_User_Info(shared_ptr<Session> session, PacketHeader* dataBuffer, Service* service){
+void PacketHandler::Handle_SC_Response_Other_User_Info(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service){
 
-	PacketHeader* header = (PacketHeader*)dataBuffer;
+	PacketHeader* header = (PacketHeader*)dataBuffer->GetBuffer();
 	int32 dataSize = header->GetDataSize();
 
 	msgTest::SC_Response_Other_User_Info packetOtherUserInfo;
@@ -137,13 +148,13 @@ void PacketHandler::Handle_SC_Response_Other_User_Info(shared_ptr<Session> sessi
 	}
 }
 
-void PacketHandler::Handle_SC_Broadcast_Pos(shared_ptr<Session> session, PacketHeader* dataBuffer, Service* service) {
+void PacketHandler::Handle_SC_Broadcast_Pos(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 	// TODO : ERROR LOG
 }
 
-void PacketHandler::Handle_SC_Add_User(shared_ptr<Session> session, PacketHeader* dataBuffer, Service* service){
+void PacketHandler::Handle_SC_Add_User(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service){
 
-	PacketHeader* header = (PacketHeader*)dataBuffer;
+	PacketHeader* header = (PacketHeader*)dataBuffer->GetBuffer();
 	int32 dataSize = header->GetDataSize();
 
 	msgTest::SC_Add_User packetAddUser;

@@ -6,6 +6,7 @@
 
 #include "Service.h"
 #include "PacketHandler.h"
+#include "JobQueue.h"
 
 enum {
 	GQCS_THREAD_COUNT = 5,
@@ -23,12 +24,23 @@ int main() {
 
 	serverService->Start();
 	// Create Thread GQCS
-	for (int32 i = 0; i < (int32)sysInfo.dwNumberOfProcessors * 2; i++) {
-		cout << "Thread GQCS Start" << endl;
+	for (int32 i = 0; i < (int32)sysInfo.dwNumberOfProcessors; i++) {
+		cout << "GQCS Thread Start" << endl;
 
 		GThreadManager->Launch([=]() {
 			while (true) {
 				serverService->CompletionEventThread();
+			}
+		});
+	}
+
+	for (int32 i = 0; i < (int32)sysInfo.dwNumberOfProcessors; i++) {
+		cout << "Job Thread Start" << endl;
+
+		GThreadManager->Launch([=]() {
+			while (true) {
+				auto job = GJobQueue->Pop();
+				job();
 			}
 		});
 	}
