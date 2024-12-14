@@ -16,6 +16,7 @@ void ThreadManager::Launch(function<void(void)> callback){
 
 	_threads.push_back(thread([=]() {
 		LSendBufferPool = new BufferPool();
+		LBufferPool = new BufferPool();
 		callback();
 		}));
 }

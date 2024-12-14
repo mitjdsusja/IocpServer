@@ -24,7 +24,7 @@ void PacketHandler::Init(){
 
 void PacketHandler::HandlePacket(shared_ptr<Session> session, PacketHeader* buffer, Service* service){
 
-	PacketHeader* header = new PacketHeader(*buffer);
+	PacketHeader* header = buffer;
 
 	packetHandleArray[header->packetId](session, header, service);
 }
