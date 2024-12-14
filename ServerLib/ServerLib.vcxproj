@@ -23,6 +23,7 @@
     <ClCompile Include="CompletionPortHandler.cpp" />
     <ClCompile Include="ErrorHandler.cpp" />
     <ClCompile Include="Listener.cpp" />
+    <ClCompile Include="LockFreeQueue.cpp" />
     <ClCompile Include="messageTest.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
@@ -55,6 +56,7 @@
     <ClInclude Include="CompletionPortHandler.h" />
     <ClInclude Include="ErrorHandler.h" />
     <ClInclude Include="Listener.h" />
+    <ClInclude Include="LockFreeQueue.h" />
     <ClInclude Include="Mecro.h" />
     <ClInclude Include="messageTest.pb.h" />
     <ClInclude Include="NetAddress.h" />
