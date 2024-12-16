@@ -1,31 +1,32 @@
 #pragma once
 #include <functional>
 #include "ServerPch.h"
+#include "Job.h"
 
 class JobQueue {
 public:
-	void Push(function<void()> func) {
+	void Push(Job* job) {
 		{
 			lock_guard<mutex> lock(_queueMutex);
-			_jobQueue.push(func);
+			_jobQueue.push(job);
 		}
 		_cv.notify_one();
 	}
-	function<void()> Pop() {
+	Job* Pop() {
 		unique_lock<mutex> lock(_queueMutex);
 
 		while (_jobQueue.empty()) {
 			_cv.wait(lock);
 		}
 		
-		function<void()> func = _jobQueue.front();
+		Job* job = _jobQueue.front();
 		_jobQueue.pop();
-		return func;
+		return job;
 	}
 
 private:
 	mutex _queueMutex;
 	condition_variable _cv;
 
-	queue<function<void()>> _jobQueue;
+	queue<Job*> _jobQueue;
 };

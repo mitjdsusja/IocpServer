@@ -2,6 +2,7 @@
 #include "PacketHandler.h"
 #include "ServerGlobal.h"
 
+#include "Job.h"
 #include "JobQueue.h"
 #include "BufferPool.h"
 
@@ -35,9 +36,10 @@ void PacketHandler::HandlePacket(shared_ptr<Session> session, PacketHeader* data
 	int32 packetId = dataBuffer->packetId;
 
 	// push jobQueue
-	GJobQueue->Push([session, buffer, service, packetId]() {
+	Job* job = new Job([session, buffer, service, packetId]() {
 		packetHandleArray[packetId](session, buffer, service);
-		});
+	});
+	GJobQueue->Push(job);
 }
 
 void PacketHandler::Handle_Invalid(shared_ptr<Session> session, shared_ptr<Buffer> buffer, Service* service){

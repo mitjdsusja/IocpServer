@@ -39,8 +39,9 @@ int main() {
 
 		GThreadManager->Launch([=]() {
 			while (true) {
-				auto job = GJobQueue->Pop();
-				job();
+				Job* job = GJobQueue->Pop();
+				job->Execute();
+				delete job;
 			}
 		});
 	}
