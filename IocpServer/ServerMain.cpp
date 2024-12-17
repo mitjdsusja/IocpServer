@@ -9,6 +9,8 @@
 #include "JobQueue.h"
 #include "JobTimer.h"
 
+// Job Life Cycle => shared_ptr
+
 enum {
 	GQCS_THREAD_COUNT = 5,
 };
@@ -47,6 +49,10 @@ int main() {
 			}
 		});
 	}
+
+	/*GJobTimer->Reserve(1000, []() {
+		cout << "JobTimerTest" << endl;
+	});*/
 
 	GThreadManager->Join();
 }

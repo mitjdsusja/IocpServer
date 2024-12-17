@@ -4,11 +4,14 @@
 #include "ThreadManager.h"
 #include "BufferPool.h"
 #include "PacketHandler.h"
+#include "JobQueue.h"
+#include "Job.h"
 
 #include "messageTest.pb.h"
 
 enum {
-	GQCS_THREAD_COUNT = 5,
+	GQCS_THREAD_COUNT = 1,
+	JOB_QUEUE_THREAD = 1,
 };
 
 int main() {
@@ -29,6 +32,18 @@ int main() {
 				clientService->CompletionEventThread();
 			}
 		});
+	}
+
+	for (int32 i = 0; i < JOB_QUEUE_THREAD; i++) {
+		cout << "Job Thread Start" << endl;
+
+		GThreadManager->Launch([=]() {
+			while (true) {
+				Job* job = GJobQueue->Pop();
+				job->Execute();
+				delete job;
+			}
+			});
 	}
 
 	LSendBufferPool = new BufferPool();

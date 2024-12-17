@@ -8,6 +8,9 @@ public:
 	TimedJob(uint32 executeTick, function<void()> callback) : Job(callback), _executeTick(executeTick){
 
 	}
+	~TimedJob() {
+		//cout << "TimedJob destructor" << endl;
+	}
 	
 public:
 	uint64 _executeTick = 0;

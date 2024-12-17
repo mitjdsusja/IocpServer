@@ -5,6 +5,7 @@
 #include "Job.h"
 #include "JobQueue.h"
 #include "BufferPool.h"
+#include "JobTimer.h"
 
 #include "messageTest.pb.h"
 
@@ -61,8 +62,10 @@ void PacketHandler::Handle_CS_Request_User_Info(shared_ptr<Session> session, sha
 		userInfo->set_id(session->GetSessionId());
 
 		Buffer* sendBuffer = MakeSendBuffer(packetUserInfo, PacketId::PKT_SC_RESPONSE_USER_INFO);
-
-		session->Send(sendBuffer);
+		Job* job = new Job([session, sendBuffer]() {
+			session->Send(sendBuffer);
+			});
+		GJobQueue->Push(job);
 	}
 	{
 		// Send Add Users
@@ -74,8 +77,10 @@ void PacketHandler::Handle_CS_Request_User_Info(shared_ptr<Session> session, sha
 		userInfo->set_id(session->GetSessionId());
 
 		Buffer* sendBuffer = MakeSendBuffer(packetUserInfo, PacketId::PKT_SC_ADD_USER);
-
-		service->Broadcast(sendBuffer);
+		Job* job = new Job([service, sendBuffer]() {
+			service->Broadcast(sendBuffer);
+		});
+		GJobQueue->Push(job);
 	}
 }
 
@@ -105,7 +110,10 @@ void PacketHandler::Handle_CS_Request_Other_User_Info(shared_ptr<Session> sessio
 		}
 
 		Buffer* sendBuffer = MakeSendBuffer(packetUsersInfo, PacketId::PKT_SC_RESPONSE_OTHER_USER_INFO);
-		session->Send(sendBuffer);
+		Job* job = new Job([session, sendBuffer]() {
+			session->Send(sendBuffer);
+		});
+		GJobQueue->Push(job);
 	}
 }
 
