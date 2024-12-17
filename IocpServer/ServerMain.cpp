@@ -7,6 +7,7 @@
 #include "Service.h"
 #include "PacketHandler.h"
 #include "JobQueue.h"
+#include "JobTimer.h"
 
 enum {
 	GQCS_THREAD_COUNT = 5,
@@ -29,7 +30,8 @@ int main() {
 
 		GThreadManager->Launch([=]() {
 			while (true) {
-				serverService->CompletionEventThread();
+				serverService->CompletionEventThread(10);
+				GJobTimer->EnqueueReadyJobs(*GJobQueue);
 			}
 		});
 	}

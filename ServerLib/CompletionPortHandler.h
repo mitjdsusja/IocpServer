@@ -4,7 +4,7 @@ public:
 	CompletionPortHandler();
 
 	bool RegisterHandle(HANDLE handle, ULONG_PTR key = 0);
-	void GetCompletionEvent();
+	void GetCompletionEvent(uint32 ms = INFINITE);
 
 	HANDLE GetHandle() { return _completionPort; }
 

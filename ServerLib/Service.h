@@ -15,7 +15,7 @@ public:
 
 	virtual void Start() abstract;
 
-	void CompletionEventThread();
+	void CompletionEventThread(uint32 ms = INFINITE);
 
 	void AddSession(shared_ptr<Session> session);
 	void removeSession(shared_ptr<Session> session);

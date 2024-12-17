@@ -15,9 +15,9 @@ Service::~Service(){
 	_sessions.clear();
 }
 
-void Service::CompletionEventThread(){
+void Service::CompletionEventThread(uint32 ms){
 
-	_completionPortHandler->GetCompletionEvent();
+	_completionPortHandler->GetCompletionEvent(ms);
 }
 
 void Service::AddSession(shared_ptr<Session> session){
