@@ -116,8 +116,8 @@ Buffer* PacketHandler::MakeSendBuffer(T& packet, PacketId packetId){
 	int32 dataSize = (int32)packet.ByteSizeLong();
 	int32 packetSize = sizeof(PacketHeader) + dataSize;
 
-	header->packetId = packetId;
-	header->packetSize = packetSize;
+	header->packetId = htonl(packetId);
+	header->packetSize = htonl(packetSize);
 
 	packet.SerializeToArray(&header[1], dataSize);
 
