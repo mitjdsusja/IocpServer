@@ -263,5 +263,5 @@ int32 ClientSession::OnRecv(BYTE* recvBuffer, int32 recvBytes){
 }
 
 void ClientSession::OnSend(int32 sendBytes){
-	cout << "[SEND] " << "sendBytes : " << sendBytes << endl;
+	//cout << "[SEND] " << "sendBytes : " << sendBytes << endl;
 }

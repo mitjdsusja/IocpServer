@@ -25,11 +25,13 @@ public:
 	int32 GetCurSessionCount() { return _curSessionCount; }
 	void GetUserIdList(int32* array);
 	void GetUsersInfo(vector<UserInfo*>& userInfoList);
+
+	void SetUserInfo(UserInfo srcUserInfo);
 	
 	void RegisterHandle(HANDLE handle);
 
 protected:
-	set<shared_ptr<Session>> _sessions;
+	map<int, shared_ptr<Session>> _sessions;
 	CompletionPortHandler* _completionPortHandler;
 
 	NetAddress _address;

@@ -4,15 +4,15 @@ package msgTest;
 
 message UserInfo {
     message Position {  
-        optional int32 x = 1 [default = 0];  
-        optional int32 y = 2 [default = 0];  
-        optional int32 z = 3 [default = 0];  
+        optional float x = 1 [default = 0];  
+        optional float y = 2 [default = 0];  
+        optional float z = 3 [default = 0];  
     }
 
     message Velocity {  
-        optional int32 x = 1 [default = 0];  
-        optional int32 y = 2 [default = 0];  
-        optional int32 z = 3 [default = 0]; 
+        optional float x = 1 [default = 0];  
+        optional float y = 2 [default = 0];  
+        optional float z = 3 [default = 0]; 
     }
 
     required int32 id = 1;

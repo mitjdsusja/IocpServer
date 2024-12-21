@@ -6,6 +6,7 @@
 #include <queue>
 #include <atomic>
 #include <set>
+#include <map>
 #include <cassert>
 
 using namespace std;

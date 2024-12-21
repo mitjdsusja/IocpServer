@@ -118,7 +118,22 @@ void PacketHandler::Handle_CS_Request_Other_User_Info(shared_ptr<Session> sessio
 }
 
 void PacketHandler::Handle_CS_Send_Pos(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service){
+	
+	// Update UserInfo
+	PacketHeader* header = (PacketHeader*)dataBuffer->GetBuffer();
+	header->packetId = ntohl(header->packetId);
+	header->packetSize = ntohl(header->packetSize);
+	int32 dataSize = header->packetSize - sizeof(PacketHeader);
 
+	msgTest::CS_Send_User_Info recvUserInfo;
+	recvUserInfo.ParseFromArray(&header[1], dataSize);
+
+	UserInfo userInfo;
+	userInfo.SetId(recvUserInfo.userinfo().id());
+	userInfo.SetPosition(recvUserInfo.userinfo().position().x(), recvUserInfo.userinfo().position().y(), recvUserInfo.userinfo().position().z());
+	userInfo.SetVelocity (recvUserInfo.userinfo().velocity().x(), recvUserInfo.userinfo().velocity().y(), recvUserInfo.userinfo().velocity().z());
+
+	service->SetUserInfo(userInfo);
 }
 
 /*-------------------------------------------

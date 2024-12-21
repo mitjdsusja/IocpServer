@@ -225,43 +225,43 @@ class UserInfo_Position final :
     kYFieldNumber = 2,
     kZFieldNumber = 3,
   };
-  // optional int32 x = 1 [default = 0];
+  // optional float x = 1 [default = 0];
   bool has_x() const;
   private:
   bool _internal_has_x() const;
   public:
   void clear_x();
-  int32_t x() const;
-  void set_x(int32_t value);
+  float x() const;
+  void set_x(float value);
   private:
-  int32_t _internal_x() const;
-  void _internal_set_x(int32_t value);
+  float _internal_x() const;
+  void _internal_set_x(float value);
   public:
 
-  // optional int32 y = 2 [default = 0];
+  // optional float y = 2 [default = 0];
   bool has_y() const;
   private:
   bool _internal_has_y() const;
   public:
   void clear_y();
-  int32_t y() const;
-  void set_y(int32_t value);
+  float y() const;
+  void set_y(float value);
   private:
-  int32_t _internal_y() const;
-  void _internal_set_y(int32_t value);
+  float _internal_y() const;
+  void _internal_set_y(float value);
   public:
 
-  // optional int32 z = 3 [default = 0];
+  // optional float z = 3 [default = 0];
   bool has_z() const;
   private:
   bool _internal_has_z() const;
   public:
   void clear_z();
-  int32_t z() const;
-  void set_z(int32_t value);
+  float z() const;
+  void set_z(float value);
   private:
-  int32_t _internal_z() const;
-  void _internal_set_z(int32_t value);
+  float _internal_z() const;
+  void _internal_set_z(float value);
   public:
 
   // @@protoc_insertion_point(class_scope:msgTest.UserInfo.Position)
@@ -274,9 +274,9 @@ class UserInfo_Position final :
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-    int32_t x_;
-    int32_t y_;
-    int32_t z_;
+    float x_;
+    float y_;
+    float z_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_messageTest_2eproto;
@@ -415,43 +415,43 @@ class UserInfo_Velocity final :
     kYFieldNumber = 2,
     kZFieldNumber = 3,
   };
-  // optional int32 x = 1 [default = 0];
+  // optional float x = 1 [default = 0];
   bool has_x() const;
   private:
   bool _internal_has_x() const;
   public:
   void clear_x();
-  int32_t x() const;
-  void set_x(int32_t value);
+  float x() const;
+  void set_x(float value);
   private:
-  int32_t _internal_x() const;
-  void _internal_set_x(int32_t value);
+  float _internal_x() const;
+  void _internal_set_x(float value);
   public:
 
-  // optional int32 y = 2 [default = 0];
+  // optional float y = 2 [default = 0];
   bool has_y() const;
   private:
   bool _internal_has_y() const;
   public:
   void clear_y();
-  int32_t y() const;
-  void set_y(int32_t value);
+  float y() const;
+  void set_y(float value);
   private:
-  int32_t _internal_y() const;
-  void _internal_set_y(int32_t value);
+  float _internal_y() const;
+  void _internal_set_y(float value);
   public:
 
-  // optional int32 z = 3 [default = 0];
+  // optional float z = 3 [default = 0];
   bool has_z() const;
   private:
   bool _internal_has_z() const;
   public:
   void clear_z();
-  int32_t z() const;
-  void set_z(int32_t value);
+  float z() const;
+  void set_z(float value);
   private:
-  int32_t _internal_z() const;
-  void _internal_set_z(int32_t value);
+  float _internal_z() const;
+  void _internal_set_z(float value);
   public:
 
   // @@protoc_insertion_point(class_scope:msgTest.UserInfo.Velocity)
@@ -464,9 +464,9 @@ class UserInfo_Velocity final :
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-    int32_t x_;
-    int32_t y_;
-    int32_t z_;
+    float x_;
+    float y_;
+    float z_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_messageTest_2eproto;
@@ -1761,7 +1761,7 @@ class SC_Add_User final :
 #endif  // __GNUC__
 // UserInfo_Position
 
-// optional int32 x = 1 [default = 0];
+// optional float x = 1 [default = 0];
 inline bool UserInfo_Position::_internal_has_x() const {
   bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
   return value;
@@ -1773,23 +1773,23 @@ inline void UserInfo_Position::clear_x() {
   _impl_.x_ = 0;
   _impl_._has_bits_[0] &= ~0x00000001u;
 }
-inline int32_t UserInfo_Position::_internal_x() const {
+inline float UserInfo_Position::_internal_x() const {
   return _impl_.x_;
 }
-inline int32_t UserInfo_Position::x() const {
+inline float UserInfo_Position::x() const {
   // @@protoc_insertion_point(field_get:msgTest.UserInfo.Position.x)
   return _internal_x();
 }
-inline void UserInfo_Position::_internal_set_x(int32_t value) {
+inline void UserInfo_Position::_internal_set_x(float value) {
   _impl_._has_bits_[0] |= 0x00000001u;
   _impl_.x_ = value;
 }
-inline void UserInfo_Position::set_x(int32_t value) {
+inline void UserInfo_Position::set_x(float value) {
   _internal_set_x(value);
   // @@protoc_insertion_point(field_set:msgTest.UserInfo.Position.x)
 }
 
-// optional int32 y = 2 [default = 0];
+// optional float y = 2 [default = 0];
 inline bool UserInfo_Position::_internal_has_y() const {
   bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
   return value;
@@ -1801,23 +1801,23 @@ inline void UserInfo_Position::clear_y() {
   _impl_.y_ = 0;
   _impl_._has_bits_[0] &= ~0x00000002u;
 }
-inline int32_t UserInfo_Position::_internal_y() const {
+inline float UserInfo_Position::_internal_y() const {
   return _impl_.y_;
 }
-inline int32_t UserInfo_Position::y() const {
+inline float UserInfo_Position::y() const {
   // @@protoc_insertion_point(field_get:msgTest.UserInfo.Position.y)
   return _internal_y();
 }
-inline void UserInfo_Position::_internal_set_y(int32_t value) {
+inline void UserInfo_Position::_internal_set_y(float value) {
   _impl_._has_bits_[0] |= 0x00000002u;
   _impl_.y_ = value;
 }
-inline void UserInfo_Position::set_y(int32_t value) {
+inline void UserInfo_Position::set_y(float value) {
   _internal_set_y(value);
   // @@protoc_insertion_point(field_set:msgTest.UserInfo.Position.y)
 }
 
-// optional int32 z = 3 [default = 0];
+// optional float z = 3 [default = 0];
 inline bool UserInfo_Position::_internal_has_z() const {
   bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
   return value;
@@ -1829,18 +1829,18 @@ inline void UserInfo_Position::clear_z() {
   _impl_.z_ = 0;
   _impl_._has_bits_[0] &= ~0x00000004u;
 }
-inline int32_t UserInfo_Position::_internal_z() const {
+inline float UserInfo_Position::_internal_z() const {
   return _impl_.z_;
 }
-inline int32_t UserInfo_Position::z() const {
+inline float UserInfo_Position::z() const {
   // @@protoc_insertion_point(field_get:msgTest.UserInfo.Position.z)
   return _internal_z();
 }
-inline void UserInfo_Position::_internal_set_z(int32_t value) {
+inline void UserInfo_Position::_internal_set_z(float value) {
   _impl_._has_bits_[0] |= 0x00000004u;
   _impl_.z_ = value;
 }
-inline void UserInfo_Position::set_z(int32_t value) {
+inline void UserInfo_Position::set_z(float value) {
   _internal_set_z(value);
   // @@protoc_insertion_point(field_set:msgTest.UserInfo.Position.z)
 }
@@ -1849,7 +1849,7 @@ inline void UserInfo_Position::set_z(int32_t value) {
 
 // UserInfo_Velocity
 
-// optional int32 x = 1 [default = 0];
+// optional float x = 1 [default = 0];
 inline bool UserInfo_Velocity::_internal_has_x() const {
   bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
   return value;
@@ -1861,23 +1861,23 @@ inline void UserInfo_Velocity::clear_x() {
   _impl_.x_ = 0;
   _impl_._has_bits_[0] &= ~0x00000001u;
 }
-inline int32_t UserInfo_Velocity::_internal_x() const {
+inline float UserInfo_Velocity::_internal_x() const {
   return _impl_.x_;
 }
-inline int32_t UserInfo_Velocity::x() const {
+inline float UserInfo_Velocity::x() const {
   // @@protoc_insertion_point(field_get:msgTest.UserInfo.Velocity.x)
   return _internal_x();
 }
-inline void UserInfo_Velocity::_internal_set_x(int32_t value) {
+inline void UserInfo_Velocity::_internal_set_x(float value) {
   _impl_._has_bits_[0] |= 0x00000001u;
   _impl_.x_ = value;
 }
-inline void UserInfo_Velocity::set_x(int32_t value) {
+inline void UserInfo_Velocity::set_x(float value) {
   _internal_set_x(value);
   // @@protoc_insertion_point(field_set:msgTest.UserInfo.Velocity.x)
 }
 
-// optional int32 y = 2 [default = 0];
+// optional float y = 2 [default = 0];
 inline bool UserInfo_Velocity::_internal_has_y() const {
   bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
   return value;
@@ -1889,23 +1889,23 @@ inline void UserInfo_Velocity::clear_y() {
   _impl_.y_ = 0;
   _impl_._has_bits_[0] &= ~0x00000002u;
 }
-inline int32_t UserInfo_Velocity::_internal_y() const {
+inline float UserInfo_Velocity::_internal_y() const {
   return _impl_.y_;
 }
-inline int32_t UserInfo_Velocity::y() const {
+inline float UserInfo_Velocity::y() const {
   // @@protoc_insertion_point(field_get:msgTest.UserInfo.Velocity.y)
   return _internal_y();
 }
-inline void UserInfo_Velocity::_internal_set_y(int32_t value) {
+inline void UserInfo_Velocity::_internal_set_y(float value) {
   _impl_._has_bits_[0] |= 0x00000002u;
   _impl_.y_ = value;
 }
-inline void UserInfo_Velocity::set_y(int32_t value) {
+inline void UserInfo_Velocity::set_y(float value) {
   _internal_set_y(value);
   // @@protoc_insertion_point(field_set:msgTest.UserInfo.Velocity.y)
 }
 
-// optional int32 z = 3 [default = 0];
+// optional float z = 3 [default = 0];
 inline bool UserInfo_Velocity::_internal_has_z() const {
   bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
   return value;
@@ -1917,18 +1917,18 @@ inline void UserInfo_Velocity::clear_z() {
   _impl_.z_ = 0;
   _impl_._has_bits_[0] &= ~0x00000004u;
 }
-inline int32_t UserInfo_Velocity::_internal_z() const {
+inline float UserInfo_Velocity::_internal_z() const {
   return _impl_.z_;
 }
-inline int32_t UserInfo_Velocity::z() const {
+inline float UserInfo_Velocity::z() const {
   // @@protoc_insertion_point(field_get:msgTest.UserInfo.Velocity.z)
   return _internal_z();
 }
-inline void UserInfo_Velocity::_internal_set_z(int32_t value) {
+inline void UserInfo_Velocity::_internal_set_z(float value) {
   _impl_._has_bits_[0] |= 0x00000004u;
   _impl_.z_ = value;
 }
-inline void UserInfo_Velocity::set_z(int32_t value) {
+inline void UserInfo_Velocity::set_z(float value) {
   _internal_set_z(value);
   // @@protoc_insertion_point(field_set:msgTest.UserInfo.Velocity.z)
 }

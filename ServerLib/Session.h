@@ -28,8 +28,8 @@ public:
 	int32 GetSessionId() { return _userInfo.GetId(); }
 	UserInfo& GetUserInfo() { return _userInfo; }
 	void SetSessionId(int32 id) { _userInfo.SetId(id); }
-	void SetUserPosition(int32 x, int32 y, int32 z) { _userInfo.SetPosition(x, y, z); }
-	void SetuserVelocity(int32 x, int32 y, int32 z) { _userInfo.SetVelocity(x, y, z); }
+	void SetUserPosition(float x, float y, float z) { _userInfo.SetPosition(x, y, z); }
+	void SetUserVelocity(float x, float y, float z) { _userInfo.SetVelocity(x, y, z); }
 
 	void Process(OverlappedEvent* event, int32 numOfBytes) override;
 	void CleanResource() override;
