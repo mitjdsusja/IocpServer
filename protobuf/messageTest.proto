@@ -2,48 +2,52 @@ syntax = "proto2";
 
 package msgTest;
 
+message Position {  
+    optional float x = 1 [default = 0];  
+    optional float y = 2 [default = 0];  
+    optional float z = 3 [default = 0];  
+}
+
+message Direction {  
+    optional float x = 1 [default = 0];  
+    optional float y = 2 [default = 0];  
+    optional float z = 3 [default = 0]; 
+}
+
 message UserInfo {
-    message Position {  
-        optional float x = 1 [default = 0];  
-        optional float y = 2 [default = 0];  
-        optional float z = 3 [default = 0];  
-    }
-
-    message Velocity {  
-        optional float x = 1 [default = 0];  
-        optional float y = 2 [default = 0];  
-        optional float z = 3 [default = 0]; 
-    }
-
     required int32 id = 1;
     required Position position = 2; 
-    required Velocity velocity = 3; 
+    required Direction direction = 3; 
 }
 
-message CS_Send_User_Info{
-	required UserInfo userInfo = 1;
+message MoveState{
+    required int32 userId = 1;
+    required Position position = 2; 
+    required Direction direction = 3; 
+    required float speed = 4;
+    required float timestamp = 5; 
 }
 
-message CS_Request_User_Info{
+message CS_Connect_Server{
 
 }
-
-message CS_Request_Other_User_Info{
+message CS_Request_Server_State{
 
 }
-
-message SC_Response_User_Info{
-	required UserInfo userInfo = 1;
+message CS_Move_User{
+    required MoveState moveState = 1;
 }
 
-message SC_Response_Other_User_Info{
-    repeated UserInfo usersInfo = 1;
-}
 
-message SC_Broadcast_User_Info{
-	repeated UserInfo usersInfo = 1;
+message SC_Accept_Client{
+    required UserInfo userInfo = 1;
 }
-
-message SC_Add_User{
-	required UserInfo userInfo = 1;
+message SC_Response_Server_State{
+    repeated UserInfo userInfos = 1;
+}
+message SC_Result_Move_User{
+    required UserInfo userInfo = 1;
+}
+message SC_Connect_Other_User{
+    required UserInfo userInfo = 1;
 }

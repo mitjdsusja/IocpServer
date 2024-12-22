@@ -128,12 +128,15 @@ void PacketHandler::Handle_CS_Send_Pos(shared_ptr<Session> session, shared_ptr<B
 	msgTest::CS_Send_User_Info recvUserInfo;
 	recvUserInfo.ParseFromArray(&header[1], dataSize);
 
+	//cout << "[RECV] " << recvUserInfo.userinfo().id() << " " << recvUserInfo.userinfo().position().x() << " " << recvUserInfo.userinfo().position().z() << endl;
+
 	UserInfo userInfo;
 	userInfo.SetId(recvUserInfo.userinfo().id());
 	userInfo.SetPosition(recvUserInfo.userinfo().position().x(), recvUserInfo.userinfo().position().y(), recvUserInfo.userinfo().position().z());
-	userInfo.SetVelocity (recvUserInfo.userinfo().velocity().x(), recvUserInfo.userinfo().velocity().y(), recvUserInfo.userinfo().velocity().z());
+	userInfo.SetVelocity(recvUserInfo.userinfo().velocity().x(), recvUserInfo.userinfo().velocity().y(), recvUserInfo.userinfo().velocity().z());
 
 	service->SetUserInfo(userInfo);
+
 }
 
 /*-------------------------------------------

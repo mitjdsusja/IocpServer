@@ -87,6 +87,7 @@ void ReserveLoopBroadcastUserInfo(Service* service) {
 			velocity->set_y(userInfo->GetVelocity().y);
 			velocity->set_z(userInfo->GetVelocity().z);
 
+			//cout << "[SEND] " << userInfo->GetPosition().x << " " << userInfo->GetPosition().z << endl;
 		}
 	}
 	Buffer* sendBuffer = PacketHandler::MakeSendBuffer(packetBroadcastUserInfo, PacketId::PKT_SC_BROADCAST_POS);
