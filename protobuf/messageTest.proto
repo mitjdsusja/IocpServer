@@ -50,5 +50,5 @@ message SC_Connect_Other_User{
     required UserInfo userInfo = 1;
 }
 message SC_Broadcast_User_Info{
-    required UserInfo userInfos = 1;
+    repeated UserInfo userInfos = 1;
 }

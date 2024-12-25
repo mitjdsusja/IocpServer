@@ -75,7 +75,7 @@ void ReserveLoopBroadcastUserInfo(Service* service) {
 		service->GetUsersInfo(userInfoList);
 
 		for (UserInfo* userInfo : userInfoList) {
-			msgTest::UserInfo* packetUsersInfo = packetBroadcastUserInfo.mutable_userinfos();
+			msgTest::UserInfo* packetUsersInfo = packetBroadcastUserInfo.add_userinfos();
 			msgTest::Position* position = packetUsersInfo->mutable_position();
 			msgTest::Direction* direction = packetUsersInfo->mutable_direction();
 
