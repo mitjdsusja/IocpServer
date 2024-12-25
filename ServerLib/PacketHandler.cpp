@@ -17,14 +17,14 @@ void PacketHandler::Init(){
 		packetHandleArray[i] = Handle_Invalid;
 	}
 
-	packetHandleArray[PKT_CS_REQUEST_USER_INFO] = Handle_CS_Request_User_Info;
-	packetHandleArray[PKT_CS_REQUEST_OTHER_USER_INFO] = Handle_CS_Request_Other_User_Info;
-	packetHandleArray[PKT_CS_SEND_POS] = Handle_CS_Send_Pos;
+	packetHandleArray[PKT_CS_CONNECT_SERVER] = Handle_CS_Connect_Server;
+	packetHandleArray[PKT_CS_REQUEST_SERVER_STATE] = Handle_CS_Request_Server_State;
+	packetHandleArray[PKT_CS_MOVE_USER] = Handle_CS_Move_User;
 
-	packetHandleArray[PKT_SC_RESPONSE_USER_INFO] = Handle_SC_Response_User_Info;
-	packetHandleArray[PKT_SC_RESPONSE_OTHER_USER_INFO] = Handle_SC_Response_Other_User_Info;
-	packetHandleArray[PKT_SC_BROADCAST_POS] = Handle_SC_Broadcast_Pos;
-	packetHandleArray[PKT_SC_ADD_USER] = Handle_SC_Add_User;
+	packetHandleArray[PKT_SC_ACCEPT_CLIENT] = Handle_SC_Accept_Client;
+	packetHandleArray[PKT_SC_RESPONSE_SERVER_STATE] = Handle_SC_Response_Server_State;
+	packetHandleArray[PKT_SC_RESULT_MOVE_USER] = Handle_SC_Result_Move_User;
+	packetHandleArray[PKT_SC_CONNET_OTHER_USER] = Handle_SC_Connect_Other_User;
 }
 
 void PacketHandler::HandlePacket(shared_ptr<Session> session, PacketHeader* dataBuffer, Service* service) {
@@ -50,66 +50,51 @@ void PacketHandler::Handle_Invalid(shared_ptr<Session> session, shared_ptr<Buffe
 	ErrorHandler::HandleError(L"INVALID PACKET ID", header->packetId);
 }
 
-void PacketHandler::Handle_CS_Request_User_Info(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service){
+void PacketHandler::Handle_CS_Connect_Server(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service){
 
 	{
 		// Send User Info
-		msgTest::SC_Response_User_Info packetUserInfo;
-		msgTest::UserInfo* userInfo = packetUserInfo.mutable_userinfo();
-		msgTest::UserInfo::Position* position = userInfo->mutable_position();
-		msgTest::UserInfo::Velocity* velocity = userInfo->mutable_velocity();
+		msgTest::SC_Accept_Client packetAcceptClient;
+		msgTest::UserInfo* userInfo = packetAcceptClient.mutable_userinfo();
+		msgTest::Position* position = userInfo->mutable_position();
+		msgTest::Direction* direction = userInfo->mutable_direction();
 
 		userInfo->set_id(session->GetSessionId());
 
-		Buffer* sendBuffer = MakeSendBuffer(packetUserInfo, PacketId::PKT_SC_RESPONSE_USER_INFO);
+		Buffer* sendBuffer = MakeSendBuffer(packetAcceptClient, PacketId::PKT_SC_ACCEPT_CLIENT);
 		Job* job = new Job([session, sendBuffer]() {
 			session->Send(sendBuffer);
 			});
 		GJobQueue->Push(job);
 	}
-	{
-		// Send Add Users
-		msgTest::SC_Add_User packetUserInfo;
-		msgTest::UserInfo* userInfo = packetUserInfo.mutable_userinfo();
-		msgTest::UserInfo::Position* position = userInfo->mutable_position();
-		msgTest::UserInfo::Velocity* velocity = userInfo->mutable_velocity();
-
-		userInfo->set_id(session->GetSessionId());
-
-		Buffer* sendBuffer = MakeSendBuffer(packetUserInfo, PacketId::PKT_SC_ADD_USER);
-		Job* job = new Job([service, sendBuffer]() {
-			service->Broadcast(sendBuffer);
-		});
-		GJobQueue->Push(job);
-	}
 }
 
-void PacketHandler::Handle_CS_Request_Other_User_Info(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service){
+void PacketHandler::Handle_CS_Request_Server_State(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service){
 
 	//Send Other User Info
 	{
-		msgTest::SC_Response_Other_User_Info packetUsersInfo;
+		msgTest::SC_Response_Server_State packetUsersInfo;
 		
 		vector<UserInfo*> usersInfo;
 		service->GetUsersInfo(usersInfo);
 
 		for (UserInfo* info : usersInfo) {
-			msgTest::UserInfo* userInfo = packetUsersInfo.add_usersinfo();
-			msgTest::UserInfo::Position* position = userInfo->mutable_position();
-			msgTest::UserInfo::Velocity* velocity = userInfo->mutable_velocity();
+			msgTest::UserInfo* userInfo = packetUsersInfo.add_userinfos();
+			msgTest::Position* position = userInfo->mutable_position();
+			msgTest::Direction* direction = userInfo->mutable_direction();
 
 			Position& userPos = info->GetPosition();
-			Velocity& userVel = info->GetVelocity();
+			Direction& userVel = info->GetDirection();
 			userInfo->set_id(info->GetId());
 			position->set_x(userPos.x);
 			position->set_y(userPos.y);
 			position->set_z(userPos.z);
-			velocity->set_x(userVel.x);
-			velocity->set_y(userVel.y);
-			velocity->set_z(userVel.z);
+			direction->set_x(userVel.x);
+			direction->set_y(userVel.y);
+			direction->set_z(userVel.z);
 		}
 
-		Buffer* sendBuffer = MakeSendBuffer(packetUsersInfo, PacketId::PKT_SC_RESPONSE_OTHER_USER_INFO);
+		Buffer* sendBuffer = MakeSendBuffer(packetUsersInfo, PacketId::PKT_SC_RESPONSE_SERVER_STATE);
 		Job* job = new Job([session, sendBuffer]() {
 			session->Send(sendBuffer);
 		});
@@ -117,7 +102,7 @@ void PacketHandler::Handle_CS_Request_Other_User_Info(shared_ptr<Session> sessio
 	}
 }
 
-void PacketHandler::Handle_CS_Send_Pos(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service){
+void PacketHandler::Handle_CS_Move_User(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service){
 	
 	// Update UserInfo
 	PacketHeader* header = (PacketHeader*)dataBuffer->GetBuffer();
@@ -125,15 +110,16 @@ void PacketHandler::Handle_CS_Send_Pos(shared_ptr<Session> session, shared_ptr<B
 	header->packetSize = ntohl(header->packetSize);
 	int32 dataSize = header->packetSize - sizeof(PacketHeader);
 
-	msgTest::CS_Send_User_Info recvUserInfo;
-	recvUserInfo.ParseFromArray(&header[1], dataSize);
+	msgTest::CS_Move_User recvMoveUser;
+	recvMoveUser.ParseFromArray(&header[1], dataSize);
 
 	//cout << "[RECV] " << recvUserInfo.userinfo().id() << " " << recvUserInfo.userinfo().position().x() << " " << recvUserInfo.userinfo().position().z() << endl;
 
+	// TODO : User Move 
 	UserInfo userInfo;
-	userInfo.SetId(recvUserInfo.userinfo().id());
-	userInfo.SetPosition(recvUserInfo.userinfo().position().x(), recvUserInfo.userinfo().position().y(), recvUserInfo.userinfo().position().z());
-	userInfo.SetVelocity(recvUserInfo.userinfo().velocity().x(), recvUserInfo.userinfo().velocity().y(), recvUserInfo.userinfo().velocity().z());
+	userInfo.SetId(recvMoveUser.movestate().userid());
+	userInfo.SetPosition(recvMoveUser.movestate().position().x(), recvMoveUser.movestate().position().y(), recvMoveUser.movestate().position().z());
+	userInfo.SetDirection(recvMoveUser.movestate().direction().x(), recvMoveUser.movestate().direction().y(), recvMoveUser.movestate().direction().z());
 
 	service->SetUserInfo(userInfo);
 
@@ -143,53 +129,53 @@ void PacketHandler::Handle_CS_Send_Pos(shared_ptr<Session> session, shared_ptr<B
 	
 --------------------------------------------*/
 
-void PacketHandler::Handle_SC_Response_User_Info(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
+void PacketHandler::Handle_SC_Accept_Client(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
 	PacketHeader* header = (PacketHeader*)dataBuffer->GetBuffer();
 	int32 dataSize = header->GetDataSize();
 
-	msgTest::SC_Response_User_Info packetUserInfo;
-	packetUserInfo.ParseFromArray(&header[1], dataSize);
+	msgTest::SC_Accept_Client packetAcceptClient;
+	packetAcceptClient.ParseFromArray(&header[1], dataSize);
 
-	cout << "User Id : " << packetUserInfo.userinfo().id() << endl;
-	cout << "UserPos " << "X : " << packetUserInfo.userinfo().position().x() << " ";
-	cout << "UserPos " << "Y : " << packetUserInfo.userinfo().position().y() << " ";
-	cout << "UserPos " << "Z : " << packetUserInfo.userinfo().position().z() << " " << endl;
+	cout << "User Id : " << packetAcceptClient.userinfo().id() << endl;
+	cout << "UserPos " << "X : " << packetAcceptClient.userinfo().position().x() << " ";
+	cout << "UserPos " << "Y : " << packetAcceptClient.userinfo().position().y() << " ";
+	cout << "UserPos " << "Z : " << packetAcceptClient.userinfo().position().z() << " " << endl;
 }
 
-void PacketHandler::Handle_SC_Response_Other_User_Info(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service){
+void PacketHandler::Handle_SC_Response_Server_State(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service){
 
 	PacketHeader* header = (PacketHeader*)dataBuffer->GetBuffer();
 	int32 dataSize = header->GetDataSize();
 
-	msgTest::SC_Response_Other_User_Info packetOtherUserInfo;
+	msgTest::SC_Response_Server_State packetOtherUserInfo;
 	packetOtherUserInfo.ParseFromArray(&header[1], dataSize);
 	
-	for (msgTest::UserInfo userInfo : packetOtherUserInfo.usersinfo()) {
+	for (msgTest::UserInfo userInfo : packetOtherUserInfo.userinfos()) {
 		cout << "User[" << userInfo.id() << "]";
 		cout << "position [x:" << userInfo.position().x() << ", ";
 		cout << "y:" << userInfo.position().y() << ", ";
 		cout << "z:" << userInfo.position().z() << "]";
-		cout << "velocity [x:" << userInfo.velocity().x() << ", ";
-		cout << "y:" << userInfo.velocity().y() << ", ";
-		cout << "z:" << userInfo.velocity().z() << "]";
+		cout << "velocity [x:" << userInfo.direction().x() << ", ";
+		cout << "y:" << userInfo.direction().y() << ", ";
+		cout << "z:" << userInfo.direction().z() << "]";
 	}
 }
 
-void PacketHandler::Handle_SC_Broadcast_Pos(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
+void PacketHandler::Handle_SC_Result_Move_User(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 	// TODO : ERROR LOG
 }
 
-void PacketHandler::Handle_SC_Add_User(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service){
+void PacketHandler::Handle_SC_Connect_Other_User(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service){
 
 	PacketHeader* header = (PacketHeader*)dataBuffer->GetBuffer();
 	int32 dataSize = header->GetDataSize();
 
-	msgTest::SC_Add_User packetAddUser;
-	packetAddUser.ParseFromArray(&header[1], dataSize);
+	msgTest::SC_Connect_Other_User packetConnectOtherUser;
+	packetConnectOtherUser.ParseFromArray(&header[1], dataSize);
 
-	cout << "Add User ID :" << packetAddUser.userinfo().id() << endl;
-	cout << "UserPos " << "X : " << packetAddUser.userinfo().position().x() << " ";
-	cout << "UserPos " << "Y : " << packetAddUser.userinfo().position().y() << " ";
-	cout << "UserPos " << "Z : " << packetAddUser.userinfo().position().z() << " " << endl;
+	cout << "Add User ID :" << packetConnectOtherUser.userinfo().id() << endl;
+	cout << "UserPos " << "X : " << packetConnectOtherUser.userinfo().position().x() << " ";
+	cout << "UserPos " << "Y : " << packetConnectOtherUser.userinfo().position().y() << " ";
+	cout << "UserPos " << "Z : " << packetConnectOtherUser.userinfo().position().z() << " " << endl;
 }

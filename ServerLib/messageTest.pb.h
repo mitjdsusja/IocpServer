@@ -67,6 +67,9 @@ extern PositionDefaultTypeInternal _Position_default_instance_;
 class SC_Accept_Client;
 struct SC_Accept_ClientDefaultTypeInternal;
 extern SC_Accept_ClientDefaultTypeInternal _SC_Accept_Client_default_instance_;
+class SC_Broadcast_User_Info;
+struct SC_Broadcast_User_InfoDefaultTypeInternal;
+extern SC_Broadcast_User_InfoDefaultTypeInternal _SC_Broadcast_User_Info_default_instance_;
 class SC_Connect_Other_User;
 struct SC_Connect_Other_UserDefaultTypeInternal;
 extern SC_Connect_Other_UserDefaultTypeInternal _SC_Connect_Other_User_default_instance_;
@@ -88,6 +91,7 @@ template<> ::msgTest::Direction* Arena::CreateMaybeMessage<::msgTest::Direction>
 template<> ::msgTest::MoveState* Arena::CreateMaybeMessage<::msgTest::MoveState>(Arena*);
 template<> ::msgTest::Position* Arena::CreateMaybeMessage<::msgTest::Position>(Arena*);
 template<> ::msgTest::SC_Accept_Client* Arena::CreateMaybeMessage<::msgTest::SC_Accept_Client>(Arena*);
+template<> ::msgTest::SC_Broadcast_User_Info* Arena::CreateMaybeMessage<::msgTest::SC_Broadcast_User_Info>(Arena*);
 template<> ::msgTest::SC_Connect_Other_User* Arena::CreateMaybeMessage<::msgTest::SC_Connect_Other_User>(Arena*);
 template<> ::msgTest::SC_Response_Server_State* Arena::CreateMaybeMessage<::msgTest::SC_Response_Server_State>(Arena*);
 template<> ::msgTest::SC_Result_Move_User* Arena::CreateMaybeMessage<::msgTest::SC_Result_Move_User>(Arena*);
@@ -1985,6 +1989,171 @@ class SC_Connect_Other_User final :
   union { Impl_ _impl_; };
   friend struct ::TableStruct_messageTest_2eproto;
 };
+// -------------------------------------------------------------------
+
+class SC_Broadcast_User_Info final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:msgTest.SC_Broadcast_User_Info) */ {
+ public:
+  inline SC_Broadcast_User_Info() : SC_Broadcast_User_Info(nullptr) {}
+  ~SC_Broadcast_User_Info() override;
+  explicit PROTOBUF_CONSTEXPR SC_Broadcast_User_Info(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  SC_Broadcast_User_Info(const SC_Broadcast_User_Info& from);
+  SC_Broadcast_User_Info(SC_Broadcast_User_Info&& from) noexcept
+    : SC_Broadcast_User_Info() {
+    *this = ::std::move(from);
+  }
+
+  inline SC_Broadcast_User_Info& operator=(const SC_Broadcast_User_Info& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SC_Broadcast_User_Info& operator=(SC_Broadcast_User_Info&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance);
+  }
+  inline ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const SC_Broadcast_User_Info& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const SC_Broadcast_User_Info* internal_default_instance() {
+    return reinterpret_cast<const SC_Broadcast_User_Info*>(
+               &_SC_Broadcast_User_Info_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    11;
+
+  friend void swap(SC_Broadcast_User_Info& a, SC_Broadcast_User_Info& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SC_Broadcast_User_Info* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(SC_Broadcast_User_Info* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  SC_Broadcast_User_Info* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<SC_Broadcast_User_Info>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const SC_Broadcast_User_Info& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const SC_Broadcast_User_Info& from) {
+    SC_Broadcast_User_Info::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SC_Broadcast_User_Info* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "msgTest.SC_Broadcast_User_Info";
+  }
+  protected:
+  explicit SC_Broadcast_User_Info(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kUserInfosFieldNumber = 1,
+  };
+  // required .msgTest.UserInfo userInfos = 1;
+  bool has_userinfos() const;
+  private:
+  bool _internal_has_userinfos() const;
+  public:
+  void clear_userinfos();
+  const ::msgTest::UserInfo& userinfos() const;
+  PROTOBUF_NODISCARD ::msgTest::UserInfo* release_userinfos();
+  ::msgTest::UserInfo* mutable_userinfos();
+  void set_allocated_userinfos(::msgTest::UserInfo* userinfos);
+  private:
+  const ::msgTest::UserInfo& _internal_userinfos() const;
+  ::msgTest::UserInfo* _internal_mutable_userinfos();
+  public:
+  void unsafe_arena_set_allocated_userinfos(
+      ::msgTest::UserInfo* userinfos);
+  ::msgTest::UserInfo* unsafe_arena_release_userinfos();
+
+  // @@protoc_insertion_point(class_scope:msgTest.SC_Broadcast_User_Info)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+    ::msgTest::UserInfo* userinfos_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_messageTest_2eproto;
+};
 // ===================================================================
 
 
@@ -3076,9 +3245,105 @@ inline void SC_Connect_Other_User::set_allocated_userinfo(::msgTest::UserInfo* u
   // @@protoc_insertion_point(field_set_allocated:msgTest.SC_Connect_Other_User.userInfo)
 }
 
+// -------------------------------------------------------------------
+
+// SC_Broadcast_User_Info
+
+// required .msgTest.UserInfo userInfos = 1;
+inline bool SC_Broadcast_User_Info::_internal_has_userinfos() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.userinfos_ != nullptr);
+  return value;
+}
+inline bool SC_Broadcast_User_Info::has_userinfos() const {
+  return _internal_has_userinfos();
+}
+inline void SC_Broadcast_User_Info::clear_userinfos() {
+  if (_impl_.userinfos_ != nullptr) _impl_.userinfos_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const ::msgTest::UserInfo& SC_Broadcast_User_Info::_internal_userinfos() const {
+  const ::msgTest::UserInfo* p = _impl_.userinfos_;
+  return p != nullptr ? *p : reinterpret_cast<const ::msgTest::UserInfo&>(
+      ::msgTest::_UserInfo_default_instance_);
+}
+inline const ::msgTest::UserInfo& SC_Broadcast_User_Info::userinfos() const {
+  // @@protoc_insertion_point(field_get:msgTest.SC_Broadcast_User_Info.userInfos)
+  return _internal_userinfos();
+}
+inline void SC_Broadcast_User_Info::unsafe_arena_set_allocated_userinfos(
+    ::msgTest::UserInfo* userinfos) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.userinfos_);
+  }
+  _impl_.userinfos_ = userinfos;
+  if (userinfos) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:msgTest.SC_Broadcast_User_Info.userInfos)
+}
+inline ::msgTest::UserInfo* SC_Broadcast_User_Info::release_userinfos() {
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::msgTest::UserInfo* temp = _impl_.userinfos_;
+  _impl_.userinfos_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::msgTest::UserInfo* SC_Broadcast_User_Info::unsafe_arena_release_userinfos() {
+  // @@protoc_insertion_point(field_release:msgTest.SC_Broadcast_User_Info.userInfos)
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::msgTest::UserInfo* temp = _impl_.userinfos_;
+  _impl_.userinfos_ = nullptr;
+  return temp;
+}
+inline ::msgTest::UserInfo* SC_Broadcast_User_Info::_internal_mutable_userinfos() {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  if (_impl_.userinfos_ == nullptr) {
+    auto* p = CreateMaybeMessage<::msgTest::UserInfo>(GetArenaForAllocation());
+    _impl_.userinfos_ = p;
+  }
+  return _impl_.userinfos_;
+}
+inline ::msgTest::UserInfo* SC_Broadcast_User_Info::mutable_userinfos() {
+  ::msgTest::UserInfo* _msg = _internal_mutable_userinfos();
+  // @@protoc_insertion_point(field_mutable:msgTest.SC_Broadcast_User_Info.userInfos)
+  return _msg;
+}
+inline void SC_Broadcast_User_Info::set_allocated_userinfos(::msgTest::UserInfo* userinfos) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.userinfos_;
+  }
+  if (userinfos) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(userinfos);
+    if (message_arena != submessage_arena) {
+      userinfos = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, userinfos, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  _impl_.userinfos_ = userinfos;
+  // @@protoc_insertion_point(field_set_allocated:msgTest.SC_Broadcast_User_Info.userInfos)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

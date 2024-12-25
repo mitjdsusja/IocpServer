@@ -75,22 +75,22 @@ void ReserveLoopBroadcastUserInfo(Service* service) {
 		service->GetUsersInfo(userInfoList);
 
 		for (UserInfo* userInfo : userInfoList) {
-			msgTest::UserInfo* packetUsersInfo = packetBroadcastUserInfo.add_usersinfo();
-			msgTest::UserInfo::Position* position = packetUsersInfo->mutable_position();
-			msgTest::UserInfo::Velocity* velocity = packetUsersInfo->mutable_velocity();
+			msgTest::UserInfo* packetUsersInfo = packetBroadcastUserInfo.mutable_userinfos();
+			msgTest::Position* position = packetUsersInfo->mutable_position();
+			msgTest::Direction* direction = packetUsersInfo->mutable_direction();
 
 			packetUsersInfo->set_id(userInfo->GetId());
 			position->set_x(userInfo->GetPosition().x);
 			position->set_y(userInfo->GetPosition().y);
 			position->set_z(userInfo->GetPosition().z);
-			velocity->set_x(userInfo->GetVelocity().x);
-			velocity->set_y(userInfo->GetVelocity().y);
-			velocity->set_z(userInfo->GetVelocity().z);
+			direction->set_x(userInfo->GetDirection().x);
+			direction->set_y(userInfo->GetDirection().y);
+			direction->set_z(userInfo->GetDirection().z);
 
 			//cout << "[SEND] " << userInfo->GetPosition().x << " " << userInfo->GetPosition().z << endl;
 		}
 	}
-	Buffer* sendBuffer = PacketHandler::MakeSendBuffer(packetBroadcastUserInfo, PacketId::PKT_SC_BROADCAST_POS);
+	Buffer* sendBuffer = PacketHandler::MakeSendBuffer(packetBroadcastUserInfo, PacketId::PKT_SC_BROADCAST_USER_INFO);
 	service->Broadcast(sendBuffer);
 
 	GJobTimer->Reserve(100, [service]() {

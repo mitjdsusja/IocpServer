@@ -81,7 +81,7 @@ void Service::SetUserInfo(UserInfo srcUserInfo){
 	lock_guard<mutex> lock(_mutex);
 
 	_sessions[(srcUserInfo.GetId())]->SetUserPosition(srcUserInfo.GetPosition().x, srcUserInfo.GetPosition().y, srcUserInfo.GetPosition().z);
-	_sessions[(srcUserInfo.GetId())]->SetUserVelocity(srcUserInfo.GetVelocity().x, srcUserInfo.GetVelocity().y, srcUserInfo.GetVelocity().z);
+	_sessions[(srcUserInfo.GetId())]->SetUserVelocity(srcUserInfo.GetDirection().x, srcUserInfo.GetDirection().y, srcUserInfo.GetDirection().z);
 }
 
 void Service::RegisterHandle(HANDLE handle){

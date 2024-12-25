@@ -7,7 +7,7 @@ struct Position {
 	float z = 0;
 };
 
-struct Velocity {
+struct Direction {
 	float x = 0;
 	float y = 0;
 	float z = 0;
@@ -17,16 +17,16 @@ class UserInfo {
 public:
 	int32 GetId() { return _id; }
 	Position& GetPosition() { return _position; }
-	Velocity& GetVelocity() { return _velocity; }
+	Direction& GetDirection() { return _direction; }
 
 	void SetId(int32 id) { _id = id; }
 	void SetPosition(float x, float y, float z) { _position.x = x; _position.y = y; _position.z = z; }
-	void SetVelocity(float x, float y, float z) { _velocity.x = x; _velocity.y = y; _velocity.z = z; }
+	void SetDirection(float x, float y, float z) { _direction.x = x; _direction.y = y; _direction.z = z; }
 
 private:
 	int32 _id;
 	Position _position;
-	Velocity _velocity;
+	Direction _direction;
 
 };
 

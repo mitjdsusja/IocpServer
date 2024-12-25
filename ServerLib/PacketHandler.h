@@ -6,15 +6,16 @@ enum PacketId {
 	NONE = 1,
 	
 	PKT_CS = 1000,
-	PKT_CS_REQUEST_USER_INFO = 1001,
-	PKT_CS_REQUEST_OTHER_USER_INFO = 1002,
-	PKT_CS_SEND_POS = 1003,
+	PKT_CS_CONNECT_SERVER = 1001,
+	PKT_CS_REQUEST_SERVER_STATE = 1002,
+	PKT_CS_MOVE_USER = 1003,
 
 	PKT_SC = 2000,
-	PKT_SC_RESPONSE_USER_INFO = 2001,
-	PKT_SC_RESPONSE_OTHER_USER_INFO = 2002,
-	PKT_SC_BROADCAST_POS = 2003,
-	PKT_SC_ADD_USER = 2004,
+	PKT_SC_ACCEPT_CLIENT = 2001,
+	PKT_SC_RESPONSE_SERVER_STATE = 2002,
+	PKT_SC_RESULT_MOVE_USER = 2003,
+	PKT_SC_CONNET_OTHER_USER = 2004,
+	PKT_SC_BROADCAST_USER_INFO = 2005,
 };
 
 #pragma pack(push, 1)
@@ -98,14 +99,14 @@ public:
 private:
 	static void Handle_Invalid(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
 
-	static void Handle_CS_Request_User_Info(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
-	static void Handle_CS_Request_Other_User_Info(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
-	static void Handle_CS_Send_Pos(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_CS_Connect_Server(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_CS_Request_Server_State(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_CS_Move_User(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
 
-	static void Handle_SC_Response_User_Info(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
-	static void Handle_SC_Response_Other_User_Info(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
-	static void Handle_SC_Broadcast_Pos(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
-	static void Handle_SC_Add_User(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_SC_Accept_Client(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_SC_Response_Server_State(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_SC_Result_Move_User(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_SC_Connect_Other_User(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
 };
 
 template<typename T>

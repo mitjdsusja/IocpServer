@@ -50,21 +50,7 @@ int main() {
 
 	this_thread::sleep_for(1s);
 	
-	// Get User Info
-	{
-		msgTest::CS_Request_User_Info packetRequestUserInfo;
-		Buffer* sendBuffer = PacketHandler::MakeSendBuffer(packetRequestUserInfo, PacketId::PKT_CS_REQUEST_USER_INFO);
-
-		clientService->SendMsg(sendBuffer);
-	}
-
-	//Get Other User Info
-	{
-		msgTest::CS_Request_Other_User_Info packetOtherUserInfo;
-
-		Buffer* sendBuffer = PacketHandler::MakeSendBuffer(packetOtherUserInfo, PacketId::PKT_CS_REQUEST_OTHER_USER_INFO);
-		clientService->SendMsg(sendBuffer);
-	}
+	
 
 	while (true) {
 

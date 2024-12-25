@@ -29,7 +29,7 @@ public:
 	UserInfo& GetUserInfo() { return _userInfo; }
 	void SetSessionId(int32 id) { _userInfo.SetId(id); }
 	void SetUserPosition(float x, float y, float z) { _userInfo.SetPosition(x, y, z); }
-	void SetUserVelocity(float x, float y, float z) { _userInfo.SetVelocity(x, y, z); }
+	void SetUserVelocity(float x, float y, float z) { _userInfo.SetDirection(x, y, z); }
 
 	void Process(OverlappedEvent* event, int32 numOfBytes) override;
 	void CleanResource() override;

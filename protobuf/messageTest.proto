@@ -29,10 +29,8 @@ message MoveState{
 }
 
 message CS_Connect_Server{
-
 }
 message CS_Request_Server_State{
-
 }
 message CS_Move_User{
     required MoveState moveState = 1;
@@ -50,4 +48,7 @@ message SC_Result_Move_User{
 }
 message SC_Connect_Other_User{
     required UserInfo userInfo = 1;
+}
+message SC_Broadcast_User_Info{
+    required UserInfo userInfos = 1;
 }
