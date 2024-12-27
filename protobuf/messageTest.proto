@@ -25,7 +25,7 @@ message MoveState{
     required Position position = 2; 
     required Direction direction = 3; 
     required float speed = 4;
-    required float timestamp = 5; 
+    required int64 timestamp = 5; 
 }
 
 message CS_Connect_Server{

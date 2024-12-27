@@ -77,7 +77,7 @@ PROTOBUF_CONSTEXPR MoveState::MoveState(
   , /*decltype(_impl_.direction_)*/nullptr
   , /*decltype(_impl_.userid_)*/0
   , /*decltype(_impl_.speed_)*/0
-  , /*decltype(_impl_.timestamp_)*/0} {}
+  , /*decltype(_impl_.timestamp_)*/int64_t{0}} {}
 struct MoveStateDefaultTypeInternal {
   PROTOBUF_CONSTEXPR MoveStateDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -348,7 +348,7 @@ const char descriptor_table_protodef_messageTest_2eproto[] PROTOBUF_SECTION_VARI
   "\n\tMoveState\022\016\n\006userId\030\001 \002(\005\022#\n\010position\030"
   "\002 \002(\0132\021.msgTest.Position\022%\n\tdirection\030\003 "
   "\002(\0132\022.msgTest.Direction\022\r\n\005speed\030\004 \002(\002\022\021"
-  "\n\ttimestamp\030\005 \002(\002\"\023\n\021CS_Connect_Server\"\031"
+  "\n\ttimestamp\030\005 \002(\003\"\023\n\021CS_Connect_Server\"\031"
   "\n\027CS_Request_Server_State\"5\n\014CS_Move_Use"
   "r\022%\n\tmoveState\030\001 \002(\0132\022.msgTest.MoveState"
   "\"7\n\020SC_Accept_Client\022#\n\010userInfo\030\001 \002(\0132\021"
@@ -1301,7 +1301,7 @@ inline void MoveState::SharedCtor(
     , decltype(_impl_.direction_){nullptr}
     , decltype(_impl_.userid_){0}
     , decltype(_impl_.speed_){0}
-    , decltype(_impl_.timestamp_){0}
+    , decltype(_impl_.timestamp_){int64_t{0}}
   };
 }
 
@@ -1391,12 +1391,12 @@ const char* MoveState::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx
         } else
           goto handle_unusual;
         continue;
-      // required float timestamp = 5;
+      // required int64 timestamp = 5;
       case 5:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 45)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 40)) {
           _Internal::set_has_timestamp(&has_bits);
-          _impl_.timestamp_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
-          ptr += sizeof(float);
+          _impl_.timestamp_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
@@ -1457,10 +1457,10 @@ uint8_t* MoveState::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteFloatToArray(4, this->_internal_speed(), target);
   }
 
-  // required float timestamp = 5;
+  // required int64 timestamp = 5;
   if (cached_has_bits & 0x00000010u) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteFloatToArray(5, this->_internal_timestamp(), target);
+    target = ::_pbi::WireFormatLite::WriteInt64ToArray(5, this->_internal_timestamp(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1500,8 +1500,8 @@ size_t MoveState::RequiredFieldsByteSizeFallback() const {
   }
 
   if (_internal_has_timestamp()) {
-    // required float timestamp = 5;
-    total_size += 1 + 4;
+    // required int64 timestamp = 5;
+    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_timestamp());
   }
 
   return total_size;
@@ -1527,8 +1527,8 @@ size_t MoveState::ByteSizeLong() const {
     // required float speed = 4;
     total_size += 1 + 4;
 
-    // required float timestamp = 5;
-    total_size += 1 + 4;
+    // required int64 timestamp = 5;
+    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_timestamp());
 
   } else {
     total_size += RequiredFieldsByteSizeFallback();

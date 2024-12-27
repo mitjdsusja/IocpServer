@@ -880,17 +880,17 @@ class MoveState final :
   void _internal_set_speed(float value);
   public:
 
-  // required float timestamp = 5;
+  // required int64 timestamp = 5;
   bool has_timestamp() const;
   private:
   bool _internal_has_timestamp() const;
   public:
   void clear_timestamp();
-  float timestamp() const;
-  void set_timestamp(float value);
+  int64_t timestamp() const;
+  void set_timestamp(int64_t value);
   private:
-  float _internal_timestamp() const;
-  void _internal_set_timestamp(float value);
+  int64_t _internal_timestamp() const;
+  void _internal_set_timestamp(int64_t value);
   public:
 
   // @@protoc_insertion_point(class_scope:msgTest.MoveState)
@@ -910,7 +910,7 @@ class MoveState final :
     ::msgTest::Direction* direction_;
     int32_t userid_;
     float speed_;
-    float timestamp_;
+    int64_t timestamp_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_messageTest_2eproto;
@@ -2788,7 +2788,7 @@ inline void MoveState::set_speed(float value) {
   // @@protoc_insertion_point(field_set:msgTest.MoveState.speed)
 }
 
-// required float timestamp = 5;
+// required int64 timestamp = 5;
 inline bool MoveState::_internal_has_timestamp() const {
   bool value = (_impl_._has_bits_[0] & 0x00000010u) != 0;
   return value;
@@ -2797,21 +2797,21 @@ inline bool MoveState::has_timestamp() const {
   return _internal_has_timestamp();
 }
 inline void MoveState::clear_timestamp() {
-  _impl_.timestamp_ = 0;
+  _impl_.timestamp_ = int64_t{0};
   _impl_._has_bits_[0] &= ~0x00000010u;
 }
-inline float MoveState::_internal_timestamp() const {
+inline int64_t MoveState::_internal_timestamp() const {
   return _impl_.timestamp_;
 }
-inline float MoveState::timestamp() const {
+inline int64_t MoveState::timestamp() const {
   // @@protoc_insertion_point(field_get:msgTest.MoveState.timestamp)
   return _internal_timestamp();
 }
-inline void MoveState::_internal_set_timestamp(float value) {
+inline void MoveState::_internal_set_timestamp(int64_t value) {
   _impl_._has_bits_[0] |= 0x00000010u;
   _impl_.timestamp_ = value;
 }
-inline void MoveState::set_timestamp(float value) {
+inline void MoveState::set_timestamp(int64_t value) {
   _internal_set_timestamp(value);
   // @@protoc_insertion_point(field_set:msgTest.MoveState.timestamp)
 }
