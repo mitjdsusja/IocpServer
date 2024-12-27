@@ -23,12 +23,13 @@ void Service::CompletionEventThread(uint32 ms){
 void Service::AddSession(shared_ptr<Session> session){
 
 	lock_guard<mutex> _lock(_mutex);
-
+	
 	_curSessionCount++;
 	cout << "Add Session : " << _curSessionCount << endl;
-	_playerList.insert(_playerId);
+
 	session->SetSessionId(_playerId++);
-	_sessions.insert(pair<int, shared_ptr<Session>>(session->GetSessionId(), session));
+
+	_sessions[session->GetSessionId()] = session;
 }
 
 void Service::removeSession(shared_ptr<Session> session){
@@ -37,7 +38,6 @@ void Service::removeSession(shared_ptr<Session> session){
 
 	_curSessionCount--;
 	_sessions.erase(session->GetSessionId());
-	_playerList.erase(_playerId);
 	
 	cout << "Current Session Count : " << _sessions.size() << endl;
 }
@@ -81,7 +81,7 @@ void Service::SetUserInfo(UserInfo srcUserInfo){
 	lock_guard<mutex> lock(_mutex);
 
 	_sessions[(srcUserInfo.GetId())]->SetUserPosition(srcUserInfo.GetPosition().x, srcUserInfo.GetPosition().y, srcUserInfo.GetPosition().z);
-	_sessions[(srcUserInfo.GetId())]->SetUserVelocity(srcUserInfo.GetDirection().x, srcUserInfo.GetDirection().y, srcUserInfo.GetDirection().z);
+	_sessions[(srcUserInfo.GetId())]->SetUserDirection(srcUserInfo.GetDirection().x, srcUserInfo.GetDirection().y, srcUserInfo.GetDirection().z);
 }
 
 void Service::RegisterHandle(HANDLE handle){

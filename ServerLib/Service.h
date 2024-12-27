@@ -38,7 +38,6 @@ protected:
 	int32 _maxSessionCount = 0;
 	int32 _curSessionCount = 0;
 	int32 _playerId = 1;
-	set<int32> _playerList;
 
 	ServiceType _serviceType; 
 
