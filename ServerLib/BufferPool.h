@@ -17,5 +17,6 @@ public:
 private:
 	vector<Buffer*> _buffers;
 	int32 _bufferCount = 0;
+	int32 _remainedCount = 0;
 
 };

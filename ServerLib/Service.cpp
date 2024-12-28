@@ -42,20 +42,18 @@ void Service::removeSession(shared_ptr<Session> session){
 	cout << "Current Session Count : " << _sessions.size() << endl;
 }
 
-void Service::Broadcast(Buffer* sendBuffer){
+void Service::Broadcast(shared_ptr<Buffer> sendDataBuffer){
 
 	lock_guard<mutex> _lock(_mutex);
 
-	int32 sendLen = sendBuffer->WriteSize();
-
-	for (pair<int, shared_ptr<Session>> sessionData : _sessions) {
-		Buffer* sendBuf = LSendBufferPool->Pop();
-		memcpy(sendBuf->GetBuffer(), sendBuffer->GetBuffer(), sendLen);
-		sendBuf->Write(sendLen);
-		sessionData.second->Send(sendBuf);
+	int32 sendLen = sendDataBuffer->WriteSize();
+	for (const auto& [id, session] : _sessions) {
+		shared_ptr<Buffer> sendBuffer = shared_ptr<Buffer>(LSendBufferPool->Pop(), [](Buffer* buffer) { LSendBufferPool->Push(buffer); });
+		// TODO : copy operator
+		memcpy(sendBuffer->GetBuffer(), sendDataBuffer->GetBuffer(), sendLen);
+		sendBuffer->Write(sendLen);
+		session->Send(sendBuffer);
 	}
-
-	LSendBufferPool->Push(sendBuffer);
 }
 
 void Service::GetUserIdList(int32* array){
@@ -80,8 +78,11 @@ void Service::SetUserInfo(UserInfo srcUserInfo){
 
 	lock_guard<mutex> lock(_mutex);
 
-	_sessions[(srcUserInfo.GetId())]->SetUserPosition(srcUserInfo.GetPosition().x, srcUserInfo.GetPosition().y, srcUserInfo.GetPosition().z);
-	_sessions[(srcUserInfo.GetId())]->SetUserDirection(srcUserInfo.GetDirection().x, srcUserInfo.GetDirection().y, srcUserInfo.GetDirection().z);
+	shared_ptr session = _sessions[srcUserInfo.GetId()];
+	if (session != nullptr) {
+		session->SetUserPosition(srcUserInfo.GetPosition().x, srcUserInfo.GetPosition().y, srcUserInfo.GetPosition().z);
+		session->SetUserDirection(srcUserInfo.GetDirection().x, srcUserInfo.GetDirection().y, srcUserInfo.GetDirection().z);
+	}
 }
 
 void Service::RegisterHandle(HANDLE handle){
@@ -109,10 +110,10 @@ ClientService::ClientService(NetAddress address, int32 maxSessionCount)
 	
 }
 
-void ClientService::SendMsg(Buffer* sendBuffer){
+void ClientService::SendMsg(shared_ptr<Buffer> sendBuffer){
 
-	for (pair<int, shared_ptr<Session>> sessionData : _sessions) {
-		sessionData.second->Send(sendBuffer);
+	for (const auto& [id, session] : _sessions) {
+		session->Send(sendBuffer);
 	}
 }
 

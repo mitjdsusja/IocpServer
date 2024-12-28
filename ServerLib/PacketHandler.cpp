@@ -29,8 +29,7 @@ void PacketHandler::Init(){
 
 void PacketHandler::HandlePacket(shared_ptr<Session> session, PacketHeader* dataBuffer, Service* service) {
 
-	shared_ptr<Buffer> buffer(LBufferPool->Pop(),
-		[](Buffer* buffer) { LBufferPool->Push(buffer); });
+	shared_ptr<Buffer> buffer = shared_ptr<Buffer>(LBufferPool->Pop(), [](Buffer* buffer) { LSendBufferPool->Push(buffer); });
 
 	memcpy(buffer->GetBuffer(), dataBuffer, dataBuffer->packetSize);
 
@@ -61,7 +60,7 @@ void PacketHandler::Handle_CS_Connect_Server(shared_ptr<Session> session, shared
 
 		userInfo->set_id(session->GetSessionId());
 
-		Buffer* sendBuffer = MakeSendBuffer(packetAcceptClient, PacketId::PKT_SC_ACCEPT_CLIENT);
+		shared_ptr<Buffer> sendBuffer = MakeSendBuffer(packetAcceptClient, PacketId::PKT_SC_ACCEPT_CLIENT);
 		Job* job = new Job([session, sendBuffer]() {
 			session->Send(sendBuffer);
 			});
@@ -94,7 +93,7 @@ void PacketHandler::Handle_CS_Request_Server_State(shared_ptr<Session> session, 
 			direction->set_z(userVel.z);
 		}
 
-		Buffer* sendBuffer = MakeSendBuffer(packetUsersInfo, PacketId::PKT_SC_RESPONSE_SERVER_STATE);
+		shared_ptr<Buffer> sendBuffer = MakeSendBuffer(packetUsersInfo, PacketId::PKT_SC_RESPONSE_SERVER_STATE);
 		Job* job = new Job([session, sendBuffer]() {
 			session->Send(sendBuffer);
 		});
@@ -122,7 +121,6 @@ void PacketHandler::Handle_CS_Move_User(shared_ptr<Session> session, shared_ptr<
 	userInfo.SetDirection(recvMoveUser.movestate().direction().x(), recvMoveUser.movestate().direction().y(), recvMoveUser.movestate().direction().z());
 
 	service->SetUserInfo(userInfo);
-
 }
 
 /*-------------------------------------------

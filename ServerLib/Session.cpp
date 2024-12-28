@@ -27,7 +27,7 @@ void Session::Connect(NetAddress peerAddress){
 	RegisterConnect(peerAddress);
 }
 
-void Session::Send(Buffer* sendBuffer){
+void Session::Send(shared_ptr<Buffer> sendBuffer){
 
 	{
 		lock_guard<mutex> _lock(_mutex);
@@ -91,7 +91,7 @@ void Session::RegisterSend(){
 	
 	if (_sendEvent._owner == nullptr) _sendEvent._owner = shared_from_this();
 	
-	vector<Buffer*> sendBuffers;
+	vector<shared_ptr<Buffer>> sendBuffers;
 	int32 bufferCount;
 	{
 		lock_guard<mutex> _lock(_mutex);
@@ -108,7 +108,7 @@ void Session::RegisterSend(){
 	}
 
 	DWORD bytes = 0;
-	if (false == SocketManager::Send(_peerSocket, sendBuffers[0], bufferCount, &_sendEvent)) {
+	if (false == SocketManager::Send(_peerSocket, sendBuffers[0].get(), bufferCount, &_sendEvent)) {
 		// TODO : failed send data Process 
 		//		  Push SendQueue - RESEND
 		for (int32 i = 0;i < bufferCount;i++) {

@@ -35,6 +35,7 @@ int main() {
 		cout << "GQCS Thread Start" << endl;
 
 		GThreadManager->Launch([=]() {
+			cout << "iocp thread : " << this_thread::get_id() << endl;
 			while (true) {
 				serverService->CompletionEventThread(10);
 				GJobTimer->EnqueueReadyJobs(*GJobQueue);
@@ -42,10 +43,11 @@ int main() {
 		});
 	}
 
-	for (int32 i = 0; i < (int32)sysInfo.dwNumberOfProcessors; i++) {
+	for (int32 i = 0; i < (int32)3; i++) {
 		cout << "Job Thread Start" << endl;
 
 		GThreadManager->Launch([=]() {
+			cout << "job gen thread : " << this_thread::get_id() << endl;
 			while (true) {
 				Job* job = GJobQueue->Pop();
 				job->Execute();
@@ -57,6 +59,8 @@ int main() {
 	/*GJobTimer->Reserve(1000, []() {
 		cout << "JobTimerTest" << endl;
 	});*/
+
+	cout << "main thread : " << this_thread::get_id() << endl;
 
 	// Reserve User Position 
 	GJobTimer->Reserve(100, [serverService]() {
@@ -90,7 +94,7 @@ void ReserveLoopBroadcastUserInfo(Service* service) {
 			//cout << "[SEND] " << userInfo->GetPosition().x << " " << userInfo->GetPosition().z << endl;
 		}
 	}
-	Buffer* sendBuffer = PacketHandler::MakeSendBuffer(packetBroadcastUserInfo, PacketId::PKT_SC_BROADCAST_USER_INFO);
+	shared_ptr<Buffer> sendBuffer = PacketHandler::MakeSendBuffer(packetBroadcastUserInfo, PacketId::PKT_SC_BROADCAST_USER_INFO);
 	service->Broadcast(sendBuffer);
 
 	GJobTimer->Reserve(100, [service]() {

@@ -15,7 +15,7 @@ public:
 	virtual ~Session();
 
 	void Connect(NetAddress peerAddress);
-	void Send(Buffer* sendBuffer);
+	void Send(shared_ptr<Buffer> sendBuffer);
 	void Recv();
 	void Disconnect();
 
@@ -55,7 +55,7 @@ private:
 	SOCKET _peerSocket;
 	NetAddress _peerAddress;
 
-	queue<Buffer*> _sendQueue;
+	queue<shared_ptr<Buffer>> _sendQueue;
 	// TODO : Chage RAII
 	RecvBuffer* _recvBuffer = nullptr;
 
