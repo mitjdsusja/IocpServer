@@ -29,7 +29,7 @@ void PacketHandler::Init(){
 
 void PacketHandler::HandlePacket(shared_ptr<Session> session, PacketHeader* dataBuffer, Service* service) {
 
-	shared_ptr<Buffer> buffer = shared_ptr<Buffer>(LBufferPool->Pop(), [](Buffer* buffer) { LSendBufferPool->Push(buffer); });
+	shared_ptr<Buffer> buffer = shared_ptr<Buffer>(LSendBufferPool->Pop(), [](Buffer* buffer) { LSendBufferPool->Push(buffer); });
 
 	memcpy(buffer->GetBuffer(), dataBuffer, dataBuffer->packetSize);
 
@@ -58,7 +58,8 @@ void PacketHandler::Handle_CS_Connect_Server(shared_ptr<Session> session, shared
 		msgTest::Position* position = userInfo->mutable_position();
 		msgTest::Direction* direction = userInfo->mutable_direction();
 
-		userInfo->set_id(session->GetSessionId());
+		int32 userId = session->GetSessionId();
+		userInfo->set_id(userId);
 
 		shared_ptr<Buffer> sendBuffer = MakeSendBuffer(packetAcceptClient, PacketId::PKT_SC_ACCEPT_CLIENT);
 		Job* job = new Job([session, sendBuffer]() {
