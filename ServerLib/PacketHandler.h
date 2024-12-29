@@ -111,7 +111,7 @@ private:
 
 template<typename T>
 shared_ptr<Buffer> PacketHandler::MakeSendBuffer(T& packet, PacketId packetId){
-	shared_ptr<Buffer> sendBuffer = shared_ptr<Buffer>(LSendBufferPool->Pop(), [](Buffer* buffer) { cout << "MakeSendBuffer "; LSendBufferPool->Push(buffer); });
+	shared_ptr<Buffer> sendBuffer = shared_ptr<Buffer>(GSendBufferPool->Pop(), [](Buffer* buffer) { GSendBufferPool->Push(buffer); });
 	PacketHeader* header = (PacketHeader*)sendBuffer->GetBuffer();
 
 	int32 dataSize = (int32)packet.ByteSizeLong();
