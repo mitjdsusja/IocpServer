@@ -7,6 +7,7 @@
 ThreadManager* GThreadManager = nullptr;
 JobQueue* GJobQueue = nullptr;
 JobTimer* GJobTimer = nullptr;
+LockBufferPool* GSendBufferPool = nullptr;
 
 class ServerGlobal {
 public:
@@ -14,12 +15,14 @@ public:
 		GThreadManager = new ThreadManager();
 		GJobQueue = new JobQueue();
 		GJobTimer = new JobTimer();
+		GSendBufferPool = new LockBufferPool();
 	}
 
 	~ServerGlobal() {
 		delete GThreadManager;
 		delete GJobQueue;
 		delete GJobTimer;
+		delete GSendBufferPool;
 	}
 
 }GServerGlobal;

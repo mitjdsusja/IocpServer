@@ -29,7 +29,7 @@ void PacketHandler::Init(){
 
 void PacketHandler::HandlePacket(shared_ptr<Session> session, PacketHeader* dataBuffer, Service* service) {
 
-	shared_ptr<Buffer> buffer = shared_ptr<Buffer>(LSendBufferPool->Pop(), [](Buffer* buffer) { LSendBufferPool->Push(buffer); });
+	shared_ptr<Buffer> buffer = shared_ptr<Buffer>(LSendBufferPool->Pop(), [](Buffer* buffer) { cout << "HandlePacket "; LSendBufferPool->Push(buffer); });
 
 	memcpy(buffer->GetBuffer(), dataBuffer, dataBuffer->packetSize);
 

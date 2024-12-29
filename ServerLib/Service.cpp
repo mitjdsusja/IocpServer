@@ -48,7 +48,7 @@ void Service::Broadcast(shared_ptr<Buffer> sendDataBuffer){
 
 	int32 sendLen = sendDataBuffer->WriteSize();
 	for (const auto& [id, session] : _sessions) {
-		shared_ptr<Buffer> sendBuffer = shared_ptr<Buffer>(LSendBufferPool->Pop(), [](Buffer* buffer) { LSendBufferPool->Push(buffer); });
+		shared_ptr<Buffer> sendBuffer = shared_ptr<Buffer>(LSendBufferPool->Pop(), [](Buffer* buffer) { cout << "Broadcast "; LSendBufferPool->Push(buffer); });
 		// TODO : copy operator
 		memcpy(sendBuffer->GetBuffer(), sendDataBuffer->GetBuffer(), sendLen);
 		sendBuffer->Write(sendLen);
