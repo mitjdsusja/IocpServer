@@ -51,8 +51,8 @@ void PacketHandler::Handle_Invalid(shared_ptr<Session> session, shared_ptr<Buffe
 
 void PacketHandler::Handle_CS_Connect_Server(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service){
 
+	// Send User Info
 	{
-		// Send User Info
 		msgTest::SC_Accept_Client packetAcceptClient;
 		msgTest::UserInfo* userInfo = packetAcceptClient.mutable_userinfo();
 		msgTest::Position* position = userInfo->mutable_position();
@@ -64,6 +64,23 @@ void PacketHandler::Handle_CS_Connect_Server(shared_ptr<Session> session, shared
 		shared_ptr<Buffer> sendBuffer = MakeSendBuffer(packetAcceptClient, PacketId::PKT_SC_ACCEPT_CLIENT);
 		Job* job = new Job([session, sendBuffer]() {
 			session->Send(sendBuffer);
+			});
+		GJobQueue->Push(job);
+	}
+
+	// Broadcast Connect User Info
+	{
+		msgTest::SC_Connect_Other_User packetConnectOtherUser;
+		msgTest::UserInfo* userInfo = packetConnectOtherUser.mutable_userinfo();
+		msgTest::Position* position = userInfo->mutable_position();
+		msgTest::Direction* direction = userInfo->mutable_direction();
+
+		int32 userId = session->GetSessionId();
+		userInfo->set_id(userId);
+
+		shared_ptr<Buffer> sendBuffer = MakeSendBuffer(packetConnectOtherUser, PacketId::PKT_SC_CONNET_OTHER_USER);
+		Job* job = new Job([service, sendBuffer]() {
+			service->Broadcast(sendBuffer);
 			});
 		GJobQueue->Push(job);
 	}
@@ -83,8 +100,8 @@ void PacketHandler::Handle_CS_Request_Server_State(shared_ptr<Session> session, 
 			msgTest::Position* position = userInfo->mutable_position();
 			msgTest::Direction* direction = userInfo->mutable_direction();
 
-			Position& userPos = info->GetPosition();
-			Direction& userVel = info->GetDirection();
+			Position userPos = info->GetPosition();
+			Direction userVel = info->GetDirection();
 			userInfo->set_id(info->GetId());
 			position->set_x(userPos.x);
 			position->set_y(userPos.y);
@@ -103,7 +120,7 @@ void PacketHandler::Handle_CS_Request_Server_State(shared_ptr<Session> session, 
 }
 
 void PacketHandler::Handle_CS_Move_User(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service){
-	
+	cout << "[RECV] Handle_CS_Move_User ";
 	// Update UserInfo
 	PacketHeader* header = (PacketHeader*)dataBuffer->GetBuffer();
 	header->packetId = ntohl(header->packetId);
@@ -113,15 +130,16 @@ void PacketHandler::Handle_CS_Move_User(shared_ptr<Session> session, shared_ptr<
 	msgTest::CS_Move_User recvMoveUser;
 	recvMoveUser.ParseFromArray(&header[1], dataSize);
 
-	//cout << "[RECV] " << recvUserInfo.userinfo().id() << " " << recvUserInfo.userinfo().position().x() << " " << recvUserInfo.userinfo().position().z() << endl;
-
-	// TODO : User Move 
 	UserInfo userInfo;
 	userInfo.SetId(recvMoveUser.movestate().userid());
 	userInfo.SetPosition(recvMoveUser.movestate().position().x(), recvMoveUser.movestate().position().y(), recvMoveUser.movestate().position().z());
 	userInfo.SetDirection(recvMoveUser.movestate().direction().x(), recvMoveUser.movestate().direction().y(), recvMoveUser.movestate().direction().z());
+	userInfo.SetLastMovePacket(recvMoveUser.movestate().timestamp());
 
-	service->SetUserInfo(userInfo);
+	cout << "Set User Info : ";
+	cout << "Pos : " << recvMoveUser.movestate().position().x() << " " << recvMoveUser.movestate().position().y() << " " << recvMoveUser.movestate().position().z() << endl;
+
+	session->SetUserInfo(userInfo);
 }
 
 /*-------------------------------------------

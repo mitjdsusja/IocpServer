@@ -30,6 +30,8 @@ public:
 	void SetSessionId(int32 id) { _userInfo.SetId(id); }
 	void SetUserPosition(float x, float y, float z) { _userInfo.SetPosition(x, y, z); }
 	void SetUserDirection(float x, float y, float z) { _userInfo.SetDirection(x, y, z); }
+	void SetUserLastMovePacket(int64 time) { _userInfo.SetLastMovePacket(time); }
+	void SetUserInfo(UserInfo& userInfo);
 
 	void Process(OverlappedEvent* event, int32 numOfBytes) override;
 	void CleanResource() override;
@@ -62,13 +64,14 @@ private:
 	bool _sendRegistered = false;
 
 private:
-	mutex _mutex;
+	mutex _sendQueueMutex;
 
 	SendEvent _sendEvent = {};
 	RecvEvent _recvEvent = {};
 	ConnectEvent _connectEvent = {};
 
 private:
+	mutex _userInfoMutex;
 	UserInfo _userInfo = {};
 
 };

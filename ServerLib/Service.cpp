@@ -22,7 +22,7 @@ void Service::CompletionEventThread(uint32 ms){
 
 void Service::AddSession(shared_ptr<Session> session){
 
-	lock_guard<mutex> _lock(_mutex);
+	lock_guard<mutex> _lock(_sendQueueMutex);
 	
 	_curSessionCount++;
 	cout << "Add Session : " << _curSessionCount << endl;
@@ -34,7 +34,7 @@ void Service::AddSession(shared_ptr<Session> session){
 
 void Service::removeSession(shared_ptr<Session> session){
 
-	lock_guard<mutex> _lock(_mutex);
+	lock_guard<mutex> _lock(_sendQueueMutex);
 
 	_curSessionCount--;
 	_sessions.erase(session->GetSessionId());
@@ -44,7 +44,7 @@ void Service::removeSession(shared_ptr<Session> session){
 
 void Service::Broadcast(shared_ptr<Buffer> sendDataBuffer){
 
-	lock_guard<mutex> _lock(_mutex);
+	lock_guard<mutex> _lock(_sendQueueMutex);
 
 	int32 sendLen = sendDataBuffer->WriteSize();
 	for (const auto& [id, session] : _sessions) {
@@ -67,7 +67,7 @@ void Service::GetUserIdList(int32* array){
 
 void Service::GetUsersInfo(vector<UserInfo*>& userInfoList){
 
-	lock_guard<mutex> lock(_mutex);
+	lock_guard<mutex> lock(_sendQueueMutex);
 
 	for (const auto& sessionData : _sessions) {
 		userInfoList.push_back(&sessionData.second->GetUserInfo());
@@ -76,7 +76,7 @@ void Service::GetUsersInfo(vector<UserInfo*>& userInfoList){
 
 void Service::SetUserInfo(UserInfo srcUserInfo){
 
-	lock_guard<mutex> lock(_mutex);
+	lock_guard<mutex> lock(_sendQueueMutex);
 
 	shared_ptr session = _sessions[srcUserInfo.GetId()];
 	if (session != nullptr) {
@@ -119,7 +119,7 @@ void ClientService::SendMsg(shared_ptr<Buffer> sendBuffer){
 
 void ClientService::Start(){
 
-	lock_guard<mutex> _lock(_mutex);
+	lock_guard<mutex> _lock(_sendQueueMutex);
 
 	for (int32 i = 0;i < _maxSessionCount;i++) {
 

@@ -1662,10 +1662,9 @@ class SC_Response_Server_State final :
 // -------------------------------------------------------------------
 
 class SC_Result_Move_User final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:msgTest.SC_Result_Move_User) */ {
+    public ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase /* @@protoc_insertion_point(class_definition:msgTest.SC_Result_Move_User) */ {
  public:
   inline SC_Result_Move_User() : SC_Result_Move_User(nullptr) {}
-  ~SC_Result_Move_User() override;
   explicit PROTOBUF_CONSTEXPR SC_Result_Move_User(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
 
   SC_Result_Move_User(const SC_Result_Move_User& from);
@@ -1745,29 +1744,15 @@ class SC_Result_Move_User final :
   SC_Result_Move_User* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
     return CreateMaybeMessage<SC_Result_Move_User>(arena);
   }
-  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const SC_Result_Move_User& from);
-  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const SC_Result_Move_User& from) {
-    SC_Result_Move_User::MergeImpl(*this, from);
+  using ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const SC_Result_Move_User& from) {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyImpl(*this, from);
   }
-  private:
-  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  using ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const SC_Result_Move_User& from) {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
   public:
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  uint8_t* _InternalSerialize(
-      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(SC_Result_Move_User* other);
 
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
@@ -1788,27 +1773,6 @@ class SC_Result_Move_User final :
 
   // accessors -------------------------------------------------------
 
-  enum : int {
-    kUserInfoFieldNumber = 1,
-  };
-  // required .msgTest.UserInfo userInfo = 1;
-  bool has_userinfo() const;
-  private:
-  bool _internal_has_userinfo() const;
-  public:
-  void clear_userinfo();
-  const ::msgTest::UserInfo& userinfo() const;
-  PROTOBUF_NODISCARD ::msgTest::UserInfo* release_userinfo();
-  ::msgTest::UserInfo* mutable_userinfo();
-  void set_allocated_userinfo(::msgTest::UserInfo* userinfo);
-  private:
-  const ::msgTest::UserInfo& _internal_userinfo() const;
-  ::msgTest::UserInfo* _internal_mutable_userinfo();
-  public:
-  void unsafe_arena_set_allocated_userinfo(
-      ::msgTest::UserInfo* userinfo);
-  ::msgTest::UserInfo* unsafe_arena_release_userinfo();
-
   // @@protoc_insertion_point(class_scope:msgTest.SC_Result_Move_User)
  private:
   class _Internal;
@@ -1817,11 +1781,7 @@ class SC_Result_Move_User final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-    ::msgTest::UserInfo* userinfo_;
   };
-  union { Impl_ _impl_; };
   friend struct ::TableStruct_messageTest_2eproto;
 };
 // -------------------------------------------------------------------
@@ -2119,25 +2079,25 @@ class SC_Broadcast_User_Info final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kUserInfosFieldNumber = 1,
+    kMoveStatesFieldNumber = 1,
   };
-  // repeated .msgTest.UserInfo userInfos = 1;
-  int userinfos_size() const;
+  // repeated .msgTest.MoveState moveStates = 1;
+  int movestates_size() const;
   private:
-  int _internal_userinfos_size() const;
+  int _internal_movestates_size() const;
   public:
-  void clear_userinfos();
-  ::msgTest::UserInfo* mutable_userinfos(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::msgTest::UserInfo >*
-      mutable_userinfos();
+  void clear_movestates();
+  ::msgTest::MoveState* mutable_movestates(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::msgTest::MoveState >*
+      mutable_movestates();
   private:
-  const ::msgTest::UserInfo& _internal_userinfos(int index) const;
-  ::msgTest::UserInfo* _internal_add_userinfos();
+  const ::msgTest::MoveState& _internal_movestates(int index) const;
+  ::msgTest::MoveState* _internal_add_movestates();
   public:
-  const ::msgTest::UserInfo& userinfos(int index) const;
-  ::msgTest::UserInfo* add_userinfos();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::msgTest::UserInfo >&
-      userinfos() const;
+  const ::msgTest::MoveState& movestates(int index) const;
+  ::msgTest::MoveState* add_movestates();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::msgTest::MoveState >&
+      movestates() const;
 
   // @@protoc_insertion_point(class_scope:msgTest.SC_Broadcast_User_Info)
  private:
@@ -2147,7 +2107,7 @@ class SC_Broadcast_User_Info final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::msgTest::UserInfo > userinfos_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::msgTest::MoveState > movestates_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -3060,96 +3020,6 @@ SC_Response_Server_State::userinfos() const {
 
 // SC_Result_Move_User
 
-// required .msgTest.UserInfo userInfo = 1;
-inline bool SC_Result_Move_User::_internal_has_userinfo() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
-  PROTOBUF_ASSUME(!value || _impl_.userinfo_ != nullptr);
-  return value;
-}
-inline bool SC_Result_Move_User::has_userinfo() const {
-  return _internal_has_userinfo();
-}
-inline void SC_Result_Move_User::clear_userinfo() {
-  if (_impl_.userinfo_ != nullptr) _impl_.userinfo_->Clear();
-  _impl_._has_bits_[0] &= ~0x00000001u;
-}
-inline const ::msgTest::UserInfo& SC_Result_Move_User::_internal_userinfo() const {
-  const ::msgTest::UserInfo* p = _impl_.userinfo_;
-  return p != nullptr ? *p : reinterpret_cast<const ::msgTest::UserInfo&>(
-      ::msgTest::_UserInfo_default_instance_);
-}
-inline const ::msgTest::UserInfo& SC_Result_Move_User::userinfo() const {
-  // @@protoc_insertion_point(field_get:msgTest.SC_Result_Move_User.userInfo)
-  return _internal_userinfo();
-}
-inline void SC_Result_Move_User::unsafe_arena_set_allocated_userinfo(
-    ::msgTest::UserInfo* userinfo) {
-  if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.userinfo_);
-  }
-  _impl_.userinfo_ = userinfo;
-  if (userinfo) {
-    _impl_._has_bits_[0] |= 0x00000001u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000001u;
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:msgTest.SC_Result_Move_User.userInfo)
-}
-inline ::msgTest::UserInfo* SC_Result_Move_User::release_userinfo() {
-  _impl_._has_bits_[0] &= ~0x00000001u;
-  ::msgTest::UserInfo* temp = _impl_.userinfo_;
-  _impl_.userinfo_ = nullptr;
-#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
-  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
-  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  if (GetArenaForAllocation() == nullptr) { delete old; }
-#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
-  if (GetArenaForAllocation() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
-  return temp;
-}
-inline ::msgTest::UserInfo* SC_Result_Move_User::unsafe_arena_release_userinfo() {
-  // @@protoc_insertion_point(field_release:msgTest.SC_Result_Move_User.userInfo)
-  _impl_._has_bits_[0] &= ~0x00000001u;
-  ::msgTest::UserInfo* temp = _impl_.userinfo_;
-  _impl_.userinfo_ = nullptr;
-  return temp;
-}
-inline ::msgTest::UserInfo* SC_Result_Move_User::_internal_mutable_userinfo() {
-  _impl_._has_bits_[0] |= 0x00000001u;
-  if (_impl_.userinfo_ == nullptr) {
-    auto* p = CreateMaybeMessage<::msgTest::UserInfo>(GetArenaForAllocation());
-    _impl_.userinfo_ = p;
-  }
-  return _impl_.userinfo_;
-}
-inline ::msgTest::UserInfo* SC_Result_Move_User::mutable_userinfo() {
-  ::msgTest::UserInfo* _msg = _internal_mutable_userinfo();
-  // @@protoc_insertion_point(field_mutable:msgTest.SC_Result_Move_User.userInfo)
-  return _msg;
-}
-inline void SC_Result_Move_User::set_allocated_userinfo(::msgTest::UserInfo* userinfo) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  if (message_arena == nullptr) {
-    delete _impl_.userinfo_;
-  }
-  if (userinfo) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(userinfo);
-    if (message_arena != submessage_arena) {
-      userinfo = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, userinfo, submessage_arena);
-    }
-    _impl_._has_bits_[0] |= 0x00000001u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000001u;
-  }
-  _impl_.userinfo_ = userinfo;
-  // @@protoc_insertion_point(field_set_allocated:msgTest.SC_Result_Move_User.userInfo)
-}
-
 // -------------------------------------------------------------------
 
 // SC_Connect_Other_User
@@ -3248,44 +3118,44 @@ inline void SC_Connect_Other_User::set_allocated_userinfo(::msgTest::UserInfo* u
 
 // SC_Broadcast_User_Info
 
-// repeated .msgTest.UserInfo userInfos = 1;
-inline int SC_Broadcast_User_Info::_internal_userinfos_size() const {
-  return _impl_.userinfos_.size();
+// repeated .msgTest.MoveState moveStates = 1;
+inline int SC_Broadcast_User_Info::_internal_movestates_size() const {
+  return _impl_.movestates_.size();
 }
-inline int SC_Broadcast_User_Info::userinfos_size() const {
-  return _internal_userinfos_size();
+inline int SC_Broadcast_User_Info::movestates_size() const {
+  return _internal_movestates_size();
 }
-inline void SC_Broadcast_User_Info::clear_userinfos() {
-  _impl_.userinfos_.Clear();
+inline void SC_Broadcast_User_Info::clear_movestates() {
+  _impl_.movestates_.Clear();
 }
-inline ::msgTest::UserInfo* SC_Broadcast_User_Info::mutable_userinfos(int index) {
-  // @@protoc_insertion_point(field_mutable:msgTest.SC_Broadcast_User_Info.userInfos)
-  return _impl_.userinfos_.Mutable(index);
+inline ::msgTest::MoveState* SC_Broadcast_User_Info::mutable_movestates(int index) {
+  // @@protoc_insertion_point(field_mutable:msgTest.SC_Broadcast_User_Info.moveStates)
+  return _impl_.movestates_.Mutable(index);
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::msgTest::UserInfo >*
-SC_Broadcast_User_Info::mutable_userinfos() {
-  // @@protoc_insertion_point(field_mutable_list:msgTest.SC_Broadcast_User_Info.userInfos)
-  return &_impl_.userinfos_;
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::msgTest::MoveState >*
+SC_Broadcast_User_Info::mutable_movestates() {
+  // @@protoc_insertion_point(field_mutable_list:msgTest.SC_Broadcast_User_Info.moveStates)
+  return &_impl_.movestates_;
 }
-inline const ::msgTest::UserInfo& SC_Broadcast_User_Info::_internal_userinfos(int index) const {
-  return _impl_.userinfos_.Get(index);
+inline const ::msgTest::MoveState& SC_Broadcast_User_Info::_internal_movestates(int index) const {
+  return _impl_.movestates_.Get(index);
 }
-inline const ::msgTest::UserInfo& SC_Broadcast_User_Info::userinfos(int index) const {
-  // @@protoc_insertion_point(field_get:msgTest.SC_Broadcast_User_Info.userInfos)
-  return _internal_userinfos(index);
+inline const ::msgTest::MoveState& SC_Broadcast_User_Info::movestates(int index) const {
+  // @@protoc_insertion_point(field_get:msgTest.SC_Broadcast_User_Info.moveStates)
+  return _internal_movestates(index);
 }
-inline ::msgTest::UserInfo* SC_Broadcast_User_Info::_internal_add_userinfos() {
-  return _impl_.userinfos_.Add();
+inline ::msgTest::MoveState* SC_Broadcast_User_Info::_internal_add_movestates() {
+  return _impl_.movestates_.Add();
 }
-inline ::msgTest::UserInfo* SC_Broadcast_User_Info::add_userinfos() {
-  ::msgTest::UserInfo* _add = _internal_add_userinfos();
-  // @@protoc_insertion_point(field_add:msgTest.SC_Broadcast_User_Info.userInfos)
+inline ::msgTest::MoveState* SC_Broadcast_User_Info::add_movestates() {
+  ::msgTest::MoveState* _add = _internal_add_movestates();
+  // @@protoc_insertion_point(field_add:msgTest.SC_Broadcast_User_Info.moveStates)
   return _add;
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::msgTest::UserInfo >&
-SC_Broadcast_User_Info::userinfos() const {
-  // @@protoc_insertion_point(field_list:msgTest.SC_Broadcast_User_Info.userInfos)
-  return _impl_.userinfos_;
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::msgTest::MoveState >&
+SC_Broadcast_User_Info::movestates() const {
+  // @@protoc_insertion_point(field_list:msgTest.SC_Broadcast_User_Info.moveStates)
+  return _impl_.movestates_;
 }
 
 #ifdef __GNUC__

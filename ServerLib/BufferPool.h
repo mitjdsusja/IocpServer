@@ -38,5 +38,5 @@ public:
 	void Push(Buffer* buffer) override;
 
 private:
-	mutex _mutex;
+	mutex _sendQueueMutex;
 };

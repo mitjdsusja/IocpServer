@@ -31,7 +31,7 @@ Buffer* BufferPool::Pop(){
 	_buffers.pop_back();
 	_remainedCount--;
 
-	cout << this_thread::get_id() << "<POP> Remained Buffer : " << _remainedCount << endl;
+	//cout << this_thread::get_id() << "<POP> Remained Buffer : " << _remainedCount << endl;
 
 	return Buffer;
 }
@@ -42,7 +42,7 @@ void BufferPool::Push(Buffer* buffer){
 	_buffers.push_back(buffer);
 	_remainedCount++;
 
-	cout << this_thread::get_id() << "<PUSH> Remained Buffer : " << _remainedCount << endl;
+	//cout << this_thread::get_id() << "<PUSH> Remained Buffer : " << _remainedCount << endl;
 }
 
 LockBufferPool::LockBufferPool(){
@@ -65,7 +65,7 @@ LockBufferPool::~LockBufferPool(){
 
 Buffer* LockBufferPool::Pop(){
 
-	lock_guard<mutex> lock(_mutex);
+	lock_guard<mutex> lock(_sendQueueMutex);
 
 	if (_buffers.empty() == true) {
 		_bufferCount++;
@@ -76,17 +76,17 @@ Buffer* LockBufferPool::Pop(){
 	_buffers.pop_back();
 	_remainedCount--;
 
-	cout << this_thread::get_id() << "<POP> Remained Buffer : " << _remainedCount << endl;
+	//cout << this_thread::get_id() << "<POP> Remained Buffer : " << _remainedCount << endl;
 
 	return Buffer;
 }
 
 void LockBufferPool::Push(Buffer* buffer){
-	lock_guard<mutex> lock(_mutex);
+	lock_guard<mutex> lock(_sendQueueMutex);
 
 	buffer->Clear();
 	_buffers.push_back(buffer);
 	_remainedCount++;
 
-	cout << this_thread::get_id() << "<PUSH> Remained Buffer : " << _remainedCount << endl;
+	//cout << this_thread::get_id() << "<PUSH> Remained Buffer : " << _remainedCount << endl;
 }

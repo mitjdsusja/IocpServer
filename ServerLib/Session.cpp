@@ -30,7 +30,7 @@ void Session::Connect(NetAddress peerAddress){
 void Session::Send(shared_ptr<Buffer> sendBuffer){
 
 	{
-		lock_guard<mutex> _lock(_mutex);
+		lock_guard<mutex> _lock(_sendQueueMutex);
 		_sendQueue.push(sendBuffer);
 
 		if (_sendRegistered == true) {
@@ -58,6 +58,17 @@ void Session::Disconnect(){
 	if (_recvEvent._owner != nullptr) _recvEvent._owner = nullptr;
 }
 
+
+void Session::SetUserInfo(UserInfo& userInfo){
+
+	{
+		lock_guard<mutex> lock(_userInfoMutex);
+
+		SetUserPosition(userInfo.GetPosition().x, userInfo.GetPosition().y, userInfo.GetPosition().z);
+		SetUserDirection(userInfo.GetDirection().x, userInfo.GetDirection().y, userInfo.GetDirection().z);
+		SetUserLastMovePacket(userInfo.GetLastMovePacket());
+	}
+}
 
 void Session::Process(OverlappedEvent* event, int32 numOfBytes){
 
@@ -94,7 +105,7 @@ void Session::RegisterSend(){
 	vector<shared_ptr<Buffer>> sendBuffers;
 	int32 bufferCount;
 	{
-		lock_guard<mutex> _lock(_mutex);
+		lock_guard<mutex> _lock(_sendQueueMutex);
 
 		bufferCount = (int32)_sendQueue.size();
 		sendBuffers.resize(bufferCount);
@@ -150,7 +161,7 @@ void Session::ProcessSend(OverlappedEvent* event, int32 processBytes){
 	OnSend(processBytes);
 
 	{
-		lock_guard<mutex> _lock(_mutex);
+		lock_guard<mutex> _lock(_sendQueueMutex);
 		if (_sendQueue.empty()) {
 			_sendRegistered = false;
 			return;
@@ -245,7 +256,7 @@ int32 ClientSession::OnRecv(BYTE* recvBuffer, int32 recvBytes){
 		buffer = recvBuffer + processLen;
 		PacketHeader* header = (PacketHeader*)buffer;
 
-		cout << "[RECV] " << "SessionId : " << GetSessionId() << " PacketId : " << header->packetId << endl;
+		//cout << "[RECV] " << "SessionId : " << GetSessionId() << " PacketId : " << header->packetId << endl;
 
 		//cout << "packetID : " << header->packetId << endl;
 		// TODO : Validate

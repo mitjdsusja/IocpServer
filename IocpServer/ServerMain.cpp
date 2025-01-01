@@ -35,7 +35,7 @@ int main() {
 		cout << "GQCS Thread Start" << endl;
 
 		GThreadManager->Launch([=]() {
-			cout << "iocp thread : " << this_thread::get_id() << endl;
+			//cout << "iocp thread : " << this_thread::get_id() << endl;
 			while (true) {
 				serverService->CompletionEventThread(10);
 				GJobTimer->EnqueueReadyJobs(*GJobQueue);
@@ -47,7 +47,7 @@ int main() {
 		cout << "Job Thread Start" << endl;
 
 		GThreadManager->Launch([=]() {
-			cout << "job gen thread : " << this_thread::get_id() << endl;
+			//cout << "job gen thread : " << this_thread::get_id() << endl;
 			while (true) {
 				Job* job = GJobQueue->Pop();
 				job->Execute();
@@ -60,10 +60,10 @@ int main() {
 		cout << "JobTimerTest" << endl;
 	});*/
 
-	cout << "main thread : " << this_thread::get_id() << endl;
+	//cout << "main thread : " << this_thread::get_id() << endl;
 
 	// Reserve User Position 
-	GJobTimer->Reserve(100, [serverService]() {
+	GJobTimer->Reserve(200, [serverService]() {
 		ReserveLoopBroadcastUserInfo(serverService);
 	});
 
@@ -77,13 +77,15 @@ void ReserveLoopBroadcastUserInfo(Service* service) {
 	{
 		vector<UserInfo*> userInfoList;
 		service->GetUsersInfo(userInfoList);
-
+		//cout << "[Send] Broadcast User Info" << endl;
 		for (UserInfo* userInfo : userInfoList) {
-			msgTest::UserInfo* packetUsersInfo = packetBroadcastUserInfo.add_userinfos();
-			msgTest::Position* position = packetUsersInfo->mutable_position();
-			msgTest::Direction* direction = packetUsersInfo->mutable_direction();
+			msgTest::MoveState* packetMoveState = packetBroadcastUserInfo.add_movestates();
+			msgTest::Position* position = packetMoveState->mutable_position();
+			msgTest::Direction* direction = packetMoveState->mutable_direction();
 
-			packetUsersInfo->set_id(userInfo->GetId());
+			packetMoveState->set_userid(userInfo->GetId());
+			packetMoveState->set_timestamp(userInfo->GetLastMovePacket());
+			packetMoveState->set_speed(0);
 			position->set_x(userInfo->GetPosition().x);
 			position->set_y(userInfo->GetPosition().y);
 			position->set_z(userInfo->GetPosition().z);
@@ -91,13 +93,14 @@ void ReserveLoopBroadcastUserInfo(Service* service) {
 			direction->set_y(userInfo->GetDirection().y);
 			direction->set_z(userInfo->GetDirection().z);
 
-			//cout << "[SEND] " << userInfo->GetPosition().x << " " << userInfo->GetPosition().z << endl;
+			//cout << "userId : " << userInfo->GetId() << " ";
+			//cout << "Pos : " << userInfo->GetPosition().x << " " << userInfo->GetPosition().z << endl;
 		}
 	}
 	shared_ptr<Buffer> sendBuffer = PacketHandler::MakeSendBuffer(packetBroadcastUserInfo, PacketId::PKT_SC_BROADCAST_USER_INFO);
 	service->Broadcast(sendBuffer);
 
-	GJobTimer->Reserve(100, [service]() {
+	GJobTimer->Reserve(200, [service]() {
 		ReserveLoopBroadcastUserInfo(service);
 	});
 }

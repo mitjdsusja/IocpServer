@@ -44,11 +44,11 @@ message SC_Response_Server_State{
     repeated UserInfo userInfos = 1;
 }
 message SC_Result_Move_User{
-    required UserInfo userInfo = 1;
+
 }
 message SC_Connect_Other_User{
     required UserInfo userInfo = 1;
 }
 message SC_Broadcast_User_Info{
-    repeated UserInfo userInfos = 1;
+    repeated MoveState moveStates = 1;
 }

@@ -151,10 +151,7 @@ struct SC_Response_Server_StateDefaultTypeInternal {
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SC_Response_Server_StateDefaultTypeInternal _SC_Response_Server_State_default_instance_;
 PROTOBUF_CONSTEXPR SC_Result_Move_User::SC_Result_Move_User(
-    ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_._has_bits_)*/{}
-  , /*decltype(_impl_._cached_size_)*/{}
-  , /*decltype(_impl_.userinfo_)*/nullptr} {}
+    ::_pbi::ConstantInitialized) {}
 struct SC_Result_Move_UserDefaultTypeInternal {
   PROTOBUF_CONSTEXPR SC_Result_Move_UserDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -180,7 +177,7 @@ struct SC_Connect_Other_UserDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SC_Connect_Other_UserDefaultTypeInternal _SC_Connect_Other_User_default_instance_;
 PROTOBUF_CONSTEXPR SC_Broadcast_User_Info::SC_Broadcast_User_Info(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.userinfos_)*/{}
+    /*decltype(_impl_.movestates_)*/{}
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct SC_Broadcast_User_InfoDefaultTypeInternal {
   PROTOBUF_CONSTEXPR SC_Broadcast_User_InfoDefaultTypeInternal()
@@ -284,14 +281,12 @@ const uint32_t TableStruct_messageTest_2eproto::offsets[] PROTOBUF_SECTION_VARIA
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::msgTest::SC_Response_Server_State, _impl_.userinfos_),
-  PROTOBUF_FIELD_OFFSET(::msgTest::SC_Result_Move_User, _impl_._has_bits_),
+  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::msgTest::SC_Result_Move_User, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::msgTest::SC_Result_Move_User, _impl_.userinfo_),
-  0,
   PROTOBUF_FIELD_OFFSET(::msgTest::SC_Connect_Other_User, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::msgTest::SC_Connect_Other_User, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -306,7 +301,7 @@ const uint32_t TableStruct_messageTest_2eproto::offsets[] PROTOBUF_SECTION_VARIA
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::msgTest::SC_Broadcast_User_Info, _impl_.userinfos_),
+  PROTOBUF_FIELD_OFFSET(::msgTest::SC_Broadcast_User_Info, _impl_.movestates_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, 9, -1, sizeof(::msgTest::Position)},
@@ -318,9 +313,9 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 64, 71, -1, sizeof(::msgTest::CS_Move_User)},
   { 72, 79, -1, sizeof(::msgTest::SC_Accept_Client)},
   { 80, -1, -1, sizeof(::msgTest::SC_Response_Server_State)},
-  { 87, 94, -1, sizeof(::msgTest::SC_Result_Move_User)},
-  { 95, 102, -1, sizeof(::msgTest::SC_Connect_Other_User)},
-  { 103, -1, -1, sizeof(::msgTest::SC_Broadcast_User_Info)},
+  { 87, -1, -1, sizeof(::msgTest::SC_Result_Move_User)},
+  { 93, 100, -1, sizeof(::msgTest::SC_Connect_Other_User)},
+  { 101, -1, -1, sizeof(::msgTest::SC_Broadcast_User_Info)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -354,15 +349,14 @@ const char descriptor_table_protodef_messageTest_2eproto[] PROTOBUF_SECTION_VARI
   "\"7\n\020SC_Accept_Client\022#\n\010userInfo\030\001 \002(\0132\021"
   ".msgTest.UserInfo\"@\n\030SC_Response_Server_"
   "State\022$\n\tuserInfos\030\001 \003(\0132\021.msgTest.UserI"
-  "nfo\":\n\023SC_Result_Move_User\022#\n\010userInfo\030\001"
-  " \002(\0132\021.msgTest.UserInfo\"<\n\025SC_Connect_Ot"
-  "her_User\022#\n\010userInfo\030\001 \002(\0132\021.msgTest.Use"
-  "rInfo\">\n\026SC_Broadcast_User_Info\022$\n\tuserI"
-  "nfos\030\001 \003(\0132\021.msgTest.UserInfo"
+  "nfo\"\025\n\023SC_Result_Move_User\"<\n\025SC_Connect"
+  "_Other_User\022#\n\010userInfo\030\001 \002(\0132\021.msgTest."
+  "UserInfo\"@\n\026SC_Broadcast_User_Info\022&\n\nmo"
+  "veStates\030\001 \003(\0132\022.msgTest.MoveState"
   ;
 static ::_pbi::once_flag descriptor_table_messageTest_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_messageTest_2eproto = {
-    false, false, 789, descriptor_table_protodef_messageTest_2eproto,
+    false, false, 754, descriptor_table_protodef_messageTest_2eproto,
     "messageTest.proto",
     &descriptor_table_messageTest_2eproto_once, nullptr, 0, 12,
     schemas, file_default_instances, TableStruct_messageTest_2eproto::offsets,
@@ -2302,206 +2296,35 @@ void SC_Response_Server_State::InternalSwap(SC_Response_Server_State* other) {
 
 class SC_Result_Move_User::_Internal {
  public:
-  using HasBits = decltype(std::declval<SC_Result_Move_User>()._impl_._has_bits_);
-  static const ::msgTest::UserInfo& userinfo(const SC_Result_Move_User* msg);
-  static void set_has_userinfo(HasBits* has_bits) {
-    (*has_bits)[0] |= 1u;
-  }
-  static bool MissingRequiredFields(const HasBits& has_bits) {
-    return ((has_bits[0] & 0x00000001) ^ 0x00000001) != 0;
-  }
 };
 
-const ::msgTest::UserInfo&
-SC_Result_Move_User::_Internal::userinfo(const SC_Result_Move_User* msg) {
-  return *msg->_impl_.userinfo_;
-}
 SC_Result_Move_User::SC_Result_Move_User(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
-  SharedCtor(arena, is_message_owned);
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase(arena, is_message_owned) {
   // @@protoc_insertion_point(arena_constructor:msgTest.SC_Result_Move_User)
 }
 SC_Result_Move_User::SC_Result_Move_User(const SC_Result_Move_User& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase() {
   SC_Result_Move_User* const _this = this; (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_}
-    , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.userinfo_){nullptr}};
-
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  if (from._internal_has_userinfo()) {
-    _this->_impl_.userinfo_ = new ::msgTest::UserInfo(*from._impl_.userinfo_);
-  }
   // @@protoc_insertion_point(copy_constructor:msgTest.SC_Result_Move_User)
 }
 
-inline void SC_Result_Move_User::SharedCtor(
-    ::_pb::Arena* arena, bool is_message_owned) {
-  (void)arena;
-  (void)is_message_owned;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){}
-    , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.userinfo_){nullptr}
-  };
-}
 
-SC_Result_Move_User::~SC_Result_Move_User() {
-  // @@protoc_insertion_point(destructor:msgTest.SC_Result_Move_User)
-  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
-  (void)arena;
-    return;
-  }
-  SharedDtor();
-}
 
-inline void SC_Result_Move_User::SharedDtor() {
-  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  if (this != internal_default_instance()) delete _impl_.userinfo_;
-}
 
-void SC_Result_Move_User::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
-}
-
-void SC_Result_Move_User::Clear() {
-// @@protoc_insertion_point(message_clear_start:msgTest.SC_Result_Move_User)
-  uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000001u) {
-    GOOGLE_DCHECK(_impl_.userinfo_ != nullptr);
-    _impl_.userinfo_->Clear();
-  }
-  _impl_._has_bits_.Clear();
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-}
-
-const char* SC_Result_Move_User::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
-#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  _Internal::HasBits has_bits{};
-  while (!ctx->Done(&ptr)) {
-    uint32_t tag;
-    ptr = ::_pbi::ReadTag(ptr, &tag);
-    switch (tag >> 3) {
-      // required .msgTest.UserInfo userInfo = 1;
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
-          ptr = ctx->ParseMessage(_internal_mutable_userinfo(), ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      default:
-        goto handle_unusual;
-    }  // switch
-  handle_unusual:
-    if ((tag == 0) || ((tag & 7) == 4)) {
-      CHK_(ptr);
-      ctx->SetLastTag(tag);
-      goto message_done;
-    }
-    ptr = UnknownFieldParse(
-        tag,
-        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-        ptr, ctx);
-    CHK_(ptr != nullptr);
-  }  // while
-message_done:
-  _impl_._has_bits_.Or(has_bits);
-  return ptr;
-failure:
-  ptr = nullptr;
-  goto message_done;
-#undef CHK_
-}
-
-uint8_t* SC_Result_Move_User::_InternalSerialize(
-    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:msgTest.SC_Result_Move_User)
-  uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  cached_has_bits = _impl_._has_bits_[0];
-  // required .msgTest.UserInfo userInfo = 1;
-  if (cached_has_bits & 0x00000001u) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(1, _Internal::userinfo(this),
-        _Internal::userinfo(this).GetCachedSize(), target, stream);
-  }
-
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:msgTest.SC_Result_Move_User)
-  return target;
-}
-
-size_t SC_Result_Move_User::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:msgTest.SC_Result_Move_User)
-  size_t total_size = 0;
-
-  // required .msgTest.UserInfo userInfo = 1;
-  if (_internal_has_userinfo()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.userinfo_);
-  }
-  uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
-}
 
 const ::PROTOBUF_NAMESPACE_ID::Message::ClassData SC_Result_Move_User::_class_data_ = {
-    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    SC_Result_Move_User::MergeImpl
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyImpl,
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeImpl,
 };
 const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*SC_Result_Move_User::GetClassData() const { return &_class_data_; }
 
 
-void SC_Result_Move_User::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<SC_Result_Move_User*>(&to_msg);
-  auto& from = static_cast<const SC_Result_Move_User&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:msgTest.SC_Result_Move_User)
-  GOOGLE_DCHECK_NE(&from, _this);
-  uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
 
-  if (from._internal_has_userinfo()) {
-    _this->_internal_mutable_userinfo()->::msgTest::UserInfo::MergeFrom(
-        from._internal_userinfo());
-  }
-  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-}
 
-void SC_Result_Move_User::CopyFrom(const SC_Result_Move_User& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:msgTest.SC_Result_Move_User)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
 
-bool SC_Result_Move_User::IsInitialized() const {
-  if (_Internal::MissingRequiredFields(_impl_._has_bits_)) return false;
-  if (_internal_has_userinfo()) {
-    if (!_impl_.userinfo_->IsInitialized()) return false;
-  }
-  return true;
-}
 
-void SC_Result_Move_User::InternalSwap(SC_Result_Move_User* other) {
-  using std::swap;
-  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  swap(_impl_.userinfo_, other->_impl_.userinfo_);
-}
 
 ::PROTOBUF_NAMESPACE_ID::Metadata SC_Result_Move_User::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
@@ -2736,7 +2559,7 @@ SC_Broadcast_User_Info::SC_Broadcast_User_Info(const SC_Broadcast_User_Info& fro
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   SC_Broadcast_User_Info* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.userinfos_){from._impl_.userinfos_}
+      decltype(_impl_.movestates_){from._impl_.movestates_}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -2748,7 +2571,7 @@ inline void SC_Broadcast_User_Info::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.userinfos_){arena}
+      decltype(_impl_.movestates_){arena}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -2764,7 +2587,7 @@ SC_Broadcast_User_Info::~SC_Broadcast_User_Info() {
 
 inline void SC_Broadcast_User_Info::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  _impl_.userinfos_.~RepeatedPtrField();
+  _impl_.movestates_.~RepeatedPtrField();
 }
 
 void SC_Broadcast_User_Info::SetCachedSize(int size) const {
@@ -2777,7 +2600,7 @@ void SC_Broadcast_User_Info::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.userinfos_.Clear();
+  _impl_.movestates_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -2787,13 +2610,13 @@ const char* SC_Broadcast_User_Info::_InternalParse(const char* ptr, ::_pbi::Pars
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // repeated .msgTest.UserInfo userInfos = 1;
+      // repeated .msgTest.MoveState moveStates = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
           ptr -= 1;
           do {
             ptr += 1;
-            ptr = ctx->ParseMessage(_internal_add_userinfos(), ptr);
+            ptr = ctx->ParseMessage(_internal_add_movestates(), ptr);
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
           } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<10>(ptr));
@@ -2829,10 +2652,10 @@ uint8_t* SC_Broadcast_User_Info::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // repeated .msgTest.UserInfo userInfos = 1;
+  // repeated .msgTest.MoveState moveStates = 1;
   for (unsigned i = 0,
-      n = static_cast<unsigned>(this->_internal_userinfos_size()); i < n; i++) {
-    const auto& repfield = this->_internal_userinfos(i);
+      n = static_cast<unsigned>(this->_internal_movestates_size()); i < n; i++) {
+    const auto& repfield = this->_internal_movestates(i);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
         InternalWriteMessage(1, repfield, repfield.GetCachedSize(), target, stream);
   }
@@ -2853,9 +2676,9 @@ size_t SC_Broadcast_User_Info::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // repeated .msgTest.UserInfo userInfos = 1;
-  total_size += 1UL * this->_internal_userinfos_size();
-  for (const auto& msg : this->_impl_.userinfos_) {
+  // repeated .msgTest.MoveState moveStates = 1;
+  total_size += 1UL * this->_internal_movestates_size();
+  for (const auto& msg : this->_impl_.movestates_) {
     total_size +=
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
@@ -2878,7 +2701,7 @@ void SC_Broadcast_User_Info::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg,
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  _this->_impl_.userinfos_.MergeFrom(from._impl_.userinfos_);
+  _this->_impl_.movestates_.MergeFrom(from._impl_.movestates_);
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -2890,7 +2713,7 @@ void SC_Broadcast_User_Info::CopyFrom(const SC_Broadcast_User_Info& from) {
 }
 
 bool SC_Broadcast_User_Info::IsInitialized() const {
-  if (!::PROTOBUF_NAMESPACE_ID::internal::AllAreInitialized(_impl_.userinfos_))
+  if (!::PROTOBUF_NAMESPACE_ID::internal::AllAreInitialized(_impl_.movestates_))
     return false;
   return true;
 }
@@ -2898,7 +2721,7 @@ bool SC_Broadcast_User_Info::IsInitialized() const {
 void SC_Broadcast_User_Info::InternalSwap(SC_Broadcast_User_Info* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  _impl_.userinfos_.InternalSwap(&other->_impl_.userinfos_);
+  _impl_.movestates_.InternalSwap(&other->_impl_.movestates_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata SC_Broadcast_User_Info::GetMetadata() const {

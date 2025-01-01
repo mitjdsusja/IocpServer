@@ -42,7 +42,7 @@ protected:
 	ServiceType _serviceType; 
 
 protected:
-	mutex _mutex;
+	mutex _sendQueueMutex;
 
 };
 
