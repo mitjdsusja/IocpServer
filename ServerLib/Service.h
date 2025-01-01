@@ -23,26 +23,26 @@ public:
 
 	// Users
 	int32 GetCurSessionCount() { return _curSessionCount; }
-	void GetUserIdList(int32* array);
-	void GetUsersInfo(vector<UserInfo*>& userInfoList);
+	void GetUsersInfo(vector<UserInfo>& userInfoList);
 
 	void SetUserInfo(UserInfo srcUserInfo);
 	
 	void RegisterHandle(HANDLE handle);
 
 protected:
-	map<int, shared_ptr<Session>> _sessions;
 	CompletionPortHandler* _completionPortHandler;
 
 	NetAddress _address;
-	int32 _maxSessionCount = 0;
-	int32 _curSessionCount = 0;
-	int32 _playerId = 1;
-
+	
 	ServiceType _serviceType; 
 
 protected:
-	mutex _sendQueueMutex;
+	mutex _sessionsMutex;
+	map<int, shared_ptr<Session>> _sessions;
+
+	int32 _maxSessionCount = 0;
+	int32 _curSessionCount = 0;
+	int32 _playerId = 1;
 
 };
 

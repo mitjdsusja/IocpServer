@@ -92,17 +92,17 @@ void PacketHandler::Handle_CS_Request_Server_State(shared_ptr<Session> session, 
 	{
 		msgTest::SC_Response_Server_State packetUsersInfo;
 		
-		vector<UserInfo*> usersInfo;
+		vector<UserInfo> usersInfo;
 		service->GetUsersInfo(usersInfo);
 
-		for (UserInfo* info : usersInfo) {
+		for (UserInfo info : usersInfo) {
 			msgTest::UserInfo* userInfo = packetUsersInfo.add_userinfos();
 			msgTest::Position* position = userInfo->mutable_position();
 			msgTest::Direction* direction = userInfo->mutable_direction();
 
-			Position userPos = info->GetPosition();
-			Direction userVel = info->GetDirection();
-			userInfo->set_id(info->GetId());
+			Position userPos = info.GetPosition();
+			Direction userVel = info.GetDirection();
+			userInfo->set_id(info.GetId());
 			position->set_x(userPos.x);
 			position->set_y(userPos.y);
 			position->set_z(userPos.z);

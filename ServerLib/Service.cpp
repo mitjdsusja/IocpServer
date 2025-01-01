@@ -22,29 +22,28 @@ void Service::CompletionEventThread(uint32 ms){
 
 void Service::AddSession(shared_ptr<Session> session){
 
-	lock_guard<mutex> _lock(_sendQueueMutex);
+	lock_guard<mutex> _lock(_sessionsMutex);
 	
 	_curSessionCount++;
 	cout << "Add Session : " << _curSessionCount << endl;
 
 	session->SetSessionId(_playerId++);
-
+	
 	_sessions[session->GetSessionId()] = session;
 }
 
 void Service::removeSession(shared_ptr<Session> session){
 
-	lock_guard<mutex> _lock(_sendQueueMutex);
+	lock_guard<mutex> _lock(_sessionsMutex);
 
 	_curSessionCount--;
+
 	_sessions.erase(session->GetSessionId());
-	
-	cout << "Current Session Count : " << _sessions.size() << endl;
 }
 
 void Service::Broadcast(shared_ptr<Buffer> sendDataBuffer){
 
-	lock_guard<mutex> _lock(_sendQueueMutex);
+	lock_guard<mutex> _lock(_sessionsMutex);
 
 	int32 sendLen = sendDataBuffer->WriteSize();
 	for (const auto& [id, session] : _sessions) {
@@ -56,33 +55,21 @@ void Service::Broadcast(shared_ptr<Buffer> sendDataBuffer){
 	}
 }
 
-void Service::GetUserIdList(int32* array){
+void Service::GetUsersInfo(vector<UserInfo>& userInfoList){
 
-	int index = 0;
-	for (pair<int, shared_ptr<Session>> sessionData : _sessions) {
-		int32 sessionID = sessionData.second.get()->GetSessionId();
-		array[index++] = sessionData.second.get()->GetSessionId();
-	}
-}
+	lock_guard<mutex> lock(_sessionsMutex);
 
-void Service::GetUsersInfo(vector<UserInfo*>& userInfoList){
-
-	lock_guard<mutex> lock(_sendQueueMutex);
-
-	for (const auto& sessionData : _sessions) {
-		userInfoList.push_back(&sessionData.second->GetUserInfo());
+	for (const auto& [id, session] : _sessions) {
+		userInfoList.push_back(session->GetUserInfo());
 	}
 }
 
 void Service::SetUserInfo(UserInfo srcUserInfo){
 
-	lock_guard<mutex> lock(_sendQueueMutex);
+	lock_guard<mutex> lock(_sessionsMutex);
 
-	shared_ptr session = _sessions[srcUserInfo.GetId()];
-	if (session != nullptr) {
-		session->SetUserPosition(srcUserInfo.GetPosition().x, srcUserInfo.GetPosition().y, srcUserInfo.GetPosition().z);
-		session->SetUserDirection(srcUserInfo.GetDirection().x, srcUserInfo.GetDirection().y, srcUserInfo.GetDirection().z);
-	}
+	shared_ptr<Session> session = _sessions[srcUserInfo.GetId()];
+	session->SetUserInfo(srcUserInfo);
 }
 
 void Service::RegisterHandle(HANDLE handle){
@@ -119,14 +106,15 @@ void ClientService::SendMsg(shared_ptr<Buffer> sendBuffer){
 
 void ClientService::Start(){
 
-	lock_guard<mutex> _lock(_sendQueueMutex);
+	lock_guard<mutex> _lock(_sessionsMutex);
 
 	for (int32 i = 0;i < _maxSessionCount;i++) {
 
 		shared_ptr<ServerSession> session = make_shared<ServerSession>(this);
 		_completionPortHandler->RegisterHandle((HANDLE)session->GetSocket(), 0);
 
-		_sessions.insert(pair<int, shared_ptr<Session>>(session->GetSessionId(), session));
+		_sessions[session->GetSessionId()] = session;
+
 		session->Connect(_address);
 	}
 }

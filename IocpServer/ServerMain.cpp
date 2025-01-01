@@ -75,23 +75,23 @@ void ReserveLoopBroadcastUserInfo(Service* service) {
 
 	msgTest::SC_Broadcast_User_Info packetBroadcastUserInfo;
 	{
-		vector<UserInfo*> userInfoList;
+		vector<UserInfo> userInfoList;
 		service->GetUsersInfo(userInfoList);
 		//cout << "[Send] Broadcast User Info" << endl;
-		for (UserInfo* userInfo : userInfoList) {
+		for (UserInfo userInfo : userInfoList) {
 			msgTest::MoveState* packetMoveState = packetBroadcastUserInfo.add_movestates();
 			msgTest::Position* position = packetMoveState->mutable_position();
 			msgTest::Direction* direction = packetMoveState->mutable_direction();
 
-			packetMoveState->set_userid(userInfo->GetId());
-			packetMoveState->set_timestamp(userInfo->GetLastMovePacket());
+			packetMoveState->set_userid(userInfo.GetId());
+			packetMoveState->set_timestamp(userInfo.GetLastMovePacket());
 			packetMoveState->set_speed(0);
-			position->set_x(userInfo->GetPosition().x);
-			position->set_y(userInfo->GetPosition().y);
-			position->set_z(userInfo->GetPosition().z);
-			direction->set_x(userInfo->GetDirection().x);
-			direction->set_y(userInfo->GetDirection().y);
-			direction->set_z(userInfo->GetDirection().z);
+			position->set_x(userInfo.GetPosition().x);
+			position->set_y(userInfo.GetPosition().y);
+			position->set_z(userInfo.GetPosition().z);
+			direction->set_x(userInfo.GetDirection().x);
+			direction->set_y(userInfo.GetDirection().y);
+			direction->set_z(userInfo.GetDirection().z);
 
 			//cout << "userId : " << userInfo->GetId() << " ";
 			//cout << "Pos : " << userInfo->GetPosition().x << " " << userInfo->GetPosition().z << endl;

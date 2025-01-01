@@ -24,13 +24,9 @@ public:
 	NetAddress& GetPeerAddressRef() { return _peerAddress; }
 	Service* GetOwner() { return _owner; }
 
-	// UserData
-	int32 GetSessionId() { return _userInfo.GetId(); }
-	UserInfo& GetUserInfo() { return _userInfo; }
-	void SetSessionId(int32 id) { _userInfo.SetId(id); }
-	void SetUserPosition(float x, float y, float z) { _userInfo.SetPosition(x, y, z); }
-	void SetUserDirection(float x, float y, float z) { _userInfo.SetDirection(x, y, z); }
-	void SetUserLastMovePacket(int64 time) { _userInfo.SetLastMovePacket(time); }
+	int32 GetSessionId() { return _sessionId;}
+	UserInfo GetUserInfo() { return _userInfo; }
+	void SetSessionId(int32 id) { _sessionId = id; }
 	void SetUserInfo(UserInfo& userInfo);
 
 	void Process(OverlappedEvent* event, int32 numOfBytes) override;
@@ -63,6 +59,8 @@ private:
 
 	bool _sendRegistered = false;
 
+	int32 _sessionId = 0;
+
 private:
 	mutex _sendQueueMutex;
 
@@ -72,7 +70,7 @@ private:
 
 private:
 	mutex _userInfoMutex;
-	UserInfo _userInfo = {};
+	UserInfo _userInfo;
 
 };
 

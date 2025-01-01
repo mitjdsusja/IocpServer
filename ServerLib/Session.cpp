@@ -58,15 +58,14 @@ void Session::Disconnect(){
 	if (_recvEvent._owner != nullptr) _recvEvent._owner = nullptr;
 }
 
-
 void Session::SetUserInfo(UserInfo& userInfo){
 
 	{
 		lock_guard<mutex> lock(_userInfoMutex);
 
-		SetUserPosition(userInfo.GetPosition().x, userInfo.GetPosition().y, userInfo.GetPosition().z);
-		SetUserDirection(userInfo.GetDirection().x, userInfo.GetDirection().y, userInfo.GetDirection().z);
-		SetUserLastMovePacket(userInfo.GetLastMovePacket());
+		_userInfo.SetPosition(userInfo.GetPosition().x, userInfo.GetPosition().y, userInfo.GetPosition().z);
+		_userInfo.SetDirection(userInfo.GetDirection().x, userInfo.GetDirection().y, userInfo.GetDirection().z);
+		_userInfo.SetLastMovePacket(userInfo.GetLastMovePacket());
 	}
 }
 
