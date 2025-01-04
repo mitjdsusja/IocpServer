@@ -26,8 +26,11 @@ public:
 
 	int32 GetSessionId() { return _sessionId;}
 	UserInfo GetUserInfo() { return _userInfo; }
+	int32 GetUserId() { return _userInfo.GetId(); }
 	void SetSessionId(int32 id) { _sessionId = id; }
 	void SetUserInfo(UserInfo& userInfo);
+	void SetUserId(int32 id);
+
 
 	void Process(OverlappedEvent* event, int32 numOfBytes) override;
 	void CleanResource() override;
@@ -57,6 +60,7 @@ private:
 	// TODO : Chage RAII
 	RecvBuffer* _recvBuffer = nullptr;
 
+	atomic<bool> _isConnected = false;
 	bool _sendRegistered = false;
 
 	int32 _sessionId = 0;

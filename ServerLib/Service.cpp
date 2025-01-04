@@ -43,16 +43,24 @@ void Service::removeSession(shared_ptr<Session> session){
 
 void Service::Broadcast(shared_ptr<Buffer> sendDataBuffer){
 
-	lock_guard<mutex> _lock(_sessionsMutex);
-
-	int32 sendLen = sendDataBuffer->WriteSize();
-	for (const auto& [id, session] : _sessions) {
-		shared_ptr<Buffer> sendBuffer = shared_ptr<Buffer>(GSendBufferPool->Pop(), [](Buffer* buffer) { GSendBufferPool->Push(buffer); });
-		// TODO : copy operator
-		memcpy(sendBuffer->GetBuffer(), sendDataBuffer->GetBuffer(), sendLen);
-		sendBuffer->Write(sendLen);
-		session->Send(sendBuffer);
+	map<int,shared_ptr<Session>> sessionsCopy;
+	{
+		lock_guard<mutex> _lock(_sessionsMutex);
+		sessionsCopy = _sessions;
 	}
+
+	for (const auto& [id,session] : sessionsCopy) {
+		session->Send(sendDataBuffer);
+	}
+
+	//int32 sendLen = sendDataBuffer->WriteSize();
+	//for (const auto& [id, session] : _sessions) {
+	//	shared_ptr<Buffer> sendBuffer = shared_ptr<Buffer>(GSendBufferPool->Pop(), [](Buffer* buffer) { GSendBufferPool->Push(buffer); });
+	//	// TODO : copy operator
+	//	memcpy(sendBuffer->GetBuffer(), sendDataBuffer->GetBuffer(), sendLen);
+	//	sendBuffer->Write(sendLen);
+	//	session->Send(sendBuffer);
+	//}
 }
 
 void Service::GetUsersInfo(vector<UserInfo>& userInfoList){
@@ -69,6 +77,7 @@ void Service::SetUserInfo(UserInfo srcUserInfo){
 	lock_guard<mutex> lock(_sessionsMutex);
 
 	shared_ptr<Session> session = _sessions[srcUserInfo.GetId()];
+	
 	session->SetUserInfo(srcUserInfo);
 }
 

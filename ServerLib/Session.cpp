@@ -29,6 +29,8 @@ void Session::Connect(NetAddress peerAddress){
 
 void Session::Send(shared_ptr<Buffer> sendBuffer){
 
+	if (_isConnected == false) return;
+
 	{
 		lock_guard<mutex> _lock(_sendQueueMutex);
 		_sendQueue.push(sendBuffer);
@@ -59,13 +61,20 @@ void Session::Disconnect(){
 }
 
 void Session::SetUserInfo(UserInfo& userInfo){
-
 	{
 		lock_guard<mutex> lock(_userInfoMutex);
 
 		_userInfo.SetPosition(userInfo.GetPosition().x, userInfo.GetPosition().y, userInfo.GetPosition().z);
 		_userInfo.SetDirection(userInfo.GetDirection().x, userInfo.GetDirection().y, userInfo.GetDirection().z);
 		_userInfo.SetLastMovePacket(userInfo.GetLastMovePacket());
+	}
+}
+
+void Session::SetUserId(int32 id){
+	{
+		lock_guard<mutex> lock(_userInfoMutex);
+
+		_userInfo.SetId(id);
 	}
 }
 
@@ -95,6 +104,8 @@ void Session::RegisterConnect(NetAddress& peerAddress){
 
 	if (_connectEvent._owner == nullptr) _connectEvent._owner = shared_from_this();
 	SocketManager::Connect(_peerSocket, (SOCKADDR*)&_peerAddress.GetSockAddr(), &_connectEvent);
+
+	_isConnected.store(true);
 }
 
 void Session::RegisterSend(){
@@ -255,10 +266,6 @@ int32 ClientSession::OnRecv(BYTE* recvBuffer, int32 recvBytes){
 		buffer = recvBuffer + processLen;
 		PacketHeader* header = (PacketHeader*)buffer;
 
-		//cout << "[RECV] " << "SessionId : " << GetSessionId() << " PacketId : " << header->packetId << endl;
-
-		//cout << "packetID : " << header->packetId << endl;
-		// TODO : Validate
 		if (recvBytes < header->packetSize) {
 			break;
 		}

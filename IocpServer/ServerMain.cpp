@@ -53,14 +53,8 @@ int main() {
 				job->Execute();
 				delete job;
 			}
-			});
+		});
 	}
-
-	/*GJobTimer->Reserve(1000, []() {
-		cout << "JobTimerTest" << endl;
-	});*/
-
-	//cout << "main thread : " << this_thread::get_id() << endl;
 
 	// Reserve User Position 
 	GJobTimer->Reserve(200, [serverService]() {

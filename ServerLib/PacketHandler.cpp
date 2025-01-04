@@ -59,6 +59,7 @@ void PacketHandler::Handle_CS_Connect_Server(shared_ptr<Session> session, shared
 		msgTest::Direction* direction = userInfo->mutable_direction();
 
 		int32 userId = session->GetSessionId();
+		session->SetUserId(userId);
 		userInfo->set_id(userId);
 
 		shared_ptr<Buffer> sendBuffer = MakeSendBuffer(packetAcceptClient, PacketId::PKT_SC_ACCEPT_CLIENT);
@@ -136,7 +137,7 @@ void PacketHandler::Handle_CS_Move_User(shared_ptr<Session> session, shared_ptr<
 	userInfo.SetDirection(recvMoveUser.movestate().direction().x(), recvMoveUser.movestate().direction().y(), recvMoveUser.movestate().direction().z());
 	userInfo.SetLastMovePacket(recvMoveUser.movestate().timestamp());
 
-	cout << "Set User Info : ";
+	cout << "Set User Info : " << recvMoveUser.movestate().userid() << " ";
 	cout << "Pos : " << recvMoveUser.movestate().position().x() << " " << recvMoveUser.movestate().position().y() << " " << recvMoveUser.movestate().position().z() << endl;
 
 	session->SetUserInfo(userInfo);

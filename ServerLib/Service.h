@@ -21,13 +21,14 @@ public:
 	void removeSession(shared_ptr<Session> session);
 	void Broadcast(shared_ptr<Buffer> sendDataBuffer);
 
+	void RegisterHandle(HANDLE handle);
+
+public:
 	// Users
 	int32 GetCurSessionCount() { return _curSessionCount; }
 	void GetUsersInfo(vector<UserInfo>& userInfoList);
 
 	void SetUserInfo(UserInfo srcUserInfo);
-	
-	void RegisterHandle(HANDLE handle);
 
 protected:
 	CompletionPortHandler* _completionPortHandler;
