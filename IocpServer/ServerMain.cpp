@@ -77,7 +77,6 @@ void ReserveLoopBroadcastUserInfo(Service* service) {
 		moveState->set_userid(userInfo.GetId());
 		moveState->set_timestamp(userInfo.GetLastMovePacket());
 		moveState->set_speed(0);
-		moveState->set_empty(100);
 
 		msgTest::Position* position = moveState->mutable_position();
 		position->set_x(userInfo.GetPosition().x);
@@ -89,8 +88,8 @@ void ReserveLoopBroadcastUserInfo(Service* service) {
 		direction->set_y(userInfo.GetDirection().y);
 		direction->set_z(userInfo.GetDirection().z);
 
-		cout << "userId : " << moveState->userid() << " ";
-		cout << "Pos : " << moveState->position().x() << ", " << moveState->position().z() << endl;
+		//cout << "userId : " << moveState->userid() << " ";
+		//cout << "Pos : " << moveState->position().x() << ", " << moveState->position().z() << endl;
 	}
 	shared_ptr<Buffer> sendBuffer = PacketHandler::MakeSendBuffer(packetBroadcastUserInfo, PacketId::PKT_SC_BROADCAST_USER_INFO);
 	service->Broadcast(sendBuffer);

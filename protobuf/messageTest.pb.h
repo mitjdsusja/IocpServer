@@ -233,43 +233,43 @@ class Position final :
     kYFieldNumber = 2,
     kZFieldNumber = 3,
   };
-  // optional int32 x = 1 [default = 0];
+  // optional float x = 1 [default = 0];
   bool has_x() const;
   private:
   bool _internal_has_x() const;
   public:
   void clear_x();
-  int32_t x() const;
-  void set_x(int32_t value);
+  float x() const;
+  void set_x(float value);
   private:
-  int32_t _internal_x() const;
-  void _internal_set_x(int32_t value);
+  float _internal_x() const;
+  void _internal_set_x(float value);
   public:
 
-  // optional int32 y = 2 [default = 0];
+  // optional float y = 2 [default = 0];
   bool has_y() const;
   private:
   bool _internal_has_y() const;
   public:
   void clear_y();
-  int32_t y() const;
-  void set_y(int32_t value);
+  float y() const;
+  void set_y(float value);
   private:
-  int32_t _internal_y() const;
-  void _internal_set_y(int32_t value);
+  float _internal_y() const;
+  void _internal_set_y(float value);
   public:
 
-  // optional int32 z = 3 [default = 0];
+  // optional float z = 3 [default = 0];
   bool has_z() const;
   private:
   bool _internal_has_z() const;
   public:
   void clear_z();
-  int32_t z() const;
-  void set_z(int32_t value);
+  float z() const;
+  void set_z(float value);
   private:
-  int32_t _internal_z() const;
-  void _internal_set_z(int32_t value);
+  float _internal_z() const;
+  void _internal_set_z(float value);
   public:
 
   // @@protoc_insertion_point(class_scope:msgTest.Position)
@@ -282,9 +282,9 @@ class Position final :
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-    int32_t x_;
-    int32_t y_;
-    int32_t z_;
+    float x_;
+    float y_;
+    float z_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_messageTest_2eproto;
@@ -423,43 +423,43 @@ class Direction final :
     kYFieldNumber = 2,
     kZFieldNumber = 3,
   };
-  // optional int32 x = 1 [default = 0];
+  // optional float x = 1 [default = 0];
   bool has_x() const;
   private:
   bool _internal_has_x() const;
   public:
   void clear_x();
-  int32_t x() const;
-  void set_x(int32_t value);
+  float x() const;
+  void set_x(float value);
   private:
-  int32_t _internal_x() const;
-  void _internal_set_x(int32_t value);
+  float _internal_x() const;
+  void _internal_set_x(float value);
   public:
 
-  // optional int32 y = 2 [default = 0];
+  // optional float y = 2 [default = 0];
   bool has_y() const;
   private:
   bool _internal_has_y() const;
   public:
   void clear_y();
-  int32_t y() const;
-  void set_y(int32_t value);
+  float y() const;
+  void set_y(float value);
   private:
-  int32_t _internal_y() const;
-  void _internal_set_y(int32_t value);
+  float _internal_y() const;
+  void _internal_set_y(float value);
   public:
 
-  // optional int32 z = 3 [default = 0];
+  // optional float z = 3 [default = 0];
   bool has_z() const;
   private:
   bool _internal_has_z() const;
   public:
   void clear_z();
-  int32_t z() const;
-  void set_z(int32_t value);
+  float z() const;
+  void set_z(float value);
   private:
-  int32_t _internal_z() const;
-  void _internal_set_z(int32_t value);
+  float _internal_z() const;
+  void _internal_set_z(float value);
   public:
 
   // @@protoc_insertion_point(class_scope:msgTest.Direction)
@@ -472,9 +472,9 @@ class Direction final :
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-    int32_t x_;
-    int32_t y_;
-    int32_t z_;
+    float x_;
+    float y_;
+    float z_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_messageTest_2eproto;
@@ -613,7 +613,7 @@ class UserInfo final :
     kDirectionFieldNumber = 3,
     kIdFieldNumber = 1,
   };
-  // optional .msgTest.Position position = 2;
+  // required .msgTest.Position position = 2;
   bool has_position() const;
   private:
   bool _internal_has_position() const;
@@ -631,7 +631,7 @@ class UserInfo final :
       ::msgTest::Position* position);
   ::msgTest::Position* unsafe_arena_release_position();
 
-  // optional .msgTest.Direction direction = 3;
+  // required .msgTest.Direction direction = 3;
   bool has_direction() const;
   private:
   bool _internal_has_direction() const;
@@ -649,7 +649,7 @@ class UserInfo final :
       ::msgTest::Direction* direction);
   ::msgTest::Direction* unsafe_arena_release_direction();
 
-  // optional int32 id = 1;
+  // required int32 id = 1;
   bool has_id() const;
   private:
   bool _internal_has_id() const;
@@ -665,6 +665,9 @@ class UserInfo final :
   // @@protoc_insertion_point(class_scope:msgTest.UserInfo)
  private:
   class _Internal;
+
+  // helper for ByteSizeLong()
+  size_t RequiredFieldsByteSizeFallback() const;
 
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
@@ -814,9 +817,8 @@ class MoveState final :
     kUserIdFieldNumber = 1,
     kSpeedFieldNumber = 4,
     kTimestampFieldNumber = 5,
-    kEmptyFieldNumber = 6,
   };
-  // optional .msgTest.Position position = 2;
+  // required .msgTest.Position position = 2;
   bool has_position() const;
   private:
   bool _internal_has_position() const;
@@ -834,7 +836,7 @@ class MoveState final :
       ::msgTest::Position* position);
   ::msgTest::Position* unsafe_arena_release_position();
 
-  // optional .msgTest.Direction direction = 3;
+  // required .msgTest.Direction direction = 3;
   bool has_direction() const;
   private:
   bool _internal_has_direction() const;
@@ -852,7 +854,7 @@ class MoveState final :
       ::msgTest::Direction* direction);
   ::msgTest::Direction* unsafe_arena_release_direction();
 
-  // optional int32 userId = 1;
+  // required int32 userId = 1;
   bool has_userid() const;
   private:
   bool _internal_has_userid() const;
@@ -865,20 +867,20 @@ class MoveState final :
   void _internal_set_userid(int32_t value);
   public:
 
-  // optional int32 speed = 4;
+  // required float speed = 4;
   bool has_speed() const;
   private:
   bool _internal_has_speed() const;
   public:
   void clear_speed();
-  int32_t speed() const;
-  void set_speed(int32_t value);
+  float speed() const;
+  void set_speed(float value);
   private:
-  int32_t _internal_speed() const;
-  void _internal_set_speed(int32_t value);
+  float _internal_speed() const;
+  void _internal_set_speed(float value);
   public:
 
-  // optional int64 timestamp = 5;
+  // required int64 timestamp = 5;
   bool has_timestamp() const;
   private:
   bool _internal_has_timestamp() const;
@@ -891,22 +893,12 @@ class MoveState final :
   void _internal_set_timestamp(int64_t value);
   public:
 
-  // optional int64 empty = 6;
-  bool has_empty() const;
-  private:
-  bool _internal_has_empty() const;
-  public:
-  void clear_empty();
-  int64_t empty() const;
-  void set_empty(int64_t value);
-  private:
-  int64_t _internal_empty() const;
-  void _internal_set_empty(int64_t value);
-  public:
-
   // @@protoc_insertion_point(class_scope:msgTest.MoveState)
  private:
   class _Internal;
+
+  // helper for ByteSizeLong()
+  size_t RequiredFieldsByteSizeFallback() const;
 
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
@@ -917,9 +909,8 @@ class MoveState final :
     ::msgTest::Position* position_;
     ::msgTest::Direction* direction_;
     int32_t userid_;
-    int32_t speed_;
+    float speed_;
     int64_t timestamp_;
-    int64_t empty_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_messageTest_2eproto;
@@ -2133,7 +2124,7 @@ class SC_Broadcast_User_Info final :
 #endif  // __GNUC__
 // Position
 
-// optional int32 x = 1 [default = 0];
+// optional float x = 1 [default = 0];
 inline bool Position::_internal_has_x() const {
   bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
   return value;
@@ -2145,23 +2136,23 @@ inline void Position::clear_x() {
   _impl_.x_ = 0;
   _impl_._has_bits_[0] &= ~0x00000001u;
 }
-inline int32_t Position::_internal_x() const {
+inline float Position::_internal_x() const {
   return _impl_.x_;
 }
-inline int32_t Position::x() const {
+inline float Position::x() const {
   // @@protoc_insertion_point(field_get:msgTest.Position.x)
   return _internal_x();
 }
-inline void Position::_internal_set_x(int32_t value) {
+inline void Position::_internal_set_x(float value) {
   _impl_._has_bits_[0] |= 0x00000001u;
   _impl_.x_ = value;
 }
-inline void Position::set_x(int32_t value) {
+inline void Position::set_x(float value) {
   _internal_set_x(value);
   // @@protoc_insertion_point(field_set:msgTest.Position.x)
 }
 
-// optional int32 y = 2 [default = 0];
+// optional float y = 2 [default = 0];
 inline bool Position::_internal_has_y() const {
   bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
   return value;
@@ -2173,23 +2164,23 @@ inline void Position::clear_y() {
   _impl_.y_ = 0;
   _impl_._has_bits_[0] &= ~0x00000002u;
 }
-inline int32_t Position::_internal_y() const {
+inline float Position::_internal_y() const {
   return _impl_.y_;
 }
-inline int32_t Position::y() const {
+inline float Position::y() const {
   // @@protoc_insertion_point(field_get:msgTest.Position.y)
   return _internal_y();
 }
-inline void Position::_internal_set_y(int32_t value) {
+inline void Position::_internal_set_y(float value) {
   _impl_._has_bits_[0] |= 0x00000002u;
   _impl_.y_ = value;
 }
-inline void Position::set_y(int32_t value) {
+inline void Position::set_y(float value) {
   _internal_set_y(value);
   // @@protoc_insertion_point(field_set:msgTest.Position.y)
 }
 
-// optional int32 z = 3 [default = 0];
+// optional float z = 3 [default = 0];
 inline bool Position::_internal_has_z() const {
   bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
   return value;
@@ -2201,18 +2192,18 @@ inline void Position::clear_z() {
   _impl_.z_ = 0;
   _impl_._has_bits_[0] &= ~0x00000004u;
 }
-inline int32_t Position::_internal_z() const {
+inline float Position::_internal_z() const {
   return _impl_.z_;
 }
-inline int32_t Position::z() const {
+inline float Position::z() const {
   // @@protoc_insertion_point(field_get:msgTest.Position.z)
   return _internal_z();
 }
-inline void Position::_internal_set_z(int32_t value) {
+inline void Position::_internal_set_z(float value) {
   _impl_._has_bits_[0] |= 0x00000004u;
   _impl_.z_ = value;
 }
-inline void Position::set_z(int32_t value) {
+inline void Position::set_z(float value) {
   _internal_set_z(value);
   // @@protoc_insertion_point(field_set:msgTest.Position.z)
 }
@@ -2221,7 +2212,7 @@ inline void Position::set_z(int32_t value) {
 
 // Direction
 
-// optional int32 x = 1 [default = 0];
+// optional float x = 1 [default = 0];
 inline bool Direction::_internal_has_x() const {
   bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
   return value;
@@ -2233,23 +2224,23 @@ inline void Direction::clear_x() {
   _impl_.x_ = 0;
   _impl_._has_bits_[0] &= ~0x00000001u;
 }
-inline int32_t Direction::_internal_x() const {
+inline float Direction::_internal_x() const {
   return _impl_.x_;
 }
-inline int32_t Direction::x() const {
+inline float Direction::x() const {
   // @@protoc_insertion_point(field_get:msgTest.Direction.x)
   return _internal_x();
 }
-inline void Direction::_internal_set_x(int32_t value) {
+inline void Direction::_internal_set_x(float value) {
   _impl_._has_bits_[0] |= 0x00000001u;
   _impl_.x_ = value;
 }
-inline void Direction::set_x(int32_t value) {
+inline void Direction::set_x(float value) {
   _internal_set_x(value);
   // @@protoc_insertion_point(field_set:msgTest.Direction.x)
 }
 
-// optional int32 y = 2 [default = 0];
+// optional float y = 2 [default = 0];
 inline bool Direction::_internal_has_y() const {
   bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
   return value;
@@ -2261,23 +2252,23 @@ inline void Direction::clear_y() {
   _impl_.y_ = 0;
   _impl_._has_bits_[0] &= ~0x00000002u;
 }
-inline int32_t Direction::_internal_y() const {
+inline float Direction::_internal_y() const {
   return _impl_.y_;
 }
-inline int32_t Direction::y() const {
+inline float Direction::y() const {
   // @@protoc_insertion_point(field_get:msgTest.Direction.y)
   return _internal_y();
 }
-inline void Direction::_internal_set_y(int32_t value) {
+inline void Direction::_internal_set_y(float value) {
   _impl_._has_bits_[0] |= 0x00000002u;
   _impl_.y_ = value;
 }
-inline void Direction::set_y(int32_t value) {
+inline void Direction::set_y(float value) {
   _internal_set_y(value);
   // @@protoc_insertion_point(field_set:msgTest.Direction.y)
 }
 
-// optional int32 z = 3 [default = 0];
+// optional float z = 3 [default = 0];
 inline bool Direction::_internal_has_z() const {
   bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
   return value;
@@ -2289,18 +2280,18 @@ inline void Direction::clear_z() {
   _impl_.z_ = 0;
   _impl_._has_bits_[0] &= ~0x00000004u;
 }
-inline int32_t Direction::_internal_z() const {
+inline float Direction::_internal_z() const {
   return _impl_.z_;
 }
-inline int32_t Direction::z() const {
+inline float Direction::z() const {
   // @@protoc_insertion_point(field_get:msgTest.Direction.z)
   return _internal_z();
 }
-inline void Direction::_internal_set_z(int32_t value) {
+inline void Direction::_internal_set_z(float value) {
   _impl_._has_bits_[0] |= 0x00000004u;
   _impl_.z_ = value;
 }
-inline void Direction::set_z(int32_t value) {
+inline void Direction::set_z(float value) {
   _internal_set_z(value);
   // @@protoc_insertion_point(field_set:msgTest.Direction.z)
 }
@@ -2309,7 +2300,7 @@ inline void Direction::set_z(int32_t value) {
 
 // UserInfo
 
-// optional int32 id = 1;
+// required int32 id = 1;
 inline bool UserInfo::_internal_has_id() const {
   bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
   return value;
@@ -2337,7 +2328,7 @@ inline void UserInfo::set_id(int32_t value) {
   // @@protoc_insertion_point(field_set:msgTest.UserInfo.id)
 }
 
-// optional .msgTest.Position position = 2;
+// required .msgTest.Position position = 2;
 inline bool UserInfo::_internal_has_position() const {
   bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.position_ != nullptr);
@@ -2427,7 +2418,7 @@ inline void UserInfo::set_allocated_position(::msgTest::Position* position) {
   // @@protoc_insertion_point(field_set_allocated:msgTest.UserInfo.position)
 }
 
-// optional .msgTest.Direction direction = 3;
+// required .msgTest.Direction direction = 3;
 inline bool UserInfo::_internal_has_direction() const {
   bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.direction_ != nullptr);
@@ -2521,7 +2512,7 @@ inline void UserInfo::set_allocated_direction(::msgTest::Direction* direction) {
 
 // MoveState
 
-// optional int32 userId = 1;
+// required int32 userId = 1;
 inline bool MoveState::_internal_has_userid() const {
   bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
   return value;
@@ -2549,7 +2540,7 @@ inline void MoveState::set_userid(int32_t value) {
   // @@protoc_insertion_point(field_set:msgTest.MoveState.userId)
 }
 
-// optional .msgTest.Position position = 2;
+// required .msgTest.Position position = 2;
 inline bool MoveState::_internal_has_position() const {
   bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.position_ != nullptr);
@@ -2639,7 +2630,7 @@ inline void MoveState::set_allocated_position(::msgTest::Position* position) {
   // @@protoc_insertion_point(field_set_allocated:msgTest.MoveState.position)
 }
 
-// optional .msgTest.Direction direction = 3;
+// required .msgTest.Direction direction = 3;
 inline bool MoveState::_internal_has_direction() const {
   bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.direction_ != nullptr);
@@ -2729,7 +2720,7 @@ inline void MoveState::set_allocated_direction(::msgTest::Direction* direction) 
   // @@protoc_insertion_point(field_set_allocated:msgTest.MoveState.direction)
 }
 
-// optional int32 speed = 4;
+// required float speed = 4;
 inline bool MoveState::_internal_has_speed() const {
   bool value = (_impl_._has_bits_[0] & 0x00000008u) != 0;
   return value;
@@ -2741,23 +2732,23 @@ inline void MoveState::clear_speed() {
   _impl_.speed_ = 0;
   _impl_._has_bits_[0] &= ~0x00000008u;
 }
-inline int32_t MoveState::_internal_speed() const {
+inline float MoveState::_internal_speed() const {
   return _impl_.speed_;
 }
-inline int32_t MoveState::speed() const {
+inline float MoveState::speed() const {
   // @@protoc_insertion_point(field_get:msgTest.MoveState.speed)
   return _internal_speed();
 }
-inline void MoveState::_internal_set_speed(int32_t value) {
+inline void MoveState::_internal_set_speed(float value) {
   _impl_._has_bits_[0] |= 0x00000008u;
   _impl_.speed_ = value;
 }
-inline void MoveState::set_speed(int32_t value) {
+inline void MoveState::set_speed(float value) {
   _internal_set_speed(value);
   // @@protoc_insertion_point(field_set:msgTest.MoveState.speed)
 }
 
-// optional int64 timestamp = 5;
+// required int64 timestamp = 5;
 inline bool MoveState::_internal_has_timestamp() const {
   bool value = (_impl_._has_bits_[0] & 0x00000010u) != 0;
   return value;
@@ -2783,34 +2774,6 @@ inline void MoveState::_internal_set_timestamp(int64_t value) {
 inline void MoveState::set_timestamp(int64_t value) {
   _internal_set_timestamp(value);
   // @@protoc_insertion_point(field_set:msgTest.MoveState.timestamp)
-}
-
-// optional int64 empty = 6;
-inline bool MoveState::_internal_has_empty() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000020u) != 0;
-  return value;
-}
-inline bool MoveState::has_empty() const {
-  return _internal_has_empty();
-}
-inline void MoveState::clear_empty() {
-  _impl_.empty_ = int64_t{0};
-  _impl_._has_bits_[0] &= ~0x00000020u;
-}
-inline int64_t MoveState::_internal_empty() const {
-  return _impl_.empty_;
-}
-inline int64_t MoveState::empty() const {
-  // @@protoc_insertion_point(field_get:msgTest.MoveState.empty)
-  return _internal_empty();
-}
-inline void MoveState::_internal_set_empty(int64_t value) {
-  _impl_._has_bits_[0] |= 0x00000020u;
-  _impl_.empty_ = value;
-}
-inline void MoveState::set_empty(int64_t value) {
-  _internal_set_empty(value);
-  // @@protoc_insertion_point(field_set:msgTest.MoveState.empty)
 }
 
 // -------------------------------------------------------------------
