@@ -121,15 +121,14 @@ void PacketHandler::Handle_CS_Request_Server_State(shared_ptr<Session> session, 
 }
 
 void PacketHandler::Handle_CS_Move_User(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service){
-	cout << "[RECV] Handle_CS_Move_User ";
+	cout << "[RECV] Handle_CS_Move_User " << session->GetSessionId() << " ";
+	
 	// Update UserInfo
 	PacketHeader* header = (PacketHeader*)dataBuffer->GetBuffer();
-	header->packetId = ntohl(header->packetId);
-	header->packetSize = ntohl(header->packetSize);
 	int32 dataSize = header->packetSize - sizeof(PacketHeader);
 
 	msgTest::CS_Move_User recvMoveUser;
-	recvMoveUser.ParseFromArray(&header[1], dataSize);
+	recvMoveUser.ParseFromArray(((BYTE*)header) + sizeof(PacketHeader), dataSize);
 
 	UserInfo userInfo;
 	userInfo.SetId(recvMoveUser.movestate().userid());

@@ -104,8 +104,6 @@ void Session::RegisterConnect(NetAddress& peerAddress){
 
 	if (_connectEvent._owner == nullptr) _connectEvent._owner = shared_from_this();
 	SocketManager::Connect(_peerSocket, (SOCKADDR*)&_peerAddress.GetSockAddr(), &_connectEvent);
-
-	_isConnected.store(true);
 }
 
 void Session::RegisterSend(){
@@ -255,17 +253,20 @@ ClientSession::~ClientSession(){
 }
 
 int32 ClientSession::OnRecv(BYTE* recvBuffer, int32 recvBytes){
-
+	
 	if (recvBytes < sizeof(PacketHeader)) {
 		ASSERT_CRASH(false);
 	}
 
 	BYTE* buffer = recvBuffer;
 	int32 processLen = 0;
+
 	while (true) {
 		buffer = recvBuffer + processLen;
 		PacketHeader* header = (PacketHeader*)buffer;
-
+		header->packetId = ntohl(header->packetId);
+		header->packetSize = ntohl(header->packetSize);
+		
 		if (recvBytes < header->packetSize) {
 			break;
 		}

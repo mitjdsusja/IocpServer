@@ -1,17 +1,19 @@
 #pragma once
 #include "ServerPch.h"
 
+#pragma pack(push, 1)
 struct Position {
-	float x = 0;
-	float y = 0;
-	float z = 0;
+	int32 x = 0;
+	int32 y = 0;
+	int32 z = 0;
 };
 
 struct Direction {
-	float x = 0;
-	float y = 0;
-	float z = 0;
+	int32 x = 0;
+	int32 y = 0;
+	int32 z = 0;
 };
+#pragma pack(pop)
 
 class UserInfo {
 public:
@@ -26,8 +28,8 @@ public:
 	int64 GetLastMovePacket() { return _lastMovePacket; }
 
 	void SetId(int32 id) { _id = id; }
-	void SetPosition(float x, float y, float z) { _position.x = x; _position.y = y; _position.z = z; }
-	void SetDirection(float x, float y, float z) { _direction.x = x; _direction.y = y; _direction.z = z; }
+	void SetPosition(int32 x, int32 y, int32 z) { _position.x = x; _position.y = y; _position.z = z; }
+	void SetDirection(int32 x, int32 y, int32 z) { _direction.x = x; _direction.y = y; _direction.z = z; }
 	void SetLastMovePacket(int64 time) { _lastMovePacket = time; }
 
 private:
@@ -36,7 +38,7 @@ private:
 	int32 _id = 0;
 	Position _position = {};
 	Direction _direction = {};
-	float _moveSpeed = 0;
+	int32 _moveSpeed = 0;
 	int64 _lastMovePacket = 0;
 
 };

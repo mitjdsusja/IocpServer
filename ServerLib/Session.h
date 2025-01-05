@@ -60,7 +60,7 @@ private:
 	// TODO : Chage RAII
 	RecvBuffer* _recvBuffer = nullptr;
 
-	atomic<bool> _isConnected = false;
+	atomic<bool> _isConnected = true;
 	bool _sendRegistered = false;
 
 	int32 _sessionId = 0;
@@ -74,7 +74,7 @@ private:
 
 private:
 	mutex _userInfoMutex;
-	UserInfo _userInfo;
+	UserInfo _userInfo = {};
 
 };
 

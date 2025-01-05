@@ -77,7 +77,8 @@ PROTOBUF_CONSTEXPR MoveState::MoveState(
   , /*decltype(_impl_.direction_)*/nullptr
   , /*decltype(_impl_.userid_)*/0
   , /*decltype(_impl_.speed_)*/0
-  , /*decltype(_impl_.timestamp_)*/int64_t{0}} {}
+  , /*decltype(_impl_.timestamp_)*/int64_t{0}
+  , /*decltype(_impl_.empty_)*/int64_t{0}} {}
 struct MoveStateDefaultTypeInternal {
   PROTOBUF_CONSTEXPR MoveStateDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -241,11 +242,13 @@ const uint32_t TableStruct_messageTest_2eproto::offsets[] PROTOBUF_SECTION_VARIA
   PROTOBUF_FIELD_OFFSET(::msgTest::MoveState, _impl_.direction_),
   PROTOBUF_FIELD_OFFSET(::msgTest::MoveState, _impl_.speed_),
   PROTOBUF_FIELD_OFFSET(::msgTest::MoveState, _impl_.timestamp_),
+  PROTOBUF_FIELD_OFFSET(::msgTest::MoveState, _impl_.empty_),
   2,
   0,
   1,
   3,
   4,
+  5,
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::msgTest::CS_Connect_Server, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -307,15 +310,15 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 0, 9, -1, sizeof(::msgTest::Position)},
   { 12, 21, -1, sizeof(::msgTest::Direction)},
   { 24, 33, -1, sizeof(::msgTest::UserInfo)},
-  { 36, 47, -1, sizeof(::msgTest::MoveState)},
-  { 52, -1, -1, sizeof(::msgTest::CS_Connect_Server)},
-  { 58, -1, -1, sizeof(::msgTest::CS_Request_Server_State)},
-  { 64, 71, -1, sizeof(::msgTest::CS_Move_User)},
-  { 72, 79, -1, sizeof(::msgTest::SC_Accept_Client)},
-  { 80, -1, -1, sizeof(::msgTest::SC_Response_Server_State)},
-  { 87, -1, -1, sizeof(::msgTest::SC_Result_Move_User)},
-  { 93, 100, -1, sizeof(::msgTest::SC_Connect_Other_User)},
-  { 101, -1, -1, sizeof(::msgTest::SC_Broadcast_User_Info)},
+  { 36, 48, -1, sizeof(::msgTest::MoveState)},
+  { 54, -1, -1, sizeof(::msgTest::CS_Connect_Server)},
+  { 60, -1, -1, sizeof(::msgTest::CS_Request_Server_State)},
+  { 66, 73, -1, sizeof(::msgTest::CS_Move_User)},
+  { 74, 81, -1, sizeof(::msgTest::SC_Accept_Client)},
+  { 82, -1, -1, sizeof(::msgTest::SC_Response_Server_State)},
+  { 89, -1, -1, sizeof(::msgTest::SC_Result_Move_User)},
+  { 95, 102, -1, sizeof(::msgTest::SC_Connect_Other_User)},
+  { 103, -1, -1, sizeof(::msgTest::SC_Broadcast_User_Info)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -335,28 +338,29 @@ static const ::_pb::Message* const file_default_instances[] = {
 
 const char descriptor_table_protodef_messageTest_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\021messageTest.proto\022\007msgTest\"4\n\010Position"
-  "\022\014\n\001x\030\001 \001(\002:\0010\022\014\n\001y\030\002 \001(\002:\0010\022\014\n\001z\030\003 \001(\002:"
-  "\0010\"5\n\tDirection\022\014\n\001x\030\001 \001(\002:\0010\022\014\n\001y\030\002 \001(\002"
-  ":\0010\022\014\n\001z\030\003 \001(\002:\0010\"b\n\010UserInfo\022\n\n\002id\030\001 \002("
-  "\005\022#\n\010position\030\002 \002(\0132\021.msgTest.Position\022%"
-  "\n\tdirection\030\003 \002(\0132\022.msgTest.Direction\"\211\001"
-  "\n\tMoveState\022\016\n\006userId\030\001 \002(\005\022#\n\010position\030"
-  "\002 \002(\0132\021.msgTest.Position\022%\n\tdirection\030\003 "
-  "\002(\0132\022.msgTest.Direction\022\r\n\005speed\030\004 \002(\002\022\021"
-  "\n\ttimestamp\030\005 \002(\003\"\023\n\021CS_Connect_Server\"\031"
-  "\n\027CS_Request_Server_State\"5\n\014CS_Move_Use"
-  "r\022%\n\tmoveState\030\001 \002(\0132\022.msgTest.MoveState"
-  "\"7\n\020SC_Accept_Client\022#\n\010userInfo\030\001 \002(\0132\021"
-  ".msgTest.UserInfo\"@\n\030SC_Response_Server_"
-  "State\022$\n\tuserInfos\030\001 \003(\0132\021.msgTest.UserI"
-  "nfo\"\025\n\023SC_Result_Move_User\"<\n\025SC_Connect"
-  "_Other_User\022#\n\010userInfo\030\001 \002(\0132\021.msgTest."
-  "UserInfo\"@\n\026SC_Broadcast_User_Info\022&\n\nmo"
-  "veStates\030\001 \003(\0132\022.msgTest.MoveState"
+  "\022\014\n\001x\030\001 \001(\005:\0010\022\014\n\001y\030\002 \001(\005:\0010\022\014\n\001z\030\003 \001(\005:"
+  "\0010\"5\n\tDirection\022\014\n\001x\030\001 \001(\005:\0010\022\014\n\001y\030\002 \001(\005"
+  ":\0010\022\014\n\001z\030\003 \001(\005:\0010\"b\n\010UserInfo\022\n\n\002id\030\001 \001("
+  "\005\022#\n\010position\030\002 \001(\0132\021.msgTest.Position\022%"
+  "\n\tdirection\030\003 \001(\0132\022.msgTest.Direction\"\230\001"
+  "\n\tMoveState\022\016\n\006userId\030\001 \001(\005\022#\n\010position\030"
+  "\002 \001(\0132\021.msgTest.Position\022%\n\tdirection\030\003 "
+  "\001(\0132\022.msgTest.Direction\022\r\n\005speed\030\004 \001(\005\022\021"
+  "\n\ttimestamp\030\005 \001(\003\022\r\n\005empty\030\006 \001(\003\"\023\n\021CS_C"
+  "onnect_Server\"\031\n\027CS_Request_Server_State"
+  "\"5\n\014CS_Move_User\022%\n\tmoveState\030\001 \002(\0132\022.ms"
+  "gTest.MoveState\"7\n\020SC_Accept_Client\022#\n\010u"
+  "serInfo\030\001 \002(\0132\021.msgTest.UserInfo\"@\n\030SC_R"
+  "esponse_Server_State\022$\n\tuserInfos\030\001 \003(\0132"
+  "\021.msgTest.UserInfo\"\025\n\023SC_Result_Move_Use"
+  "r\"<\n\025SC_Connect_Other_User\022#\n\010userInfo\030\001"
+  " \002(\0132\021.msgTest.UserInfo\"@\n\026SC_Broadcast_"
+  "User_Info\022&\n\nmoveStates\030\001 \003(\0132\022.msgTest."
+  "MoveState"
   ;
 static ::_pbi::once_flag descriptor_table_messageTest_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_messageTest_2eproto = {
-    false, false, 754, descriptor_table_protodef_messageTest_2eproto,
+    false, false, 769, descriptor_table_protodef_messageTest_2eproto,
     "messageTest.proto",
     &descriptor_table_messageTest_2eproto_once, nullptr, 0, 12,
     schemas, file_default_instances, TableStruct_messageTest_2eproto::offsets,
@@ -463,30 +467,30 @@ const char* Position::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx)
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // optional float x = 1 [default = 0];
+      // optional int32 x = 1 [default = 0];
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 13)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
           _Internal::set_has_x(&has_bits);
-          _impl_.x_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
-          ptr += sizeof(float);
+          _impl_.x_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // optional float y = 2 [default = 0];
+      // optional int32 y = 2 [default = 0];
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 21)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
           _Internal::set_has_y(&has_bits);
-          _impl_.y_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
-          ptr += sizeof(float);
+          _impl_.y_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // optional float z = 3 [default = 0];
+      // optional int32 z = 3 [default = 0];
       case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 29)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
           _Internal::set_has_z(&has_bits);
-          _impl_.z_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
-          ptr += sizeof(float);
+          _impl_.z_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
@@ -521,22 +525,22 @@ uint8_t* Position::_InternalSerialize(
   (void) cached_has_bits;
 
   cached_has_bits = _impl_._has_bits_[0];
-  // optional float x = 1 [default = 0];
+  // optional int32 x = 1 [default = 0];
   if (cached_has_bits & 0x00000001u) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteFloatToArray(1, this->_internal_x(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_x(), target);
   }
 
-  // optional float y = 2 [default = 0];
+  // optional int32 y = 2 [default = 0];
   if (cached_has_bits & 0x00000002u) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteFloatToArray(2, this->_internal_y(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_y(), target);
   }
 
-  // optional float z = 3 [default = 0];
+  // optional int32 z = 3 [default = 0];
   if (cached_has_bits & 0x00000004u) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteFloatToArray(3, this->_internal_z(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_z(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -557,19 +561,19 @@ size_t Position::ByteSizeLong() const {
 
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000007u) {
-    // optional float x = 1 [default = 0];
+    // optional int32 x = 1 [default = 0];
     if (cached_has_bits & 0x00000001u) {
-      total_size += 1 + 4;
+      total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_x());
     }
 
-    // optional float y = 2 [default = 0];
+    // optional int32 y = 2 [default = 0];
     if (cached_has_bits & 0x00000002u) {
-      total_size += 1 + 4;
+      total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_y());
     }
 
-    // optional float z = 3 [default = 0];
+    // optional int32 z = 3 [default = 0];
     if (cached_has_bits & 0x00000004u) {
-      total_size += 1 + 4;
+      total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_z());
     }
 
   }
@@ -728,30 +732,30 @@ const char* Direction::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // optional float x = 1 [default = 0];
+      // optional int32 x = 1 [default = 0];
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 13)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
           _Internal::set_has_x(&has_bits);
-          _impl_.x_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
-          ptr += sizeof(float);
+          _impl_.x_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // optional float y = 2 [default = 0];
+      // optional int32 y = 2 [default = 0];
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 21)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
           _Internal::set_has_y(&has_bits);
-          _impl_.y_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
-          ptr += sizeof(float);
+          _impl_.y_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // optional float z = 3 [default = 0];
+      // optional int32 z = 3 [default = 0];
       case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 29)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
           _Internal::set_has_z(&has_bits);
-          _impl_.z_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
-          ptr += sizeof(float);
+          _impl_.z_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
@@ -786,22 +790,22 @@ uint8_t* Direction::_InternalSerialize(
   (void) cached_has_bits;
 
   cached_has_bits = _impl_._has_bits_[0];
-  // optional float x = 1 [default = 0];
+  // optional int32 x = 1 [default = 0];
   if (cached_has_bits & 0x00000001u) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteFloatToArray(1, this->_internal_x(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_x(), target);
   }
 
-  // optional float y = 2 [default = 0];
+  // optional int32 y = 2 [default = 0];
   if (cached_has_bits & 0x00000002u) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteFloatToArray(2, this->_internal_y(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_y(), target);
   }
 
-  // optional float z = 3 [default = 0];
+  // optional int32 z = 3 [default = 0];
   if (cached_has_bits & 0x00000004u) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteFloatToArray(3, this->_internal_z(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_z(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -822,19 +826,19 @@ size_t Direction::ByteSizeLong() const {
 
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000007u) {
-    // optional float x = 1 [default = 0];
+    // optional int32 x = 1 [default = 0];
     if (cached_has_bits & 0x00000001u) {
-      total_size += 1 + 4;
+      total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_x());
     }
 
-    // optional float y = 2 [default = 0];
+    // optional int32 y = 2 [default = 0];
     if (cached_has_bits & 0x00000002u) {
-      total_size += 1 + 4;
+      total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_y());
     }
 
-    // optional float z = 3 [default = 0];
+    // optional int32 z = 3 [default = 0];
     if (cached_has_bits & 0x00000004u) {
-      total_size += 1 + 4;
+      total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_z());
     }
 
   }
@@ -916,9 +920,6 @@ class UserInfo::_Internal {
   static const ::msgTest::Direction& direction(const UserInfo* msg);
   static void set_has_direction(HasBits* has_bits) {
     (*has_bits)[0] |= 2u;
-  }
-  static bool MissingRequiredFields(const HasBits& has_bits) {
-    return ((has_bits[0] & 0x00000007) ^ 0x00000007) != 0;
   }
 };
 
@@ -1018,7 +1019,7 @@ const char* UserInfo::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx)
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // required int32 id = 1;
+      // optional int32 id = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
           _Internal::set_has_id(&has_bits);
@@ -1027,7 +1028,7 @@ const char* UserInfo::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx)
         } else
           goto handle_unusual;
         continue;
-      // required .msgTest.Position position = 2;
+      // optional .msgTest.Position position = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
           ptr = ctx->ParseMessage(_internal_mutable_position(), ptr);
@@ -1035,7 +1036,7 @@ const char* UserInfo::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx)
         } else
           goto handle_unusual;
         continue;
-      // required .msgTest.Direction direction = 3;
+      // optional .msgTest.Direction direction = 3;
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
           ptr = ctx->ParseMessage(_internal_mutable_direction(), ptr);
@@ -1074,20 +1075,20 @@ uint8_t* UserInfo::_InternalSerialize(
   (void) cached_has_bits;
 
   cached_has_bits = _impl_._has_bits_[0];
-  // required int32 id = 1;
+  // optional int32 id = 1;
   if (cached_has_bits & 0x00000004u) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_id(), target);
   }
 
-  // required .msgTest.Position position = 2;
+  // optional .msgTest.Position position = 2;
   if (cached_has_bits & 0x00000001u) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessage(2, _Internal::position(this),
         _Internal::position(this).GetCachedSize(), target, stream);
   }
 
-  // required .msgTest.Direction direction = 3;
+  // optional .msgTest.Direction direction = 3;
   if (cached_has_bits & 0x00000002u) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessage(3, _Internal::direction(this),
@@ -1102,56 +1103,36 @@ uint8_t* UserInfo::_InternalSerialize(
   return target;
 }
 
-size_t UserInfo::RequiredFieldsByteSizeFallback() const {
-// @@protoc_insertion_point(required_fields_byte_size_fallback_start:msgTest.UserInfo)
-  size_t total_size = 0;
-
-  if (_internal_has_position()) {
-    // required .msgTest.Position position = 2;
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.position_);
-  }
-
-  if (_internal_has_direction()) {
-    // required .msgTest.Direction direction = 3;
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.direction_);
-  }
-
-  if (_internal_has_id()) {
-    // required int32 id = 1;
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_id());
-  }
-
-  return total_size;
-}
 size_t UserInfo::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:msgTest.UserInfo)
   size_t total_size = 0;
 
-  if (((_impl_._has_bits_[0] & 0x00000007) ^ 0x00000007) == 0) {  // All required fields are present.
-    // required .msgTest.Position position = 2;
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.position_);
-
-    // required .msgTest.Direction direction = 3;
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.direction_);
-
-    // required int32 id = 1;
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_id());
-
-  } else {
-    total_size += RequiredFieldsByteSizeFallback();
-  }
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000007u) {
+    // optional .msgTest.Position position = 2;
+    if (cached_has_bits & 0x00000001u) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+          *_impl_.position_);
+    }
+
+    // optional .msgTest.Direction direction = 3;
+    if (cached_has_bits & 0x00000002u) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+          *_impl_.direction_);
+    }
+
+    // optional int32 id = 1;
+    if (cached_has_bits & 0x00000004u) {
+      total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_id());
+    }
+
+  }
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -1196,7 +1177,6 @@ void UserInfo::CopyFrom(const UserInfo& from) {
 }
 
 bool UserInfo::IsInitialized() const {
-  if (_Internal::MissingRequiredFields(_impl_._has_bits_)) return false;
   return true;
 }
 
@@ -1240,8 +1220,8 @@ class MoveState::_Internal {
   static void set_has_timestamp(HasBits* has_bits) {
     (*has_bits)[0] |= 16u;
   }
-  static bool MissingRequiredFields(const HasBits& has_bits) {
-    return ((has_bits[0] & 0x0000001f) ^ 0x0000001f) != 0;
+  static void set_has_empty(HasBits* has_bits) {
+    (*has_bits)[0] |= 32u;
   }
 };
 
@@ -1269,7 +1249,8 @@ MoveState::MoveState(const MoveState& from)
     , decltype(_impl_.direction_){nullptr}
     , decltype(_impl_.userid_){}
     , decltype(_impl_.speed_){}
-    , decltype(_impl_.timestamp_){}};
+    , decltype(_impl_.timestamp_){}
+    , decltype(_impl_.empty_){}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   if (from._internal_has_position()) {
@@ -1279,8 +1260,8 @@ MoveState::MoveState(const MoveState& from)
     _this->_impl_.direction_ = new ::msgTest::Direction(*from._impl_.direction_);
   }
   ::memcpy(&_impl_.userid_, &from._impl_.userid_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.timestamp_) -
-    reinterpret_cast<char*>(&_impl_.userid_)) + sizeof(_impl_.timestamp_));
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.empty_) -
+    reinterpret_cast<char*>(&_impl_.userid_)) + sizeof(_impl_.empty_));
   // @@protoc_insertion_point(copy_constructor:msgTest.MoveState)
 }
 
@@ -1296,6 +1277,7 @@ inline void MoveState::SharedCtor(
     , decltype(_impl_.userid_){0}
     , decltype(_impl_.speed_){0}
     , decltype(_impl_.timestamp_){int64_t{0}}
+    , decltype(_impl_.empty_){int64_t{0}}
   };
 }
 
@@ -1335,10 +1317,10 @@ void MoveState::Clear() {
       _impl_.direction_->Clear();
     }
   }
-  if (cached_has_bits & 0x0000001cu) {
+  if (cached_has_bits & 0x0000003cu) {
     ::memset(&_impl_.userid_, 0, static_cast<size_t>(
-        reinterpret_cast<char*>(&_impl_.timestamp_) -
-        reinterpret_cast<char*>(&_impl_.userid_)) + sizeof(_impl_.timestamp_));
+        reinterpret_cast<char*>(&_impl_.empty_) -
+        reinterpret_cast<char*>(&_impl_.userid_)) + sizeof(_impl_.empty_));
   }
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
@@ -1351,7 +1333,7 @@ const char* MoveState::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // required int32 userId = 1;
+      // optional int32 userId = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
           _Internal::set_has_userid(&has_bits);
@@ -1360,7 +1342,7 @@ const char* MoveState::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx
         } else
           goto handle_unusual;
         continue;
-      // required .msgTest.Position position = 2;
+      // optional .msgTest.Position position = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
           ptr = ctx->ParseMessage(_internal_mutable_position(), ptr);
@@ -1368,7 +1350,7 @@ const char* MoveState::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx
         } else
           goto handle_unusual;
         continue;
-      // required .msgTest.Direction direction = 3;
+      // optional .msgTest.Direction direction = 3;
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
           ptr = ctx->ParseMessage(_internal_mutable_direction(), ptr);
@@ -1376,20 +1358,29 @@ const char* MoveState::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx
         } else
           goto handle_unusual;
         continue;
-      // required float speed = 4;
+      // optional int32 speed = 4;
       case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 37)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
           _Internal::set_has_speed(&has_bits);
-          _impl_.speed_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
-          ptr += sizeof(float);
+          _impl_.speed_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // required int64 timestamp = 5;
+      // optional int64 timestamp = 5;
       case 5:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 40)) {
           _Internal::set_has_timestamp(&has_bits);
           _impl_.timestamp_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional int64 empty = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 48)) {
+          _Internal::set_has_empty(&has_bits);
+          _impl_.empty_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -1425,36 +1416,42 @@ uint8_t* MoveState::_InternalSerialize(
   (void) cached_has_bits;
 
   cached_has_bits = _impl_._has_bits_[0];
-  // required int32 userId = 1;
+  // optional int32 userId = 1;
   if (cached_has_bits & 0x00000004u) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_userid(), target);
   }
 
-  // required .msgTest.Position position = 2;
+  // optional .msgTest.Position position = 2;
   if (cached_has_bits & 0x00000001u) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessage(2, _Internal::position(this),
         _Internal::position(this).GetCachedSize(), target, stream);
   }
 
-  // required .msgTest.Direction direction = 3;
+  // optional .msgTest.Direction direction = 3;
   if (cached_has_bits & 0x00000002u) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessage(3, _Internal::direction(this),
         _Internal::direction(this).GetCachedSize(), target, stream);
   }
 
-  // required float speed = 4;
+  // optional int32 speed = 4;
   if (cached_has_bits & 0x00000008u) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteFloatToArray(4, this->_internal_speed(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(4, this->_internal_speed(), target);
   }
 
-  // required int64 timestamp = 5;
+  // optional int64 timestamp = 5;
   if (cached_has_bits & 0x00000010u) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteInt64ToArray(5, this->_internal_timestamp(), target);
+  }
+
+  // optional int64 empty = 6;
+  if (cached_has_bits & 0x00000020u) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt64ToArray(6, this->_internal_empty(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1465,72 +1462,51 @@ uint8_t* MoveState::_InternalSerialize(
   return target;
 }
 
-size_t MoveState::RequiredFieldsByteSizeFallback() const {
-// @@protoc_insertion_point(required_fields_byte_size_fallback_start:msgTest.MoveState)
-  size_t total_size = 0;
-
-  if (_internal_has_position()) {
-    // required .msgTest.Position position = 2;
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.position_);
-  }
-
-  if (_internal_has_direction()) {
-    // required .msgTest.Direction direction = 3;
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.direction_);
-  }
-
-  if (_internal_has_userid()) {
-    // required int32 userId = 1;
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_userid());
-  }
-
-  if (_internal_has_speed()) {
-    // required float speed = 4;
-    total_size += 1 + 4;
-  }
-
-  if (_internal_has_timestamp()) {
-    // required int64 timestamp = 5;
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_timestamp());
-  }
-
-  return total_size;
-}
 size_t MoveState::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:msgTest.MoveState)
   size_t total_size = 0;
 
-  if (((_impl_._has_bits_[0] & 0x0000001f) ^ 0x0000001f) == 0) {  // All required fields are present.
-    // required .msgTest.Position position = 2;
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.position_);
-
-    // required .msgTest.Direction direction = 3;
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.direction_);
-
-    // required int32 userId = 1;
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_userid());
-
-    // required float speed = 4;
-    total_size += 1 + 4;
-
-    // required int64 timestamp = 5;
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_timestamp());
-
-  } else {
-    total_size += RequiredFieldsByteSizeFallback();
-  }
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x0000003fu) {
+    // optional .msgTest.Position position = 2;
+    if (cached_has_bits & 0x00000001u) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+          *_impl_.position_);
+    }
+
+    // optional .msgTest.Direction direction = 3;
+    if (cached_has_bits & 0x00000002u) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+          *_impl_.direction_);
+    }
+
+    // optional int32 userId = 1;
+    if (cached_has_bits & 0x00000004u) {
+      total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_userid());
+    }
+
+    // optional int32 speed = 4;
+    if (cached_has_bits & 0x00000008u) {
+      total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_speed());
+    }
+
+    // optional int64 timestamp = 5;
+    if (cached_has_bits & 0x00000010u) {
+      total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_timestamp());
+    }
+
+    // optional int64 empty = 6;
+    if (cached_has_bits & 0x00000020u) {
+      total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_empty());
+    }
+
+  }
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -1550,7 +1526,7 @@ void MoveState::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROT
   (void) cached_has_bits;
 
   cached_has_bits = from._impl_._has_bits_[0];
-  if (cached_has_bits & 0x0000001fu) {
+  if (cached_has_bits & 0x0000003fu) {
     if (cached_has_bits & 0x00000001u) {
       _this->_internal_mutable_position()->::msgTest::Position::MergeFrom(
           from._internal_position());
@@ -1568,6 +1544,9 @@ void MoveState::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROT
     if (cached_has_bits & 0x00000010u) {
       _this->_impl_.timestamp_ = from._impl_.timestamp_;
     }
+    if (cached_has_bits & 0x00000020u) {
+      _this->_impl_.empty_ = from._impl_.empty_;
+    }
     _this->_impl_._has_bits_[0] |= cached_has_bits;
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -1581,7 +1560,6 @@ void MoveState::CopyFrom(const MoveState& from) {
 }
 
 bool MoveState::IsInitialized() const {
-  if (_Internal::MissingRequiredFields(_impl_._has_bits_)) return false;
   return true;
 }
 
@@ -1590,8 +1568,8 @@ void MoveState::InternalSwap(MoveState* other) {
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(MoveState, _impl_.timestamp_)
-      + sizeof(MoveState::_impl_.timestamp_)
+      PROTOBUF_FIELD_OFFSET(MoveState, _impl_.empty_)
+      + sizeof(MoveState::_impl_.empty_)
       - PROTOBUF_FIELD_OFFSET(MoveState, _impl_.position_)>(
           reinterpret_cast<char*>(&_impl_.position_),
           reinterpret_cast<char*>(&other->_impl_.position_));
@@ -1875,9 +1853,6 @@ void CS_Move_User::CopyFrom(const CS_Move_User& from) {
 
 bool CS_Move_User::IsInitialized() const {
   if (_Internal::MissingRequiredFields(_impl_._has_bits_)) return false;
-  if (_internal_has_movestate()) {
-    if (!_impl_.movestate_->IsInitialized()) return false;
-  }
   return true;
 }
 
@@ -2086,9 +2061,6 @@ void SC_Accept_Client::CopyFrom(const SC_Accept_Client& from) {
 
 bool SC_Accept_Client::IsInitialized() const {
   if (_Internal::MissingRequiredFields(_impl_._has_bits_)) return false;
-  if (_internal_has_userinfo()) {
-    if (!_impl_.userinfo_->IsInitialized()) return false;
-  }
   return true;
 }
 
@@ -2275,8 +2247,6 @@ void SC_Response_Server_State::CopyFrom(const SC_Response_Server_State& from) {
 }
 
 bool SC_Response_Server_State::IsInitialized() const {
-  if (!::PROTOBUF_NAMESPACE_ID::internal::AllAreInitialized(_impl_.userinfos_))
-    return false;
   return true;
 }
 
@@ -2524,9 +2494,6 @@ void SC_Connect_Other_User::CopyFrom(const SC_Connect_Other_User& from) {
 
 bool SC_Connect_Other_User::IsInitialized() const {
   if (_Internal::MissingRequiredFields(_impl_._has_bits_)) return false;
-  if (_internal_has_userinfo()) {
-    if (!_impl_.userinfo_->IsInitialized()) return false;
-  }
   return true;
 }
 
@@ -2713,8 +2680,6 @@ void SC_Broadcast_User_Info::CopyFrom(const SC_Broadcast_User_Info& from) {
 }
 
 bool SC_Broadcast_User_Info::IsInitialized() const {
-  if (!::PROTOBUF_NAMESPACE_ID::internal::AllAreInitialized(_impl_.movestates_))
-    return false;
   return true;
 }
 
