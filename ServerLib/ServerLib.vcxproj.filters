@@ -96,7 +96,9 @@
     <ClCompile Include="JobTimer.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
-    <ClCompile Include="Job.cpp" />
+    <ClCompile Include="Job.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -174,7 +176,9 @@
     <ClInclude Include="JobTimer.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Job.h" />
+    <ClInclude Include="Job.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\protobuf\messageTest.proto">

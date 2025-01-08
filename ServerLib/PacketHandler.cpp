@@ -56,7 +56,6 @@ void PacketHandler::Handle_CS_Connect_Server(shared_ptr<Session> session, shared
 		msgTest::SC_Accept_Client packetAcceptClient;
 		msgTest::UserInfo* userInfo = packetAcceptClient.mutable_userinfo();
 		msgTest::Position* position = userInfo->mutable_position();
-		msgTest::Direction* direction = userInfo->mutable_direction();
 
 		int32 userId = session->GetSessionId();
 		session->SetUserId(userId);
@@ -74,7 +73,6 @@ void PacketHandler::Handle_CS_Connect_Server(shared_ptr<Session> session, shared
 		msgTest::SC_Connect_Other_User packetConnectOtherUser;
 		msgTest::UserInfo* userInfo = packetConnectOtherUser.mutable_userinfo();
 		msgTest::Position* position = userInfo->mutable_position();
-		msgTest::Direction* direction = userInfo->mutable_direction();
 
 		int32 userId = session->GetSessionId();
 		userInfo->set_id(userId);
@@ -99,7 +97,6 @@ void PacketHandler::Handle_CS_Request_Server_State(shared_ptr<Session> session, 
 		for (UserInfo info : usersInfo) {
 			msgTest::UserInfo* userInfo = packetUsersInfo.add_userinfos();
 			msgTest::Position* position = userInfo->mutable_position();
-			msgTest::Direction* direction = userInfo->mutable_direction();
 
 			Position userPos = info.GetPosition();
 			Direction userVel = info.GetDirection();
@@ -107,9 +104,6 @@ void PacketHandler::Handle_CS_Request_Server_State(shared_ptr<Session> session, 
 			position->set_x(userPos.x);
 			position->set_y(userPos.y);
 			position->set_z(userPos.z);
-			direction->set_x(userVel.x);
-			direction->set_y(userVel.y);
-			direction->set_z(userVel.z);
 		}
 
 		shared_ptr<Buffer> sendBuffer = MakeSendBuffer(packetUsersInfo, PacketId::PKT_SC_RESPONSE_SERVER_STATE);
@@ -133,7 +127,7 @@ void PacketHandler::Handle_CS_Move_User(shared_ptr<Session> session, shared_ptr<
 	UserInfo userInfo;
 	userInfo.SetId(recvMoveUser.movestate().userid());
 	userInfo.SetPosition(recvMoveUser.movestate().position().x(), recvMoveUser.movestate().position().y(), recvMoveUser.movestate().position().z());
-	userInfo.SetDirection(recvMoveUser.movestate().direction().x(), recvMoveUser.movestate().direction().y(), recvMoveUser.movestate().direction().z());
+	userInfo.SetDirection(recvMoveUser.movestate().velocity().x(), recvMoveUser.movestate().velocity().y(), recvMoveUser.movestate().velocity().z());
 	userInfo.SetLastMovePacket(recvMoveUser.movestate().timestamp());
 
 	cout << "Set User Info : " << recvMoveUser.movestate().userid() << " ";
@@ -173,9 +167,6 @@ void PacketHandler::Handle_SC_Response_Server_State(shared_ptr<Session> session,
 		cout << "position [x:" << userInfo.position().x() << ", ";
 		cout << "y:" << userInfo.position().y() << ", ";
 		cout << "z:" << userInfo.position().z() << "]";
-		cout << "velocity [x:" << userInfo.direction().x() << ", ";
-		cout << "y:" << userInfo.direction().y() << ", ";
-		cout << "z:" << userInfo.direction().z() << "]";
 	}
 }
 

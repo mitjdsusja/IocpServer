@@ -83,11 +83,6 @@ void ReserveLoopBroadcastUserInfo(Service* service) {
 		position->set_y(userInfo.GetPosition().y);
 		position->set_z(userInfo.GetPosition().z);
 
-		msgTest::Direction* direction = moveState->mutable_direction();
-		direction->set_x(userInfo.GetDirection().x);
-		direction->set_y(userInfo.GetDirection().y);
-		direction->set_z(userInfo.GetDirection().z);
-
 		//cout << "userId : " << moveState->userid() << " ";
 		//cout << "Pos : " << moveState->position().x() << ", " << moveState->position().z() << endl;
 	}

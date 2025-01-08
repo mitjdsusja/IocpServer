@@ -55,9 +55,6 @@ extern CS_Move_UserDefaultTypeInternal _CS_Move_User_default_instance_;
 class CS_Request_Server_State;
 struct CS_Request_Server_StateDefaultTypeInternal;
 extern CS_Request_Server_StateDefaultTypeInternal _CS_Request_Server_State_default_instance_;
-class Direction;
-struct DirectionDefaultTypeInternal;
-extern DirectionDefaultTypeInternal _Direction_default_instance_;
 class MoveState;
 struct MoveStateDefaultTypeInternal;
 extern MoveStateDefaultTypeInternal _MoveState_default_instance_;
@@ -82,12 +79,14 @@ extern SC_Result_Move_UserDefaultTypeInternal _SC_Result_Move_User_default_insta
 class UserInfo;
 struct UserInfoDefaultTypeInternal;
 extern UserInfoDefaultTypeInternal _UserInfo_default_instance_;
+class Veloccity;
+struct VeloccityDefaultTypeInternal;
+extern VeloccityDefaultTypeInternal _Veloccity_default_instance_;
 }  // namespace msgTest
 PROTOBUF_NAMESPACE_OPEN
 template<> ::msgTest::CS_Connect_Server* Arena::CreateMaybeMessage<::msgTest::CS_Connect_Server>(Arena*);
 template<> ::msgTest::CS_Move_User* Arena::CreateMaybeMessage<::msgTest::CS_Move_User>(Arena*);
 template<> ::msgTest::CS_Request_Server_State* Arena::CreateMaybeMessage<::msgTest::CS_Request_Server_State>(Arena*);
-template<> ::msgTest::Direction* Arena::CreateMaybeMessage<::msgTest::Direction>(Arena*);
 template<> ::msgTest::MoveState* Arena::CreateMaybeMessage<::msgTest::MoveState>(Arena*);
 template<> ::msgTest::Position* Arena::CreateMaybeMessage<::msgTest::Position>(Arena*);
 template<> ::msgTest::SC_Accept_Client* Arena::CreateMaybeMessage<::msgTest::SC_Accept_Client>(Arena*);
@@ -96,6 +95,7 @@ template<> ::msgTest::SC_Connect_Other_User* Arena::CreateMaybeMessage<::msgTest
 template<> ::msgTest::SC_Response_Server_State* Arena::CreateMaybeMessage<::msgTest::SC_Response_Server_State>(Arena*);
 template<> ::msgTest::SC_Result_Move_User* Arena::CreateMaybeMessage<::msgTest::SC_Result_Move_User>(Arena*);
 template<> ::msgTest::UserInfo* Arena::CreateMaybeMessage<::msgTest::UserInfo>(Arena*);
+template<> ::msgTest::Veloccity* Arena::CreateMaybeMessage<::msgTest::Veloccity>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace msgTest {
 
@@ -291,24 +291,24 @@ class Position final :
 };
 // -------------------------------------------------------------------
 
-class Direction final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:msgTest.Direction) */ {
+class Veloccity final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:msgTest.Veloccity) */ {
  public:
-  inline Direction() : Direction(nullptr) {}
-  ~Direction() override;
-  explicit PROTOBUF_CONSTEXPR Direction(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+  inline Veloccity() : Veloccity(nullptr) {}
+  ~Veloccity() override;
+  explicit PROTOBUF_CONSTEXPR Veloccity(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
 
-  Direction(const Direction& from);
-  Direction(Direction&& from) noexcept
-    : Direction() {
+  Veloccity(const Veloccity& from);
+  Veloccity(Veloccity&& from) noexcept
+    : Veloccity() {
     *this = ::std::move(from);
   }
 
-  inline Direction& operator=(const Direction& from) {
+  inline Veloccity& operator=(const Veloccity& from) {
     CopyFrom(from);
     return *this;
   }
-  inline Direction& operator=(Direction&& from) noexcept {
+  inline Veloccity& operator=(Veloccity&& from) noexcept {
     if (this == &from) return *this;
     if (GetOwningArena() == from.GetOwningArena()
   #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
@@ -338,20 +338,20 @@ class Direction final :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const Direction& default_instance() {
+  static const Veloccity& default_instance() {
     return *internal_default_instance();
   }
-  static inline const Direction* internal_default_instance() {
-    return reinterpret_cast<const Direction*>(
-               &_Direction_default_instance_);
+  static inline const Veloccity* internal_default_instance() {
+    return reinterpret_cast<const Veloccity*>(
+               &_Veloccity_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     1;
 
-  friend void swap(Direction& a, Direction& b) {
+  friend void swap(Veloccity& a, Veloccity& b) {
     a.Swap(&b);
   }
-  inline void Swap(Direction* other) {
+  inline void Swap(Veloccity* other) {
     if (other == this) return;
   #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
     if (GetOwningArena() != nullptr &&
@@ -364,7 +364,7 @@ class Direction final :
       ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(Direction* other) {
+  void UnsafeArenaSwap(Veloccity* other) {
     if (other == this) return;
     GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
     InternalSwap(other);
@@ -372,14 +372,14 @@ class Direction final :
 
   // implements Message ----------------------------------------------
 
-  Direction* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<Direction>(arena);
+  Veloccity* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<Veloccity>(arena);
   }
   using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const Direction& from);
+  void CopyFrom(const Veloccity& from);
   using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const Direction& from) {
-    Direction::MergeImpl(*this, from);
+  void MergeFrom( const Veloccity& from) {
+    Veloccity::MergeImpl(*this, from);
   }
   private:
   static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
@@ -397,15 +397,15 @@ class Direction final :
   void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(Direction* other);
+  void InternalSwap(Veloccity* other);
 
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "msgTest.Direction";
+    return "msgTest.Veloccity";
   }
   protected:
-  explicit Direction(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+  explicit Veloccity(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                        bool is_message_owned = false);
   public:
 
@@ -462,7 +462,7 @@ class Direction final :
   void _internal_set_z(float value);
   public:
 
-  // @@protoc_insertion_point(class_scope:msgTest.Direction)
+  // @@protoc_insertion_point(class_scope:msgTest.Veloccity)
  private:
   class _Internal;
 
@@ -610,7 +610,6 @@ class UserInfo final :
 
   enum : int {
     kPositionFieldNumber = 2,
-    kDirectionFieldNumber = 3,
     kIdFieldNumber = 1,
   };
   // required .msgTest.Position position = 2;
@@ -630,24 +629,6 @@ class UserInfo final :
   void unsafe_arena_set_allocated_position(
       ::msgTest::Position* position);
   ::msgTest::Position* unsafe_arena_release_position();
-
-  // required .msgTest.Direction direction = 3;
-  bool has_direction() const;
-  private:
-  bool _internal_has_direction() const;
-  public:
-  void clear_direction();
-  const ::msgTest::Direction& direction() const;
-  PROTOBUF_NODISCARD ::msgTest::Direction* release_direction();
-  ::msgTest::Direction* mutable_direction();
-  void set_allocated_direction(::msgTest::Direction* direction);
-  private:
-  const ::msgTest::Direction& _internal_direction() const;
-  ::msgTest::Direction* _internal_mutable_direction();
-  public:
-  void unsafe_arena_set_allocated_direction(
-      ::msgTest::Direction* direction);
-  ::msgTest::Direction* unsafe_arena_release_direction();
 
   // required int32 id = 1;
   bool has_id() const;
@@ -676,7 +657,6 @@ class UserInfo final :
     ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
     ::msgTest::Position* position_;
-    ::msgTest::Direction* direction_;
     int32_t id_;
   };
   union { Impl_ _impl_; };
@@ -813,7 +793,7 @@ class MoveState final :
 
   enum : int {
     kPositionFieldNumber = 2,
-    kDirectionFieldNumber = 3,
+    kVelocityFieldNumber = 3,
     kUserIdFieldNumber = 1,
     kSpeedFieldNumber = 4,
     kTimestampFieldNumber = 5,
@@ -836,23 +816,23 @@ class MoveState final :
       ::msgTest::Position* position);
   ::msgTest::Position* unsafe_arena_release_position();
 
-  // required .msgTest.Direction direction = 3;
-  bool has_direction() const;
+  // required .msgTest.Veloccity velocity = 3;
+  bool has_velocity() const;
   private:
-  bool _internal_has_direction() const;
+  bool _internal_has_velocity() const;
   public:
-  void clear_direction();
-  const ::msgTest::Direction& direction() const;
-  PROTOBUF_NODISCARD ::msgTest::Direction* release_direction();
-  ::msgTest::Direction* mutable_direction();
-  void set_allocated_direction(::msgTest::Direction* direction);
+  void clear_velocity();
+  const ::msgTest::Veloccity& velocity() const;
+  PROTOBUF_NODISCARD ::msgTest::Veloccity* release_velocity();
+  ::msgTest::Veloccity* mutable_velocity();
+  void set_allocated_velocity(::msgTest::Veloccity* velocity);
   private:
-  const ::msgTest::Direction& _internal_direction() const;
-  ::msgTest::Direction* _internal_mutable_direction();
+  const ::msgTest::Veloccity& _internal_velocity() const;
+  ::msgTest::Veloccity* _internal_mutable_velocity();
   public:
-  void unsafe_arena_set_allocated_direction(
-      ::msgTest::Direction* direction);
-  ::msgTest::Direction* unsafe_arena_release_direction();
+  void unsafe_arena_set_allocated_velocity(
+      ::msgTest::Veloccity* velocity);
+  ::msgTest::Veloccity* unsafe_arena_release_velocity();
 
   // required int32 userId = 1;
   bool has_userid() const;
@@ -907,7 +887,7 @@ class MoveState final :
     ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
     ::msgTest::Position* position_;
-    ::msgTest::Direction* direction_;
+    ::msgTest::Veloccity* velocity_;
     int32_t userid_;
     float speed_;
     int64_t timestamp_;
@@ -2210,90 +2190,90 @@ inline void Position::set_z(float value) {
 
 // -------------------------------------------------------------------
 
-// Direction
+// Veloccity
 
 // optional float x = 1 [default = 0];
-inline bool Direction::_internal_has_x() const {
+inline bool Veloccity::_internal_has_x() const {
   bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
   return value;
 }
-inline bool Direction::has_x() const {
+inline bool Veloccity::has_x() const {
   return _internal_has_x();
 }
-inline void Direction::clear_x() {
+inline void Veloccity::clear_x() {
   _impl_.x_ = 0;
   _impl_._has_bits_[0] &= ~0x00000001u;
 }
-inline float Direction::_internal_x() const {
+inline float Veloccity::_internal_x() const {
   return _impl_.x_;
 }
-inline float Direction::x() const {
-  // @@protoc_insertion_point(field_get:msgTest.Direction.x)
+inline float Veloccity::x() const {
+  // @@protoc_insertion_point(field_get:msgTest.Veloccity.x)
   return _internal_x();
 }
-inline void Direction::_internal_set_x(float value) {
+inline void Veloccity::_internal_set_x(float value) {
   _impl_._has_bits_[0] |= 0x00000001u;
   _impl_.x_ = value;
 }
-inline void Direction::set_x(float value) {
+inline void Veloccity::set_x(float value) {
   _internal_set_x(value);
-  // @@protoc_insertion_point(field_set:msgTest.Direction.x)
+  // @@protoc_insertion_point(field_set:msgTest.Veloccity.x)
 }
 
 // optional float y = 2 [default = 0];
-inline bool Direction::_internal_has_y() const {
+inline bool Veloccity::_internal_has_y() const {
   bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
   return value;
 }
-inline bool Direction::has_y() const {
+inline bool Veloccity::has_y() const {
   return _internal_has_y();
 }
-inline void Direction::clear_y() {
+inline void Veloccity::clear_y() {
   _impl_.y_ = 0;
   _impl_._has_bits_[0] &= ~0x00000002u;
 }
-inline float Direction::_internal_y() const {
+inline float Veloccity::_internal_y() const {
   return _impl_.y_;
 }
-inline float Direction::y() const {
-  // @@protoc_insertion_point(field_get:msgTest.Direction.y)
+inline float Veloccity::y() const {
+  // @@protoc_insertion_point(field_get:msgTest.Veloccity.y)
   return _internal_y();
 }
-inline void Direction::_internal_set_y(float value) {
+inline void Veloccity::_internal_set_y(float value) {
   _impl_._has_bits_[0] |= 0x00000002u;
   _impl_.y_ = value;
 }
-inline void Direction::set_y(float value) {
+inline void Veloccity::set_y(float value) {
   _internal_set_y(value);
-  // @@protoc_insertion_point(field_set:msgTest.Direction.y)
+  // @@protoc_insertion_point(field_set:msgTest.Veloccity.y)
 }
 
 // optional float z = 3 [default = 0];
-inline bool Direction::_internal_has_z() const {
+inline bool Veloccity::_internal_has_z() const {
   bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
   return value;
 }
-inline bool Direction::has_z() const {
+inline bool Veloccity::has_z() const {
   return _internal_has_z();
 }
-inline void Direction::clear_z() {
+inline void Veloccity::clear_z() {
   _impl_.z_ = 0;
   _impl_._has_bits_[0] &= ~0x00000004u;
 }
-inline float Direction::_internal_z() const {
+inline float Veloccity::_internal_z() const {
   return _impl_.z_;
 }
-inline float Direction::z() const {
-  // @@protoc_insertion_point(field_get:msgTest.Direction.z)
+inline float Veloccity::z() const {
+  // @@protoc_insertion_point(field_get:msgTest.Veloccity.z)
   return _internal_z();
 }
-inline void Direction::_internal_set_z(float value) {
+inline void Veloccity::_internal_set_z(float value) {
   _impl_._has_bits_[0] |= 0x00000004u;
   _impl_.z_ = value;
 }
-inline void Direction::set_z(float value) {
+inline void Veloccity::set_z(float value) {
   _internal_set_z(value);
-  // @@protoc_insertion_point(field_set:msgTest.Direction.z)
+  // @@protoc_insertion_point(field_set:msgTest.Veloccity.z)
 }
 
 // -------------------------------------------------------------------
@@ -2302,7 +2282,7 @@ inline void Direction::set_z(float value) {
 
 // required int32 id = 1;
 inline bool UserInfo::_internal_has_id() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
   return value;
 }
 inline bool UserInfo::has_id() const {
@@ -2310,7 +2290,7 @@ inline bool UserInfo::has_id() const {
 }
 inline void UserInfo::clear_id() {
   _impl_.id_ = 0;
-  _impl_._has_bits_[0] &= ~0x00000004u;
+  _impl_._has_bits_[0] &= ~0x00000002u;
 }
 inline int32_t UserInfo::_internal_id() const {
   return _impl_.id_;
@@ -2320,7 +2300,7 @@ inline int32_t UserInfo::id() const {
   return _internal_id();
 }
 inline void UserInfo::_internal_set_id(int32_t value) {
-  _impl_._has_bits_[0] |= 0x00000004u;
+  _impl_._has_bits_[0] |= 0x00000002u;
   _impl_.id_ = value;
 }
 inline void UserInfo::set_id(int32_t value) {
@@ -2416,96 +2396,6 @@ inline void UserInfo::set_allocated_position(::msgTest::Position* position) {
   }
   _impl_.position_ = position;
   // @@protoc_insertion_point(field_set_allocated:msgTest.UserInfo.position)
-}
-
-// required .msgTest.Direction direction = 3;
-inline bool UserInfo::_internal_has_direction() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
-  PROTOBUF_ASSUME(!value || _impl_.direction_ != nullptr);
-  return value;
-}
-inline bool UserInfo::has_direction() const {
-  return _internal_has_direction();
-}
-inline void UserInfo::clear_direction() {
-  if (_impl_.direction_ != nullptr) _impl_.direction_->Clear();
-  _impl_._has_bits_[0] &= ~0x00000002u;
-}
-inline const ::msgTest::Direction& UserInfo::_internal_direction() const {
-  const ::msgTest::Direction* p = _impl_.direction_;
-  return p != nullptr ? *p : reinterpret_cast<const ::msgTest::Direction&>(
-      ::msgTest::_Direction_default_instance_);
-}
-inline const ::msgTest::Direction& UserInfo::direction() const {
-  // @@protoc_insertion_point(field_get:msgTest.UserInfo.direction)
-  return _internal_direction();
-}
-inline void UserInfo::unsafe_arena_set_allocated_direction(
-    ::msgTest::Direction* direction) {
-  if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.direction_);
-  }
-  _impl_.direction_ = direction;
-  if (direction) {
-    _impl_._has_bits_[0] |= 0x00000002u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000002u;
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:msgTest.UserInfo.direction)
-}
-inline ::msgTest::Direction* UserInfo::release_direction() {
-  _impl_._has_bits_[0] &= ~0x00000002u;
-  ::msgTest::Direction* temp = _impl_.direction_;
-  _impl_.direction_ = nullptr;
-#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
-  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
-  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  if (GetArenaForAllocation() == nullptr) { delete old; }
-#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
-  if (GetArenaForAllocation() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
-  return temp;
-}
-inline ::msgTest::Direction* UserInfo::unsafe_arena_release_direction() {
-  // @@protoc_insertion_point(field_release:msgTest.UserInfo.direction)
-  _impl_._has_bits_[0] &= ~0x00000002u;
-  ::msgTest::Direction* temp = _impl_.direction_;
-  _impl_.direction_ = nullptr;
-  return temp;
-}
-inline ::msgTest::Direction* UserInfo::_internal_mutable_direction() {
-  _impl_._has_bits_[0] |= 0x00000002u;
-  if (_impl_.direction_ == nullptr) {
-    auto* p = CreateMaybeMessage<::msgTest::Direction>(GetArenaForAllocation());
-    _impl_.direction_ = p;
-  }
-  return _impl_.direction_;
-}
-inline ::msgTest::Direction* UserInfo::mutable_direction() {
-  ::msgTest::Direction* _msg = _internal_mutable_direction();
-  // @@protoc_insertion_point(field_mutable:msgTest.UserInfo.direction)
-  return _msg;
-}
-inline void UserInfo::set_allocated_direction(::msgTest::Direction* direction) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  if (message_arena == nullptr) {
-    delete _impl_.direction_;
-  }
-  if (direction) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(direction);
-    if (message_arena != submessage_arena) {
-      direction = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, direction, submessage_arena);
-    }
-    _impl_._has_bits_[0] |= 0x00000002u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000002u;
-  }
-  _impl_.direction_ = direction;
-  // @@protoc_insertion_point(field_set_allocated:msgTest.UserInfo.direction)
 }
 
 // -------------------------------------------------------------------
@@ -2630,45 +2520,45 @@ inline void MoveState::set_allocated_position(::msgTest::Position* position) {
   // @@protoc_insertion_point(field_set_allocated:msgTest.MoveState.position)
 }
 
-// required .msgTest.Direction direction = 3;
-inline bool MoveState::_internal_has_direction() const {
+// required .msgTest.Veloccity velocity = 3;
+inline bool MoveState::_internal_has_velocity() const {
   bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
-  PROTOBUF_ASSUME(!value || _impl_.direction_ != nullptr);
+  PROTOBUF_ASSUME(!value || _impl_.velocity_ != nullptr);
   return value;
 }
-inline bool MoveState::has_direction() const {
-  return _internal_has_direction();
+inline bool MoveState::has_velocity() const {
+  return _internal_has_velocity();
 }
-inline void MoveState::clear_direction() {
-  if (_impl_.direction_ != nullptr) _impl_.direction_->Clear();
+inline void MoveState::clear_velocity() {
+  if (_impl_.velocity_ != nullptr) _impl_.velocity_->Clear();
   _impl_._has_bits_[0] &= ~0x00000002u;
 }
-inline const ::msgTest::Direction& MoveState::_internal_direction() const {
-  const ::msgTest::Direction* p = _impl_.direction_;
-  return p != nullptr ? *p : reinterpret_cast<const ::msgTest::Direction&>(
-      ::msgTest::_Direction_default_instance_);
+inline const ::msgTest::Veloccity& MoveState::_internal_velocity() const {
+  const ::msgTest::Veloccity* p = _impl_.velocity_;
+  return p != nullptr ? *p : reinterpret_cast<const ::msgTest::Veloccity&>(
+      ::msgTest::_Veloccity_default_instance_);
 }
-inline const ::msgTest::Direction& MoveState::direction() const {
-  // @@protoc_insertion_point(field_get:msgTest.MoveState.direction)
-  return _internal_direction();
+inline const ::msgTest::Veloccity& MoveState::velocity() const {
+  // @@protoc_insertion_point(field_get:msgTest.MoveState.velocity)
+  return _internal_velocity();
 }
-inline void MoveState::unsafe_arena_set_allocated_direction(
-    ::msgTest::Direction* direction) {
+inline void MoveState::unsafe_arena_set_allocated_velocity(
+    ::msgTest::Veloccity* velocity) {
   if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.direction_);
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.velocity_);
   }
-  _impl_.direction_ = direction;
-  if (direction) {
+  _impl_.velocity_ = velocity;
+  if (velocity) {
     _impl_._has_bits_[0] |= 0x00000002u;
   } else {
     _impl_._has_bits_[0] &= ~0x00000002u;
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:msgTest.MoveState.direction)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:msgTest.MoveState.velocity)
 }
-inline ::msgTest::Direction* MoveState::release_direction() {
+inline ::msgTest::Veloccity* MoveState::release_velocity() {
   _impl_._has_bits_[0] &= ~0x00000002u;
-  ::msgTest::Direction* temp = _impl_.direction_;
-  _impl_.direction_ = nullptr;
+  ::msgTest::Veloccity* temp = _impl_.velocity_;
+  _impl_.velocity_ = nullptr;
 #ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
   auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
   temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
@@ -2680,44 +2570,44 @@ inline ::msgTest::Direction* MoveState::release_direction() {
 #endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
   return temp;
 }
-inline ::msgTest::Direction* MoveState::unsafe_arena_release_direction() {
-  // @@protoc_insertion_point(field_release:msgTest.MoveState.direction)
+inline ::msgTest::Veloccity* MoveState::unsafe_arena_release_velocity() {
+  // @@protoc_insertion_point(field_release:msgTest.MoveState.velocity)
   _impl_._has_bits_[0] &= ~0x00000002u;
-  ::msgTest::Direction* temp = _impl_.direction_;
-  _impl_.direction_ = nullptr;
+  ::msgTest::Veloccity* temp = _impl_.velocity_;
+  _impl_.velocity_ = nullptr;
   return temp;
 }
-inline ::msgTest::Direction* MoveState::_internal_mutable_direction() {
+inline ::msgTest::Veloccity* MoveState::_internal_mutable_velocity() {
   _impl_._has_bits_[0] |= 0x00000002u;
-  if (_impl_.direction_ == nullptr) {
-    auto* p = CreateMaybeMessage<::msgTest::Direction>(GetArenaForAllocation());
-    _impl_.direction_ = p;
+  if (_impl_.velocity_ == nullptr) {
+    auto* p = CreateMaybeMessage<::msgTest::Veloccity>(GetArenaForAllocation());
+    _impl_.velocity_ = p;
   }
-  return _impl_.direction_;
+  return _impl_.velocity_;
 }
-inline ::msgTest::Direction* MoveState::mutable_direction() {
-  ::msgTest::Direction* _msg = _internal_mutable_direction();
-  // @@protoc_insertion_point(field_mutable:msgTest.MoveState.direction)
+inline ::msgTest::Veloccity* MoveState::mutable_velocity() {
+  ::msgTest::Veloccity* _msg = _internal_mutable_velocity();
+  // @@protoc_insertion_point(field_mutable:msgTest.MoveState.velocity)
   return _msg;
 }
-inline void MoveState::set_allocated_direction(::msgTest::Direction* direction) {
+inline void MoveState::set_allocated_velocity(::msgTest::Veloccity* velocity) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
   if (message_arena == nullptr) {
-    delete _impl_.direction_;
+    delete _impl_.velocity_;
   }
-  if (direction) {
+  if (velocity) {
     ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(direction);
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(velocity);
     if (message_arena != submessage_arena) {
-      direction = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, direction, submessage_arena);
+      velocity = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, velocity, submessage_arena);
     }
     _impl_._has_bits_[0] |= 0x00000002u;
   } else {
     _impl_._has_bits_[0] &= ~0x00000002u;
   }
-  _impl_.direction_ = direction;
-  // @@protoc_insertion_point(field_set_allocated:msgTest.MoveState.direction)
+  _impl_.velocity_ = velocity;
+  // @@protoc_insertion_point(field_set_allocated:msgTest.MoveState.velocity)
 }
 
 // required float speed = 4;
