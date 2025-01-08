@@ -99,7 +99,7 @@ void PacketHandler::Handle_CS_Request_Server_State(shared_ptr<Session> session, 
 			msgTest::Position* position = userInfo->mutable_position();
 
 			Position userPos = info.GetPosition();
-			Direction userVel = info.GetDirection();
+			Velocity userVel = info.GetVelocity();
 			userInfo->set_id(info.GetId());
 			position->set_x(userPos.x);
 			position->set_y(userPos.y);
@@ -127,7 +127,7 @@ void PacketHandler::Handle_CS_Move_User(shared_ptr<Session> session, shared_ptr<
 	UserInfo userInfo;
 	userInfo.SetId(recvMoveUser.movestate().userid());
 	userInfo.SetPosition(recvMoveUser.movestate().position().x(), recvMoveUser.movestate().position().y(), recvMoveUser.movestate().position().z());
-	userInfo.SetDirection(recvMoveUser.movestate().velocity().x(), recvMoveUser.movestate().velocity().y(), recvMoveUser.movestate().velocity().z());
+	userInfo.SetVelocity(recvMoveUser.movestate().velocity().x(), recvMoveUser.movestate().velocity().y(), recvMoveUser.movestate().velocity().z());
 	userInfo.SetLastMovePacket(recvMoveUser.movestate().timestamp());
 
 	cout << "Set User Info : " << recvMoveUser.movestate().userid() << " ";

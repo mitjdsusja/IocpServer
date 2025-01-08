@@ -65,7 +65,7 @@ void Session::SetUserInfo(UserInfo& userInfo){
 		lock_guard<mutex> lock(_userInfoMutex);
 
 		_userInfo.SetPosition(userInfo.GetPosition().x, userInfo.GetPosition().y, userInfo.GetPosition().z);
-		_userInfo.SetDirection(userInfo.GetDirection().x, userInfo.GetDirection().y, userInfo.GetDirection().z);
+		_userInfo.SetVelocity(userInfo.GetVelocity().x, userInfo.GetVelocity().y, userInfo.GetVelocity().z);
 		_userInfo.SetLastMovePacket(userInfo.GetLastMovePacket());
 	}
 }

@@ -74,9 +74,8 @@ PROTOBUF_CONSTEXPR MoveState::MoveState(
   , /*decltype(_impl_._cached_size_)*/{}
   , /*decltype(_impl_.position_)*/nullptr
   , /*decltype(_impl_.velocity_)*/nullptr
-  , /*decltype(_impl_.userid_)*/0
-  , /*decltype(_impl_.speed_)*/0
-  , /*decltype(_impl_.timestamp_)*/int64_t{0}} {}
+  , /*decltype(_impl_.timestamp_)*/int64_t{0}
+  , /*decltype(_impl_.userid_)*/0} {}
 struct MoveStateDefaultTypeInternal {
   PROTOBUF_CONSTEXPR MoveStateDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -236,13 +235,11 @@ const uint32_t TableStruct_messageTest_2eproto::offsets[] PROTOBUF_SECTION_VARIA
   PROTOBUF_FIELD_OFFSET(::msgTest::MoveState, _impl_.userid_),
   PROTOBUF_FIELD_OFFSET(::msgTest::MoveState, _impl_.position_),
   PROTOBUF_FIELD_OFFSET(::msgTest::MoveState, _impl_.velocity_),
-  PROTOBUF_FIELD_OFFSET(::msgTest::MoveState, _impl_.speed_),
   PROTOBUF_FIELD_OFFSET(::msgTest::MoveState, _impl_.timestamp_),
-  2,
+  3,
   0,
   1,
-  3,
-  4,
+  2,
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::msgTest::CS_Connect_Server, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -304,15 +301,15 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 0, 9, -1, sizeof(::msgTest::Position)},
   { 12, 21, -1, sizeof(::msgTest::Veloccity)},
   { 24, 32, -1, sizeof(::msgTest::UserInfo)},
-  { 34, 45, -1, sizeof(::msgTest::MoveState)},
-  { 50, -1, -1, sizeof(::msgTest::CS_Connect_Server)},
-  { 56, -1, -1, sizeof(::msgTest::CS_Request_Server_State)},
-  { 62, 69, -1, sizeof(::msgTest::CS_Move_User)},
-  { 70, 77, -1, sizeof(::msgTest::SC_Accept_Client)},
-  { 78, -1, -1, sizeof(::msgTest::SC_Response_Server_State)},
-  { 85, -1, -1, sizeof(::msgTest::SC_Result_Move_User)},
-  { 91, 98, -1, sizeof(::msgTest::SC_Connect_Other_User)},
-  { 99, -1, -1, sizeof(::msgTest::SC_Broadcast_User_Info)},
+  { 34, 44, -1, sizeof(::msgTest::MoveState)},
+  { 48, -1, -1, sizeof(::msgTest::CS_Connect_Server)},
+  { 54, -1, -1, sizeof(::msgTest::CS_Request_Server_State)},
+  { 60, 67, -1, sizeof(::msgTest::CS_Move_User)},
+  { 68, 75, -1, sizeof(::msgTest::SC_Accept_Client)},
+  { 76, -1, -1, sizeof(::msgTest::SC_Response_Server_State)},
+  { 83, -1, -1, sizeof(::msgTest::SC_Result_Move_User)},
+  { 89, 96, -1, sizeof(::msgTest::SC_Connect_Other_User)},
+  { 97, -1, -1, sizeof(::msgTest::SC_Broadcast_User_Info)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -335,24 +332,24 @@ const char descriptor_table_protodef_messageTest_2eproto[] PROTOBUF_SECTION_VARI
   "\022\014\n\001x\030\001 \001(\002:\0010\022\014\n\001y\030\002 \001(\002:\0010\022\014\n\001z\030\003 \001(\002:"
   "\0010\"5\n\tVeloccity\022\014\n\001x\030\001 \001(\002:\0010\022\014\n\001y\030\002 \001(\002"
   ":\0010\022\014\n\001z\030\003 \001(\002:\0010\";\n\010UserInfo\022\n\n\002id\030\001 \002("
-  "\005\022#\n\010position\030\002 \002(\0132\021.msgTest.Position\"\210"
-  "\001\n\tMoveState\022\016\n\006userId\030\001 \002(\005\022#\n\010position"
-  "\030\002 \002(\0132\021.msgTest.Position\022$\n\010velocity\030\003 "
-  "\002(\0132\022.msgTest.Veloccity\022\r\n\005speed\030\004 \002(\002\022\021"
-  "\n\ttimestamp\030\005 \002(\003\"\023\n\021CS_Connect_Server\"\031"
-  "\n\027CS_Request_Server_State\"5\n\014CS_Move_Use"
-  "r\022%\n\tmoveState\030\001 \002(\0132\022.msgTest.MoveState"
-  "\"7\n\020SC_Accept_Client\022#\n\010userInfo\030\001 \002(\0132\021"
-  ".msgTest.UserInfo\"@\n\030SC_Response_Server_"
-  "State\022$\n\tuserInfos\030\001 \003(\0132\021.msgTest.UserI"
-  "nfo\"\025\n\023SC_Result_Move_User\"<\n\025SC_Connect"
-  "_Other_User\022#\n\010userInfo\030\001 \002(\0132\021.msgTest."
-  "UserInfo\"@\n\026SC_Broadcast_User_Info\022&\n\nmo"
-  "veStates\030\001 \003(\0132\022.msgTest.MoveState"
+  "\005\022#\n\010position\030\002 \002(\0132\021.msgTest.Position\"y"
+  "\n\tMoveState\022\016\n\006userId\030\001 \002(\005\022#\n\010position\030"
+  "\002 \002(\0132\021.msgTest.Position\022$\n\010velocity\030\003 \002"
+  "(\0132\022.msgTest.Veloccity\022\021\n\ttimestamp\030\005 \002("
+  "\003\"\023\n\021CS_Connect_Server\"\031\n\027CS_Request_Ser"
+  "ver_State\"5\n\014CS_Move_User\022%\n\tmoveState\030\001"
+  " \002(\0132\022.msgTest.MoveState\"7\n\020SC_Accept_Cl"
+  "ient\022#\n\010userInfo\030\001 \002(\0132\021.msgTest.UserInf"
+  "o\"@\n\030SC_Response_Server_State\022$\n\tuserInf"
+  "os\030\001 \003(\0132\021.msgTest.UserInfo\"\025\n\023SC_Result"
+  "_Move_User\"<\n\025SC_Connect_Other_User\022#\n\010u"
+  "serInfo\030\001 \002(\0132\021.msgTest.UserInfo\"@\n\026SC_B"
+  "roadcast_User_Info\022&\n\nmoveStates\030\001 \003(\0132\022"
+  ".msgTest.MoveState"
   ;
 static ::_pbi::once_flag descriptor_table_messageTest_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_messageTest_2eproto = {
-    false, false, 714, descriptor_table_protodef_messageTest_2eproto,
+    false, false, 698, descriptor_table_protodef_messageTest_2eproto,
     "messageTest.proto",
     &descriptor_table_messageTest_2eproto_once, nullptr, 0, 12,
     schemas, file_default_instances, TableStruct_messageTest_2eproto::offsets,
@@ -1169,7 +1166,7 @@ class MoveState::_Internal {
  public:
   using HasBits = decltype(std::declval<MoveState>()._impl_._has_bits_);
   static void set_has_userid(HasBits* has_bits) {
-    (*has_bits)[0] |= 4u;
+    (*has_bits)[0] |= 8u;
   }
   static const ::msgTest::Position& position(const MoveState* msg);
   static void set_has_position(HasBits* has_bits) {
@@ -1179,14 +1176,11 @@ class MoveState::_Internal {
   static void set_has_velocity(HasBits* has_bits) {
     (*has_bits)[0] |= 2u;
   }
-  static void set_has_speed(HasBits* has_bits) {
-    (*has_bits)[0] |= 8u;
-  }
   static void set_has_timestamp(HasBits* has_bits) {
-    (*has_bits)[0] |= 16u;
+    (*has_bits)[0] |= 4u;
   }
   static bool MissingRequiredFields(const HasBits& has_bits) {
-    return ((has_bits[0] & 0x0000001f) ^ 0x0000001f) != 0;
+    return ((has_bits[0] & 0x0000000f) ^ 0x0000000f) != 0;
   }
 };
 
@@ -1212,9 +1206,8 @@ MoveState::MoveState(const MoveState& from)
     , /*decltype(_impl_._cached_size_)*/{}
     , decltype(_impl_.position_){nullptr}
     , decltype(_impl_.velocity_){nullptr}
-    , decltype(_impl_.userid_){}
-    , decltype(_impl_.speed_){}
-    , decltype(_impl_.timestamp_){}};
+    , decltype(_impl_.timestamp_){}
+    , decltype(_impl_.userid_){}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   if (from._internal_has_position()) {
@@ -1223,9 +1216,9 @@ MoveState::MoveState(const MoveState& from)
   if (from._internal_has_velocity()) {
     _this->_impl_.velocity_ = new ::msgTest::Veloccity(*from._impl_.velocity_);
   }
-  ::memcpy(&_impl_.userid_, &from._impl_.userid_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.timestamp_) -
-    reinterpret_cast<char*>(&_impl_.userid_)) + sizeof(_impl_.timestamp_));
+  ::memcpy(&_impl_.timestamp_, &from._impl_.timestamp_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.userid_) -
+    reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.userid_));
   // @@protoc_insertion_point(copy_constructor:msgTest.MoveState)
 }
 
@@ -1238,9 +1231,8 @@ inline void MoveState::SharedCtor(
     , /*decltype(_impl_._cached_size_)*/{}
     , decltype(_impl_.position_){nullptr}
     , decltype(_impl_.velocity_){nullptr}
-    , decltype(_impl_.userid_){0}
-    , decltype(_impl_.speed_){0}
     , decltype(_impl_.timestamp_){int64_t{0}}
+    , decltype(_impl_.userid_){0}
   };
 }
 
@@ -1280,10 +1272,10 @@ void MoveState::Clear() {
       _impl_.velocity_->Clear();
     }
   }
-  if (cached_has_bits & 0x0000001cu) {
-    ::memset(&_impl_.userid_, 0, static_cast<size_t>(
-        reinterpret_cast<char*>(&_impl_.timestamp_) -
-        reinterpret_cast<char*>(&_impl_.userid_)) + sizeof(_impl_.timestamp_));
+  if (cached_has_bits & 0x0000000cu) {
+    ::memset(&_impl_.timestamp_, 0, static_cast<size_t>(
+        reinterpret_cast<char*>(&_impl_.userid_) -
+        reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.userid_));
   }
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
@@ -1318,15 +1310,6 @@ const char* MoveState::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
           ptr = ctx->ParseMessage(_internal_mutable_velocity(), ptr);
           CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // required float speed = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 37)) {
-          _Internal::set_has_speed(&has_bits);
-          _impl_.speed_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
-          ptr += sizeof(float);
         } else
           goto handle_unusual;
         continue;
@@ -1371,7 +1354,7 @@ uint8_t* MoveState::_InternalSerialize(
 
   cached_has_bits = _impl_._has_bits_[0];
   // required int32 userId = 1;
-  if (cached_has_bits & 0x00000004u) {
+  if (cached_has_bits & 0x00000008u) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_userid(), target);
   }
@@ -1390,14 +1373,8 @@ uint8_t* MoveState::_InternalSerialize(
         _Internal::velocity(this).GetCachedSize(), target, stream);
   }
 
-  // required float speed = 4;
-  if (cached_has_bits & 0x00000008u) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteFloatToArray(4, this->_internal_speed(), target);
-  }
-
   // required int64 timestamp = 5;
-  if (cached_has_bits & 0x00000010u) {
+  if (cached_has_bits & 0x00000004u) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteInt64ToArray(5, this->_internal_timestamp(), target);
   }
@@ -1428,19 +1405,14 @@ size_t MoveState::RequiredFieldsByteSizeFallback() const {
         *_impl_.velocity_);
   }
 
-  if (_internal_has_userid()) {
-    // required int32 userId = 1;
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_userid());
-  }
-
-  if (_internal_has_speed()) {
-    // required float speed = 4;
-    total_size += 1 + 4;
-  }
-
   if (_internal_has_timestamp()) {
     // required int64 timestamp = 5;
     total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_timestamp());
+  }
+
+  if (_internal_has_userid()) {
+    // required int32 userId = 1;
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_userid());
   }
 
   return total_size;
@@ -1449,7 +1421,7 @@ size_t MoveState::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:msgTest.MoveState)
   size_t total_size = 0;
 
-  if (((_impl_._has_bits_[0] & 0x0000001f) ^ 0x0000001f) == 0) {  // All required fields are present.
+  if (((_impl_._has_bits_[0] & 0x0000000f) ^ 0x0000000f) == 0) {  // All required fields are present.
     // required .msgTest.Position position = 2;
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
@@ -1460,14 +1432,11 @@ size_t MoveState::ByteSizeLong() const {
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *_impl_.velocity_);
 
-    // required int32 userId = 1;
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_userid());
-
-    // required float speed = 4;
-    total_size += 1 + 4;
-
     // required int64 timestamp = 5;
     total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_timestamp());
+
+    // required int32 userId = 1;
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_userid());
 
   } else {
     total_size += RequiredFieldsByteSizeFallback();
@@ -1495,7 +1464,7 @@ void MoveState::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROT
   (void) cached_has_bits;
 
   cached_has_bits = from._impl_._has_bits_[0];
-  if (cached_has_bits & 0x0000001fu) {
+  if (cached_has_bits & 0x0000000fu) {
     if (cached_has_bits & 0x00000001u) {
       _this->_internal_mutable_position()->::msgTest::Position::MergeFrom(
           from._internal_position());
@@ -1505,13 +1474,10 @@ void MoveState::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROT
           from._internal_velocity());
     }
     if (cached_has_bits & 0x00000004u) {
-      _this->_impl_.userid_ = from._impl_.userid_;
+      _this->_impl_.timestamp_ = from._impl_.timestamp_;
     }
     if (cached_has_bits & 0x00000008u) {
-      _this->_impl_.speed_ = from._impl_.speed_;
-    }
-    if (cached_has_bits & 0x00000010u) {
-      _this->_impl_.timestamp_ = from._impl_.timestamp_;
+      _this->_impl_.userid_ = from._impl_.userid_;
     }
     _this->_impl_._has_bits_[0] |= cached_has_bits;
   }
@@ -1535,8 +1501,8 @@ void MoveState::InternalSwap(MoveState* other) {
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(MoveState, _impl_.timestamp_)
-      + sizeof(MoveState::_impl_.timestamp_)
+      PROTOBUF_FIELD_OFFSET(MoveState, _impl_.userid_)
+      + sizeof(MoveState::_impl_.userid_)
       - PROTOBUF_FIELD_OFFSET(MoveState, _impl_.position_)>(
           reinterpret_cast<char*>(&_impl_.position_),
           reinterpret_cast<char*>(&other->_impl_.position_));

@@ -794,9 +794,8 @@ class MoveState final :
   enum : int {
     kPositionFieldNumber = 2,
     kVelocityFieldNumber = 3,
-    kUserIdFieldNumber = 1,
-    kSpeedFieldNumber = 4,
     kTimestampFieldNumber = 5,
+    kUserIdFieldNumber = 1,
   };
   // required .msgTest.Position position = 2;
   bool has_position() const;
@@ -834,32 +833,6 @@ class MoveState final :
       ::msgTest::Veloccity* velocity);
   ::msgTest::Veloccity* unsafe_arena_release_velocity();
 
-  // required int32 userId = 1;
-  bool has_userid() const;
-  private:
-  bool _internal_has_userid() const;
-  public:
-  void clear_userid();
-  int32_t userid() const;
-  void set_userid(int32_t value);
-  private:
-  int32_t _internal_userid() const;
-  void _internal_set_userid(int32_t value);
-  public:
-
-  // required float speed = 4;
-  bool has_speed() const;
-  private:
-  bool _internal_has_speed() const;
-  public:
-  void clear_speed();
-  float speed() const;
-  void set_speed(float value);
-  private:
-  float _internal_speed() const;
-  void _internal_set_speed(float value);
-  public:
-
   // required int64 timestamp = 5;
   bool has_timestamp() const;
   private:
@@ -871,6 +844,19 @@ class MoveState final :
   private:
   int64_t _internal_timestamp() const;
   void _internal_set_timestamp(int64_t value);
+  public:
+
+  // required int32 userId = 1;
+  bool has_userid() const;
+  private:
+  bool _internal_has_userid() const;
+  public:
+  void clear_userid();
+  int32_t userid() const;
+  void set_userid(int32_t value);
+  private:
+  int32_t _internal_userid() const;
+  void _internal_set_userid(int32_t value);
   public:
 
   // @@protoc_insertion_point(class_scope:msgTest.MoveState)
@@ -888,9 +874,8 @@ class MoveState final :
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
     ::msgTest::Position* position_;
     ::msgTest::Veloccity* velocity_;
-    int32_t userid_;
-    float speed_;
     int64_t timestamp_;
+    int32_t userid_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_messageTest_2eproto;
@@ -2404,7 +2389,7 @@ inline void UserInfo::set_allocated_position(::msgTest::Position* position) {
 
 // required int32 userId = 1;
 inline bool MoveState::_internal_has_userid() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
+  bool value = (_impl_._has_bits_[0] & 0x00000008u) != 0;
   return value;
 }
 inline bool MoveState::has_userid() const {
@@ -2412,7 +2397,7 @@ inline bool MoveState::has_userid() const {
 }
 inline void MoveState::clear_userid() {
   _impl_.userid_ = 0;
-  _impl_._has_bits_[0] &= ~0x00000004u;
+  _impl_._has_bits_[0] &= ~0x00000008u;
 }
 inline int32_t MoveState::_internal_userid() const {
   return _impl_.userid_;
@@ -2422,7 +2407,7 @@ inline int32_t MoveState::userid() const {
   return _internal_userid();
 }
 inline void MoveState::_internal_set_userid(int32_t value) {
-  _impl_._has_bits_[0] |= 0x00000004u;
+  _impl_._has_bits_[0] |= 0x00000008u;
   _impl_.userid_ = value;
 }
 inline void MoveState::set_userid(int32_t value) {
@@ -2610,37 +2595,9 @@ inline void MoveState::set_allocated_velocity(::msgTest::Veloccity* velocity) {
   // @@protoc_insertion_point(field_set_allocated:msgTest.MoveState.velocity)
 }
 
-// required float speed = 4;
-inline bool MoveState::_internal_has_speed() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000008u) != 0;
-  return value;
-}
-inline bool MoveState::has_speed() const {
-  return _internal_has_speed();
-}
-inline void MoveState::clear_speed() {
-  _impl_.speed_ = 0;
-  _impl_._has_bits_[0] &= ~0x00000008u;
-}
-inline float MoveState::_internal_speed() const {
-  return _impl_.speed_;
-}
-inline float MoveState::speed() const {
-  // @@protoc_insertion_point(field_get:msgTest.MoveState.speed)
-  return _internal_speed();
-}
-inline void MoveState::_internal_set_speed(float value) {
-  _impl_._has_bits_[0] |= 0x00000008u;
-  _impl_.speed_ = value;
-}
-inline void MoveState::set_speed(float value) {
-  _internal_set_speed(value);
-  // @@protoc_insertion_point(field_set:msgTest.MoveState.speed)
-}
-
 // required int64 timestamp = 5;
 inline bool MoveState::_internal_has_timestamp() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000010u) != 0;
+  bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
   return value;
 }
 inline bool MoveState::has_timestamp() const {
@@ -2648,7 +2605,7 @@ inline bool MoveState::has_timestamp() const {
 }
 inline void MoveState::clear_timestamp() {
   _impl_.timestamp_ = int64_t{0};
-  _impl_._has_bits_[0] &= ~0x00000010u;
+  _impl_._has_bits_[0] &= ~0x00000004u;
 }
 inline int64_t MoveState::_internal_timestamp() const {
   return _impl_.timestamp_;
@@ -2658,7 +2615,7 @@ inline int64_t MoveState::timestamp() const {
   return _internal_timestamp();
 }
 inline void MoveState::_internal_set_timestamp(int64_t value) {
-  _impl_._has_bits_[0] |= 0x00000010u;
+  _impl_._has_bits_[0] |= 0x00000004u;
   _impl_.timestamp_ = value;
 }
 inline void MoveState::set_timestamp(int64_t value) {

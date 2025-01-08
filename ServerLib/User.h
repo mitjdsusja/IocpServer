@@ -8,7 +8,7 @@ struct Position {
 	float z = 0;
 };
 
-struct Direction {
+struct Velocity {
 	float x = 0;
 	float y = 0;
 	float z = 0;
@@ -24,12 +24,12 @@ public:
 
 	int32 GetId() { return _id; }
 	Position& GetPosition() { return _position; }
-	Direction& GetDirection() { return _direction; }
+	Velocity& GetVelocity() { return _velocity; }
 	int64 GetLastMovePacket() { return _lastMovePacket; }
 
 	void SetId(int32 id) { _id = id; }
 	void SetPosition(float x, float y, float z) { _position.x = x; _position.y = y; _position.z = z; }
-	void SetDirection(float x, float y, float z) { _direction.x = x; _direction.y = y; _direction.z = z; }
+	void SetVelocity(float x, float y, float z) { _velocity.x = x; _velocity.y = y; _velocity.z = z; }
 	void SetLastMovePacket(int64 time) { _lastMovePacket = time; }
 
 private:
@@ -37,7 +37,7 @@ private:
 
 	int32 _id = 0;
 	Position _position = {};
-	Direction _direction = {};
+	Velocity _velocity = {};
 	float _moveSpeed = 0;
 	int64 _lastMovePacket = 0;
 

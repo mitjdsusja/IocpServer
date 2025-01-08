@@ -57,7 +57,7 @@ int main() {
 	}
 
 	// Reserve User Position 
-	GJobTimer->Reserve(200, [serverService]() {
+	GJobTimer->Reserve(100, [serverService]() {
 		ReserveLoopBroadcastUserInfo(serverService);
 	});
 
@@ -76,12 +76,16 @@ void ReserveLoopBroadcastUserInfo(Service* service) {
 		msgTest::MoveState* moveState = packetBroadcastUserInfo.add_movestates();
 		moveState->set_userid(userInfo.GetId());
 		moveState->set_timestamp(userInfo.GetLastMovePacket());
-		moveState->set_speed(0);
 
 		msgTest::Position* position = moveState->mutable_position();
 		position->set_x(userInfo.GetPosition().x);
 		position->set_y(userInfo.GetPosition().y);
 		position->set_z(userInfo.GetPosition().z);
+
+		msgTest::Veloccity* velocity = moveState->mutable_velocity();
+		velocity->set_x(userInfo.GetVelocity().x);
+		velocity->set_y(userInfo.GetVelocity().y);
+		velocity->set_z(userInfo.GetVelocity().z);
 
 		//cout << "userId : " << moveState->userid() << " ";
 		//cout << "Pos : " << moveState->position().x() << ", " << moveState->position().z() << endl;
@@ -89,7 +93,7 @@ void ReserveLoopBroadcastUserInfo(Service* service) {
 	shared_ptr<Buffer> sendBuffer = PacketHandler::MakeSendBuffer(packetBroadcastUserInfo, PacketId::PKT_SC_BROADCAST_USER_INFO);
 	service->Broadcast(sendBuffer);
 
-	GJobTimer->Reserve(200, [service]() {
+	GJobTimer->Reserve(100, [service]() {
 		ReserveLoopBroadcastUserInfo(service);
 	});
 }
