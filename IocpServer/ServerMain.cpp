@@ -27,15 +27,13 @@ int main() {
 	
 	//ServerService* serverService = new ServerService(NetAddress(L"127.0.0.1", 7777), 100);
 	ServerService* serverService = new ServerService(NetAddress(L"192.168.0.14", 7777), 10);
-	PacketHandler::Init();
 
 	serverService->Start();
-	// Create Thread GQCS
+
 	for (int32 i = 0; i < (int32)sysInfo.dwNumberOfProcessors; i++) {
 		cout << "GQCS Thread Start" << endl;
 
 		GThreadManager->Launch([=]() {
-			//cout << "iocp thread : " << this_thread::get_id() << endl;
 			while (true) {
 				serverService->CompletionEventThread(10);
 				GJobTimer->EnqueueReadyJobs(*GJobQueue);
@@ -47,7 +45,6 @@ int main() {
 		cout << "Job Thread Start" << endl;
 
 		GThreadManager->Launch([=]() {
-			//cout << "job gen thread : " << this_thread::get_id() << endl;
 			while (true) {
 				Job* job = GJobQueue->Pop();
 				job->Execute();

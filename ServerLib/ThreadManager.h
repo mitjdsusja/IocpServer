@@ -11,7 +11,7 @@ public:
 	void Join();
 
 private:
-	mutex _threadMutex;
+	mutex _threadsMutex;
 	vector<thread> _threads;
 
 };

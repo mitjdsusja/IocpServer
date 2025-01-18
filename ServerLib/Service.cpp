@@ -7,6 +7,7 @@ Service::Service(ServiceType type, NetAddress address, int32 maxSessionCount)
 	: _serviceType(type), _address(address), _maxSessionCount(maxSessionCount){
 	
 	SocketManager::SetEnv();
+	PacketHandler::Init();
 	_completionPortHandler = new CompletionPortHandler();
 }
 

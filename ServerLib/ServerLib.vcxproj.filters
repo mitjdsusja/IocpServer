@@ -16,9 +16,6 @@
     <Filter Include="Network">
       <UniqueIdentifier>{05b23613-0f6c-48ce-beaf-91fbb3be6c11}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Packet">
-      <UniqueIdentifier>{d0d425eb-379b-451f-8d5e-2a2c5bba7686}</UniqueIdentifier>
-    </Filter>
     <Filter Include="protobuf">
       <UniqueIdentifier>{cd1f99fe-66a0-4f7b-9af8-6f49698816c2}</UniqueIdentifier>
     </Filter>
@@ -77,9 +74,6 @@
     </ClCompile>
     <ClCompile Include="Service.cpp">
       <Filter>Network</Filter>
-    </ClCompile>
-    <ClCompile Include="PacketHandler.cpp">
-      <Filter>Packet</Filter>
     </ClCompile>
     <ClCompile Include="messageTest.pb.cc">
       <Filter>protobuf</Filter>
@@ -157,9 +151,6 @@
     </ClInclude>
     <ClInclude Include="Mecro.h">
       <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="PacketHandler.h">
-      <Filter>Packet</Filter>
     </ClInclude>
     <ClInclude Include="messageTest.pb.h">
       <Filter>protobuf</Filter>
