@@ -8,7 +8,7 @@
 ### 사용 기술
 - **언어**: C++
 - **네트워크 라이브러리**: TCP, IOCP(입출력 완료 포트)
-- **데이터 직렬화**: Protobuf
+- **데이터 직렬화**: Protobuf (https://github.com/protocolbuffers/protobuf#protobuf-compiler-installation)
 - **운영 체제**: Windows
 
 ---
