@@ -28,6 +28,7 @@
     <ClCompile Include="messageTest.pb.cc">
       <Filter>Protobuf</Filter>
     </ClCompile>
+    <ClCompile Include="GameSession.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PacketHandler.h">
@@ -39,5 +40,6 @@
     <ClInclude Include="messageTest.pb.h">
       <Filter>Protobuf</Filter>
     </ClInclude>
+    <ClInclude Include="GameSession.h" />
   </ItemGroup>
 </Project>

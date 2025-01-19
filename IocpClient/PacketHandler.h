@@ -1,6 +1,8 @@
 #pragma once
 #include <functional>
 #include "PacketHeader.h"
+#include "PacketHandler.h"
+#include "Session.h"
 
 enum PacketId {
 
