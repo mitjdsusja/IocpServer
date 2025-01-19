@@ -3,11 +3,11 @@
 #include "BufferPool.h"
 #include "PacketHandler.h"
 
-Service::Service(ServiceType type, NetAddress address, int32 maxSessionCount) 
-	: _serviceType(type), _address(address), _maxSessionCount(maxSessionCount){
+Service::Service(ServiceType type, NetAddress address, int32 maxSessionCount, function<shared_ptr<Session>(void)> sessionCreateFunc) 
+	: _serviceType(type), _address(address), _maxSessionCount(maxSessionCount), _sessionCreateFunc(sessionCreateFunc){
 	
 	SocketManager::SetEnv();
-	PacketHandler::Init();
+
 	_completionPortHandler = new CompletionPortHandler();
 }
 
@@ -19,6 +19,11 @@ Service::~Service(){
 void Service::CompletionEventThread(uint32 ms){
 
 	_completionPortHandler->GetCompletionEvent(ms);
+}
+
+shared_ptr<Session> Service::CreateSession(){
+
+	return _sessionCreateFunc();
 }
 
 void Service::AddSession(shared_ptr<Session> session){
@@ -87,11 +92,11 @@ void Service::RegisterHandle(HANDLE handle){
 	_completionPortHandler->RegisterHandle(handle);
 }
 
-ServerService::ServerService(NetAddress addres, int32 maxSessionCount) 
-	: Service(ServiceType::Server, addres, maxSessionCount){
+ServerService::ServerService(NetAddress addres, int32 maxSessionCount, function<shared_ptr<Session>(void)> sessionCreateFunc) 
+	: Service(ServiceType::Server, addres, maxSessionCount, sessionCreateFunc){
 
 	_listener = make_shared<Listener>(this);
-	_listener->SetEnv(_address);
+	_listener->Init(_address);
 
 	ASSERT_CRASH(false == _completionPortHandler->RegisterHandle((HANDLE)_listener->GetSocket(), 0));
 }
@@ -101,8 +106,8 @@ void ServerService::Start(){
 	_listener->Start();
 }
 
-ClientService::ClientService(NetAddress address, int32 maxSessionCount) 
-	: Service(ServiceType::Client, address, maxSessionCount){
+ClientService::ClientService(NetAddress address, int32 maxSessionCount, function<shared_ptr<Session>(void)> sessionCreateFunc)
+	: Service(ServiceType::Client, address, maxSessionCount, sessionCreateFunc){
 
 	
 }
@@ -120,7 +125,7 @@ void ClientService::Start(){
 
 	for (int32 i = 0;i < _maxSessionCount;i++) {
 
-		shared_ptr<ServerSession> session = make_shared<ServerSession>(this);
+		shared_ptr<Session> session = make_shared<Session>(this);
 		_completionPortHandler->RegisterHandle((HANDLE)session->GetSocket(), 0);
 
 		_sessions[session->GetSessionId()] = session;

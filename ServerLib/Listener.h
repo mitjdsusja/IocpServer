@@ -11,7 +11,7 @@ public :
 	Listener(Service* owner);
 	~Listener();
 
-	void SetEnv(NetAddress myAddress);
+	void Init(NetAddress myAddress);
 
 	void Start(int32 acceptCount = 10);
 	void ProcessAccept(AcceptEvent* acceptEvent);

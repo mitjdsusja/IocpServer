@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "SocketManager.h"
+#include "SocketEntity.h"
 
 LPFN_CONNECTEX SocketManager::ConnectEx = nullptr;
 LPFN_DISCONNECTEX SocketManager::DisconnectEx = nullptr;

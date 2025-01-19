@@ -20,7 +20,7 @@ Listener::~Listener(){
 	}
 }
 
-void Listener::SetEnv(NetAddress myAddress){
+void Listener::Init(NetAddress myAddress){
 
 	_myAddress = myAddress;
 
@@ -95,12 +95,13 @@ void Listener::Process(OverlappedEvent* event, int32 numOfBytes){
 }
 
 void Listener::RegisterAccept(AcceptEvent* acceptEvent){
+		
+	shared_ptr<Session> session = _owner->CreateSession();
+	session->SetOwner(_owner);
+	RecvBuffer* recvBuffer = session->GetRecvBuffer();
+	acceptEvent->_session = session;
 
-		shared_ptr<ClientSession> peerSession = make_shared<ClientSession>(_owner);
-		RecvBuffer* recvBuffer = peerSession->GetRecvBuffer();
-		acceptEvent->_session = peerSession;
-
-		SocketManager::Accept(_listenSocket, peerSession->GetSocket(), recvBuffer->WritePos(), acceptEvent);
+	SocketManager::Accept(_listenSocket, session->GetSocket(), recvBuffer->WritePos(), acceptEvent);
 }
 
 void Listener::OnAccept(shared_ptr<Session> session) {

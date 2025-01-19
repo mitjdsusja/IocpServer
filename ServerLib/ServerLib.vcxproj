@@ -66,6 +66,7 @@
     <ClInclude Include="messageTest.pb.h" />
     <ClInclude Include="NetAddress.h" />
     <ClInclude Include="OverlappedEvent.h" />
+    <ClInclude Include="PacketHeader.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="RecvBuffer.h" />
     <ClInclude Include="Buffer.h" />

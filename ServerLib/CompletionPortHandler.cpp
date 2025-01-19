@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CompletionPortHandler.h"
+#include "SocketEntity.h"
 
 CompletionPortHandler::CompletionPortHandler(){
 

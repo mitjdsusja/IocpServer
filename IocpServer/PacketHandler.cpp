@@ -6,6 +6,7 @@
 #include "JobQueue.h"
 #include "BufferPool.h"
 #include "JobTimer.h"
+#include "Service.h"
 
 #include "messageTest.pb.h"
 
@@ -64,7 +65,7 @@ void PacketHandler::Handle_CS_Connect_Server(shared_ptr<Session> session, shared
 		shared_ptr<Buffer> sendBuffer = MakeSendBuffer(packetAcceptClient, PacketId::PKT_SC_ACCEPT_CLIENT);
 		Job* job = new Job([session, sendBuffer]() {
 			session->Send(sendBuffer);
-			});
+		});
 		GJobQueue->Push(job);
 	}
 
@@ -80,7 +81,7 @@ void PacketHandler::Handle_CS_Connect_Server(shared_ptr<Session> session, shared
 		shared_ptr<Buffer> sendBuffer = MakeSendBuffer(packetConnectOtherUser, PacketId::PKT_SC_CONNET_OTHER_USER);
 		Job* job = new Job([service, sendBuffer]() {
 			service->Broadcast(sendBuffer);
-			});
+		});
 		GJobQueue->Push(job);
 	}
 }

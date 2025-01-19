@@ -11,6 +11,8 @@
 
 #include "messageTest.pb.h"
 
+#include "GameSession.h"
+
 // Job Life Cycle => shared_ptr
 
 enum {
@@ -26,10 +28,11 @@ int main() {
 	GetSystemInfo(&sysInfo);
 	
 	//ServerService* serverService = new ServerService(NetAddress(L"127.0.0.1", 7777), 100);
-	ServerService* serverService = new ServerService(NetAddress(L"192.168.0.14", 7777), 10);
+	ServerService* serverService = new ServerService(NetAddress(L"192.168.0.14", 7777), 10, []() { return make_shared<GameSession>(nullptr); });
+	PacketHandler::RegisterPacketHandlers();
+
 
 	serverService->Start();
-
 	for (int32 i = 0; i < (int32)sysInfo.dwNumberOfProcessors; i++) {
 		cout << "GQCS Thread Start" << endl;
 

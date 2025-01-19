@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Session.h"
-#include "PacketHandler.h"
+#include "PacketHeader.h"
+#include "Service.h"
 
 
 Session::Session(Service* owner) : _owner(owner) {
@@ -202,58 +203,8 @@ void Session::CleanResource(){
 	Disconnect();
 }
 
-ServerSession::ServerSession(Service* owner)
-	: Session(owner){
+int32 Session::OnRecv(BYTE* recvBuffer, int32 recvBytes){
 
-}
-
-ServerSession::~ServerSession(){
-	cout << "~ServerSession()" << endl;
-}
-
-int32 ServerSession::OnRecv(BYTE* recvBuffer, int32 recvBytes){
-	if (recvBytes < sizeof(PacketHeader)) {
-		ASSERT_CRASH(false);
-	}
-
-	BYTE* buffer = recvBuffer;
-	int32 processLen = 0;
-	while (true) {
-		buffer = recvBuffer + processLen;
-		PacketHeader* header = (PacketHeader*)buffer;
-
-		cout << "[RECV] " << " PacketId : " << header->packetId << endl;
-
-		//cout << "packetID : " << header->packetId << endl;
-		// TODO : Validate
-		if (recvBytes < header->packetSize) {
-			break;
-		}
-		PacketHandler::HandlePacket(shared_from_this(), header, GetOwner());
-
-		processLen += header->packetSize;
-		if (processLen >= recvBytes) {
-			break;
-		}
-	}
-	return processLen;
-}
-
-void ServerSession::OnSend(int32 sendBytes){
-	cout << "[SEND] " << "sendBytes : " << sendBytes << endl;
-}
-
-ClientSession::ClientSession(Service* owner)
-	: Session(owner){
-
-}
-
-ClientSession::~ClientSession(){
-	cout << "~ClientSession()" << endl;
-}
-
-int32 ClientSession::OnRecv(BYTE* recvBuffer, int32 recvBytes){
-	
 	if (recvBytes < sizeof(PacketHeader)) {
 		ASSERT_CRASH(false);
 	}
@@ -266,11 +217,11 @@ int32 ClientSession::OnRecv(BYTE* recvBuffer, int32 recvBytes){
 		PacketHeader* header = (PacketHeader*)buffer;
 		header->packetId = ntohl(header->packetId);
 		header->packetSize = ntohl(header->packetSize);
-		
+
 		if (recvBytes < header->packetSize) {
 			break;
 		}
-		PacketHandler::HandlePacket(shared_from_this(), header, GetOwner());
+		OnRecvPacket((BYTE*)header, header->packetSize);
 
 		processLen += header->packetSize;
 		if (processLen >= recvBytes) {
@@ -278,8 +229,4 @@ int32 ClientSession::OnRecv(BYTE* recvBuffer, int32 recvBytes){
 		}
 	}
 	return processLen;
-}
-
-void ClientSession::OnSend(int32 sendBytes){
-	//cout << "[SEND] " << "sendBytes : " << sendBytes << endl;
 }

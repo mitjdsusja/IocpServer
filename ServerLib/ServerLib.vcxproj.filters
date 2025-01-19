@@ -22,6 +22,9 @@
     <Filter Include="Contents">
       <UniqueIdentifier>{2143cbb4-c047-438b-a189-9427c83c99fa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Packet">
+      <UniqueIdentifier>{a6334ef8-bf2d-438b-8362-ba6b3ac82674}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ServerGlobal.cpp">
@@ -169,6 +172,9 @@
     </ClInclude>
     <ClInclude Include="Job.h">
       <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketHeader.h">
+      <Filter>Packet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

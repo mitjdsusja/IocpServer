@@ -1,6 +1,9 @@
 #pragma once
+#include <functional>
+
 #include "CompletionPortHandler.h"
 #include "Listener.h"
+#include "Session.h"
 #include "User.h"
 
 enum ServiceType {
@@ -10,13 +13,14 @@ enum ServiceType {
 
 class Service{
 public:
-	Service(ServiceType type, NetAddress address, int32 maxSessionCount);
+	Service(ServiceType type, NetAddress address, int32 maxSessionCount, function<shared_ptr<Session>(void)> sessionCreateFunc);
 	virtual ~Service();
 
 	virtual void Start() abstract;
 
 	void CompletionEventThread(uint32 ms = INFINITE);
 
+	shared_ptr<Session> CreateSession();
 	void AddSession(shared_ptr<Session> session);
 	void removeSession(shared_ptr<Session> session);
 	void Broadcast(shared_ptr<Buffer> sendDataBuffer);
@@ -24,7 +28,6 @@ public:
 	void RegisterHandle(HANDLE handle);
 
 public:
-	// Users
 	int32 GetCurSessionCount() { return _curSessionCount; }
 	void GetUsersInfo(vector<UserInfo>& userInfoList);
 
@@ -38,18 +41,19 @@ protected:
 	ServiceType _serviceType; 
 
 protected:
-	mutex _sessionsMutex;
+	mutex _sessionsMutex = {};
 	map<int, shared_ptr<Session>> _sessions;
 
 	int32 _maxSessionCount = 0;
 	int32 _curSessionCount = 0;
 	int32 _playerId = 1;
 
+	function<shared_ptr<Session>(void)> _sessionCreateFunc;
 };
 
 class ServerService : public Service {
 public:
-	ServerService(NetAddress addres, int32 maxSessionCount);
+	ServerService(NetAddress addres, int32 maxSessionCount, function<shared_ptr<Session>(void)> sessionCreateFunc);
 
 	virtual void Start() override;
 
@@ -60,7 +64,7 @@ private:
 
 class ClientService : public Service {
 public:
-	ClientService(NetAddress address, int32 maxSessionCount);
+	ClientService(NetAddress address, int32 maxSessionCount, function<shared_ptr<Session>(void)> sessionCreateFunc);
 
 	void SendMsg(shared_ptr<Buffer> sendBuffer);
 

@@ -1,7 +1,8 @@
 #pragma once
 #include "SocketEntity.h"
-#include "Service.h"
 #include "User.h"
+
+class Service;
 
 class Session : public SocketEntity, public enable_shared_from_this<Session>{
 	friend class Listener;
@@ -23,6 +24,7 @@ public:
 	RecvBuffer* GetRecvBuffer() { return _recvBuffer; }
 	NetAddress& GetPeerAddressRef() { return _peerAddress; }
 	Service* GetOwner() { return _owner; }
+	void SetOwner(Service* owner) { _owner = owner; }
 
 	int32 GetSessionId() { return _sessionId;}
 	UserInfo GetUserInfo() { return _userInfo; }
@@ -35,8 +37,9 @@ public:
 	void Process(OverlappedEvent* event, int32 numOfBytes) override;
 	void CleanResource() override;
 
-	virtual int32 OnRecv(BYTE* recvBuffer, int32 recvBytes) { return 0; }
+	int32 OnRecv(BYTE* recvBuffer, int32 recvBytes);
 	virtual void OnSend(int32 sendBytes) {}
+	virtual void OnRecvPacket(BYTE* recvBuffer, int32 recvBytes) { ErrorHandler::HandleError(L"Session OnRecvPacket()"); };
 
 private:
 	void RegisterConnect(NetAddress& peerAddress);
@@ -57,7 +60,6 @@ private:
 	NetAddress _peerAddress;
 
 	queue<shared_ptr<Buffer>> _sendQueue;
-	// TODO : Chage RAII
 	RecvBuffer* _recvBuffer = nullptr;
 
 	atomic<bool> _isConnected = true;
@@ -75,29 +77,5 @@ private:
 private:
 	mutex _userInfoMutex;
 	UserInfo _userInfo = {};
-
-};
-
-class ServerSession : public Session {
-public:
-	ServerSession(Service* owner);
-	~ServerSession();
-
-	virtual int32 OnRecv(BYTE* recvBuffer, int32 recvBytes) override;
-	virtual void OnSend(int32 sendBytes) override;
-
-private:
-
-};
-
-class ClientSession : public Session {
-public:
-	ClientSession(Service* owner);
-	~ClientSession();
-
-	virtual int32 OnRecv(BYTE* recvBuffer, int32 recvBytes) override;
-	virtual void OnSend(int32 sendBytes) override;
-
-private:
 
 };

@@ -1,5 +1,8 @@
 #pragma once
 #include <functional>
+#include "PacketHeader.h"
+#include "PacketHandler.h"
+#include "Session.h"
 
 enum PacketId {
 
@@ -18,21 +21,9 @@ enum PacketId {
 	PKT_SC_BROADCAST_USER_INFO = 2005,
 };
 
-#pragma pack(push, 1)
-struct PacketHeader {
-
-	int32 packetSize = 0;
-	int32 packetId = 0;
-
-	int32 GetDataSize() {
-		return packetSize - sizeof(PacketHeader);
-	}
-};
-#pragma pack(pop)
-
 static function<void(shared_ptr<Session> session, shared_ptr<Buffer> packet, Service* service)> packetHandleArray[UINT16_MAX];
 
-class PacketHandler {
+class PacketHandler{
 public:
 	static void RegisterPacketHandlers();
 public:

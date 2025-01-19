@@ -1,42 +1,49 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="소스 파일">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="헤더 파일">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="리소스 파일">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Main">
+      <UniqueIdentifier>{4f87d151-5ea5-456c-996f-3c311b4689e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content">
+      <UniqueIdentifier>{971bcf5f-4a28-4fc1-bb8b-91f299ee8499}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Protobuf">
+      <UniqueIdentifier>{9c6f2b38-e324-4bf0-a769-49188b615400}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Main</Filter>
     </ClInclude>
     <ClInclude Include="messageTest.pb.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSession.h">
+      <Filter>Main</Filter>
     </ClInclude>
     <ClInclude Include="PacketHandler.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Main</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ServerMain.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Main</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Main</Filter>
     </ClCompile>
     <ClCompile Include="messageTest.pb.cc">
-      <Filter>소스 파일</Filter>
+      <Filter>Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSession.cpp">
+      <Filter>Main</Filter>
     </ClCompile>
     <ClCompile Include="PacketHandler.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Main</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

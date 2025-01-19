@@ -80,7 +80,7 @@ void PacketHandler::Handle_CS_Connect_Server(shared_ptr<Session> session, shared
 		shared_ptr<Buffer> sendBuffer = MakeSendBuffer(packetConnectOtherUser, PacketId::PKT_SC_CONNET_OTHER_USER);
 		Job* job = new Job([service, sendBuffer]() {
 			service->Broadcast(sendBuffer);
-			});
+		});
 		GJobQueue->Push(job);
 	}
 }
