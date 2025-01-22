@@ -28,6 +28,12 @@
     <ClInclude Include="PacketHandler.h">
       <Filter>Main</Filter>
     </ClInclude>
+    <ClInclude Include="RoomManager.h">
+      <Filter>Content</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Content</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ServerMain.cpp">
@@ -44,6 +50,12 @@
     </ClCompile>
     <ClCompile Include="PacketHandler.cpp">
       <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="RoomManager.cpp">
+      <Filter>Content</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Content</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -159,6 +159,8 @@
     <ClInclude Include="messageTest.pb.h" />
     <ClInclude Include="PacketHandler.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="RoomManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameSession.cpp" />
@@ -175,6 +177,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="RoomManager.cpp" />
     <ClCompile Include="ServerMain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -12,7 +12,9 @@ public:
 	void Execute() {
 		_callback();
 	}
+
 private:
 	function<void()> _callback;
+
 };
 
