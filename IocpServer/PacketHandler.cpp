@@ -52,6 +52,14 @@ void PacketHandler::Handle_Invalid(shared_ptr<Session> session, shared_ptr<Buffe
 
 void PacketHandler::Handle_CS_Connect_Server(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
+	// check id, passwd
+	msgTest::CS_Connect_Server recvConnectServerPacket;
+	recvConnectServerPacket.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
+
+	{
+		// database
+	}
+
 	// Send User Info
 	{
 		msgTest::SC_Accept_Client packetAcceptClient;
