@@ -26,9 +26,19 @@ message MoveState{
     required int64 timestamp = 5; 
 }
 
+//
+message Player{
+    required int32 Id = 1;
+    required int32 level = 2;
+}
 message Room{
     required int32 roomId = 1;
+    required string roomName = 2;
+    required int32 maxPlayerCount = 3;
+    required int32 playerCount = 4;
 }
+
+
 
 // Login
 message CS_Login{
@@ -39,28 +49,29 @@ message SC_Login_Success{
 
 }
 message SC_Login_Fail{
-    required int32 errorCode;
+    required int32 errorCode = 1;
 }
 
 // Request User Info
 message CS_Request_User_Info{
-
+    required int32 playerId = 1;
 }
 message SC_Response_User_Info{
-
+    required Player playerInfo = 1;
 }
 
 // Request Room List
 message CS_Request_Room_List{
-    repeated 
+    
 }
 message SC_Response_Room_List{
-
+    required int32 roomCount = 1;
+    repeated Room roomList = 2;
 }
 
 // Enter Room
 message CS_Enter_Room{
-
+    required int32 roomId = 1;
 }
 message SC_Enter_Room_Success{
 
@@ -74,7 +85,8 @@ message CS_Request_User_List{
 
 }
 message SC_Response_User_List{
-
+    required int32 playerCount = 1;
+    repeated Player playerList = 2;
 }
 
 
