@@ -18,14 +18,27 @@ void PacketHandler::RegisterPacketHandlers() {
 		packetHandleArray[i] = Handle_Invalid;
 	}
 
-	packetHandleArray[PKT_CS_CONNECT_SERVER] = Handle_CS_Connect_Server;
-	packetHandleArray[PKT_CS_REQUEST_SERVER_STATE] = Handle_CS_Request_Server_State;
-	packetHandleArray[PKT_CS_MOVE_USER] = Handle_CS_Move_User;
+	/*------------
+		C -> S
+	-------------*/
+	packetHandleArray[PKT_CS_LOGIN] = Handle_CS_Login;
+	packetHandleArray[PKT_CS_REQUEST_ROOM_LIST] = Handle_CS_Request_Room_List;
+	packetHandleArray[PKT_CS_REQUEST_USER_INFO] = Handle_CS_Request_User_Info;
+	packetHandleArray[PKT_CS_REQUEST_USER_LIST] = Handle_CS_Request_User_List;
+	packetHandleArray[PKT_CS_ENTER_ROOM] = Handle_CS_Enter_Room;
 
-	packetHandleArray[PKT_SC_ACCEPT_CLIENT] = Handle_SC_Accept_Client;
-	packetHandleArray[PKT_SC_RESPONSE_SERVER_STATE] = Handle_SC_Response_Server_State;
-	packetHandleArray[PKT_SC_RESULT_MOVE_USER] = Handle_SC_Result_Move_User;
-	packetHandleArray[PKT_SC_CONNET_OTHER_USER] = Handle_SC_Connect_Other_User;
+
+	/*------------
+		S -> C
+	-------------*/
+	packetHandleArray[PKT_SC_LOGIN_SUCCESS] = Handle_SC_Accept_Client;
+	packetHandleArray[PKT_SC_LOGIN_FAIL] = Handle_SC_Response_Server_State;
+	packetHandleArray[PKT_SC_RESPONSE_ROOM_LIST] = Handle_SC_Result_Move_User;
+	packetHandleArray[PKT_SC_RESPONSE_USER_INFO] = Handle_SC_Connect_Other_User;
+	packetHandleArray[PKT_SC_RESPONSE_USER_LIST] = Handle_SC_Connect_Other_User;
+	packetHandleArray[PKT_SC_ENTER_ROOM_SUCCESS] = Handle_SC_Connect_Other_User;
+	packetHandleArray[PKT_SC_ENTER_ROOM_FAIL] = Handle_SC_Connect_Other_User;
+
 }
 
 void PacketHandler::HandlePacket(shared_ptr<Session> session, PacketHeader* dataBuffer, Service* service) {
@@ -49,6 +62,26 @@ void PacketHandler::Handle_Invalid(shared_ptr<Session> session, shared_ptr<Buffe
 
 	ErrorHandler::HandleError(L"INVALID PACKET ID", header->packetId);
 }
+
+
+void Handle_CS_Login(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
+
+}
+void Handle_CS_Request_Room_List(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
+
+}
+void Handle_CS_Request_User_Info(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
+
+}
+void Handle_CS_Request_User_List(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
+
+}
+void Handle_CS_Enter_Room(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
+
+}
+
+
+
 
 void PacketHandler::Handle_CS_Connect_Server(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
