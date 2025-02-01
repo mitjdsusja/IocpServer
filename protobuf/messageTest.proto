@@ -27,6 +27,8 @@ message MoveState{
 }
 
 message CS_Connect_Server{
+    required string id = 1;
+    required string passwd = 2;
 }
 message CS_Request_Server_State{
 }

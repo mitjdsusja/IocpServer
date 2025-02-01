@@ -137,10 +137,6 @@ void PacketHandler::Handle_CS_Move_User(shared_ptr<Session> session, shared_ptr<
 	session->SetUserInfo(userInfo);
 }
 
-/*-------------------------------------------
-
---------------------------------------------*/
-
 void PacketHandler::Handle_SC_Accept_Client(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
 	PacketHeader* header = (PacketHeader*)dataBuffer->GetBuffer();
