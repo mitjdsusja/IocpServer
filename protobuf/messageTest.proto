@@ -30,6 +30,7 @@ message MoveState{
 message Player{
     required int32 Id = 1;
     required int32 level = 2;
+    required Position position = 3;
 }
 message Room{
     required int32 roomId = 1;
