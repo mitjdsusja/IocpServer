@@ -1,122 +1,75 @@
-syntax = "proto2";
+syntax = "proto3";  // proto2 -> proto3로 변경
 
 package msgTest;
 
 message Position {  
-    optional float x = 1 [default = 0];  
-    optional float y = 2 [default = 0];  
-    optional float z = 3 [default = 0];  
+    float x = 1;  
+    float y = 2;  
+    float z = 3;  
 }
 
 message Veloccity {  
-    optional float x = 1 [default = 0];  
-    optional float y = 2 [default = 0];  
-    optional float z = 3 [default = 0]; 
+    float x = 1;  
+    float y = 2;  
+    float z = 3; 
 }
 
 message UserInfo {
-    required int32 id = 1;
-    required Position position = 2; 
+    int32 id = 1;
+    Position position = 2; 
 }
 
 message MoveState{
-    required int32 userId = 1;
-    required Position position = 2; 
-    required Veloccity velocity = 3; 
-    required int64 timestamp = 5; 
+    int32 userId = 1;
+    Position position = 2; 
+    Veloccity velocity = 3; 
+    int64 timestamp = 5; 
 }
 
-//
 message Player{
-    required int32 Id = 1;
-    required int32 level = 2;
-    required Position position = 3;
+    int32 Id = 1;
+    int32 level = 2;
+    Position position = 3;
 }
+
 message Room{
-    required int32 roomId = 1;
-    required string roomName = 2;
-    required int32 maxPlayerCount = 3;
-    required int32 playerCount = 4;
+    int32 roomId = 1;
+    string roomName = 2;  // 수정: int32 -> string (이름을 문자열로 처리)
+    int32 maxPlayerCount = 3;
+    int32 playerCount = 4;
 }
 
-
-
-// Login
 message CS_Login{
-    required string id = 1;
-    required string passwd = 2;
+    string id = 1;
+    string passwd = 2;
 }
-message SC_Login_Success{
+message SC_Login_Success {
 
 }
 message SC_Login_Fail{
-    required int32 errorCode = 1;
+    int32 errorCode = 1;
 }
 
-// Request User Info
 message CS_Request_User_Info{
-    required int32 playerId = 1;
+    int32 playerId = 1;
 }
 message SC_Response_User_Info{
-    required Player playerInfo = 1;
+    Player playerInfo = 1;
 }
-
-// Request Room List
-message CS_Request_Room_List{
-    
-}
+message CS_Request_Room_List {}
 message SC_Response_Room_List{
-    required int32 roomCount = 1;
+    int32 roomCount = 1;
     repeated Room roomList = 2;
 }
 
-// Enter Room
 message CS_Enter_Room{
-    required int32 roomId = 1;
+    int32 roomId = 1;
 }
-message SC_Enter_Room_Success{
+message SC_Enter_Room_Success {}
+message SC_Enter_Room_Fail {}
 
-}
-message SC_Enter_Room_Fail{
-
-}
-
-// Request User List
-message CS_Request_User_List{
-
-}
+message CS_Request_User_List {}
 message SC_Response_User_List{
-    required int32 playerCount = 1;
+    int32 playerCount = 1;
     repeated Player playerList = 2;
-}
-
-
-
-
-
-message CS_Connect_Server{
-    required string id = 1;
-    required string passwd = 2;
-}
-message CS_Request_Server_State{
-}
-message CS_Move_User{
-    required MoveState moveState = 1;
-}
-
-
-message SC_Accept_Client{
-    required UserInfo userInfo = 1;
-}
-message SC_Response_Server_State{
-    repeated UserInfo userInfos = 1;
-}
-message SC_Result_Move_User{
-
-}
-message SC_Connect_Other_User{
-    required UserInfo userInfo = 1;
-}
-message SC_Broadcast_User_Info{
-    repeated MoveState moveStates = 1;
 }

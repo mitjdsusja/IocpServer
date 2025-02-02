@@ -56,44 +56,44 @@ int main() {
 		});
 	}
 
-	// Reserve User Position 
-	GJobTimer->Reserve(100, [serverService]() {
-		ReserveLoopBroadcastUserInfo(serverService);
-	});
+	//// Reserve User Position 
+	//GJobTimer->Reserve(100, [serverService]() {
+	//	ReserveLoopBroadcastUserInfo(serverService);
+	//});
 
-	GThreadManager->Join();
+	//GThreadManager->Join();
 }
 
-void ReserveLoopBroadcastUserInfo(Service* service) {
-	//cout << "Start Broadcast" << endl;
-
-	msgTest::SC_Broadcast_User_Info packetBroadcastUserInfo;
-
-	vector<UserInfo> userInfoList;
-	service->GetUsersInfo(userInfoList);
-
-	for (UserInfo& userInfo : userInfoList) {
-		msgTest::MoveState* moveState = packetBroadcastUserInfo.add_movestates();
-		moveState->set_userid(userInfo.GetId());
-		moveState->set_timestamp(userInfo.GetLastMovePacket());
-
-		msgTest::Position* position = moveState->mutable_position();
-		position->set_x(userInfo.GetPosition().x);
-		position->set_y(userInfo.GetPosition().y);
-		position->set_z(userInfo.GetPosition().z);
-
-		msgTest::Veloccity* velocity = moveState->mutable_velocity();
-		velocity->set_x(userInfo.GetVelocity().x);
-		velocity->set_y(userInfo.GetVelocity().y);
-		velocity->set_z(userInfo.GetVelocity().z);
-
-		//cout << "userId : " << moveState->userid() << " ";
-		//cout << "Pos : " << moveState->position().x() << ", " << moveState->position().z() << endl;
-	}
-	shared_ptr<Buffer> sendBuffer = PacketHandler::MakeSendBuffer(packetBroadcastUserInfo, PacketId::PKT_SC_BROADCAST_USER_INFO);
-	service->Broadcast(sendBuffer);
-
-	GJobTimer->Reserve(100, [service]() {
-		ReserveLoopBroadcastUserInfo(service);
-	});
-}
+//void ReserveLoopBroadcastUserInfo(Service* service) {
+//	//cout << "Start Broadcast" << endl;
+//
+//	msgTest::SC_Broadcast_User_Info packetBroadcastUserInfo;
+//
+//	vector<UserInfo> userInfoList;
+//	service->GetUsersInfo(userInfoList);
+//
+//	for (UserInfo& userInfo : userInfoList) {
+//		msgTest::MoveState* moveState = packetBroadcastUserInfo.add_movestates();
+//		moveState->set_userid(userInfo.GetId());
+//		moveState->set_timestamp(userInfo.GetLastMovePacket());
+//
+//		msgTest::Position* position = moveState->mutable_position();
+//		position->set_x(userInfo.GetPosition().x);
+//		position->set_y(userInfo.GetPosition().y);
+//		position->set_z(userInfo.GetPosition().z);
+//
+//		msgTest::Veloccity* velocity = moveState->mutable_velocity();
+//		velocity->set_x(userInfo.GetVelocity().x);
+//		velocity->set_y(userInfo.GetVelocity().y);
+//		velocity->set_z(userInfo.GetVelocity().z);
+//
+//		//cout << "userId : " << moveState->userid() << " ";
+//		//cout << "Pos : " << moveState->position().x() << ", " << moveState->position().z() << endl;
+//	}
+//	shared_ptr<Buffer> sendBuffer = PacketHandler::MakeSendBuffer(packetBroadcastUserInfo, PacketId::PKT_SC_BROADCAST_USER_INFO);
+//	service->Broadcast(sendBuffer);
+//
+//	GJobTimer->Reserve(100, [service]() {
+//		ReserveLoopBroadcastUserInfo(service);
+//	});
+//}

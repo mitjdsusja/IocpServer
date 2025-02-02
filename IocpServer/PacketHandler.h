@@ -59,14 +59,25 @@ public:
 private:
 	static void Handle_Invalid(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
 
-	static void Handle_CS_Connect_Server(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
-	static void Handle_CS_Request_Server_State(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
-	static void Handle_CS_Move_User(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	/*------------
+		C -> S
+	-------------*/
+	static void Handle_CS_Login(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_CS_Request_Room_List(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_CS_Request_User_Info(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_CS_Request_User_List(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_CS_Enter_Room(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
 
-	static void Handle_SC_Accept_Client(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
-	static void Handle_SC_Response_Server_State(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
-	static void Handle_SC_Result_Move_User(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
-	static void Handle_SC_Connect_Other_User(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	/*------------
+		S -> C
+	-------------*/
+	static void Handle_SC_Login_Success(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_SC_Login_Fail(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_SC_Response_Room_List(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_SC_Response_User_Info(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_SC_Response_User_List(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_SC_Enter_Room_Success(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_SC_Enter_Room_Fail(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
 };
 
 template<typename T>

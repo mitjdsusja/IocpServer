@@ -27,12 +27,6 @@
     <ClCompile Include="JobTimer.cpp" />
     <ClCompile Include="Listener.cpp" />
     <ClCompile Include="LockFreeQueue.cpp" />
-    <ClCompile Include="messageTest.pb.cc">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="NetAddress.cpp" />
     <ClCompile Include="OverlappedEvent.cpp" />
     <ClCompile Include="pch.cpp">
@@ -63,7 +57,6 @@
     <ClInclude Include="Listener.h" />
     <ClInclude Include="LockFreeQueue.h" />
     <ClInclude Include="Mecro.h" />
-    <ClInclude Include="messageTest.pb.h" />
     <ClInclude Include="NetAddress.h" />
     <ClInclude Include="OverlappedEvent.h" />
     <ClInclude Include="PacketHeader.h" />
@@ -139,27 +132,27 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)Libraries\ServerLib\$(Configuration)\</OutDir>
-    <LibraryPath>$(SoutionDir)Libraries\Protobuf\include\;$(SolutionDir)Libraries\Protobuf\lib\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
     <ExternalIncludePath>$(ExternalIncludePath)</ExternalIncludePath>
-    <IncludePath>$(SolutionDir)Libraries\Protobuf\include\;$(IncludePath)</IncludePath>
+    <IncludePath>$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)Libraries\ServerLib\$(Configuration)\</OutDir>
-    <LibraryPath>$(SoutionDir)Libraries\Protobuf\include\;$(SolutionDir)Libraries\Protobuf\lib\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
     <ExternalIncludePath>$(ExternalIncludePath)</ExternalIncludePath>
-    <IncludePath>$(SolutionDir)Libraries\Protobuf\include\;$(IncludePath)</IncludePath>
+    <IncludePath>$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)Libraries\ServerLib\$(Configuration)\</OutDir>
-    <LibraryPath>$(SoutionDir)Libraries\Protobuf\include\;$(SolutionDir)Libraries\Protobuf\lib\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
     <ExternalIncludePath>$(ExternalIncludePath)</ExternalIncludePath>
-    <IncludePath>$(SolutionDir)Libraries\Protobuf\include\;$(IncludePath)</IncludePath>
+    <IncludePath>$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)Libraries\ServerLib\$(Configuration)\</OutDir>
-    <LibraryPath>$(SoutionDir)Libraries\Protobuf\include\;$(SolutionDir)Libraries\Protobuf\lib\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
     <ExternalIncludePath>$(ExternalIncludePath)</ExternalIncludePath>
-    <IncludePath>$(SolutionDir)Libraries\Protobuf\include\;$(IncludePath)</IncludePath>
+    <IncludePath>$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

@@ -78,9 +78,6 @@
     <ClCompile Include="Service.cpp">
       <Filter>Network</Filter>
     </ClCompile>
-    <ClCompile Include="messageTest.pb.cc">
-      <Filter>protobuf</Filter>
-    </ClCompile>
     <ClCompile Include="User.cpp">
       <Filter>Contents</Filter>
     </ClCompile>
@@ -154,9 +151,6 @@
     </ClInclude>
     <ClInclude Include="Mecro.h">
       <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="messageTest.pb.h">
-      <Filter>protobuf</Filter>
     </ClInclude>
     <ClInclude Include="User.h">
       <Filter>Contents</Filter>

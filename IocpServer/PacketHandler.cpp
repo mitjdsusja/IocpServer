@@ -31,13 +31,13 @@ void PacketHandler::RegisterPacketHandlers() {
 	/*------------
 		S -> C
 	-------------*/
-	packetHandleArray[PKT_SC_LOGIN_SUCCESS] = Handle_SC_Accept_Client;
-	packetHandleArray[PKT_SC_LOGIN_FAIL] = Handle_SC_Response_Server_State;
-	packetHandleArray[PKT_SC_RESPONSE_ROOM_LIST] = Handle_SC_Result_Move_User;
-	packetHandleArray[PKT_SC_RESPONSE_USER_INFO] = Handle_SC_Connect_Other_User;
-	packetHandleArray[PKT_SC_RESPONSE_USER_LIST] = Handle_SC_Connect_Other_User;
-	packetHandleArray[PKT_SC_ENTER_ROOM_SUCCESS] = Handle_SC_Connect_Other_User;
-	packetHandleArray[PKT_SC_ENTER_ROOM_FAIL] = Handle_SC_Connect_Other_User;
+	packetHandleArray[PKT_SC_LOGIN_SUCCESS] = Handle_SC_Login_Success;
+	packetHandleArray[PKT_SC_LOGIN_FAIL] = Handle_SC_Login_Fail;
+	packetHandleArray[PKT_SC_RESPONSE_ROOM_LIST] = Handle_SC_Response_Room_List;
+	packetHandleArray[PKT_SC_RESPONSE_USER_INFO] = Handle_SC_Response_User_Info;
+	packetHandleArray[PKT_SC_RESPONSE_USER_LIST] = Handle_SC_Response_User_List;
+	packetHandleArray[PKT_SC_ENTER_ROOM_SUCCESS] = Handle_SC_Enter_Room_Success;
+	packetHandleArray[PKT_SC_ENTER_ROOM_FAIL] = Handle_SC_Enter_Room_Fail;
 
 }
 
@@ -64,164 +64,70 @@ void PacketHandler::Handle_Invalid(shared_ptr<Session> session, shared_ptr<Buffe
 }
 
 
-void Handle_CS_Login(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
+/*------------
+	C -> S
+-------------*/
+void PacketHandler::Handle_CS_Login(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
-}
-void Handle_CS_Request_Room_List(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
+	// Check Id, Passwd
+	msgTest::CS_Login recvLoginPacket;
+	recvLoginPacket.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
+	
 
-}
-void Handle_CS_Request_User_Info(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
-
-}
-void Handle_CS_Request_User_List(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
-
-}
-void Handle_CS_Enter_Room(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
-
-}
-
-
-
-
-void PacketHandler::Handle_CS_Connect_Server(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
-
-	// check id, passwd
-	msgTest::CS_Connect_Server recvConnectServerPacket;
-	recvConnectServerPacket.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
-
+	string id = recvLoginPacket.id();
+	string pw = recvLoginPacket.passwd();
+	cout << "[Login] ID : " << id << " " << "PW : " << pw << endl;
 	{
 		// database
+
 	}
 
-	// Send User Info
-	{
-		msgTest::SC_Accept_Client packetAcceptClient;
-		msgTest::UserInfo* userInfo = packetAcceptClient.mutable_userinfo();
-		msgTest::Position* position = userInfo->mutable_position();
+	// Send Result
+	msgTest::SC_Login_Success sendLoginSuccessPacket;
+	shared_ptr<Buffer> sendBuffer = PacketHandler::MakeSendBuffer(sendLoginSuccessPacket, PacketId::PKT_SC_LOGIN_SUCCESS);
+	Job* job = new Job([session, sendBuffer]() {
+		session->Send(sendBuffer);
+	});
+	GJobQueue->Push(job);
+}
+void PacketHandler::Handle_CS_Request_Room_List(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
-		int32 userId = session->GetSessionId();
-		session->SetUserId(userId);
-		userInfo->set_id(userId);
+}
+void PacketHandler::Handle_CS_Request_User_Info(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
-		shared_ptr<Buffer> sendBuffer = MakeSendBuffer(packetAcceptClient, PacketId::PKT_SC_ACCEPT_CLIENT);
-		Job* job = new Job([session, sendBuffer]() {
-			session->Send(sendBuffer);
-		});
-		GJobQueue->Push(job);
-	}
+}
+void PacketHandler::Handle_CS_Request_User_List(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
-	// Broadcast Connect User Info
-	{
-		msgTest::SC_Connect_Other_User packetConnectOtherUser;
-		msgTest::UserInfo* userInfo = packetConnectOtherUser.mutable_userinfo();
-		msgTest::Position* position = userInfo->mutable_position();
+}
+void PacketHandler::Handle_CS_Enter_Room(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
-		int32 userId = session->GetSessionId();
-		userInfo->set_id(userId);
-
-		shared_ptr<Buffer> sendBuffer = MakeSendBuffer(packetConnectOtherUser, PacketId::PKT_SC_CONNET_OTHER_USER);
-		Job* job = new Job([service, sendBuffer]() {
-			service->Broadcast(sendBuffer);
-		});
-		GJobQueue->Push(job);
-	}
 }
 
-void PacketHandler::Handle_CS_Request_Server_State(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
-	//Send Other User Info
-	{
-		msgTest::SC_Response_Server_State packetUsersInfo;
+/*------------
+	S -> C
+-------------*/
+void PacketHandler::Handle_SC_Login_Success(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
-		vector<UserInfo> usersInfo;
-		service->GetUsersInfo(usersInfo);
+}
+void PacketHandler::Handle_SC_Login_Fail(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
-		for (UserInfo info : usersInfo) {
-			msgTest::UserInfo* userInfo = packetUsersInfo.add_userinfos();
-			msgTest::Position* position = userInfo->mutable_position();
+}
+void PacketHandler::Handle_SC_Response_Room_List(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
-			Position userPos = info.GetPosition();
-			Velocity userVel = info.GetVelocity();
-			userInfo->set_id(info.GetId());
-			position->set_x(userPos.x);
-			position->set_y(userPos.y);
-			position->set_z(userPos.z);
-		}
+}
+void PacketHandler::Handle_SC_Response_User_Info(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
-		shared_ptr<Buffer> sendBuffer = MakeSendBuffer(packetUsersInfo, PacketId::PKT_SC_RESPONSE_SERVER_STATE);
-		Job* job = new Job([session, sendBuffer]() {
-			session->Send(sendBuffer);
-			});
-		GJobQueue->Push(job);
-	}
+}
+void PacketHandler::Handle_SC_Response_User_List(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
+
+}
+void PacketHandler::Handle_SC_Enter_Room_Success(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
+
+}
+void PacketHandler::Handle_SC_Enter_Room_Fail(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
+
 }
 
-void PacketHandler::Handle_CS_Move_User(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
-	cout << "[RECV] Handle_CS_Move_User " << session->GetSessionId() << " ";
 
-	// Update UserInfo
-	PacketHeader* header = (PacketHeader*)dataBuffer->GetBuffer();
-	int32 dataSize = header->packetSize - sizeof(PacketHeader);
 
-	msgTest::CS_Move_User recvMoveUser;
-	recvMoveUser.ParseFromArray(((BYTE*)header) + sizeof(PacketHeader), dataSize);
-
-	UserInfo userInfo;
-	userInfo.SetId(recvMoveUser.movestate().userid());
-	userInfo.SetPosition(recvMoveUser.movestate().position().x(), recvMoveUser.movestate().position().y(), recvMoveUser.movestate().position().z());
-	userInfo.SetVelocity(recvMoveUser.movestate().velocity().x(), recvMoveUser.movestate().velocity().y(), recvMoveUser.movestate().velocity().z());
-	userInfo.SetLastMovePacket(recvMoveUser.movestate().timestamp());
-
-	cout << "Set User Info : " << recvMoveUser.movestate().userid() << " ";
-	cout << "Pos : " << recvMoveUser.movestate().position().x() << " " << recvMoveUser.movestate().position().y() << " " << recvMoveUser.movestate().position().z() << endl;
-
-	session->SetUserInfo(userInfo);
-}
-
-void PacketHandler::Handle_SC_Accept_Client(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
-
-	PacketHeader* header = (PacketHeader*)dataBuffer->GetBuffer();
-	int32 dataSize = header->GetDataSize();
-
-	msgTest::SC_Accept_Client packetAcceptClient;
-	packetAcceptClient.ParseFromArray(&header[1], dataSize);
-
-	cout << "User Id : " << packetAcceptClient.userinfo().id() << endl;
-	cout << "UserPos " << "X : " << packetAcceptClient.userinfo().position().x() << " ";
-	cout << "UserPos " << "Y : " << packetAcceptClient.userinfo().position().y() << " ";
-	cout << "UserPos " << "Z : " << packetAcceptClient.userinfo().position().z() << " " << endl;
-}
-
-void PacketHandler::Handle_SC_Response_Server_State(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
-
-	PacketHeader* header = (PacketHeader*)dataBuffer->GetBuffer();
-	int32 dataSize = header->GetDataSize();
-
-	msgTest::SC_Response_Server_State packetOtherUserInfo;
-	packetOtherUserInfo.ParseFromArray(&header[1], dataSize);
-
-	for (msgTest::UserInfo userInfo : packetOtherUserInfo.userinfos()) {
-		cout << "User[" << userInfo.id() << "]";
-		cout << "position [x:" << userInfo.position().x() << ", ";
-		cout << "y:" << userInfo.position().y() << ", ";
-		cout << "z:" << userInfo.position().z() << "]";
-	}
-}
-
-void PacketHandler::Handle_SC_Result_Move_User(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
-	// TODO : ERROR LOG
-}
-
-void PacketHandler::Handle_SC_Connect_Other_User(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
-
-	PacketHeader* header = (PacketHeader*)dataBuffer->GetBuffer();
-	int32 dataSize = header->GetDataSize();
-
-	msgTest::SC_Connect_Other_User packetConnectOtherUser;
-	packetConnectOtherUser.ParseFromArray(&header[1], dataSize);
-
-	cout << "Add User ID :" << packetConnectOtherUser.userinfo().id() << endl;
-	cout << "UserPos " << "X : " << packetConnectOtherUser.userinfo().position().x() << " ";
-	cout << "UserPos " << "Y : " << packetConnectOtherUser.userinfo().position().y() << " ";
-	cout << "UserPos " << "Z : " << packetConnectOtherUser.userinfo().position().z() << " " << endl;
-}
