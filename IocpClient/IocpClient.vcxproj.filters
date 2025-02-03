@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="리소스 파일">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Main">
       <UniqueIdentifier>{658e66bc-632d-401e-ad72-2e9adbb933d2}</UniqueIdentifier>
     </Filter>
@@ -28,7 +24,9 @@
     <ClCompile Include="messageTest.pb.cc">
       <Filter>Protobuf</Filter>
     </ClCompile>
-    <ClCompile Include="GameSession.cpp" />
+    <ClCompile Include="GameSession.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PacketHandler.h">
@@ -40,6 +38,8 @@
     <ClInclude Include="messageTest.pb.h">
       <Filter>Protobuf</Filter>
     </ClInclude>
-    <ClInclude Include="GameSession.h" />
+    <ClInclude Include="GameSession.h">
+      <Filter>Main</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

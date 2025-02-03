@@ -77,12 +77,29 @@ void PacketHandler::Handle_CS_Login(shared_ptr<Session> session, shared_ptr<Buff
 	msgTest::CS_Login recvLoginPacket;
 	recvLoginPacket.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
 	
-	cout << dataBuffer->WriteSize() << endl;
 	string id = recvLoginPacket.id();
 	string pw = recvLoginPacket.passwd();
-	cout << "[Login] ID : " << recvLoginPacket.id() << " " << "PW : " << pw << endl;
+	cout << "[Login] ID : " << id << " " << "PW : " << pw << endl;
 	{
 		// database
+		wstring wId(id.begin(), id.end());
+		wstring wPw(pw.begin(), pw.end());
+
+		std::wstring query = L"SELECT COUNT(*) FROM USERS WHERE id = '" + wId + L"' AND password_hash = '" + wPw + L"';";
+		vector<vector<wstring>> result = LDBConnector->ExecuteSelectQuery(query);
+
+		if (!result.empty() && !result[0].empty()) {
+			int count = std::stoi(result[0][0]); // 문자열을 숫자로 변환
+			if (count > 0) {
+				wcout << L"User found!" << endl;
+			}
+			else {
+				wcout << L"Invalid ID or password." << endl;
+			}
+		}
+		else {
+			wcout << L"Query returned no results." << endl;
+		}
 
 	}
 

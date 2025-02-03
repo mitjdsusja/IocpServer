@@ -25,6 +25,9 @@
     <Filter Include="Packet">
       <UniqueIdentifier>{a6334ef8-bf2d-438b-8362-ba6b3ac82674}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DB">
+      <UniqueIdentifier>{53b393d1-6183-4b17-9661-d55f79e33fe7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ServerGlobal.cpp">
@@ -93,6 +96,7 @@
     <ClCompile Include="Job.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
+    <ClCompile Include="DBConnector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -170,6 +174,7 @@
     <ClInclude Include="PacketHeader.h">
       <Filter>Packet</Filter>
     </ClInclude>
+    <ClInclude Include="DBConnector.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\protobuf\messageTest.proto">

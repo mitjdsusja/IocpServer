@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="BufferPool.cpp" />
     <ClCompile Include="CompletionPortHandler.cpp" />
+    <ClCompile Include="DBConnector.cpp" />
     <ClCompile Include="ErrorHandler.cpp" />
     <ClCompile Include="Job.cpp" />
     <ClCompile Include="JobQueue.cpp" />
@@ -50,6 +51,7 @@
   <ItemGroup>
     <ClInclude Include="BufferPool.h" />
     <ClInclude Include="CompletionPortHandler.h" />
+    <ClInclude Include="DBConnector.h" />
     <ClInclude Include="ErrorHandler.h" />
     <ClInclude Include="Job.h" />
     <ClInclude Include="JobQueue.h" />
