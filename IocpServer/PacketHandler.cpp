@@ -45,7 +45,11 @@ void PacketHandler::HandlePacket(shared_ptr<Session> session, PacketHeader* data
 
 	shared_ptr<Buffer> buffer = shared_ptr<Buffer>(GSendBufferPool->Pop(), [](Buffer* buffer) { GSendBufferPool->Push(buffer); });
 
-	memcpy(buffer->GetBuffer(), dataBuffer, dataBuffer->packetSize);
+	BYTE* data = ((BYTE*)dataBuffer) + sizeof(PacketHeader);
+	int32 dataSize = dataBuffer->GetDataSize();
+
+	memcpy(buffer->GetBuffer(), data, dataSize);
+	buffer->Write(dataBuffer->packetSize);
 
 	int32 packetId = dataBuffer->packetId;
 
@@ -68,15 +72,15 @@ void PacketHandler::Handle_Invalid(shared_ptr<Session> session, shared_ptr<Buffe
 	C -> S
 -------------*/
 void PacketHandler::Handle_CS_Login(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
-
+	
 	// Check Id, Passwd
 	msgTest::CS_Login recvLoginPacket;
 	recvLoginPacket.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
 	
-
+	cout << dataBuffer->WriteSize() << endl;
 	string id = recvLoginPacket.id();
 	string pw = recvLoginPacket.passwd();
-	cout << "[Login] ID : " << id << " " << "PW : " << pw << endl;
+	cout << "[Login] ID : " << recvLoginPacket.id() << " " << "PW : " << pw << endl;
 	{
 		// database
 
