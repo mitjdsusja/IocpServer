@@ -52,14 +52,21 @@ struct VeloccityDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 VeloccityDefaultTypeInternal _Veloccity_default_instance_;
-              template <typename>
+
+inline constexpr SC_Login_Success::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : sessionid_{::uint64_t{0u}},
+        _cached_size_{0} {}
+
+template <typename>
 PROTOBUF_CONSTEXPR SC_Login_Success::SC_Login_Success(::_pbi::ConstantInitialized)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::internal::ZeroFieldsBase(_class_data_.base()){}
+    : ::google::protobuf::Message(_class_data_.base()),
 #else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::internal::ZeroFieldsBase() {
-}
+    : ::google::protobuf::Message(),
 #endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
 struct SC_Login_SuccessDefaultTypeInternal {
   PROTOBUF_CONSTEXPR SC_Login_SuccessDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
   ~SC_Login_SuccessDefaultTypeInternal() {}
@@ -564,6 +571,7 @@ const ::uint32_t
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::msgTest::SC_Login_Success, _impl_.sessionid_),
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::msgTest::SC_Login_Fail, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -665,16 +673,16 @@ static const ::_pbi::MigrationSchema
         {64, -1, -1, sizeof(::msgTest::Room)},
         {76, -1, -1, sizeof(::msgTest::CS_Login)},
         {86, -1, -1, sizeof(::msgTest::SC_Login_Success)},
-        {94, -1, -1, sizeof(::msgTest::SC_Login_Fail)},
-        {103, -1, -1, sizeof(::msgTest::CS_Request_User_Info)},
-        {112, 121, -1, sizeof(::msgTest::SC_Response_User_Info)},
-        {122, -1, -1, sizeof(::msgTest::CS_Request_Room_List)},
-        {130, -1, -1, sizeof(::msgTest::SC_Response_Room_List)},
-        {140, -1, -1, sizeof(::msgTest::CS_Enter_Room)},
-        {149, -1, -1, sizeof(::msgTest::SC_Enter_Room_Success)},
-        {157, -1, -1, sizeof(::msgTest::SC_Enter_Room_Fail)},
-        {165, -1, -1, sizeof(::msgTest::CS_Request_User_List)},
-        {173, -1, -1, sizeof(::msgTest::SC_Response_User_List)},
+        {95, -1, -1, sizeof(::msgTest::SC_Login_Fail)},
+        {104, -1, -1, sizeof(::msgTest::CS_Request_User_Info)},
+        {113, 122, -1, sizeof(::msgTest::SC_Response_User_Info)},
+        {123, -1, -1, sizeof(::msgTest::CS_Request_Room_List)},
+        {131, -1, -1, sizeof(::msgTest::SC_Response_Room_List)},
+        {141, -1, -1, sizeof(::msgTest::CS_Enter_Room)},
+        {150, -1, -1, sizeof(::msgTest::SC_Enter_Room_Success)},
+        {158, -1, -1, sizeof(::msgTest::SC_Enter_Room_Fail)},
+        {166, -1, -1, sizeof(::msgTest::CS_Request_User_List)},
+        {174, -1, -1, sizeof(::msgTest::SC_Response_User_List)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::msgTest::_Position_default_instance_._instance,
@@ -710,24 +718,25 @@ const char descriptor_table_protodef_messageTest_2eproto[] ABSL_ATTRIBUTE_SECTIO
     ".msgTest.Position\"U\n\004Room\022\016\n\006roomId\030\001 \001("
     "\005\022\020\n\010roomName\030\002 \001(\t\022\026\n\016maxPlayerCount\030\003 "
     "\001(\005\022\023\n\013playerCount\030\004 \001(\005\"&\n\010CS_Login\022\n\n\002"
-    "id\030\001 \001(\t\022\016\n\006passwd\030\002 \001(\t\"\022\n\020SC_Login_Suc"
-    "cess\"\"\n\rSC_Login_Fail\022\021\n\terrorCode\030\001 \001(\005"
-    "\"(\n\024CS_Request_User_Info\022\020\n\010playerId\030\001 \001"
-    "(\005\"<\n\025SC_Response_User_Info\022#\n\nplayerInf"
-    "o\030\001 \001(\0132\017.msgTest.Player\"\026\n\024CS_Request_R"
-    "oom_List\"K\n\025SC_Response_Room_List\022\021\n\troo"
-    "mCount\030\001 \001(\005\022\037\n\010roomList\030\002 \003(\0132\r.msgTest"
-    ".Room\"\037\n\rCS_Enter_Room\022\016\n\006roomId\030\001 \001(\005\"\027"
-    "\n\025SC_Enter_Room_Success\"\024\n\022SC_Enter_Room"
-    "_Fail\"\026\n\024CS_Request_User_List\"Q\n\025SC_Resp"
-    "onse_User_List\022\023\n\013playerCount\030\001 \001(\005\022#\n\np"
-    "layerList\030\002 \003(\0132\017.msgTest.Playerb\006proto3"
+    "id\030\001 \001(\t\022\016\n\006passwd\030\002 \001(\t\"%\n\020SC_Login_Suc"
+    "cess\022\021\n\tsessionId\030\001 \001(\004\"\"\n\rSC_Login_Fail"
+    "\022\021\n\terrorCode\030\001 \001(\005\"(\n\024CS_Request_User_I"
+    "nfo\022\020\n\010playerId\030\001 \001(\005\"<\n\025SC_Response_Use"
+    "r_Info\022#\n\nplayerInfo\030\001 \001(\0132\017.msgTest.Pla"
+    "yer\"\026\n\024CS_Request_Room_List\"K\n\025SC_Respon"
+    "se_Room_List\022\021\n\troomCount\030\001 \001(\005\022\037\n\010roomL"
+    "ist\030\002 \003(\0132\r.msgTest.Room\"\037\n\rCS_Enter_Roo"
+    "m\022\016\n\006roomId\030\001 \001(\005\"\027\n\025SC_Enter_Room_Succe"
+    "ss\"\024\n\022SC_Enter_Room_Fail\"\026\n\024CS_Request_U"
+    "ser_List\"Q\n\025SC_Response_User_List\022\023\n\013pla"
+    "yerCount\030\001 \001(\005\022#\n\nplayerList\030\002 \003(\0132\017.msg"
+    "Test.Playerb\006proto3"
 };
 static ::absl::once_flag descriptor_table_messageTest_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_messageTest_2eproto = {
     false,
     false,
-    960,
+    979,
     descriptor_table_protodef_messageTest_2eproto,
     "messageTest.proto",
     &descriptor_table_messageTest_2eproto_once,
@@ -2807,26 +2816,36 @@ class SC_Login_Success::_Internal {
 
 SC_Login_Success::SC_Login_Success(::google::protobuf::Arena* arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+    : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:msgTest.SC_Login_Success)
 }
 SC_Login_Success::SC_Login_Success(
-    ::google::protobuf::Arena* arena,
-    const SC_Login_Success& from)
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
-#else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
-#endif  // PROTOBUF_CUSTOM_VTABLE
-  SC_Login_Success* const _this = this;
-  (void)_this;
-  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
-      from._internal_metadata_);
+    ::google::protobuf::Arena* arena, const SC_Login_Success& from)
+    : SC_Login_Success(arena) {
+  MergeFrom(from);
+}
+inline PROTOBUF_NDEBUG_INLINE SC_Login_Success::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0} {}
 
-  // @@protoc_insertion_point(copy_constructor:msgTest.SC_Login_Success)
+inline void SC_Login_Success::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.sessionid_ = {};
+}
+SC_Login_Success::~SC_Login_Success() {
+  // @@protoc_insertion_point(destructor:msgTest.SC_Login_Success)
+  SharedDtor(*this);
+}
+inline void SC_Login_Success::SharedDtor(MessageLite& self) {
+  SC_Login_Success& this_ = static_cast<SC_Login_Success&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.~Impl_();
 }
 
 inline void* SC_Login_Success::PlacementNew_(const void*, void* mem,
@@ -2846,10 +2865,10 @@ const ::google::protobuf::internal::ClassDataFull SC_Login_Success::_class_data_
         nullptr,  // OnDemandRegisterArenaDtor
         nullptr,  // IsInitialized
         &SC_Login_Success::MergeImpl,
-        ::google::protobuf::internal::ZeroFieldsBase::GetNewImpl<SC_Login_Success>(),
+        ::google::protobuf::Message::GetNewImpl<SC_Login_Success>(),
 #if defined(PROTOBUF_CUSTOM_VTABLE)
         &SC_Login_Success::SharedDtor,
-        ::google::protobuf::internal::ZeroFieldsBase::GetClearImpl<SC_Login_Success>(), &SC_Login_Success::ByteSizeLong,
+        ::google::protobuf::Message::GetClearImpl<SC_Login_Success>(), &SC_Login_Success::ByteSizeLong,
             &SC_Login_Success::_InternalSerialize,
 #endif  // PROTOBUF_CUSTOM_VTABLE
         PROTOBUF_FIELD_OFFSET(SC_Login_Success, _impl_._cached_size_),
@@ -2865,15 +2884,15 @@ const ::google::protobuf::internal::ClassData* SC_Login_Success::GetClassData() 
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 0, 0, 0, 2> SC_Login_Success::_table_ = {
+const ::_pbi::TcParseTable<0, 1, 0, 0, 2> SC_Login_Success::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    0, 0,  // max_field_number, fast_idx_mask
+    1, 0,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967295,  // skipmap
-    offsetof(decltype(_table_), field_names),  // no field_entries
-    0,  // num_field_entries
+    4294967294,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    1,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
     _class_data_.base(),
@@ -2883,24 +2902,118 @@ const ::_pbi::TcParseTable<0, 0, 0, 0, 2> SC_Login_Success::_table_ = {
     ::_pbi::TcParser::GetTable<::msgTest::SC_Login_Success>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    {::_pbi::TcParser::MiniParse, {}},
+    // uint64 sessionId = 1;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(SC_Login_Success, _impl_.sessionid_), 63>(),
+     {8, 63, 0, PROTOBUF_FIELD_OFFSET(SC_Login_Success, _impl_.sessionid_)}},
   }}, {{
     65535, 65535
+  }}, {{
+    // uint64 sessionId = 1;
+    {PROTOBUF_FIELD_OFFSET(SC_Login_Success, _impl_.sessionid_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
   }},
-  // no field_entries, or aux_entries
+  // no aux_entries
   {{
   }},
 };
 
+PROTOBUF_NOINLINE void SC_Login_Success::Clear() {
+// @@protoc_insertion_point(message_clear_start:msgTest.SC_Login_Success)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.sessionid_ = ::uint64_t{0u};
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::uint8_t* SC_Login_Success::_InternalSerialize(
+            const MessageLite& base, ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) {
+          const SC_Login_Success& this_ = static_cast<const SC_Login_Success&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::uint8_t* SC_Login_Success::_InternalSerialize(
+            ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+          const SC_Login_Success& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(serialize_to_array_start:msgTest.SC_Login_Success)
+          ::uint32_t cached_has_bits = 0;
+          (void)cached_has_bits;
+
+          // uint64 sessionId = 1;
+          if (this_._internal_sessionid() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+                1, this_._internal_sessionid(), target);
+          }
+
+          if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+            target =
+                ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+                    this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+          }
+          // @@protoc_insertion_point(serialize_to_array_end:msgTest.SC_Login_Success)
+          return target;
+        }
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::size_t SC_Login_Success::ByteSizeLong(const MessageLite& base) {
+          const SC_Login_Success& this_ = static_cast<const SC_Login_Success&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::size_t SC_Login_Success::ByteSizeLong() const {
+          const SC_Login_Success& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(message_byte_size_start:msgTest.SC_Login_Success)
+          ::size_t total_size = 0;
+
+          ::uint32_t cached_has_bits = 0;
+          // Prevent compiler warnings about cached_has_bits being unused
+          (void)cached_has_bits;
+
+           {
+            // uint64 sessionId = 1;
+            if (this_._internal_sessionid() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+                  this_._internal_sessionid());
+            }
+          }
+          return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                                     &this_._impl_._cached_size_);
+        }
+
+void SC_Login_Success::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<SC_Login_Success*>(&to_msg);
+  auto& from = static_cast<const SC_Login_Success&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:msgTest.SC_Login_Success)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_sessionid() != 0) {
+    _this->_impl_.sessionid_ = from._impl_.sessionid_;
+  }
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void SC_Login_Success::CopyFrom(const SC_Login_Success& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:msgTest.SC_Login_Success)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
 
 
-
-
-
-
+void SC_Login_Success::InternalSwap(SC_Login_Success* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+        swap(_impl_.sessionid_, other->_impl_.sessionid_);
+}
 
 ::google::protobuf::Metadata SC_Login_Success::GetMetadata() const {
-  return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================
 

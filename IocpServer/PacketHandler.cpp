@@ -80,6 +80,8 @@ void PacketHandler::Handle_CS_Login(shared_ptr<Session> session, shared_ptr<Buff
 	string id = recvLoginPacket.id();
 	string pw = recvLoginPacket.passwd();
 	cout << "[Login] ID : " << id << " " << "PW : " << pw << endl;
+
+	bool userExists = false;
 	{
 		// database
 		wstring wId(id.begin(), id.end());
@@ -91,7 +93,8 @@ void PacketHandler::Handle_CS_Login(shared_ptr<Session> session, shared_ptr<Buff
 		if (!result.empty() && !result[0].empty()) {
 			int count = std::stoi(result[0][0]); // 문자열을 숫자로 변환
 			if (count > 0) {
-				wcout << L"User found!" << endl;
+				//wcout << L"User found!" << endl;
+				userExists = true;
 			}
 			else {
 				wcout << L"Invalid ID or password." << endl;
@@ -103,9 +106,19 @@ void PacketHandler::Handle_CS_Login(shared_ptr<Session> session, shared_ptr<Buff
 
 	}
 
+	shared_ptr<Buffer> sendBuffer;
+	if (userExists == true) {
+		msgTest::SC_Login_Success sendLoginSuccessPacket;
+		sendLoginSuccessPacket.set_sessionid(session->GetSessionId());
+		sendBuffer = PacketHandler::MakeSendBuffer(sendLoginSuccessPacket, PacketId::PKT_SC_LOGIN_SUCCESS);
+	}
+	else {
+		msgTest::SC_Login_Fail sendLoginFailPacket;
+		sendLoginFailPacket.set_errorcode(1);
+		sendBuffer = PacketHandler::MakeSendBuffer(sendLoginFailPacket, PacketId::PKT_SC_LOGIN_FAIL);
+	}
+
 	// Send Result
-	msgTest::SC_Login_Success sendLoginSuccessPacket;
-	shared_ptr<Buffer> sendBuffer = PacketHandler::MakeSendBuffer(sendLoginSuccessPacket, PacketId::PKT_SC_LOGIN_SUCCESS);
 	Job* job = new Job([session, sendBuffer]() {
 		session->Send(sendBuffer);
 	});

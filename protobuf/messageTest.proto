@@ -44,7 +44,7 @@ message CS_Login{
     string passwd = 2;
 }
 message SC_Login_Success {
-
+    uint64 sessionId = 1;
 }
 message SC_Login_Fail{
     int32 errorCode = 1;

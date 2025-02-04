@@ -334,10 +334,11 @@ class Veloccity final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
-class SC_Login_Success final : public ::google::protobuf::internal::ZeroFieldsBase
+class SC_Login_Success final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:msgTest.SC_Login_Success) */ {
  public:
   inline SC_Login_Success() : SC_Login_Success(nullptr) {}
+  ~SC_Login_Success() PROTOBUF_FINAL;
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
   void operator delete(SC_Login_Success* msg, std::destroying_delete_t) {
@@ -411,21 +412,49 @@ class SC_Login_Success final : public ::google::protobuf::internal::ZeroFieldsBa
   // implements Message ----------------------------------------------
 
   SC_Login_Success* New(::google::protobuf::Arena* arena = nullptr) const {
-    return ::google::protobuf::internal::ZeroFieldsBase::DefaultConstruct<SC_Login_Success>(arena);
+    return ::google::protobuf::Message::DefaultConstruct<SC_Login_Success>(arena);
   }
-  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
-  inline void CopyFrom(const SC_Login_Success& from) {
-    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
-  }
-  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
-  void MergeFrom(const SC_Login_Success& from) {
-    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
-  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const SC_Login_Success& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const SC_Login_Success& from) { SC_Login_Success::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
 
   public:
   bool IsInitialized() const {
     return true;
   }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(SC_Login_Success* other);
  private:
   template <typename T>
   friend ::absl::string_view(
@@ -450,12 +479,25 @@ class SC_Login_Success final : public ::google::protobuf::internal::ZeroFieldsBa
   // nested types ----------------------------------------------------
 
   // accessors -------------------------------------------------------
+  enum : int {
+    kSessionIdFieldNumber = 1,
+  };
+  // uint64 sessionId = 1;
+  void clear_sessionid() ;
+  ::uint64_t sessionid() const;
+  void set_sessionid(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_sessionid() const;
+  void _internal_set_sessionid(::uint64_t value);
+
+  public:
   // @@protoc_insertion_point(class_scope:msgTest.SC_Login_Success)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      0, 0, 0,
+      0, 1, 0,
       0, 2>
       _table_;
 
@@ -473,8 +515,11 @@ class SC_Login_Success final : public ::google::protobuf::internal::ZeroFieldsBa
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const SC_Login_Success& from_msg);
+    ::uint64_t sessionid_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
+  union { Impl_ _impl_; };
   friend struct ::TableStruct_messageTest_2eproto;
 };
 // -------------------------------------------------------------------
@@ -4446,6 +4491,28 @@ inline void CS_Login::set_allocated_passwd(std::string* value) {
 // -------------------------------------------------------------------
 
 // SC_Login_Success
+
+// uint64 sessionId = 1;
+inline void SC_Login_Success::clear_sessionid() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.sessionid_ = ::uint64_t{0u};
+}
+inline ::uint64_t SC_Login_Success::sessionid() const {
+  // @@protoc_insertion_point(field_get:msgTest.SC_Login_Success.sessionId)
+  return _internal_sessionid();
+}
+inline void SC_Login_Success::set_sessionid(::uint64_t value) {
+  _internal_set_sessionid(value);
+  // @@protoc_insertion_point(field_set:msgTest.SC_Login_Success.sessionId)
+}
+inline ::uint64_t SC_Login_Success::_internal_sessionid() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.sessionid_;
+}
+inline void SC_Login_Success::_internal_set_sessionid(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.sessionid_ = value;
+}
 
 // -------------------------------------------------------------------
 

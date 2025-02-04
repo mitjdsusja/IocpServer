@@ -33,9 +33,16 @@ void Service::AddSession(shared_ptr<Session> session){
 	_curSessionCount++;
 	cout << "Add Session : " << _curSessionCount << endl;
 
-	session->SetSessionId(_playerId++);
+	session->SetSessionId(GenerateSessionId());
 	
 	_sessions[session->GetSessionId()] = session;
+}
+
+uint64 Service::GenerateSessionId(){
+
+	uint64 timePart = (uint64)chrono::steady_clock::now().time_since_epoch().count();
+	
+	return timePart;
 }
 
 void Service::removeSession(shared_ptr<Session> session){

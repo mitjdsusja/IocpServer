@@ -26,9 +26,9 @@ public:
 	Service* GetOwner() { return _owner; }
 	void SetOwner(Service* owner) { _owner = owner; }
 
-	int32 GetSessionId() { return _sessionId;}
+	uint64 GetSessionId() { return _sessionId;}
 	UserInfo GetUserInfo() { return _userInfo; }
-	int32 GetUserId() { return _userInfo.GetId(); }
+	uint64 GetUserId() { return _userInfo.GetId(); }
 	void SetSessionId(int32 id) { _sessionId = id; }
 	void SetUserInfo(UserInfo& userInfo);
 	void SetUserId(int32 id);
@@ -65,7 +65,7 @@ private:
 	atomic<bool> _isConnected = true;
 	bool _sendRegistered = false;
 
-	int32 _sessionId = 0;
+	uint64 _sessionId = 0;
 
 private:
 	mutex _sendQueueMutex;
