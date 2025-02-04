@@ -34,13 +34,15 @@ void Service::AddSession(shared_ptr<Session> session){
 	cout << "Add Session : " << _curSessionCount << endl;
 
 	session->SetSessionId(GenerateSessionId());
+
+	cout << "SessionId : " << session->GetSessionId() << endl;
 	
 	_sessions[session->GetSessionId()] = session;
 }
 
 uint64 Service::GenerateSessionId(){
 
-	uint64 timePart = (uint64)chrono::steady_clock::now().time_since_epoch().count();
+	uint64_t timePart = chrono::duration_cast<chrono::milliseconds>(chrono::steady_clock::now().time_since_epoch()).count();
 	
 	return timePart;
 }
