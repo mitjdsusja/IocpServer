@@ -1741,16 +1741,16 @@ class CS_Request_User_Info final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
-    kPlayerIdFieldNumber = 1,
+    kSessionIdFieldNumber = 1,
   };
-  // int32 playerId = 1;
-  void clear_playerid() ;
-  ::int32_t playerid() const;
-  void set_playerid(::int32_t value);
+  // uint64 sessionId = 1;
+  void clear_sessionid() ;
+  ::uint64_t sessionid() const;
+  void set_sessionid(::uint64_t value);
 
   private:
-  ::int32_t _internal_playerid() const;
-  void _internal_set_playerid(::int32_t value);
+  ::uint64_t _internal_sessionid() const;
+  void _internal_set_sessionid(::uint64_t value);
 
   public:
   // @@protoc_insertion_point(class_scope:msgTest.CS_Request_User_Info)
@@ -1776,7 +1776,7 @@ class CS_Request_User_Info final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const CS_Request_User_Info& from_msg);
-    ::int32_t playerid_;
+    ::uint64_t sessionid_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -4544,26 +4544,26 @@ inline void SC_Login_Fail::_internal_set_errorcode(::int32_t value) {
 
 // CS_Request_User_Info
 
-// int32 playerId = 1;
-inline void CS_Request_User_Info::clear_playerid() {
+// uint64 sessionId = 1;
+inline void CS_Request_User_Info::clear_sessionid() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.playerid_ = 0;
+  _impl_.sessionid_ = ::uint64_t{0u};
 }
-inline ::int32_t CS_Request_User_Info::playerid() const {
-  // @@protoc_insertion_point(field_get:msgTest.CS_Request_User_Info.playerId)
-  return _internal_playerid();
+inline ::uint64_t CS_Request_User_Info::sessionid() const {
+  // @@protoc_insertion_point(field_get:msgTest.CS_Request_User_Info.sessionId)
+  return _internal_sessionid();
 }
-inline void CS_Request_User_Info::set_playerid(::int32_t value) {
-  _internal_set_playerid(value);
-  // @@protoc_insertion_point(field_set:msgTest.CS_Request_User_Info.playerId)
+inline void CS_Request_User_Info::set_sessionid(::uint64_t value) {
+  _internal_set_sessionid(value);
+  // @@protoc_insertion_point(field_set:msgTest.CS_Request_User_Info.sessionId)
 }
-inline ::int32_t CS_Request_User_Info::_internal_playerid() const {
+inline ::uint64_t CS_Request_User_Info::_internal_sessionid() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.playerid_;
+  return _impl_.sessionid_;
 }
-inline void CS_Request_User_Info::_internal_set_playerid(::int32_t value) {
+inline void CS_Request_User_Info::_internal_set_sessionid(::uint64_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.playerid_ = value;
+  _impl_.sessionid_ = value;
 }
 
 // -------------------------------------------------------------------

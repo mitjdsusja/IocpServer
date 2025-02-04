@@ -216,7 +216,7 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
 
 inline constexpr CS_Request_User_Info::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
-      : playerid_{0},
+      : sessionid_{::uint64_t{0u}},
         _cached_size_{0} {}
 
 template <typename>
@@ -589,7 +589,7 @@ const ::uint32_t
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
-        PROTOBUF_FIELD_OFFSET(::msgTest::CS_Request_User_Info, _impl_.playerid_),
+        PROTOBUF_FIELD_OFFSET(::msgTest::CS_Request_User_Info, _impl_.sessionid_),
         PROTOBUF_FIELD_OFFSET(::msgTest::SC_Response_User_Info, _impl_._has_bits_),
         PROTOBUF_FIELD_OFFSET(::msgTest::SC_Response_User_Info, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -720,23 +720,23 @@ const char descriptor_table_protodef_messageTest_2eproto[] ABSL_ATTRIBUTE_SECTIO
     "\001(\005\022\023\n\013playerCount\030\004 \001(\005\"&\n\010CS_Login\022\n\n\002"
     "id\030\001 \001(\t\022\016\n\006passwd\030\002 \001(\t\"%\n\020SC_Login_Suc"
     "cess\022\021\n\tsessionId\030\001 \001(\004\"\"\n\rSC_Login_Fail"
-    "\022\021\n\terrorCode\030\001 \001(\005\"(\n\024CS_Request_User_I"
-    "nfo\022\020\n\010playerId\030\001 \001(\005\"<\n\025SC_Response_Use"
-    "r_Info\022#\n\nplayerInfo\030\001 \001(\0132\017.msgTest.Pla"
-    "yer\"\026\n\024CS_Request_Room_List\"K\n\025SC_Respon"
-    "se_Room_List\022\021\n\troomCount\030\001 \001(\005\022\037\n\010roomL"
-    "ist\030\002 \003(\0132\r.msgTest.Room\"\037\n\rCS_Enter_Roo"
-    "m\022\016\n\006roomId\030\001 \001(\005\"\027\n\025SC_Enter_Room_Succe"
-    "ss\"\024\n\022SC_Enter_Room_Fail\"\026\n\024CS_Request_U"
-    "ser_List\"Q\n\025SC_Response_User_List\022\023\n\013pla"
-    "yerCount\030\001 \001(\005\022#\n\nplayerList\030\002 \003(\0132\017.msg"
-    "Test.Playerb\006proto3"
+    "\022\021\n\terrorCode\030\001 \001(\005\")\n\024CS_Request_User_I"
+    "nfo\022\021\n\tsessionId\030\001 \001(\004\"<\n\025SC_Response_Us"
+    "er_Info\022#\n\nplayerInfo\030\001 \001(\0132\017.msgTest.Pl"
+    "ayer\"\026\n\024CS_Request_Room_List\"K\n\025SC_Respo"
+    "nse_Room_List\022\021\n\troomCount\030\001 \001(\005\022\037\n\010room"
+    "List\030\002 \003(\0132\r.msgTest.Room\"\037\n\rCS_Enter_Ro"
+    "om\022\016\n\006roomId\030\001 \001(\005\"\027\n\025SC_Enter_Room_Succ"
+    "ess\"\024\n\022SC_Enter_Room_Fail\"\026\n\024CS_Request_"
+    "User_List\"Q\n\025SC_Response_User_List\022\023\n\013pl"
+    "ayerCount\030\001 \001(\005\022#\n\nplayerList\030\002 \003(\0132\017.ms"
+    "gTest.Playerb\006proto3"
 };
 static ::absl::once_flag descriptor_table_messageTest_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_messageTest_2eproto = {
     false,
     false,
-    979,
+    980,
     descriptor_table_protodef_messageTest_2eproto,
     "messageTest.proto",
     &descriptor_table_messageTest_2eproto_once,
@@ -3249,7 +3249,7 @@ inline PROTOBUF_NDEBUG_INLINE CS_Request_User_Info::Impl_::Impl_(
 
 inline void CS_Request_User_Info::SharedCtor(::_pb::Arena* arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
-  _impl_.playerid_ = {};
+  _impl_.sessionid_ = {};
 }
 CS_Request_User_Info::~CS_Request_User_Info() {
   // @@protoc_insertion_point(destructor:msgTest.CS_Request_User_Info)
@@ -3316,15 +3316,15 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> CS_Request_User_Info::_table_ = {
     ::_pbi::TcParser::GetTable<::msgTest::CS_Request_User_Info>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // int32 playerId = 1;
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(CS_Request_User_Info, _impl_.playerid_), 63>(),
-     {8, 63, 0, PROTOBUF_FIELD_OFFSET(CS_Request_User_Info, _impl_.playerid_)}},
+    // uint64 sessionId = 1;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(CS_Request_User_Info, _impl_.sessionid_), 63>(),
+     {8, 63, 0, PROTOBUF_FIELD_OFFSET(CS_Request_User_Info, _impl_.sessionid_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // int32 playerId = 1;
-    {PROTOBUF_FIELD_OFFSET(CS_Request_User_Info, _impl_.playerid_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
+    // uint64 sessionId = 1;
+    {PROTOBUF_FIELD_OFFSET(CS_Request_User_Info, _impl_.sessionid_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
   }},
   // no aux_entries
   {{
@@ -3338,7 +3338,7 @@ PROTOBUF_NOINLINE void CS_Request_User_Info::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.playerid_ = 0;
+  _impl_.sessionid_ = ::uint64_t{0u};
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
@@ -3357,11 +3357,11 @@ PROTOBUF_NOINLINE void CS_Request_User_Info::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // int32 playerId = 1;
-          if (this_._internal_playerid() != 0) {
-            target = ::google::protobuf::internal::WireFormatLite::
-                WriteInt32ToArrayWithField<1>(
-                    stream, this_._internal_playerid(), target);
+          // uint64 sessionId = 1;
+          if (this_._internal_sessionid() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+                1, this_._internal_sessionid(), target);
           }
 
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
@@ -3388,10 +3388,10 @@ PROTOBUF_NOINLINE void CS_Request_User_Info::Clear() {
           (void)cached_has_bits;
 
            {
-            // int32 playerId = 1;
-            if (this_._internal_playerid() != 0) {
-              total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
-                  this_._internal_playerid());
+            // uint64 sessionId = 1;
+            if (this_._internal_sessionid() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+                  this_._internal_sessionid());
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -3406,8 +3406,8 @@ void CS_Request_User_Info::MergeImpl(::google::protobuf::MessageLite& to_msg, co
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from._internal_playerid() != 0) {
-    _this->_impl_.playerid_ = from._impl_.playerid_;
+  if (from._internal_sessionid() != 0) {
+    _this->_impl_.sessionid_ = from._impl_.sessionid_;
   }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -3423,7 +3423,7 @@ void CS_Request_User_Info::CopyFrom(const CS_Request_User_Info& from) {
 void CS_Request_User_Info::InternalSwap(CS_Request_User_Info* PROTOBUF_RESTRICT other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-        swap(_impl_.playerid_, other->_impl_.playerid_);
+        swap(_impl_.sessionid_, other->_impl_.sessionid_);
 }
 
 ::google::protobuf::Metadata CS_Request_User_Info::GetMetadata() const {

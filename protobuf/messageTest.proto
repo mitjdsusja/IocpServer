@@ -51,7 +51,7 @@ message SC_Login_Fail{
 }
 
 message CS_Request_User_Info{
-    int32 playerId = 1;
+    uint64 sessionId = 1;
 }
 message SC_Response_User_Info{
     Player playerInfo = 1;
