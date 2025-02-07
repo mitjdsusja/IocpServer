@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "PacketHandler.h"
 #include "ServerGlobal.h"
+#include <boost/locale.hpp>
 
 #include "Job.h"
 #include "JobQueue.h"
@@ -11,10 +12,6 @@
 #include "messageTest.pb.h"
 
 #include "GameSession.h"
-
-#include <boost/locale.hpp>
-
-//TODO : Mapping Function
 
 void PacketHandler::RegisterPacketHandlers() {
 
@@ -91,14 +88,18 @@ void PacketHandler::Handle_CS_Login(shared_ptr<Session> session, shared_ptr<Buff
 		wstring wId(id.begin(), id.end());
 		wstring wPw(pw.begin(), pw.end());
 
-		std::wstring query = L"SELECT COUNT(*) FROM USERS WHERE id = '" + wId + L"' AND password_hash = '" + wPw + L"';";
+		std::wstring query = L"SELECT COUNT(*), usernum FROM USERS WHERE id = '" + wId + L"' AND password_hash = '" + wPw + L"';";
 		vector<vector<wstring>> result = LDBConnector->ExecuteSelectQuery(query);
 
 		if (!result.empty() && !result[0].empty()) {
 			int32 count = std::stoi(result[0][0]); // 문자열을 숫자로 변환
+			int32 userNum = stoi(result[0][1]);
 			if (count > 0) {
 				//wcout << L"User found!" << endl;
 				userExists = true;
+				GameSession* gameSession = (GameSession*)session.get();
+				gameSession->SetUserNum(userNum);
+				
 			}
 			else {
 				wcout << L"Invalid ID or password." << endl;
@@ -144,13 +145,14 @@ void PacketHandler::Handle_CS_Request_User_Info(shared_ptr<Session> session, sha
 
 	// database
 	GameSession* gameSession = (GameSession*)session.get();
-	wstring query = L"SELECT name, level from users WHERE id = '" + to_wstring(gameSession->GetUserNum()) + L"';";
+	wstring query = L"SELECT name, level from users WHERE usernum = " + to_wstring(gameSession->GetUserNum()) + L";";
+	wcout << query << endl;
 	vector<vector<wstring>> result = LDBConnector->ExecuteSelectQuery(query);
 
 	string name;
 	int32 level;
 	if (!result.empty() && !result[0].empty()) {
-		boost::locale::conv::utf_to_utf<char>(result[0][0]);
+		name = boost::locale::conv::utf_to_utf<char>(result[0][0]);
 		level = stoi(result[0][1]);
 	}
 	else {
@@ -158,6 +160,7 @@ void PacketHandler::Handle_CS_Request_User_Info(shared_ptr<Session> session, sha
 		return;
 	}
 
+	// send packet
 	msgTest::SC_Response_User_Info sendResponseUserInfo;
 	msgTest::Player* playerInfo = sendResponseUserInfo.mutable_playerinfo();
 	playerInfo->set_level(level);
