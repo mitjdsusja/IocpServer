@@ -58,7 +58,7 @@ void Service::removeSession(shared_ptr<Session> session){
 
 void Service::Broadcast(shared_ptr<Buffer> sendDataBuffer){
 
-	map<int,shared_ptr<Session>> sessionsCopy;
+	map<uint64,shared_ptr<Session>> sessionsCopy;
 	{
 		lock_guard<mutex> _lock(_sessionsMutex);
 		sessionsCopy = _sessions;

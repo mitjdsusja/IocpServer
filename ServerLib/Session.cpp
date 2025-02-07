@@ -71,14 +71,6 @@ void Session::SetUserInfo(UserInfo& userInfo){
 	}
 }
 
-void Session::SetUserId(int32 id){
-	{
-		lock_guard<mutex> lock(_userInfoMutex);
-
-		_userInfo.SetId(id);
-	}
-}
-
 void Session::Process(OverlappedEvent* event, int32 numOfBytes){
 
 	// TODO  : Mapping Function

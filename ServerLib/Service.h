@@ -43,7 +43,7 @@ protected:
 
 protected:
 	mutex _sessionsMutex = {};
-	map<int, shared_ptr<Session>> _sessions;
+	map<uint64, shared_ptr<Session>> _sessions;
 
 	int32 _maxSessionCount = 0;
 	int32 _curSessionCount = 0;

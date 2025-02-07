@@ -10,6 +10,10 @@
 
 #include "messageTest.pb.h"
 
+#include "GameSession.h"
+
+#include <boost/locale.hpp>
+
 //TODO : Mapping Function
 
 void PacketHandler::RegisterPacketHandlers() {
@@ -91,7 +95,7 @@ void PacketHandler::Handle_CS_Login(shared_ptr<Session> session, shared_ptr<Buff
 		vector<vector<wstring>> result = LDBConnector->ExecuteSelectQuery(query);
 
 		if (!result.empty() && !result[0].empty()) {
-			int count = std::stoi(result[0][0]); // 문자열을 숫자로 변환
+			int32 count = std::stoi(result[0][0]); // 문자열을 숫자로 변환
 			if (count > 0) {
 				//wcout << L"User found!" << endl;
 				userExists = true;
@@ -128,7 +132,44 @@ void PacketHandler::Handle_CS_Request_Room_List(shared_ptr<Session> session, sha
 
 }
 void PacketHandler::Handle_CS_Request_User_Info(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
+	
+	msgTest::CS_Request_User_Info recvRequestUserInfoPacket;
+	recvRequestUserInfoPacket.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
 
+	uint64 sessionId = recvRequestUserInfoPacket.sessionid();
+	if (session->GetSessionId() != sessionId) {
+		cout << "Session ID missmatch" << endl;
+		return;
+	}
+
+	// database
+	GameSession* gameSession = (GameSession*)session.get();
+	wstring query = L"SELECT name, level from users WHERE id = '" + to_wstring(gameSession->GetUserNum()) + L"';";
+	vector<vector<wstring>> result = LDBConnector->ExecuteSelectQuery(query);
+
+	string name;
+	int32 level;
+	if (!result.empty() && !result[0].empty()) {
+		boost::locale::conv::utf_to_utf<char>(result[0][0]);
+		level = stoi(result[0][1]);
+	}
+	else {
+		wcout << L"Query returned no results." << endl;
+		return;
+	}
+
+	msgTest::SC_Response_User_Info sendResponseUserInfo;
+	msgTest::Player* playerInfo = sendResponseUserInfo.mutable_playerinfo();
+	playerInfo->set_level(level);
+	playerInfo->set_name(name);
+	playerInfo->mutable_position();
+
+	shared_ptr<Buffer> sendBuffer = MakeSendBuffer(sendResponseUserInfo, PacketId::PKT_SC_RESPONSE_USER_INFO);
+
+	Job* job = new Job([session, sendBuffer]() {
+		session->Send(sendBuffer);
+		});
+	GJobQueue->Push(job);
 }
 void PacketHandler::Handle_CS_Request_User_List(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
