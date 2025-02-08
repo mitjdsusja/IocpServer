@@ -60,6 +60,17 @@ message SC_Response_Room_List{
     repeated Room roomList = 2;
 }
 
+message CS_Create_Room{
+    string roomName = 1;
+    string hostName = 2;
+}
+message SC_Create_Room_Success{
+    int32 roomId = 1;
+}
+message SC_Create_Room_Fail{
+    int32 errorCode = 1;
+}
+
 message CS_Enter_Room{
     int32 roomId = 1;
 }

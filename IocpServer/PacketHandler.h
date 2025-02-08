@@ -62,10 +62,12 @@ private:
 	/*------------
 		C -> S
 	-------------*/
+	// static void Handle_CS_(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
 	static void Handle_CS_Login(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
 	static void Handle_CS_Request_Room_List(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
 	static void Handle_CS_Request_User_Info(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
 	static void Handle_CS_Request_User_List(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_CS_Create_Room(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
 	static void Handle_CS_Enter_Room(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
 
 	/*------------

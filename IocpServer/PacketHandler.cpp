@@ -196,9 +196,16 @@ void PacketHandler::Handle_CS_Request_User_Info(shared_ptr<Session> session, sha
 		});
 	GJobQueue->Push(job);
 }
+
 void PacketHandler::Handle_CS_Request_User_List(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
 }
+
+void PacketHandler::Handle_CS_Create_Room(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service){
+
+	msgTest::CS_Create_Room recvCreateRoomPacket;
+}
+
 void PacketHandler::Handle_CS_Enter_Room(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
 }

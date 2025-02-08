@@ -168,6 +168,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="GameSession.h" />
+    <ClInclude Include="Global.h" />
     <ClInclude Include="messageTest.pb.h" />
     <ClInclude Include="PacketHandler.h" />
     <ClInclude Include="pch.h" />
@@ -176,6 +177,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameSession.cpp" />
+    <ClCompile Include="Global.cpp" />
     <ClCompile Include="messageTest.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
