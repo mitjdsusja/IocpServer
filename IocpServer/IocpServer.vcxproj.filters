@@ -27,7 +27,7 @@
     <ClInclude Include="RoomManager.h">
       <Filter>Content</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
+    <ClInclude Include="PlayerManager.h">
       <Filter>Content</Filter>
     </ClInclude>
     <ClInclude Include="Global.h">
@@ -53,7 +53,7 @@
     <ClCompile Include="RoomManager.cpp">
       <Filter>Content</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
+    <ClCompile Include="PlayerManager.cpp">
       <Filter>Content</Filter>
     </ClCompile>
     <ClCompile Include="Global.cpp">

@@ -1,5 +1,6 @@
 #pragma once
 #include "Session.h"
+#include "PlayerManager.h"
 
 class GameSession : public Session{
 public :
@@ -13,6 +14,7 @@ public :
 	int32 GetUserNum() { return _userNum; }
 
 private:
+	// DB에 저장된 데이터 번호 (DB에 저장된 유저정보를 찾기위해 UserID대신 
 	int32 _userNum = 0;
 };
 

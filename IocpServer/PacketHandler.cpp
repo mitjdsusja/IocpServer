@@ -204,6 +204,16 @@ void PacketHandler::Handle_CS_Request_User_List(shared_ptr<Session> session, sha
 void PacketHandler::Handle_CS_Create_Room(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service){
 
 	msgTest::CS_Create_Room recvCreateRoomPacket;
+	recvCreateRoomPacket.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
+
+	wstring roomName = boost::locale::conv::utf_to_utf<wchar_t>(recvCreateRoomPacket.roomname());
+	wstring hostName = boost::locale::conv::utf_to_utf<wchar_t>(recvCreateRoomPacket.hostname());
+
+	shared_ptr<Player> hostPlayer = GPlayerManager->GetPlayer(session->GetSessionId());
+	GRoomManager->CreateAndAddRoom(hostPlayer, roomName);
+	
+
+	// ing
 }
 
 void PacketHandler::Handle_CS_Enter_Room(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {

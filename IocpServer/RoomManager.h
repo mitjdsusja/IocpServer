@@ -1,5 +1,6 @@
 #pragma once
-#include "Player.h"
+
+class Player;
 
 struct RoomInfo {
 	int32 _roomId;
@@ -10,9 +11,9 @@ struct RoomInfo {
 
 class Room {
 public:
-	Room(int32 roomId, Player* hostPlayer, wstring roomName, int32 maxPlayerCount);
+	Room(int32 roomId, shared_ptr<Player> hostPlayer, wstring roomName, int32 maxPlayerCount);
 
-	void AddPlayer(int32 playerId, Player* player);
+	void AddPlayer(int32 playerId, shared_ptr<Player> player);
 	void RemovePlayer(int32 playerId);
 	RoomInfo GetRoomInfo();
 
@@ -23,14 +24,14 @@ private:
 	int32 _maxPlayerCount;
 	int32 _curPlayerCount;
 	wstring _roomName;
-	Player* _hostPlayer;
-	map<int32, Player*> _players;
+	shared_ptr<Player> _hostPlayer;
+	map<int32, shared_ptr<Player>> _players;
 
 };
 
 class RoomManager{
 public:
-	void CreateAndAddRoom(Player* hostPlayer, wstring roomName, int32 maxPlayerCount = 10);
+	void CreateAndAddRoom(shared_ptr<Player> hostPlayer, wstring roomName, int32 maxPlayerCount = 10);
 	
 	vector<RoomInfo> GetRoomInfoList();
 

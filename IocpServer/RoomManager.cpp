@@ -1,12 +1,13 @@
 #include "pch.h"
 #include "RoomManager.h"
+#include "PlayerManager.h"
 
-Room::Room(int32 roomId, Player* hostPlayer, wstring roomName, int32 maxPlayerCount)
+Room::Room(int32 roomId, shared_ptr<Player> hostPlayer, wstring roomName, int32 maxPlayerCount)
 	: _roomId(roomId), _hostPlayer(hostPlayer), _roomName(roomName), _maxPlayerCount(maxPlayerCount){
 
 }
 
-void Room::AddPlayer(int32 playerId, Player* player){
+void Room::AddPlayer(int32 playerId, shared_ptr<Player> player){
 
 	_players[playerId] = player;
 }
@@ -24,7 +25,7 @@ RoomInfo Room::GetRoomInfo(){
 	return roomInfo;
 }
 
-void RoomManager::CreateAndAddRoom(Player* hostPlayer, wstring roomName, int32 maxPlayerCount){
+void RoomManager::CreateAndAddRoom(shared_ptr<Player> hostPlayer, wstring roomName, int32 maxPlayerCount){
 	
 	lock_guard<mutex> lock(_roomsMutex);
 		
