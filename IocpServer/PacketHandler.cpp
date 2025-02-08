@@ -11,6 +11,8 @@
 
 #include "messageTest.pb.h"
 
+#include "Global.h"
+#include "RoomManager.h"
 #include "GameSession.h"
 
 void PacketHandler::RegisterPacketHandlers() {
@@ -129,9 +131,29 @@ void PacketHandler::Handle_CS_Login(shared_ptr<Session> session, shared_ptr<Buff
 	});
 	GJobQueue->Push(job);
 }
-void PacketHandler::Handle_CS_Request_Room_List(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
+void PacketHandler::Handle_CS_Request_Room_List(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
+	
+	vector<RoomInfo> roomInfoList = GRoomManager->GetRoomInfoList();
+
+	msgTest::SC_Response_Room_List sendResponseRoomList;
+	for (const auto& roomInfo : roomInfoList) {
+		msgTest::Room* room = sendResponseRoomList.add_roomlist();
+		string roomName = boost::locale::conv::utf_to_utf<char>(roomInfo._roomName);
+
+		room->set_roomid(roomInfo._roomId);
+		room->set_roomname(roomName);
+		room->set_maxplayercount(roomInfo._maxPlayerCount);
+		room->set_playercount(roomInfo._curPlayerCount);
+	}
+
+	shared_ptr<Buffer> sendBuffer = MakeSendBuffer(sendResponseRoomList, PacketId::PKT_SC_RESPONSE_ROOM_LIST);
+	Job* job = new Job([session, sendBuffer]() {
+		session->Send(sendBuffer);
+	});
+	GJobQueue->Push(job);
 }
+
 void PacketHandler::Handle_CS_Request_User_Info(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 	
 	msgTest::CS_Request_User_Info recvRequestUserInfoPacket;
