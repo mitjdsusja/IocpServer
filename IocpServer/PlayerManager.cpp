@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "PlayerManager.h"
 
+Player::Player() {
+
+}
 
 Player::Player(shared_ptr<Session> owner){
 

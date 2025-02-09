@@ -1,6 +1,7 @@
 #pragma once
 class Player{
 public:
+	Player();
 	Player(shared_ptr<Session> owner);
 	~Player();
 

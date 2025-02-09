@@ -31,6 +31,7 @@ private:
 
 class RoomManager{
 public:
+	RoomManager(int32 maxRoomCount = 100);
 	int32 CreateAndAddRoom(shared_ptr<Player> hostPlayer, wstring roomName, int32 maxPlayerCount = 10);
 	
 	vector<RoomInfo> GetRoomInfoList();

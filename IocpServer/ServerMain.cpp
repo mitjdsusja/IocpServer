@@ -11,7 +11,9 @@
 
 #include "messageTest.pb.h"
 
+#include "Global.h"
 #include "GameSession.h"
+#include "RoomManager.h"
 
 // Job Life Cycle => shared_ptr
 
@@ -55,6 +57,23 @@ int main() {
 			}
 		});
 	}
+	
+	int32 roomId;
+	shared_ptr<Player> player1 = make_shared<Player>();
+	roomId = GRoomManager->CreateAndAddRoom(player1, L"firstRoom");
+	cout << "Create Room ID : " << roomId << endl;
+	shared_ptr<Player> player2 = make_shared<Player>();
+	roomId = GRoomManager->CreateAndAddRoom(player2, L"secondRoom");
+	cout << "Create Room ID : " << roomId << endl;
+	shared_ptr<Player> player3 = make_shared<Player>();
+	roomId = GRoomManager->CreateAndAddRoom(player3, L"thirdRoom");
+	cout << "Create Room ID : " << roomId << endl;
+	shared_ptr<Player> player4 = make_shared<Player>();
+	roomId = GRoomManager->CreateAndAddRoom(player4, L"fourthRoom");
+	cout << "Create Room ID : " << roomId << endl;
+	shared_ptr<Player> player5 = make_shared<Player>();
+	roomId = GRoomManager->CreateAndAddRoom(player5, L"fifthRoom");
+	cout << "Create Room ID : " << roomId << endl;
 
 	//// Reserve User Position 
 	//GJobTimer->Reserve(100, [serverService]() {

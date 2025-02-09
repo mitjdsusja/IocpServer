@@ -25,6 +25,10 @@ RoomInfo Room::GetRoomInfo(){
 	return roomInfo;
 }
 
+RoomManager::RoomManager(int32 maxRoomCount) : _maxRoomCount(maxRoomCount){
+
+}
+
 int32 RoomManager::CreateAndAddRoom(shared_ptr<Player> hostPlayer, wstring roomName, int32 maxPlayerCount){
 	
 	lock_guard<mutex> lock(_roomsMutex);
@@ -37,8 +41,6 @@ int32 RoomManager::CreateAndAddRoom(shared_ptr<Player> hostPlayer, wstring roomN
 	int32 roomId = _nextRoomId.fetch_add(1);
 	shared_ptr<Room> room = MakeRoomPtr(roomId, hostPlayer, roomName, maxPlayerCount);
 	_rooms[roomId] = room;
-
-	cout << "[CREATE ROOM] RoomId : " << roomId << endl;
 
 	return roomId;
 }

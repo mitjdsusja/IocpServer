@@ -17,4 +17,4 @@ public :
 		delete GRoomManager;
 		delete GPlayerManager;
 	}
-};
+}Global;
