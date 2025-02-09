@@ -17,5 +17,5 @@ void GameSession::OnSend(int32 sendBytes){
 void GameSession::OnRecvPacket(BYTE* recvBuffer, int32 recvBytes){
 
 	PacketHeader* header = (PacketHeader*)recvBuffer;
-	PacketHandler::HandlePacket(shared_from_this(), header, GetOwner());
+	PacketHandler::HandlePacket(static_pointer_cast<GameSession>(shared_from_this()), header, GetOwner());
 }

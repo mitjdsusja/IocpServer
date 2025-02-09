@@ -31,9 +31,12 @@ private:
 
 class RoomManager{
 public:
-	void CreateAndAddRoom(shared_ptr<Player> hostPlayer, wstring roomName, int32 maxPlayerCount = 10);
+	int32 CreateAndAddRoom(shared_ptr<Player> hostPlayer, wstring roomName, int32 maxPlayerCount = 10);
 	
 	vector<RoomInfo> GetRoomInfoList();
+
+private:
+	static shared_ptr<Room> MakeRoomPtr(int32 roomId, shared_ptr<Player> hostPlayer, wstring roomName, int32 maxPlayerCount);
 
 private:
 	mutex _roomsMutex;

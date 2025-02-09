@@ -44,7 +44,7 @@ void PacketHandler::RegisterPacketHandlers() {
 
 }
 
-void PacketHandler::HandlePacket(shared_ptr<Session> session, PacketHeader* dataBuffer, Service* service) {
+void PacketHandler::HandlePacket(shared_ptr<GameSession> session, PacketHeader* dataBuffer, Service* service) {
 
 	shared_ptr<Buffer> buffer = shared_ptr<Buffer>(GSendBufferPool->Pop(), [](Buffer* buffer) { GSendBufferPool->Push(buffer); });
 
@@ -63,7 +63,7 @@ void PacketHandler::HandlePacket(shared_ptr<Session> session, PacketHeader* data
 	GJobQueue->Push(job);
 }
 
-void PacketHandler::Handle_Invalid(shared_ptr<Session> session, shared_ptr<Buffer> buffer, Service* service) {
+void PacketHandler::Handle_Invalid(shared_ptr<GameSession> session, shared_ptr<Buffer> buffer, Service* service) {
 
 	PacketHeader* header = (PacketHeader*)buffer->GetBuffer();
 
@@ -74,7 +74,7 @@ void PacketHandler::Handle_Invalid(shared_ptr<Session> session, shared_ptr<Buffe
 /*------------
 	C -> S
 -------------*/
-void PacketHandler::Handle_CS_Login(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
+void PacketHandler::Handle_CS_Login(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 	
 	// Check Id, Passwd
 	msgTest::CS_Login recvLoginPacket;
@@ -99,8 +99,8 @@ void PacketHandler::Handle_CS_Login(shared_ptr<Session> session, shared_ptr<Buff
 			if (count > 0) {
 				//wcout << L"User found!" << endl;
 				userExists = true;
-				GameSession* gameSession = (GameSession*)session.get();
-				gameSession->SetUserNum(userNum);
+				
+				session->SetUserNum(userNum);
 				
 			}
 			else {
@@ -132,7 +132,7 @@ void PacketHandler::Handle_CS_Login(shared_ptr<Session> session, shared_ptr<Buff
 	GJobQueue->Push(job);
 }
 
-void PacketHandler::Handle_CS_Request_Room_List(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
+void PacketHandler::Handle_CS_Request_Room_List(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 	
 	vector<RoomInfo> roomInfoList = GRoomManager->GetRoomInfoList();
 
@@ -154,7 +154,7 @@ void PacketHandler::Handle_CS_Request_Room_List(shared_ptr<Session> session, sha
 	GJobQueue->Push(job);
 }
 
-void PacketHandler::Handle_CS_Request_User_Info(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
+void PacketHandler::Handle_CS_Request_User_Info(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 	
 	msgTest::CS_Request_User_Info recvRequestUserInfoPacket;
 	recvRequestUserInfoPacket.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
@@ -197,11 +197,11 @@ void PacketHandler::Handle_CS_Request_User_Info(shared_ptr<Session> session, sha
 	GJobQueue->Push(job);
 }
 
-void PacketHandler::Handle_CS_Request_User_List(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
+void PacketHandler::Handle_CS_Request_User_List(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
 }
 
-void PacketHandler::Handle_CS_Create_Room(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service){
+void PacketHandler::Handle_CS_Create_Room(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service){
 
 	msgTest::CS_Create_Room recvCreateRoomPacket;
 	recvCreateRoomPacket.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
@@ -210,13 +210,20 @@ void PacketHandler::Handle_CS_Create_Room(shared_ptr<Session> session, shared_pt
 	wstring hostName = boost::locale::conv::utf_to_utf<wchar_t>(recvCreateRoomPacket.hostname());
 
 	shared_ptr<Player> hostPlayer = GPlayerManager->GetPlayer(session->GetSessionId());
-	GRoomManager->CreateAndAddRoom(hostPlayer, roomName);
+	int roomId = GRoomManager->CreateAndAddRoom(hostPlayer, roomName);
+	
+	msgTest::SC_Create_Room_Success sendCreateRoomSuccessPacket;
+	sendCreateRoomSuccessPacket.set_roomid(roomId);
 	
 
-	// ing
+	shared_ptr<Buffer> sendBuffer = MakeSendBuffer(sendCreateRoomSuccessPacket, PacketId::PKT_SC_CREATE_ROOM_SUCCESS);
+	Job* job = new Job([session, sendBuffer]() {
+		session->Send(sendBuffer);
+		});
+	GJobQueue->Push(job);
 }
 
-void PacketHandler::Handle_CS_Enter_Room(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
+void PacketHandler::Handle_CS_Enter_Room(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
 }
 
@@ -224,25 +231,25 @@ void PacketHandler::Handle_CS_Enter_Room(shared_ptr<Session> session, shared_ptr
 /*------------
 	S -> C
 -------------*/
-void PacketHandler::Handle_SC_Login_Success(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
+void PacketHandler::Handle_SC_Login_Success(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
 }
-void PacketHandler::Handle_SC_Login_Fail(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
+void PacketHandler::Handle_SC_Login_Fail(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
 }
-void PacketHandler::Handle_SC_Response_Room_List(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
+void PacketHandler::Handle_SC_Response_Room_List(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
 }
-void PacketHandler::Handle_SC_Response_User_Info(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
+void PacketHandler::Handle_SC_Response_User_Info(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
 }
-void PacketHandler::Handle_SC_Response_User_List(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
+void PacketHandler::Handle_SC_Response_User_List(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
 }
-void PacketHandler::Handle_SC_Enter_Room_Success(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
+void PacketHandler::Handle_SC_Enter_Room_Success(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
 }
-void PacketHandler::Handle_SC_Enter_Room_Fail(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service) {
+void PacketHandler::Handle_SC_Enter_Room_Fail(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
 }
 
