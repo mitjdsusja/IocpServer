@@ -9,6 +9,7 @@
 - **언어**: C++
 - **네트워크 라이브러리**: TCP, IOCP
 - **데이터 직렬화**: Protobuf (https://github.com/protocolbuffers/protobuf#protobuf-compiler-installation)
+- **utf변환: boost-locale
 - **운영 체제**: Windows
 
 ---
