@@ -1,8 +1,8 @@
 #pragma once
 class Player{
 public:
-	Player(int32 userId);
-	Player(shared_ptr<Session> owner, int32 userId);
+	Player(int32 userId, wstring name);
+	Player(shared_ptr<Session> owner, int32 userId, wstring name);
 	~Player();
 
 	void SetInfo(wstring name);
@@ -12,10 +12,10 @@ public:
 	int32 GetUserId() { return _userId; }
 
 private:
-	shared_ptr<Session> _owner;
+	shared_ptr<Session> _owner = nullptr;
 
 	int32 _userId = 0;
-	wstring _name;
+	wstring _name = L"";
 
 };
 

@@ -59,19 +59,19 @@ int main() {
 	}
 	
 	int32 roomId;
-	shared_ptr<Player> player1 = make_shared<Player>(1);
+	shared_ptr<Player> player1 = make_shared<Player>(1, L"player1");
 	roomId = GRoomManager->CreateAndAddRoom(player1, L"firstRoom");
 	cout << "Create Room ID : " << roomId << endl;
-	shared_ptr<Player> player2 = make_shared<Player>(2);
+	shared_ptr<Player> player2 = make_shared<Player>(2, L"player2");
 	roomId = GRoomManager->CreateAndAddRoom(player2, L"secondRoom");
 	cout << "Create Room ID : " << roomId << endl;
-	shared_ptr<Player> player3 = make_shared<Player>(3);
+	shared_ptr<Player> player3 = make_shared<Player>(3, L"player3");
 	roomId = GRoomManager->CreateAndAddRoom(player3, L"thirdRoom");
 	cout << "Create Room ID : " << roomId << endl;
-	shared_ptr<Player> player4 = make_shared<Player>(4);
+	shared_ptr<Player> player4 = make_shared<Player>(4, L"player4");
 	roomId = GRoomManager->CreateAndAddRoom(player4, L"fourthRoom");
 	cout << "Create Room ID : " << roomId << endl;
-	shared_ptr<Player> player5 = make_shared<Player>(5);
+	shared_ptr<Player> player5 = make_shared<Player>(5, L"player5");
 	roomId = GRoomManager->CreateAndAddRoom(player5, L"fifthRoom");
 	cout << "Create Room ID : " << roomId << endl;
 
