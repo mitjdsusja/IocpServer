@@ -1537,6 +1537,7 @@ class Room final : public ::google::protobuf::Message
   // accessors -------------------------------------------------------
   enum : int {
     kRoomNameFieldNumber = 2,
+    kHostPlayerNameFieldNumber = 5,
     kRoomIdFieldNumber = 1,
     kMaxPlayerCountFieldNumber = 3,
     kPlayerCountFieldNumber = 4,
@@ -1555,6 +1556,22 @@ class Room final : public ::google::protobuf::Message
   inline PROTOBUF_ALWAYS_INLINE void _internal_set_roomname(
       const std::string& value);
   std::string* _internal_mutable_roomname();
+
+  public:
+  // string hostPlayerName = 5;
+  void clear_hostplayername() ;
+  const std::string& hostplayername() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_hostplayername(Arg_&& arg, Args_... args);
+  std::string* mutable_hostplayername();
+  PROTOBUF_NODISCARD std::string* release_hostplayername();
+  void set_allocated_hostplayername(std::string* value);
+
+  private:
+  const std::string& _internal_hostplayername() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_hostplayername(
+      const std::string& value);
+  std::string* _internal_mutable_hostplayername();
 
   public:
   // int32 roomId = 1;
@@ -1592,8 +1609,8 @@ class Room final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      2, 4, 0,
-      29, 2>
+      3, 5, 0,
+      43, 2>
       _table_;
 
   friend class ::google::protobuf::MessageLite;
@@ -1611,6 +1628,7 @@ class Room final : public ::google::protobuf::Message
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const Room& from_msg);
     ::google::protobuf::internal::ArenaStringPtr roomname_;
+    ::google::protobuf::internal::ArenaStringPtr hostplayername_;
     ::int32_t roomid_;
     ::int32_t maxplayercount_;
     ::int32_t playercount_;
@@ -4688,6 +4706,54 @@ inline ::int32_t Room::_internal_playercount() const {
 inline void Room::_internal_set_playercount(::int32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.playercount_ = value;
+}
+
+// string hostPlayerName = 5;
+inline void Room::clear_hostplayername() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.hostplayername_.ClearToEmpty();
+}
+inline const std::string& Room::hostplayername() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:msgTest.Room.hostPlayerName)
+  return _internal_hostplayername();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void Room::set_hostplayername(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.hostplayername_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:msgTest.Room.hostPlayerName)
+}
+inline std::string* Room::mutable_hostplayername() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_hostplayername();
+  // @@protoc_insertion_point(field_mutable:msgTest.Room.hostPlayerName)
+  return _s;
+}
+inline const std::string& Room::_internal_hostplayername() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.hostplayername_.Get();
+}
+inline void Room::_internal_set_hostplayername(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.hostplayername_.Set(value, GetArena());
+}
+inline std::string* Room::_internal_mutable_hostplayername() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.hostplayername_.Mutable( GetArena());
+}
+inline std::string* Room::release_hostplayername() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:msgTest.Room.hostPlayerName)
+  return _impl_.hostplayername_.Release();
+}
+inline void Room::set_allocated_hostplayername(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.hostplayername_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.hostplayername_.IsDefault()) {
+    _impl_.hostplayername_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:msgTest.Room.hostPlayerName)
 }
 
 // -------------------------------------------------------------------

@@ -140,11 +140,13 @@ void PacketHandler::Handle_CS_Request_Room_List(shared_ptr<GameSession> session,
 	for (const auto& roomInfo : roomInfoList) {
 		msgTest::Room* room = sendResponseRoomList.add_roomlist();
 		string roomName = boost::locale::conv::utf_to_utf<char>(roomInfo._roomName);
+		string hostPlayerName = boost::locale::conv::utf_to_utf<char>(roomInfo._hostPlayerName);
 
 		room->set_roomid(roomInfo._roomId);
 		room->set_roomname(roomName);
 		room->set_maxplayercount(roomInfo._maxPlayerCount);
 		room->set_playercount(roomInfo._curPlayerCount);
+		room->set_hostplayername(hostPlayerName);
 	}
 
 	shared_ptr<Buffer> sendBuffer = MakeSendBuffer(sendResponseRoomList, PacketId::PKT_SC_RESPONSE_ROOM_LIST);

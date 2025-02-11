@@ -32,6 +32,7 @@ message Room{
     string roomName = 2;  // 수정: int32 -> string (이름을 문자열로 처리)
     int32 maxPlayerCount = 3;
     int32 playerCount = 4;
+    string hostPlayerName = 5;
 }
 
 message CS_Login{

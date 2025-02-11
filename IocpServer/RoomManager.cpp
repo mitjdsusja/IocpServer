@@ -4,12 +4,13 @@
 
 Room::Room(int32 roomId, shared_ptr<Player> hostPlayer, wstring roomName, int32 maxPlayerCount)
 	: _roomId(roomId), _hostPlayer(hostPlayer), _roomName(roomName), _maxPlayerCount(maxPlayerCount){
-
+	AddPlayer(hostPlayer->GetUserId(), hostPlayer);
 }
 
 void Room::AddPlayer(int32 playerId, shared_ptr<Player> player){
 
 	_players[playerId] = player;
+	_curPlayerCount++;
 }
 
 void Room::RemovePlayer(int32 playerId){
@@ -21,7 +22,7 @@ RoomInfo Room::GetRoomInfo(){
 
 	lock_guard<mutex> lock(_roomMutex);
 
-	RoomInfo roomInfo = { _roomId, _maxPlayerCount, _curPlayerCount, _roomName };
+	RoomInfo roomInfo = { _roomId, _maxPlayerCount, _curPlayerCount, _roomName , _hostPlayer->GetName()};
 	return roomInfo;
 }
 

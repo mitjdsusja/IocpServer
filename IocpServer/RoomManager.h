@@ -7,6 +7,7 @@ struct RoomInfo {
 	int32 _maxPlayerCount;
 	int32 _curPlayerCount;
 	wstring _roomName;
+	wstring _hostPlayerName;
 };
 
 class Room {
@@ -20,11 +21,11 @@ public:
 private:
 	mutex _roomMutex;
 
-	int32 _roomId;
-	int32 _maxPlayerCount;
-	int32 _curPlayerCount;
-	wstring _roomName;
-	shared_ptr<Player> _hostPlayer;
+	int32 _roomId = 0;
+	int32 _maxPlayerCount = 0;
+	int32 _curPlayerCount = 0;
+	wstring _roomName = L"NULL";
+	shared_ptr<Player> _hostPlayer = nullptr;
 	map<int32, shared_ptr<Player>> _players;
 
 };
