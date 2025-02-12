@@ -22,6 +22,7 @@ enum PacketId {
 	// 1200 ~ 
 	PKT_CS_1200 = 1200,
 	PKT_CS_ENTER_ROOM = 1201,
+	PKT_CS_CREATE_ROOM = 1202,
 
 
 	/*------------
