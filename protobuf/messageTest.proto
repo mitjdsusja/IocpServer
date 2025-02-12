@@ -80,7 +80,9 @@ message SC_Enter_Room_Success {
 }
 message SC_Enter_Room_Fail {}
 
-message CS_Request_User_List {}
+message CS_Request_User_List {
+    int32 roomId = 1;
+}
 message SC_Response_User_List{
     int32 playerCount = 1;
     repeated Player playerList = 2;
