@@ -38,7 +38,7 @@ void PacketHandler::RegisterPacketHandlers() {
 	packetHandleArray[PKT_SC_LOGIN_RESPONSE] = Handle_SC_Login_Response;
 	packetHandleArray[PKT_SC_ROOM_LIST_RESPONSE] = Handle_SC_Room_List_Response;
 	packetHandleArray[PKT_SC_PLAYER_INFO_RESPONSE] = Handle_SC_Player_Info_Response;
-	packetHandleArray[PKT_SC_USER_LIST_RESPONSE] = Handle_SC_Player_List_Response;
+	packetHandleArray[PKT_SC_PLAYER_LIST_RESPONSE] = Handle_SC_Player_List_Response;
 	packetHandleArray[PKT_SC_ENTER_ROOM_RESPONSE] = Handle_SC_Enter_Room_Response;
 
 }
