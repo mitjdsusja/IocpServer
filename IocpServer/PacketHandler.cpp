@@ -56,6 +56,8 @@ void PacketHandler::HandlePacket(shared_ptr<GameSession> session, PacketHeader* 
 	buffer->Write(dataBuffer->packetSize);
 
 	int32 packetId = dataBuffer->packetId;
+
+	cout << "[RECV] " << packetId << " From : " << session->GetSessionId() << endl;
 	
 	// push jobQueue
 	Job* job = new Job([session, buffer, service, packetId]() {

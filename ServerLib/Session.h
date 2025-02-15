@@ -1,6 +1,5 @@
 #pragma once
 #include "SocketEntity.h"
-#include "User.h"
 
 class Service;
 
@@ -27,9 +26,7 @@ public:
 	void SetOwner(Service* owner) { _owner = owner; }
 
 	uint64 GetSessionId() { return _sessionId;}
-	UserInfo GetUserInfo() { return _userInfo; }
 	void SetSessionId(uint64 id) { _sessionId = id; }
-	void SetUserInfo(UserInfo& userInfo);
 
 
 	void Process(OverlappedEvent* event, int32 numOfBytes) override;
@@ -74,6 +71,4 @@ private:
 
 private:
 	mutex _userInfoMutex;
-	UserInfo _userInfo = {};
-
 };

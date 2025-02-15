@@ -1,9 +1,6 @@
 #include "pch.h"
 #include "PlayerManager.h"
 
-Player::Player(int32 userId, wstring name) : _name(name) {
-
-}
 
 Player::Player(shared_ptr<Session> owner, wstring name)
  : _owner(owner), _name(name){

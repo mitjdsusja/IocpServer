@@ -78,24 +78,6 @@ void Service::Broadcast(shared_ptr<Buffer> sendDataBuffer){
 	//}
 }
 
-void Service::GetUsersInfo(vector<UserInfo>& userInfoList){
-
-	lock_guard<mutex> lock(_sessionsMutex);
-
-	for (const auto& [id, session] : _sessions) {
-		userInfoList.push_back(session->GetUserInfo());
-	}
-}
-
-void Service::SetUserInfo(UserInfo srcUserInfo){
-
-	lock_guard<mutex> lock(_sessionsMutex);
-
-	shared_ptr<Session> session = _sessions[srcUserInfo.GetId()];
-	
-	session->SetUserInfo(srcUserInfo);
-}
-
 void Service::RegisterHandle(HANDLE handle){
 
 	_completionPortHandler->RegisterHandle(handle);

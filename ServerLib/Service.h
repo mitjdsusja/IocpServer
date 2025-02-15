@@ -4,7 +4,6 @@
 #include "CompletionPortHandler.h"
 #include "Listener.h"
 #include "Session.h"
-#include "User.h"
 
 enum ServiceType {
 	Server,
@@ -30,9 +29,6 @@ public:
 
 public:
 	int32 GetCurSessionCount() { return _curSessionCount; }
-	void GetUsersInfo(vector<UserInfo>& userInfoList);
-
-	void SetUserInfo(UserInfo srcUserInfo);
 
 protected:
 	CompletionPortHandler* _completionPortHandler;

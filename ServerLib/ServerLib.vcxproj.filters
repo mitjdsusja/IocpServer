@@ -19,9 +19,6 @@
     <Filter Include="protobuf">
       <UniqueIdentifier>{cd1f99fe-66a0-4f7b-9af8-6f49698816c2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Contents">
-      <UniqueIdentifier>{2143cbb4-c047-438b-a189-9427c83c99fa}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Packet">
       <UniqueIdentifier>{a6334ef8-bf2d-438b-8362-ba6b3ac82674}</UniqueIdentifier>
     </Filter>
@@ -80,9 +77,6 @@
     </ClCompile>
     <ClCompile Include="Service.cpp">
       <Filter>Network</Filter>
-    </ClCompile>
-    <ClCompile Include="User.cpp">
-      <Filter>Contents</Filter>
     </ClCompile>
     <ClCompile Include="LockFreeQueue.cpp">
       <Filter>Utils</Filter>
@@ -155,9 +149,6 @@
     </ClInclude>
     <ClInclude Include="Mecro.h">
       <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="User.h">
-      <Filter>Contents</Filter>
     </ClInclude>
     <ClInclude Include="LockFreeQueue.h">
       <Filter>Utils</Filter>

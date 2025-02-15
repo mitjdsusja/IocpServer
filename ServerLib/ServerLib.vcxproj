@@ -46,7 +46,6 @@
     <ClCompile Include="SocketEntity.cpp" />
     <ClCompile Include="SocketManager.cpp" />
     <ClCompile Include="ThreadManager.cpp" />
-    <ClCompile Include="User.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BufferPool.h" />
@@ -74,7 +73,6 @@
     <ClInclude Include="SocketManager.h" />
     <ClInclude Include="ThreadManager.h" />
     <ClInclude Include="types.h" />
-    <ClInclude Include="User.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\protobuf\messageTest.proto" />

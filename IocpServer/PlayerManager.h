@@ -1,7 +1,6 @@
 #pragma once
 class Player{
 public:
-	Player(int32 userId, wstring name);
 	Player(shared_ptr<Session> owner, wstring name);
 	~Player();
 
