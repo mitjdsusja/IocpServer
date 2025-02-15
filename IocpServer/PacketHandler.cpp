@@ -26,8 +26,8 @@ void PacketHandler::RegisterPacketHandlers() {
 	-------------*/
 	packetHandleArray[PKT_CS_LOGIN_REQUEST] = Handle_CS_Login_Requset;
 	packetHandleArray[PKT_CS_ROOM_LIST_REQUEST] = Handle_CS_Room_List_Request;
-	packetHandleArray[PKT_CS_USER_INFO_REQUEST] = Handle_CS_Player_Info_Request;
-	packetHandleArray[PKT_CS_USER_LIST_REQUEST] = Handle_CS_Player_List_Request;
+	packetHandleArray[PKT_CS_PLAYER_INFO_REQUEST] = Handle_CS_Player_Info_Request;
+	packetHandleArray[PKT_CS_PLAYER_LIST_REQUEST] = Handle_CS_Player_List_Request;
 	packetHandleArray[PKT_CS_ENTER_ROOM_REQUEST] = Handle_CS_Enter_Room_Request;
 	packetHandleArray[PKT_CS_CREATE_ROOM_REQUEST] = Handle_CS_Create_Room_Request;
 
