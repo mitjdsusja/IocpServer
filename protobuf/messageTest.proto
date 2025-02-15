@@ -29,61 +29,57 @@ message Player{
 
 message Room{
     int32 roomId = 1;
-    string roomName = 2;  // 수정: int32 -> string (이름을 문자열로 처리)
+    string roomName = 2;  
     int32 maxPlayerCount = 3;
     int32 playerCount = 4;
     string hostPlayerName = 5;
 }
 
-message CS_Login{
+message CS_Login_Request{
     string id = 1;
-    string passwd = 2;
+    string password = 2;
 }
-message SC_Login_Success {
-    uint64 sessionId = 1;
-}
-message SC_Login_Fail{
-    int32 errorCode = 1;
-}
-
-message CS_Request_User_Info{
-    uint64 sessionId = 1;
-}
-message SC_Response_User_Info{
-    Player playerInfo = 1;
+message SC_Login_Response{
+    bool success = 1;
+    string error_message = 2;
+    uint64 session_id = 3;
 }
 
-message CS_Request_Room_List {
-
+message CS_Player_Info_Request{
+    uint64 session_id = 1;
 }
-message SC_Response_Room_List{
-    int32 roomCount = 1;
-    repeated Room roomList = 2;
-}
-
-message CS_Create_Room{
-    string roomName = 1;
-    string hostName = 2;
-}
-message SC_Create_Room_Success{
-    int32 roomId = 1;
-}
-message SC_Create_Room_Fail{
-    int32 errorCode = 1;
+message SC_Player_Info_Response{
+    Player player_info = 1;
 }
 
-message CS_Enter_Room{
-    int32 roomId = 1;
-}
-message SC_Enter_Room_Success {
-    int32 roomId = 1;
-}
-message SC_Enter_Room_Fail {}
+message CS_Player_List_Request{
 
-message CS_Request_User_List {
-    int32 roomId = 1;
 }
-message SC_Response_User_List{
-    int32 playerCount = 1;
-    repeated Player playerList = 2;
+message SC_Player_List_Response{
+    repeated Player player_list = 1;
+}
+
+message CS_Create_Room_Request{
+    string room_name = 1;
+    string host_name = 2;
+}
+message SC_Create_Room_Response{
+    bool success = 1;
+    string error_message = 2;
+    int32 room_id = 3;
+}
+
+message CS_Room_List_Request{
+
+}
+message SC_Room_List_Response{
+    repeated Room room_list = 1;
+}
+
+message CS_Enter_Room_Request{
+    int32 room_id = 1;
+}
+message SC_Enter_Room_Response{
+    bool success = 1;
+    string error_message = 2;
 }

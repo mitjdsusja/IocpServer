@@ -9,20 +9,19 @@ enum PacketId {
 	/*------------
 		C -> S
 	-------------*/
-	// 1000 ~
+	// 1000 ~ 
 	PKT_CS_1000 = 1000,
-	PKT_CS_LOGIN = 1001,
+	PKT_CS_LOGIN_REQUEST = 1001,
 
-	// Request 1100 ~ 1199
-	PKT_CS_REQUEST_1100 = 1100,
-	PKT_CS_REQUEST_ROOM_LIST = 1101,
-	PKT_CS_REQUEST_USER_INFO = 1102,
-	PKT_CS_REQUEST_USER_LIST = 1103,
+	// 1100 ~ 1199
+	PKT_CS_ROOM_LIST_REQUEST = 1101,
+	PKT_CS_USER_INFO_REQUEST = 1102,
+	PKT_CS_USER_LIST_REQUEST = 1103,
 
 	// 1200 ~ 
 	PKT_CS_1200 = 1200,
-	PKT_CS_ENTER_ROOM = 1201,
-	PKT_CS_CREATE_ROOM = 1202,
+	PKT_CS_ENTER_ROOM_REQUEST = 1201,
+	PKT_CS_CREATE_ROOM_REQUEST = 1202,
 
 
 	/*------------
@@ -30,21 +29,15 @@ enum PacketId {
 	-------------*/
 	// 2000 ~ 
 	PKT_SC_2000 = 2000,
-	PKT_SC_LOGIN_SUCCESS = 2001,
-	PKT_SC_LOGIN_FAIL = 2002,
+	PKT_SC_LOGIN_RESPONSE = 2001,
 
-	// Response 2100 ~ 2199
+	// 2100 ~ 2199
 	PKT_SC_2100 = 2100,
-	PKT_SC_RESPONSE_ROOM_LIST = 2101,
-	PKT_SC_RESPONSE_USER_INFO = 2102,
-	PKT_SC_RESPONSE_USER_LIST = 2103,
-
-	// 2200 ~ 
-	PKT_SC_2200 = 2200,
-	PKT_SC_ENTER_ROOM_SUCCESS = 2201,
-	PKT_SC_ENTER_ROOM_FAIL = 2202,
-	PKT_SC_CREATE_ROOM_SUCCESS = 2203,
-	PKT_SC_CREATE_ROOM_FAIL = 2204,
+	PKT_SC_ROOM_LIST_RESPONSE = 2101,
+	PKT_SC_PLAYER_INFO_RESPONSE = 2102,
+	PKT_SC_USER_LIST_RESPONSE = 2103,
+	PKT_SC_ENTER_ROOM_RESPONSE = 2104,
+	PKT_SC_CREATE_ROOM_RESPONSE = 2105,
 
 };
 
@@ -66,23 +59,21 @@ private:
 		C -> S
 	-------------*/
 	// static void Handle_CS_(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
-	static void Handle_CS_Login(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
-	static void Handle_CS_Request_Room_List(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
-	static void Handle_CS_Request_User_Info(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
-	static void Handle_CS_Request_User_List(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
-	static void Handle_CS_Create_Room(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
-	static void Handle_CS_Enter_Room(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_CS_Login_Requset(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_CS_Room_List_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_CS_Player_Info_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_CS_Player_List_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_CS_Create_Room_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_CS_Enter_Room_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
 
 	/*------------
 		S -> C
 	-------------*/
-	static void Handle_SC_Login_Success(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
-	static void Handle_SC_Login_Fail(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
-	static void Handle_SC_Response_Room_List(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
-	static void Handle_SC_Response_User_Info(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
-	static void Handle_SC_Response_User_List(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
-	static void Handle_SC_Enter_Room_Success(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
-	static void Handle_SC_Enter_Room_Fail(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_SC_Login_Response(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_SC_Room_List_Response(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_SC_Player_Info_Response(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_SC_Player_List_Response(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_SC_Enter_Room_Response(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
 };
 
 template<typename T>
