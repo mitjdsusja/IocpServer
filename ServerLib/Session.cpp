@@ -59,6 +59,8 @@ void Session::Disconnect(){
 	if (_connectEvent._owner != nullptr) _connectEvent._owner = nullptr;
 	if (_sendEvent._owner != nullptr) _sendEvent._owner = nullptr;
 	if (_recvEvent._owner != nullptr) _recvEvent._owner = nullptr;
+
+	OnDisconnect();
 }
 
 void Session::Process(OverlappedEvent* event, int32 numOfBytes){

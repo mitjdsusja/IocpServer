@@ -9,6 +9,7 @@ public :
 
 	virtual void OnSend(int32 sendBytes) override;
 	virtual void OnRecvPacket(BYTE* recvBuffer, int32 recvBytes) override;
+	virtual void OnDisconnect() override;
 
 	void SetDbId(int64 userNum) { _dbId = userNum; }
 	int64 GetDbId() { return _dbId; }

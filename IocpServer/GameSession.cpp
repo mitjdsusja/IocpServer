@@ -19,3 +19,9 @@ void GameSession::OnRecvPacket(BYTE* recvBuffer, int32 recvBytes){
 	PacketHeader* header = (PacketHeader*)recvBuffer;
 	PacketHandler::HandlePacket(static_pointer_cast<GameSession>(shared_from_this()), header, GetOwner());
 }
+
+void GameSession::OnDisconnect(){
+
+	shared_ptr<Player> player = GPlayerManager->GetPlayer(GetSessionId());
+	player->ClearResource();
+}

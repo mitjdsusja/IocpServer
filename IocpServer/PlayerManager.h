@@ -4,6 +4,8 @@ public:
 	Player(shared_ptr<Session> owner, wstring name);
 	~Player();
 
+	void ClearResource();
+
 	shared_ptr<Session> GetOwner() { return _owner; }
 
 	void SetInfo(wstring name);

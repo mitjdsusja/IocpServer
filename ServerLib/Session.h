@@ -28,13 +28,13 @@ public:
 	uint64 GetSessionId() { return _sessionId;}
 	void SetSessionId(uint64 id) { _sessionId = id; }
 
-
 	void Process(OverlappedEvent* event, int32 numOfBytes) override;
 	void CleanResource() override;
 
 	int32 OnRecv(BYTE* recvBuffer, int32 recvBytes);
 	virtual void OnSend(int32 sendBytes) {}
 	virtual void OnRecvPacket(BYTE* recvBuffer, int32 recvBytes) { ErrorHandler::HandleError(L"Session OnRecvPacket()"); };
+	virtual void OnDisconnect() {};
 
 private:
 	void RegisterConnect(NetAddress& peerAddress);

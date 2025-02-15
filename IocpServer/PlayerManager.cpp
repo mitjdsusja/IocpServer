@@ -11,6 +11,11 @@ Player::~Player() {
 
 }
 
+void Player::ClearResource(){
+
+	_owner = nullptr;
+}
+
 void Player::SetInfo(wstring name){
 	
 	SetName(name);
