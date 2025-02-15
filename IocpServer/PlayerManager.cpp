@@ -1,12 +1,12 @@
 #include "pch.h"
 #include "PlayerManager.h"
 
-Player::Player(int32 userId, wstring name) : _userId(userId), _name(name) {
+Player::Player(int32 userId, wstring name) : _name(name) {
 
 }
 
-Player::Player(shared_ptr<Session> owner, int32 userId, wstring name)
- : _owner(owner), _userId(userId), _name(name){
+Player::Player(shared_ptr<Session> owner, wstring name)
+ : _owner(owner), _name(name){
 	
 }
 
@@ -27,9 +27,9 @@ PlayerManager::~PlayerManager(){
 
 }
 
-void PlayerManager::CreateAndAddPlayer(shared_ptr<Session> owner, uint64 sessionId, wstring name, int32 userId){
+void PlayerManager::CreateAndAddPlayer(shared_ptr<Session> owner, uint64 sessionId, wstring name){
 	
-	shared_ptr<Player> player = make_shared<Player>(owner, userId, name);
+	shared_ptr<Player> player = make_shared<Player>(owner, name);
 	player->SetInfo(name);
 	
 	{

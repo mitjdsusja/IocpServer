@@ -2,19 +2,19 @@
 class Player{
 public:
 	Player(int32 userId, wstring name);
-	Player(shared_ptr<Session> owner, int32 userId, wstring name);
+	Player(shared_ptr<Session> owner, wstring name);
 	~Player();
+
+	shared_ptr<Session> GetOwner() { return _owner; }
 
 	void SetInfo(wstring name);
 	void SetName(wstring name) { _name = name; }
 
 	wstring GetName() { return _name; }
-	int32 GetUserId() { return _userId; }
 
 private:
 	shared_ptr<Session> _owner = nullptr;
 
-	int32 _userId = 0;
 	wstring _name = L"";
 
 };
@@ -24,7 +24,7 @@ public:
 	PlayerManager();
 	~PlayerManager();
 
-	void CreateAndAddPlayer(shared_ptr<Session> owner, uint64 sessionId, wstring name, int32 userId);
+	void CreateAndAddPlayer(shared_ptr<Session> owner, uint64 sessionId, wstring name);
 	shared_ptr<Player> GetPlayer(uint64 sessionId);
 
 private:

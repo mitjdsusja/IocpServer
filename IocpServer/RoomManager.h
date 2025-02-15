@@ -14,8 +14,8 @@ class Room {
 public:
 	Room(int32 roomId, shared_ptr<Player> hostPlayer, wstring roomName, int32 maxPlayerCount);
 
-	void AddPlayer(int32 playerId, shared_ptr<Player> player);
-	void RemovePlayer(int32 playerId);
+	void AddPlayer(uint64 sessionId, shared_ptr<Player> player);
+	void RemovePlayer(uint64 sessionId);
 	RoomInfo GetRoomInfo();
 
 private:
@@ -26,7 +26,7 @@ private:
 	int32 _curPlayerCount = 0;
 	wstring _roomName = L"NULL";
 	shared_ptr<Player> _hostPlayer = nullptr;
-	map<int32, shared_ptr<Player>> _players;
+	map<uint64, shared_ptr<Player>> _players;
 
 };
 

@@ -1,21 +1,22 @@
 #include "pch.h"
 #include "RoomManager.h"
 #include "PlayerManager.h"
+#include "GameSession.h"
 
 Room::Room(int32 roomId, shared_ptr<Player> hostPlayer, wstring roomName, int32 maxPlayerCount)
 	: _roomId(roomId), _hostPlayer(hostPlayer), _roomName(roomName), _maxPlayerCount(maxPlayerCount){
-	AddPlayer(hostPlayer->GetUserId(), hostPlayer);
+	AddPlayer(hostPlayer->GetOwner()->GetSessionId(), hostPlayer);
 }
 
-void Room::AddPlayer(int32 playerId, shared_ptr<Player> player){
+void Room::AddPlayer(uint64 sessionId, shared_ptr<Player> player){
 
-	_players[playerId] = player;
+	_players[sessionId] = player;
 	_curPlayerCount++;
 }
 
-void Room::RemovePlayer(int32 playerId){
+void Room::RemovePlayer(uint64 sessionId){
 
-	_players.erase(playerId);
+	_players.erase(sessionId);
 }
 
 RoomInfo Room::GetRoomInfo(){

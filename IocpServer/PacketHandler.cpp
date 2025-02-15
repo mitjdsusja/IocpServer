@@ -29,6 +29,7 @@ void PacketHandler::RegisterPacketHandlers() {
 	packetHandleArray[PKT_CS_REQUEST_USER_INFO] = Handle_CS_Request_User_Info;
 	packetHandleArray[PKT_CS_REQUEST_USER_LIST] = Handle_CS_Request_User_List;
 	packetHandleArray[PKT_CS_ENTER_ROOM] = Handle_CS_Enter_Room;
+	packetHandleArray[PKT_CS_CREATE_ROOM] = Handle_CS_Create_Room;
 
 
 	/*------------
@@ -55,7 +56,7 @@ void PacketHandler::HandlePacket(shared_ptr<GameSession> session, PacketHeader* 
 	buffer->Write(dataBuffer->packetSize);
 
 	int32 packetId = dataBuffer->packetId;
-
+	
 	// push jobQueue
 	Job* job = new Job([session, buffer, service, packetId]() {
 		packetHandleArray[packetId](session, buffer, service);
@@ -90,18 +91,19 @@ void PacketHandler::Handle_CS_Login(shared_ptr<GameSession> session, shared_ptr<
 		wstring wId(id.begin(), id.end());
 		wstring wPw(pw.begin(), pw.end());
 
-		std::wstring query = L"SELECT COUNT(*), usernum FROM USERS WHERE id = '" + wId + L"' AND password_hash = '" + wPw + L"';";
+		std::wstring query = L"SELECT COUNT(*), usernum, name FROM USERS WHERE id = '" + wId + L"' AND password_hash = '" + wPw + L"';";
 		vector<vector<wstring>> result = LDBConnector->ExecuteSelectQuery(query);
 
 		if (!result.empty() && !result[0].empty()) {
 			int32 count = std::stoi(result[0][0]); // 문자열을 숫자로 변환
 			int32 userNum = stoi(result[0][1]);
+			wstring name = result[0][2];
 			if (count > 0) {
 				//wcout << L"User found!" << endl;
 				userExists = true;
 				
-				session->SetUserNum(userNum);
-				
+				session->SetDbId(userNum);
+				GPlayerManager->CreateAndAddPlayer(session, session->GetSessionId(), name);
 			}
 			else {
 				wcout << L"Invalid ID or password." << endl;
@@ -169,7 +171,7 @@ void PacketHandler::Handle_CS_Request_User_Info(shared_ptr<GameSession> session,
 
 	// database
 	GameSession* gameSession = (GameSession*)session.get();
-	wstring query = L"SELECT name, level from users WHERE usernum = " + to_wstring(gameSession->GetUserNum()) + L";";
+	wstring query = L"SELECT name, level from users WHERE usernum = " + to_wstring(gameSession->GetDbId()) + L";";
 	wcout << query << endl;
 	vector<vector<wstring>> result = LDBConnector->ExecuteSelectQuery(query);
 
