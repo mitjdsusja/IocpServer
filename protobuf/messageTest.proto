@@ -45,17 +45,17 @@ message SC_Login_Response{
     uint64 session_id = 3;
 }
 
-message CS_Player_Info_Request{
+message CS_MY_Player_Info_Request{
     uint64 session_id = 1;
 }
-message SC_Player_Info_Response{
+message SC_MY_Player_Info_Response{
     Player player_info = 1;
 }
 
-message CS_Player_List_Request{
-
+message CS_Room_Player_List_Request{
+    int32 room_id = 1;
 }
-message SC_Player_List_Response{
+message SC_Room_Player_List_Response{
     repeated Player player_list = 1;
 }
 
