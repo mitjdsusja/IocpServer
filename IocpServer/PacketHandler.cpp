@@ -26,8 +26,8 @@ void PacketHandler::RegisterPacketHandlers() {
 	-------------*/
 	packetHandleArray[PKT_CS_LOGIN_REQUEST] = Handle_CS_Login_Requset;
 	packetHandleArray[PKT_CS_ROOM_LIST_REQUEST] = Handle_CS_Room_List_Request;
-	packetHandleArray[PKT_CS_PLAYER_INFO_REQUEST] = Handle_CS_Player_Info_Request;
-	packetHandleArray[PKT_CS_PLAYER_LIST_REQUEST] = Handle_CS_Player_List_Request;
+	packetHandleArray[PKT_CS_MY_PLAYER_INFO_REQUEST] = Handle_CS_Player_Info_Request;
+	packetHandleArray[PKT_CS_ROOM_PLAYER_LIST_REQUEST] = Handle_CS_Player_List_Request;
 	packetHandleArray[PKT_CS_ENTER_ROOM_REQUEST] = Handle_CS_Enter_Room_Request;
 	packetHandleArray[PKT_CS_CREATE_ROOM_REQUEST] = Handle_CS_Create_Room_Request;
 
@@ -37,8 +37,8 @@ void PacketHandler::RegisterPacketHandlers() {
 	-------------*/
 	packetHandleArray[PKT_SC_LOGIN_RESPONSE] = Handle_SC_Login_Response;
 	packetHandleArray[PKT_SC_ROOM_LIST_RESPONSE] = Handle_SC_Room_List_Response;
-	packetHandleArray[PKT_SC_PLAYER_INFO_RESPONSE] = Handle_SC_Player_Info_Response;
-	packetHandleArray[PKT_SC_PLAYER_LIST_RESPONSE] = Handle_SC_Player_List_Response;
+	packetHandleArray[PKT_SC_MY_PLAYER_INFO_RESPONSE] = Handle_SC_Player_Info_Response;
+	packetHandleArray[PKT_SC_ROOM_PLAYER_LIST_RESPONSE] = Handle_SC_Player_List_Response;
 	packetHandleArray[PKT_SC_ENTER_ROOM_RESPONSE] = Handle_SC_Enter_Room_Response;
 
 }
@@ -161,7 +161,7 @@ void PacketHandler::Handle_CS_Room_List_Request(shared_ptr<GameSession> session,
 
 void PacketHandler::Handle_CS_Player_Info_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 	
-	msgTest::CS_Player_Info_Request recvRequestPlayerInfoPacket;
+	msgTest::CS_My_Player_Info_Request recvRequestPlayerInfoPacket;
 	recvRequestPlayerInfoPacket.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
 
 	uint64 sessionId = recvRequestPlayerInfoPacket.session_id();
@@ -188,13 +188,13 @@ void PacketHandler::Handle_CS_Player_Info_Request(shared_ptr<GameSession> sessio
 	}
 
 	// send packet
-	msgTest::SC_Player_Info_Response sendPlayerInfoResponsePacket;
+	msgTest::SC_My_Player_Info_Response sendPlayerInfoResponsePacket;
 	msgTest::Player* playerInfo = sendPlayerInfoResponsePacket.mutable_player_info();
 	playerInfo->set_level(level);
 	playerInfo->set_name(name);
 	playerInfo->mutable_position();
 
-	shared_ptr<Buffer> sendBuffer = MakeSendBuffer(sendPlayerInfoResponsePacket, PacketId::PKT_SC_PLAYER_INFO_RESPONSE);
+	shared_ptr<Buffer> sendBuffer = MakeSendBuffer(sendPlayerInfoResponsePacket, PacketId::PKT_SC_MY_PLAYER_INFO_RESPONSE);
 
 	Job* job = new Job([session, sendBuffer]() {
 		session->Send(sendBuffer);

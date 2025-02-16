@@ -62,9 +62,9 @@ extern CS_Enter_Room_RequestDefaultTypeInternal _CS_Enter_Room_Request_default_i
 class CS_Login_Request;
 struct CS_Login_RequestDefaultTypeInternal;
 extern CS_Login_RequestDefaultTypeInternal _CS_Login_Request_default_instance_;
-class CS_MY_Player_Info_Request;
-struct CS_MY_Player_Info_RequestDefaultTypeInternal;
-extern CS_MY_Player_Info_RequestDefaultTypeInternal _CS_MY_Player_Info_Request_default_instance_;
+class CS_My_Player_Info_Request;
+struct CS_My_Player_Info_RequestDefaultTypeInternal;
+extern CS_My_Player_Info_RequestDefaultTypeInternal _CS_My_Player_Info_Request_default_instance_;
 class CS_Room_List_Request;
 struct CS_Room_List_RequestDefaultTypeInternal;
 extern CS_Room_List_RequestDefaultTypeInternal _CS_Room_List_Request_default_instance_;
@@ -92,9 +92,9 @@ extern SC_Enter_Room_ResponseDefaultTypeInternal _SC_Enter_Room_Response_default
 class SC_Login_Response;
 struct SC_Login_ResponseDefaultTypeInternal;
 extern SC_Login_ResponseDefaultTypeInternal _SC_Login_Response_default_instance_;
-class SC_MY_Player_Info_Response;
-struct SC_MY_Player_Info_ResponseDefaultTypeInternal;
-extern SC_MY_Player_Info_ResponseDefaultTypeInternal _SC_MY_Player_Info_Response_default_instance_;
+class SC_My_Player_Info_Response;
+struct SC_My_Player_Info_ResponseDefaultTypeInternal;
+extern SC_My_Player_Info_ResponseDefaultTypeInternal _SC_My_Player_Info_Response_default_instance_;
 class SC_Room_List_Response;
 struct SC_Room_List_ResponseDefaultTypeInternal;
 extern SC_Room_List_ResponseDefaultTypeInternal _SC_Room_List_Response_default_instance_;
@@ -1778,31 +1778,31 @@ class CS_Room_List_Request final : public ::google::protobuf::internal::ZeroFiel
 };
 // -------------------------------------------------------------------
 
-class CS_MY_Player_Info_Request final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:msgTest.CS_MY_Player_Info_Request) */ {
+class CS_My_Player_Info_Request final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:msgTest.CS_My_Player_Info_Request) */ {
  public:
-  inline CS_MY_Player_Info_Request() : CS_MY_Player_Info_Request(nullptr) {}
-  ~CS_MY_Player_Info_Request() PROTOBUF_FINAL;
+  inline CS_My_Player_Info_Request() : CS_My_Player_Info_Request(nullptr) {}
+  ~CS_My_Player_Info_Request() PROTOBUF_FINAL;
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-  void operator delete(CS_MY_Player_Info_Request* msg, std::destroying_delete_t) {
+  void operator delete(CS_My_Player_Info_Request* msg, std::destroying_delete_t) {
     SharedDtor(*msg);
-    ::google::protobuf::internal::SizedDelete(msg, sizeof(CS_MY_Player_Info_Request));
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(CS_My_Player_Info_Request));
   }
 #endif
 
   template <typename = void>
-  explicit PROTOBUF_CONSTEXPR CS_MY_Player_Info_Request(
+  explicit PROTOBUF_CONSTEXPR CS_My_Player_Info_Request(
       ::google::protobuf::internal::ConstantInitialized);
 
-  inline CS_MY_Player_Info_Request(const CS_MY_Player_Info_Request& from) : CS_MY_Player_Info_Request(nullptr, from) {}
-  inline CS_MY_Player_Info_Request(CS_MY_Player_Info_Request&& from) noexcept
-      : CS_MY_Player_Info_Request(nullptr, std::move(from)) {}
-  inline CS_MY_Player_Info_Request& operator=(const CS_MY_Player_Info_Request& from) {
+  inline CS_My_Player_Info_Request(const CS_My_Player_Info_Request& from) : CS_My_Player_Info_Request(nullptr, from) {}
+  inline CS_My_Player_Info_Request(CS_My_Player_Info_Request&& from) noexcept
+      : CS_My_Player_Info_Request(nullptr, std::move(from)) {}
+  inline CS_My_Player_Info_Request& operator=(const CS_My_Player_Info_Request& from) {
     CopyFrom(from);
     return *this;
   }
-  inline CS_MY_Player_Info_Request& operator=(CS_MY_Player_Info_Request&& from) noexcept {
+  inline CS_My_Player_Info_Request& operator=(CS_My_Player_Info_Request&& from) noexcept {
     if (this == &from) return *this;
     if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
       InternalSwap(&from);
@@ -1830,16 +1830,16 @@ class CS_MY_Player_Info_Request final : public ::google::protobuf::Message
   static const ::google::protobuf::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const CS_MY_Player_Info_Request& default_instance() {
+  static const CS_My_Player_Info_Request& default_instance() {
     return *internal_default_instance();
   }
-  static inline const CS_MY_Player_Info_Request* internal_default_instance() {
-    return reinterpret_cast<const CS_MY_Player_Info_Request*>(
-        &_CS_MY_Player_Info_Request_default_instance_);
+  static inline const CS_My_Player_Info_Request* internal_default_instance() {
+    return reinterpret_cast<const CS_My_Player_Info_Request*>(
+        &_CS_My_Player_Info_Request_default_instance_);
   }
   static constexpr int kIndexInFileMessages = 7;
-  friend void swap(CS_MY_Player_Info_Request& a, CS_MY_Player_Info_Request& b) { a.Swap(&b); }
-  inline void Swap(CS_MY_Player_Info_Request* other) {
+  friend void swap(CS_My_Player_Info_Request& a, CS_My_Player_Info_Request& b) { a.Swap(&b); }
+  inline void Swap(CS_My_Player_Info_Request* other) {
     if (other == this) return;
     if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
       InternalSwap(other);
@@ -1847,7 +1847,7 @@ class CS_MY_Player_Info_Request final : public ::google::protobuf::Message
       ::google::protobuf::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(CS_MY_Player_Info_Request* other) {
+  void UnsafeArenaSwap(CS_My_Player_Info_Request* other) {
     if (other == this) return;
     ABSL_DCHECK(GetArena() == other->GetArena());
     InternalSwap(other);
@@ -1855,13 +1855,13 @@ class CS_MY_Player_Info_Request final : public ::google::protobuf::Message
 
   // implements Message ----------------------------------------------
 
-  CS_MY_Player_Info_Request* New(::google::protobuf::Arena* arena = nullptr) const {
-    return ::google::protobuf::Message::DefaultConstruct<CS_MY_Player_Info_Request>(arena);
+  CS_My_Player_Info_Request* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<CS_My_Player_Info_Request>(arena);
   }
   using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const CS_MY_Player_Info_Request& from);
+  void CopyFrom(const CS_My_Player_Info_Request& from);
   using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const CS_MY_Player_Info_Request& from) { CS_MY_Player_Info_Request::MergeImpl(*this, from); }
+  void MergeFrom(const CS_My_Player_Info_Request& from) { CS_My_Player_Info_Request::MergeImpl(*this, from); }
 
   private:
   static void MergeImpl(
@@ -1898,18 +1898,18 @@ class CS_MY_Player_Info_Request final : public ::google::protobuf::Message
   private:
   void SharedCtor(::google::protobuf::Arena* arena);
   static void SharedDtor(MessageLite& self);
-  void InternalSwap(CS_MY_Player_Info_Request* other);
+  void InternalSwap(CS_My_Player_Info_Request* other);
  private:
   template <typename T>
   friend ::absl::string_view(
       ::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "msgTest.CS_MY_Player_Info_Request"; }
+  static ::absl::string_view FullMessageName() { return "msgTest.CS_My_Player_Info_Request"; }
 
  protected:
-  explicit CS_MY_Player_Info_Request(::google::protobuf::Arena* arena);
-  CS_MY_Player_Info_Request(::google::protobuf::Arena* arena, const CS_MY_Player_Info_Request& from);
-  CS_MY_Player_Info_Request(::google::protobuf::Arena* arena, CS_MY_Player_Info_Request&& from) noexcept
-      : CS_MY_Player_Info_Request(arena) {
+  explicit CS_My_Player_Info_Request(::google::protobuf::Arena* arena);
+  CS_My_Player_Info_Request(::google::protobuf::Arena* arena, const CS_My_Player_Info_Request& from);
+  CS_My_Player_Info_Request(::google::protobuf::Arena* arena, CS_My_Player_Info_Request&& from) noexcept
+      : CS_My_Player_Info_Request(arena) {
     *this = ::std::move(from);
   }
   const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
@@ -1936,7 +1936,7 @@ class CS_MY_Player_Info_Request final : public ::google::protobuf::Message
   void _internal_set_session_id(::uint64_t value);
 
   public:
-  // @@protoc_insertion_point(class_scope:msgTest.CS_MY_Player_Info_Request)
+  // @@protoc_insertion_point(class_scope:msgTest.CS_My_Player_Info_Request)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
@@ -1958,7 +1958,7 @@ class CS_MY_Player_Info_Request final : public ::google::protobuf::Message
                           ::google::protobuf::Arena* arena);
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
-                          const CS_MY_Player_Info_Request& from_msg);
+                          const CS_My_Player_Info_Request& from_msg);
     ::uint64_t session_id_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
@@ -3443,31 +3443,31 @@ class SC_Room_Player_List_Response final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
-class SC_MY_Player_Info_Response final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:msgTest.SC_MY_Player_Info_Response) */ {
+class SC_My_Player_Info_Response final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:msgTest.SC_My_Player_Info_Response) */ {
  public:
-  inline SC_MY_Player_Info_Response() : SC_MY_Player_Info_Response(nullptr) {}
-  ~SC_MY_Player_Info_Response() PROTOBUF_FINAL;
+  inline SC_My_Player_Info_Response() : SC_My_Player_Info_Response(nullptr) {}
+  ~SC_My_Player_Info_Response() PROTOBUF_FINAL;
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-  void operator delete(SC_MY_Player_Info_Response* msg, std::destroying_delete_t) {
+  void operator delete(SC_My_Player_Info_Response* msg, std::destroying_delete_t) {
     SharedDtor(*msg);
-    ::google::protobuf::internal::SizedDelete(msg, sizeof(SC_MY_Player_Info_Response));
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(SC_My_Player_Info_Response));
   }
 #endif
 
   template <typename = void>
-  explicit PROTOBUF_CONSTEXPR SC_MY_Player_Info_Response(
+  explicit PROTOBUF_CONSTEXPR SC_My_Player_Info_Response(
       ::google::protobuf::internal::ConstantInitialized);
 
-  inline SC_MY_Player_Info_Response(const SC_MY_Player_Info_Response& from) : SC_MY_Player_Info_Response(nullptr, from) {}
-  inline SC_MY_Player_Info_Response(SC_MY_Player_Info_Response&& from) noexcept
-      : SC_MY_Player_Info_Response(nullptr, std::move(from)) {}
-  inline SC_MY_Player_Info_Response& operator=(const SC_MY_Player_Info_Response& from) {
+  inline SC_My_Player_Info_Response(const SC_My_Player_Info_Response& from) : SC_My_Player_Info_Response(nullptr, from) {}
+  inline SC_My_Player_Info_Response(SC_My_Player_Info_Response&& from) noexcept
+      : SC_My_Player_Info_Response(nullptr, std::move(from)) {}
+  inline SC_My_Player_Info_Response& operator=(const SC_My_Player_Info_Response& from) {
     CopyFrom(from);
     return *this;
   }
-  inline SC_MY_Player_Info_Response& operator=(SC_MY_Player_Info_Response&& from) noexcept {
+  inline SC_My_Player_Info_Response& operator=(SC_My_Player_Info_Response&& from) noexcept {
     if (this == &from) return *this;
     if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
       InternalSwap(&from);
@@ -3495,16 +3495,16 @@ class SC_MY_Player_Info_Response final : public ::google::protobuf::Message
   static const ::google::protobuf::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const SC_MY_Player_Info_Response& default_instance() {
+  static const SC_My_Player_Info_Response& default_instance() {
     return *internal_default_instance();
   }
-  static inline const SC_MY_Player_Info_Response* internal_default_instance() {
-    return reinterpret_cast<const SC_MY_Player_Info_Response*>(
-        &_SC_MY_Player_Info_Response_default_instance_);
+  static inline const SC_My_Player_Info_Response* internal_default_instance() {
+    return reinterpret_cast<const SC_My_Player_Info_Response*>(
+        &_SC_My_Player_Info_Response_default_instance_);
   }
   static constexpr int kIndexInFileMessages = 8;
-  friend void swap(SC_MY_Player_Info_Response& a, SC_MY_Player_Info_Response& b) { a.Swap(&b); }
-  inline void Swap(SC_MY_Player_Info_Response* other) {
+  friend void swap(SC_My_Player_Info_Response& a, SC_My_Player_Info_Response& b) { a.Swap(&b); }
+  inline void Swap(SC_My_Player_Info_Response* other) {
     if (other == this) return;
     if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
       InternalSwap(other);
@@ -3512,7 +3512,7 @@ class SC_MY_Player_Info_Response final : public ::google::protobuf::Message
       ::google::protobuf::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(SC_MY_Player_Info_Response* other) {
+  void UnsafeArenaSwap(SC_My_Player_Info_Response* other) {
     if (other == this) return;
     ABSL_DCHECK(GetArena() == other->GetArena());
     InternalSwap(other);
@@ -3520,13 +3520,13 @@ class SC_MY_Player_Info_Response final : public ::google::protobuf::Message
 
   // implements Message ----------------------------------------------
 
-  SC_MY_Player_Info_Response* New(::google::protobuf::Arena* arena = nullptr) const {
-    return ::google::protobuf::Message::DefaultConstruct<SC_MY_Player_Info_Response>(arena);
+  SC_My_Player_Info_Response* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<SC_My_Player_Info_Response>(arena);
   }
   using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const SC_MY_Player_Info_Response& from);
+  void CopyFrom(const SC_My_Player_Info_Response& from);
   using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const SC_MY_Player_Info_Response& from) { SC_MY_Player_Info_Response::MergeImpl(*this, from); }
+  void MergeFrom(const SC_My_Player_Info_Response& from) { SC_My_Player_Info_Response::MergeImpl(*this, from); }
 
   private:
   static void MergeImpl(
@@ -3563,18 +3563,18 @@ class SC_MY_Player_Info_Response final : public ::google::protobuf::Message
   private:
   void SharedCtor(::google::protobuf::Arena* arena);
   static void SharedDtor(MessageLite& self);
-  void InternalSwap(SC_MY_Player_Info_Response* other);
+  void InternalSwap(SC_My_Player_Info_Response* other);
  private:
   template <typename T>
   friend ::absl::string_view(
       ::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "msgTest.SC_MY_Player_Info_Response"; }
+  static ::absl::string_view FullMessageName() { return "msgTest.SC_My_Player_Info_Response"; }
 
  protected:
-  explicit SC_MY_Player_Info_Response(::google::protobuf::Arena* arena);
-  SC_MY_Player_Info_Response(::google::protobuf::Arena* arena, const SC_MY_Player_Info_Response& from);
-  SC_MY_Player_Info_Response(::google::protobuf::Arena* arena, SC_MY_Player_Info_Response&& from) noexcept
-      : SC_MY_Player_Info_Response(arena) {
+  explicit SC_My_Player_Info_Response(::google::protobuf::Arena* arena);
+  SC_My_Player_Info_Response(::google::protobuf::Arena* arena, const SC_My_Player_Info_Response& from);
+  SC_My_Player_Info_Response(::google::protobuf::Arena* arena, SC_My_Player_Info_Response&& from) noexcept
+      : SC_My_Player_Info_Response(arena) {
     *this = ::std::move(from);
   }
   const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
@@ -3606,7 +3606,7 @@ class SC_MY_Player_Info_Response final : public ::google::protobuf::Message
   ::msgTest::Player* _internal_mutable_player_info();
 
   public:
-  // @@protoc_insertion_point(class_scope:msgTest.SC_MY_Player_Info_Response)
+  // @@protoc_insertion_point(class_scope:msgTest.SC_My_Player_Info_Response)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
@@ -3628,7 +3628,7 @@ class SC_MY_Player_Info_Response final : public ::google::protobuf::Message
                           ::google::protobuf::Arena* arena);
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
-                          const SC_MY_Player_Info_Response& from_msg);
+                          const SC_My_Player_Info_Response& from_msg);
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::msgTest::Player* player_info_;
@@ -4564,55 +4564,55 @@ inline void SC_Login_Response::_internal_set_session_id(::uint64_t value) {
 
 // -------------------------------------------------------------------
 
-// CS_MY_Player_Info_Request
+// CS_My_Player_Info_Request
 
 // uint64 session_id = 1;
-inline void CS_MY_Player_Info_Request::clear_session_id() {
+inline void CS_My_Player_Info_Request::clear_session_id() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.session_id_ = ::uint64_t{0u};
 }
-inline ::uint64_t CS_MY_Player_Info_Request::session_id() const {
-  // @@protoc_insertion_point(field_get:msgTest.CS_MY_Player_Info_Request.session_id)
+inline ::uint64_t CS_My_Player_Info_Request::session_id() const {
+  // @@protoc_insertion_point(field_get:msgTest.CS_My_Player_Info_Request.session_id)
   return _internal_session_id();
 }
-inline void CS_MY_Player_Info_Request::set_session_id(::uint64_t value) {
+inline void CS_My_Player_Info_Request::set_session_id(::uint64_t value) {
   _internal_set_session_id(value);
-  // @@protoc_insertion_point(field_set:msgTest.CS_MY_Player_Info_Request.session_id)
+  // @@protoc_insertion_point(field_set:msgTest.CS_My_Player_Info_Request.session_id)
 }
-inline ::uint64_t CS_MY_Player_Info_Request::_internal_session_id() const {
+inline ::uint64_t CS_My_Player_Info_Request::_internal_session_id() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.session_id_;
 }
-inline void CS_MY_Player_Info_Request::_internal_set_session_id(::uint64_t value) {
+inline void CS_My_Player_Info_Request::_internal_set_session_id(::uint64_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.session_id_ = value;
 }
 
 // -------------------------------------------------------------------
 
-// SC_MY_Player_Info_Response
+// SC_My_Player_Info_Response
 
 // .msgTest.Player player_info = 1;
-inline bool SC_MY_Player_Info_Response::has_player_info() const {
+inline bool SC_My_Player_Info_Response::has_player_info() const {
   bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.player_info_ != nullptr);
   return value;
 }
-inline void SC_MY_Player_Info_Response::clear_player_info() {
+inline void SC_My_Player_Info_Response::clear_player_info() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.player_info_ != nullptr) _impl_.player_info_->Clear();
   _impl_._has_bits_[0] &= ~0x00000001u;
 }
-inline const ::msgTest::Player& SC_MY_Player_Info_Response::_internal_player_info() const {
+inline const ::msgTest::Player& SC_My_Player_Info_Response::_internal_player_info() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   const ::msgTest::Player* p = _impl_.player_info_;
   return p != nullptr ? *p : reinterpret_cast<const ::msgTest::Player&>(::msgTest::_Player_default_instance_);
 }
-inline const ::msgTest::Player& SC_MY_Player_Info_Response::player_info() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:msgTest.SC_MY_Player_Info_Response.player_info)
+inline const ::msgTest::Player& SC_My_Player_Info_Response::player_info() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:msgTest.SC_My_Player_Info_Response.player_info)
   return _internal_player_info();
 }
-inline void SC_MY_Player_Info_Response::unsafe_arena_set_allocated_player_info(::msgTest::Player* value) {
+inline void SC_My_Player_Info_Response::unsafe_arena_set_allocated_player_info(::msgTest::Player* value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (GetArena() == nullptr) {
     delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.player_info_);
@@ -4623,9 +4623,9 @@ inline void SC_MY_Player_Info_Response::unsafe_arena_set_allocated_player_info(:
   } else {
     _impl_._has_bits_[0] &= ~0x00000001u;
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:msgTest.SC_MY_Player_Info_Response.player_info)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:msgTest.SC_My_Player_Info_Response.player_info)
 }
-inline ::msgTest::Player* SC_MY_Player_Info_Response::release_player_info() {
+inline ::msgTest::Player* SC_My_Player_Info_Response::release_player_info() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
 
   _impl_._has_bits_[0] &= ~0x00000001u;
@@ -4644,16 +4644,16 @@ inline ::msgTest::Player* SC_MY_Player_Info_Response::release_player_info() {
   }
   return released;
 }
-inline ::msgTest::Player* SC_MY_Player_Info_Response::unsafe_arena_release_player_info() {
+inline ::msgTest::Player* SC_My_Player_Info_Response::unsafe_arena_release_player_info() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:msgTest.SC_MY_Player_Info_Response.player_info)
+  // @@protoc_insertion_point(field_release:msgTest.SC_My_Player_Info_Response.player_info)
 
   _impl_._has_bits_[0] &= ~0x00000001u;
   ::msgTest::Player* temp = _impl_.player_info_;
   _impl_.player_info_ = nullptr;
   return temp;
 }
-inline ::msgTest::Player* SC_MY_Player_Info_Response::_internal_mutable_player_info() {
+inline ::msgTest::Player* SC_My_Player_Info_Response::_internal_mutable_player_info() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.player_info_ == nullptr) {
     auto* p = ::google::protobuf::Message::DefaultConstruct<::msgTest::Player>(GetArena());
@@ -4661,13 +4661,13 @@ inline ::msgTest::Player* SC_MY_Player_Info_Response::_internal_mutable_player_i
   }
   return _impl_.player_info_;
 }
-inline ::msgTest::Player* SC_MY_Player_Info_Response::mutable_player_info() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+inline ::msgTest::Player* SC_My_Player_Info_Response::mutable_player_info() ABSL_ATTRIBUTE_LIFETIME_BOUND {
   _impl_._has_bits_[0] |= 0x00000001u;
   ::msgTest::Player* _msg = _internal_mutable_player_info();
-  // @@protoc_insertion_point(field_mutable:msgTest.SC_MY_Player_Info_Response.player_info)
+  // @@protoc_insertion_point(field_mutable:msgTest.SC_My_Player_Info_Response.player_info)
   return _msg;
 }
-inline void SC_MY_Player_Info_Response::set_allocated_player_info(::msgTest::Player* value) {
+inline void SC_My_Player_Info_Response::set_allocated_player_info(::msgTest::Player* value) {
   ::google::protobuf::Arena* message_arena = GetArena();
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (message_arena == nullptr) {
@@ -4685,7 +4685,7 @@ inline void SC_MY_Player_Info_Response::set_allocated_player_info(::msgTest::Pla
   }
 
   _impl_.player_info_ = reinterpret_cast<::msgTest::Player*>(value);
-  // @@protoc_insertion_point(field_set_allocated:msgTest.SC_MY_Player_Info_Response.player_info)
+  // @@protoc_insertion_point(field_set_allocated:msgTest.SC_My_Player_Info_Response.player_info)
 }
 
 // -------------------------------------------------------------------
