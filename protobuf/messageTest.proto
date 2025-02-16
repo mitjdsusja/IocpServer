@@ -45,10 +45,10 @@ message SC_Login_Response{
     uint64 session_id = 3;
 }
 
-message CS_MY_Player_Info_Request{
+message CS_My_Player_Info_Request{
     uint64 session_id = 1;
 }
-message SC_MY_Player_Info_Response{
+message SC_My_Player_Info_Response{
     Player player_info = 1;
 }
 
