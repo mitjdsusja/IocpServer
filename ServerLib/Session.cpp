@@ -54,13 +54,13 @@ void Session::Recv(){
 
 void Session::Disconnect(){
 
-	_owner->removeSession(shared_from_this());
+	OnDisconnect();
 
 	if (_connectEvent._owner != nullptr) _connectEvent._owner = nullptr;
 	if (_sendEvent._owner != nullptr) _sendEvent._owner = nullptr;
 	if (_recvEvent._owner != nullptr) _recvEvent._owner = nullptr;
 
-	OnDisconnect();
+	_owner->removeSession(shared_from_this());
 }
 
 void Session::Process(OverlappedEvent* event, int32 numOfBytes){

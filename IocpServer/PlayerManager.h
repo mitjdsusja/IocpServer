@@ -28,9 +28,11 @@ public:
 	void CreateAndAddPlayer(shared_ptr<Session> owner, uint64 sessionId, wstring name);
 	shared_ptr<Player> GetPlayer(uint64 sessionId);
 
+	void RemovePlayer(uint64 sessionId);
+
 private:
 	mutex _playersMutex;
-	map<uint64, shared_ptr<Player>> players;
+	map<uint64, shared_ptr<Player>> _players;
 
 };
 

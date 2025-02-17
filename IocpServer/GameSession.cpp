@@ -22,6 +22,8 @@ void GameSession::OnRecvPacket(BYTE* recvBuffer, int32 recvBytes){
 
 void GameSession::OnDisconnect(){
 
-	shared_ptr<Player> player = GPlayerManager->GetPlayer(GetSessionId());
-	player->ClearResource();
+	cout << "DISCONNECT" << endl;
+
+	GPlayerManager->RemovePlayer(GetSessionId());
+
 }

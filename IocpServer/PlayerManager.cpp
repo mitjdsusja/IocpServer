@@ -37,7 +37,7 @@ void PlayerManager::CreateAndAddPlayer(shared_ptr<Session> owner, uint64 session
 	{
 		lock_guard<mutex> lock(_playersMutex);
 
-		players[sessionId] = player;
+		_players[sessionId] = player;
 	}
 }
 
@@ -45,7 +45,23 @@ shared_ptr<Player> PlayerManager::GetPlayer(uint64 sessionId) {
 	
 	lock_guard<mutex> lock(_playersMutex);
 
-	return players[sessionId];
+	return _players[sessionId];
 }
+
+void PlayerManager::RemovePlayer(uint64 sessionId){
+
+	shared_ptr<Player> player = GetPlayer(sessionId);
+
+	if (player == nullptr) {
+		return;
+	}
+
+	player->ClearResource();
+
+	lock_guard<mutex> lock(_playersMutex);
+	_players.erase(sessionId);
+}
+
+
 
 
