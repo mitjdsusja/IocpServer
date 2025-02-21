@@ -27,7 +27,7 @@ void PacketHandler::RegisterPacketHandlers() {
 	packetHandleArray[PKT_CS_LOGIN_REQUEST] = Handle_CS_Login_Requset;
 	packetHandleArray[PKT_CS_ROOM_LIST_REQUEST] = Handle_CS_Room_List_Request;
 	packetHandleArray[PKT_CS_MY_PLAYER_INFO_REQUEST] = Handle_CS_Player_Info_Request;
-	packetHandleArray[PKT_CS_ROOM_PLAYER_LIST_REQUEST] = Handle_CS_Player_List_Request;
+	packetHandleArray[PKT_CS_ROOM_PLAYER_LIST_REQUEST] = Handle_CS_Room_Player_List_Request;
 	packetHandleArray[PKT_CS_ENTER_ROOM_REQUEST] = Handle_CS_Enter_Room_Request;
 	packetHandleArray[PKT_CS_CREATE_ROOM_REQUEST] = Handle_CS_Create_Room_Request;
 
@@ -202,8 +202,29 @@ void PacketHandler::Handle_CS_Player_Info_Request(shared_ptr<GameSession> sessio
 	GJobQueue->Push(job);
 }
 
-void PacketHandler::Handle_CS_Player_List_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
+void PacketHandler::Handle_CS_Room_Player_List_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
+	
+	msgTest::CS_Room_Player_List_Request recvRoomPlayerListRequestPacket;
+	recvRoomPlayerListRequestPacket.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
 
+	int32 roomId = recvRoomPlayerListRequestPacket.room_id();
+	
+	// Get Player List with GRoomManager
+	RoomInfo roomInfo = GRoomManager->GetRoomInfo(roomId);
+
+	msgTest::SC_Room_Player_List_Response sendRoomPlayerListResponsePacket;
+	for (const auto& playerInfo : roomInfo._playerInfoList) {
+		msgTest::Player* player = sendRoomPlayerListResponsePacket.add_player_list();
+		string name = boost::locale::conv::utf_to_utf<char>(playerInfo._name);
+		player->set_name(name);
+	}
+	
+	shared_ptr<Buffer> sendBuffer = MakeSendBuffer(sendRoomPlayerListResponsePacket, PacketId::PKT_SC_ROOM_PLAYER_LIST_RESPONSE);
+
+	Job* job = new Job([session, sendBuffer]() {
+		session->Send(sendBuffer);
+		});
+	GJobQueue->Push(job);
 }
 
 void PacketHandler::Handle_CS_Create_Room_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service){
@@ -216,10 +237,11 @@ void PacketHandler::Handle_CS_Create_Room_Request(shared_ptr<GameSession> sessio
 
 	shared_ptr<Player> hostPlayer = GPlayerManager->GetPlayer(session->GetSessionId());
 	int roomId = GRoomManager->CreateAndAddRoom(hostPlayer, roomName);
+	cout << "[CreateRoom] Room ID : " << roomId << endl;
 	
 	msgTest::SC_Create_Room_Response sendCreateRoomResponsePacket;
 	sendCreateRoomResponsePacket.set_room_id(roomId);
-	
+	sendCreateRoomResponsePacket.set_success(true);
 
 	shared_ptr<Buffer> sendBuffer = MakeSendBuffer(sendCreateRoomResponsePacket, PacketId::PKT_SC_CREATE_ROOM_RESPONSE);
 	Job* job = new Job([session, sendBuffer]() {

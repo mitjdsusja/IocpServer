@@ -21,10 +21,21 @@ void Room::RemovePlayer(uint64 sessionId){
 
 RoomInfo Room::GetRoomInfo(){
 
-	lock_guard<mutex> lock(_roomMutex);
-
 	RoomInfo roomInfo = { _roomId, _maxPlayerCount, _curPlayerCount, _roomName , _hostPlayer->GetName()};
+	
+	vector<PlayerInfo> playerInfoList;
+	for (const auto& player : _players) {
+		playerInfoList.push_back(player.second->GetPlayerInfo());
+	}
+	roomInfo._playerInfoList = playerInfoList;
+
 	return roomInfo;
+}
+
+vector<PlayerInfo> Room::GetRoomPlayerInfoList(int32 roomId){
+
+	vector<PlayerInfo> playerInfoList;
+	return vector<PlayerInfo>();
 }
 
 RoomManager::RoomManager(int32 maxRoomCount) : _maxRoomCount(maxRoomCount){
@@ -60,6 +71,22 @@ vector<RoomInfo> RoomManager::GetRoomInfoList(){
 	}
 	
 	return roomInfoList;
+}
+
+RoomInfo RoomManager::GetRoomInfo(int32 roomId){
+
+	lock_guard<mutex> lock(_roomsMutex);
+
+	map<int32, shared_ptr<Room>>::iterator iter;
+	iter = _rooms.find(roomId);
+	if (iter == _rooms.end()) {
+		cout << "[INVALID ROOM ID] roomId : " << roomId << endl;
+		return RoomInfo();
+	}
+	
+	RoomInfo roomInfo = (*iter).second->GetRoomInfo();
+	
+	return roomInfo;
 }
 
 shared_ptr<Room> RoomManager::MakeRoomPtr(int32 roomId, shared_ptr<Player> hostPlayer, wstring roomName, int32 maxPlayerCount) {

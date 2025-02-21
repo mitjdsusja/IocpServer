@@ -16,6 +16,12 @@ void Player::ClearResource(){
 	_owner = nullptr;
 }
 
+PlayerInfo Player::GetPlayerInfo(){
+
+	PlayerInfo playerInfo = { _name };
+	return playerInfo;
+}
+
 void Player::SetInfo(wstring name){
 	
 	SetName(name);

@@ -1,4 +1,9 @@
 #pragma once
+
+struct PlayerInfo {
+	wstring _name;
+};
+
 class Player{
 public:
 	Player(shared_ptr<Session> owner, wstring name);
@@ -7,6 +12,8 @@ public:
 	void ClearResource();
 
 	shared_ptr<Session> GetOwner() { return _owner; }
+
+	PlayerInfo GetPlayerInfo();
 
 	void SetInfo(wstring name);
 	void SetName(wstring name) { _name = name; }
