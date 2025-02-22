@@ -8,6 +8,10 @@ Room::Room(int32 roomId, shared_ptr<Player> hostPlayer, wstring roomName, int32 
 	AddPlayer(hostPlayer->GetOwner()->GetSessionId(), hostPlayer);
 }
 
+Room::~Room() {
+	cout << "DESTROY ROOM" << endl;
+}
+
 void Room::AddPlayer(uint64 sessionId, shared_ptr<Player> player){
 
 	_players[sessionId] = player;
@@ -17,6 +21,10 @@ void Room::AddPlayer(uint64 sessionId, shared_ptr<Player> player){
 void Room::RemovePlayer(uint64 sessionId){
 
 	_players.erase(sessionId);
+
+	if (_players.empty()) {
+		GRoomManager->RemoveRoom(_roomId);
+	}
 }
 
 RoomInfo Room::GetRoomInfo(){
@@ -56,6 +64,17 @@ int32 RoomManager::CreateAndAddRoom(shared_ptr<Player> hostPlayer, wstring roomN
 	_rooms[roomId] = room;
 
 	return roomId;
+}
+
+void RoomManager::RemoveRoom(int32 roomId){
+
+	_rooms.erase(roomId);
+}
+
+void RoomManager::RemovePlayerFromRoom(int32 roomId, uint64 sessionId){
+
+	shared_ptr<Room> room = _rooms[roomId];
+	room->RemovePlayer(sessionId);
 }
 
 vector<RoomInfo> RoomManager::GetRoomInfoList(){

@@ -18,7 +18,7 @@ void Player::ClearResource(){
 
 PlayerInfo Player::GetPlayerInfo(){
 
-	PlayerInfo playerInfo = { _name };
+	PlayerInfo playerInfo = { _name, _roomId };
 	return playerInfo;
 }
 

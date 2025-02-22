@@ -238,7 +238,9 @@ void PacketHandler::Handle_CS_Create_Room_Request(shared_ptr<GameSession> sessio
 	shared_ptr<Player> hostPlayer = GPlayerManager->GetPlayer(session->GetSessionId());
 	int roomId = GRoomManager->CreateAndAddRoom(hostPlayer, roomName);
 	cout << "[CreateRoom] Room ID : " << roomId << endl;
-	
+
+	hostPlayer->SetRoomId(roomId);
+
 	msgTest::SC_Create_Room_Response sendCreateRoomResponsePacket;
 	sendCreateRoomResponsePacket.set_room_id(roomId);
 	sendCreateRoomResponsePacket.set_success(true);

@@ -16,6 +16,7 @@ struct RoomInfo {
 class Room {
 public:
 	Room(int32 roomId, shared_ptr<Player> hostPlayer, wstring roomName, int32 maxPlayerCount);
+	~Room();
 
 	void AddPlayer(uint64 sessionId, shared_ptr<Player> player);
 	void RemovePlayer(uint64 sessionId);
@@ -37,8 +38,11 @@ private:
 class RoomManager{
 public:
 	RoomManager(int32 maxRoomCount = 100);
-	int32 CreateAndAddRoom(shared_ptr<Player> hostPlayer, wstring roomName, int32 maxPlayerCount = 10);
 	
+	int32 CreateAndAddRoom(shared_ptr<Player> hostPlayer, wstring roomName, int32 maxPlayerCount = 10);
+	void RemoveRoom(int32 roomId);
+	void RemovePlayerFromRoom(int32 roomid, uint64 sessionId);
+
 	vector<RoomInfo> GetRoomInfoList();
 	RoomInfo GetRoomInfo(int32 roomId);
 

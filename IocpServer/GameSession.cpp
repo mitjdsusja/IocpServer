@@ -2,6 +2,8 @@
 #include "GameSession.h"
 #include "PacketHandler.h"
 
+#include "RoomManager.h"
+
 GameSession::GameSession(Service* owner) : Session(owner){
 
 }
@@ -24,6 +26,11 @@ void GameSession::OnDisconnect(){
 
 	cout << "DISCONNECT" << endl;
 
+	shared_ptr<Player> player = GPlayerManager->GetPlayer(GetSessionId());
+	PlayerInfo playerInfo = player->GetPlayerInfo();
+	
+
+	GRoomManager->RemovePlayerFromRoom(playerInfo._roomId, GetSessionId());
 	GPlayerManager->RemovePlayer(GetSessionId());
 
 }

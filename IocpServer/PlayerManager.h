@@ -2,6 +2,7 @@
 
 struct PlayerInfo {
 	wstring _name;
+	int32 _roomId;
 };
 
 class Player{
@@ -17,13 +18,16 @@ public:
 
 	void SetInfo(wstring name);
 	void SetName(wstring name) { _name = name; }
+	void SetRoomId(int32 roomId) { _roomId = roomId; }
 
 	wstring GetName() { return _name; }
+	int32 GetRoomId() { return _roomId; }
 
 private:
 	shared_ptr<Session> _owner = nullptr;
 
 	wstring _name = L"";
+	int32 _roomId = 0;
 
 };
 
