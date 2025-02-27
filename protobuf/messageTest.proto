@@ -66,7 +66,7 @@ message CS_Create_Room_Request{
 message SC_Create_Room_Response{
     bool success = 1;
     string error_message = 2;
-    int32 room_id = 3;
+    Room room = 3;
 }
 
 message CS_Room_List_Request{

@@ -24,11 +24,10 @@ void GameSession::OnRecvPacket(BYTE* recvBuffer, int32 recvBytes){
 
 void GameSession::OnDisconnect(){
 
-	cout << "DISCONNECT" << endl;
+	cout << "[DISCONNECT] SessionId : " << GetSessionId() << endl;
 
 	shared_ptr<Player> player = GPlayerManager->GetPlayer(GetSessionId());
 	PlayerInfo playerInfo = player->GetPlayerInfo();
-	
 
 	GRoomManager->RemovePlayerFromRoom(playerInfo._roomId, GetSessionId());
 	GPlayerManager->RemovePlayer(GetSessionId());

@@ -8,7 +8,8 @@ Player::Player(shared_ptr<Session> owner, wstring name)
 }
 
 Player::~Player() {
-
+	wcout << L"[REMOVE PLAYER DATA] name :" << _name << endl;
+	ClearResource();
 }
 
 void Player::ClearResource(){
@@ -61,8 +62,6 @@ void PlayerManager::RemovePlayer(uint64 sessionId){
 	if (player == nullptr) {
 		return;
 	}
-
-	player->ClearResource();
 
 	lock_guard<mutex> lock(_playersMutex);
 	_players.erase(sessionId);
