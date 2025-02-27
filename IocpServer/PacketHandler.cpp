@@ -241,9 +241,17 @@ void PacketHandler::Handle_CS_Create_Room_Request(shared_ptr<GameSession> sessio
 
 	hostPlayer->SetRoomId(roomId);
 
+	RoomInfo roomInfo = GRoomManager->GetRoomInfo(roomId);
+
 	msgTest::SC_Create_Room_Response sendCreateRoomResponsePacket;
-	sendCreateRoomResponsePacket.set_room_id(roomId);
+	msgTest::Room* room = sendCreateRoomResponsePacket.mutable_room();
+
 	sendCreateRoomResponsePacket.set_success(true);
+	room->set_roomid(roomInfo._roomId);
+	room->set_roomname(boost::locale::conv::utf_to_utf<char>(roomInfo._roomName));
+	room->set_maxplayercount(roomInfo._maxPlayerCount);
+	room->set_playercount(roomInfo._curPlayerCount);
+	room->set_hostplayername(boost::locale::conv::utf_to_utf<char>(roomInfo._hostPlayerName));
 
 	shared_ptr<Buffer> sendBuffer = MakeSendBuffer(sendCreateRoomResponsePacket, PacketId::PKT_SC_CREATE_ROOM_RESPONSE);
 	Job* job = new Job([session, sendBuffer]() {
