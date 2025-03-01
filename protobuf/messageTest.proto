@@ -82,4 +82,5 @@ message CS_Enter_Room_Request{
 message SC_Enter_Room_Response{
     bool success = 1;
     string error_message = 2;
+    Room room = 3;
 }
