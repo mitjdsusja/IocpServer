@@ -551,214 +551,6 @@ class SC_Login_Response final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
-class SC_Enter_Room_Response final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:msgTest.SC_Enter_Room_Response) */ {
- public:
-  inline SC_Enter_Room_Response() : SC_Enter_Room_Response(nullptr) {}
-  ~SC_Enter_Room_Response() PROTOBUF_FINAL;
-
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-  void operator delete(SC_Enter_Room_Response* msg, std::destroying_delete_t) {
-    SharedDtor(*msg);
-    ::google::protobuf::internal::SizedDelete(msg, sizeof(SC_Enter_Room_Response));
-  }
-#endif
-
-  template <typename = void>
-  explicit PROTOBUF_CONSTEXPR SC_Enter_Room_Response(
-      ::google::protobuf::internal::ConstantInitialized);
-
-  inline SC_Enter_Room_Response(const SC_Enter_Room_Response& from) : SC_Enter_Room_Response(nullptr, from) {}
-  inline SC_Enter_Room_Response(SC_Enter_Room_Response&& from) noexcept
-      : SC_Enter_Room_Response(nullptr, std::move(from)) {}
-  inline SC_Enter_Room_Response& operator=(const SC_Enter_Room_Response& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline SC_Enter_Room_Response& operator=(SC_Enter_Room_Response&& from) noexcept {
-    if (this == &from) return *this;
-    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::google::protobuf::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::google::protobuf::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const SC_Enter_Room_Response& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const SC_Enter_Room_Response* internal_default_instance() {
-    return reinterpret_cast<const SC_Enter_Room_Response*>(
-        &_SC_Enter_Room_Response_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages = 16;
-  friend void swap(SC_Enter_Room_Response& a, SC_Enter_Room_Response& b) { a.Swap(&b); }
-  inline void Swap(SC_Enter_Room_Response* other) {
-    if (other == this) return;
-    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
-      InternalSwap(other);
-    } else {
-      ::google::protobuf::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(SC_Enter_Room_Response* other) {
-    if (other == this) return;
-    ABSL_DCHECK(GetArena() == other->GetArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  SC_Enter_Room_Response* New(::google::protobuf::Arena* arena = nullptr) const {
-    return ::google::protobuf::Message::DefaultConstruct<SC_Enter_Room_Response>(arena);
-  }
-  using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const SC_Enter_Room_Response& from);
-  using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const SC_Enter_Room_Response& from) { SC_Enter_Room_Response::MergeImpl(*this, from); }
-
-  private:
-  static void MergeImpl(
-      ::google::protobuf::MessageLite& to_msg,
-      const ::google::protobuf::MessageLite& from_msg);
-
-  public:
-  bool IsInitialized() const {
-    return true;
-  }
-  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
-  #if defined(PROTOBUF_CUSTOM_VTABLE)
-  private:
-  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
-  static ::uint8_t* _InternalSerialize(
-      const MessageLite& msg, ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream);
-
-  public:
-  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
-    return _InternalSerialize(*this, target, stream);
-  }
-  #else   // PROTOBUF_CUSTOM_VTABLE
-  ::size_t ByteSizeLong() const final;
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
-  #endif  // PROTOBUF_CUSTOM_VTABLE
-  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::google::protobuf::Arena* arena);
-  static void SharedDtor(MessageLite& self);
-  void InternalSwap(SC_Enter_Room_Response* other);
- private:
-  template <typename T>
-  friend ::absl::string_view(
-      ::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "msgTest.SC_Enter_Room_Response"; }
-
- protected:
-  explicit SC_Enter_Room_Response(::google::protobuf::Arena* arena);
-  SC_Enter_Room_Response(::google::protobuf::Arena* arena, const SC_Enter_Room_Response& from);
-  SC_Enter_Room_Response(::google::protobuf::Arena* arena, SC_Enter_Room_Response&& from) noexcept
-      : SC_Enter_Room_Response(arena) {
-    *this = ::std::move(from);
-  }
-  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
-  static void* PlacementNew_(const void*, void* mem,
-                             ::google::protobuf::Arena* arena);
-  static constexpr auto InternalNewImpl_();
-  static const ::google::protobuf::internal::ClassDataFull _class_data_;
-
- public:
-  ::google::protobuf::Metadata GetMetadata() const;
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-  enum : int {
-    kErrorMessageFieldNumber = 2,
-    kSuccessFieldNumber = 1,
-  };
-  // string error_message = 2;
-  void clear_error_message() ;
-  const std::string& error_message() const;
-  template <typename Arg_ = const std::string&, typename... Args_>
-  void set_error_message(Arg_&& arg, Args_... args);
-  std::string* mutable_error_message();
-  PROTOBUF_NODISCARD std::string* release_error_message();
-  void set_allocated_error_message(std::string* value);
-
-  private:
-  const std::string& _internal_error_message() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_error_message(
-      const std::string& value);
-  std::string* _internal_mutable_error_message();
-
-  public:
-  // bool success = 1;
-  void clear_success() ;
-  bool success() const;
-  void set_success(bool value);
-
-  private:
-  bool _internal_success() const;
-  void _internal_set_success(bool value);
-
-  public:
-  // @@protoc_insertion_point(class_scope:msgTest.SC_Enter_Room_Response)
- private:
-  class _Internal;
-  friend class ::google::protobuf::internal::TcParser;
-  static const ::google::protobuf::internal::TcParseTable<
-      1, 2, 0,
-      52, 2>
-      _table_;
-
-  friend class ::google::protobuf::MessageLite;
-  friend class ::google::protobuf::Arena;
-  template <typename T>
-  friend class ::google::protobuf::Arena::InternalHelper;
-  using InternalArenaConstructable_ = void;
-  using DestructorSkippable_ = void;
-  struct Impl_ {
-    inline explicit constexpr Impl_(
-        ::google::protobuf::internal::ConstantInitialized) noexcept;
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena);
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena, const Impl_& from,
-                          const SC_Enter_Room_Response& from_msg);
-    ::google::protobuf::internal::ArenaStringPtr error_message_;
-    bool success_;
-    ::google::protobuf::internal::CachedSize _cached_size_;
-    PROTOBUF_TSAN_DECLARE_MEMBER
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_messageTest_2eproto;
-};
-// -------------------------------------------------------------------
-
 class Room final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:msgTest.Room) */ {
  public:
@@ -2556,6 +2348,232 @@ class SC_Room_List_Response final : public ::google::protobuf::Message
                           const SC_Room_List_Response& from_msg);
     ::google::protobuf::RepeatedPtrField< ::msgTest::Room > room_list_;
     ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_messageTest_2eproto;
+};
+// -------------------------------------------------------------------
+
+class SC_Enter_Room_Response final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:msgTest.SC_Enter_Room_Response) */ {
+ public:
+  inline SC_Enter_Room_Response() : SC_Enter_Room_Response(nullptr) {}
+  ~SC_Enter_Room_Response() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(SC_Enter_Room_Response* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(SC_Enter_Room_Response));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR SC_Enter_Room_Response(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline SC_Enter_Room_Response(const SC_Enter_Room_Response& from) : SC_Enter_Room_Response(nullptr, from) {}
+  inline SC_Enter_Room_Response(SC_Enter_Room_Response&& from) noexcept
+      : SC_Enter_Room_Response(nullptr, std::move(from)) {}
+  inline SC_Enter_Room_Response& operator=(const SC_Enter_Room_Response& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SC_Enter_Room_Response& operator=(SC_Enter_Room_Response&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const SC_Enter_Room_Response& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const SC_Enter_Room_Response* internal_default_instance() {
+    return reinterpret_cast<const SC_Enter_Room_Response*>(
+        &_SC_Enter_Room_Response_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 16;
+  friend void swap(SC_Enter_Room_Response& a, SC_Enter_Room_Response& b) { a.Swap(&b); }
+  inline void Swap(SC_Enter_Room_Response* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(SC_Enter_Room_Response* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  SC_Enter_Room_Response* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<SC_Enter_Room_Response>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const SC_Enter_Room_Response& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const SC_Enter_Room_Response& from) { SC_Enter_Room_Response::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(SC_Enter_Room_Response* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "msgTest.SC_Enter_Room_Response"; }
+
+ protected:
+  explicit SC_Enter_Room_Response(::google::protobuf::Arena* arena);
+  SC_Enter_Room_Response(::google::protobuf::Arena* arena, const SC_Enter_Room_Response& from);
+  SC_Enter_Room_Response(::google::protobuf::Arena* arena, SC_Enter_Room_Response&& from) noexcept
+      : SC_Enter_Room_Response(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kErrorMessageFieldNumber = 2,
+    kRoomFieldNumber = 3,
+    kSuccessFieldNumber = 1,
+  };
+  // string error_message = 2;
+  void clear_error_message() ;
+  const std::string& error_message() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_error_message(Arg_&& arg, Args_... args);
+  std::string* mutable_error_message();
+  PROTOBUF_NODISCARD std::string* release_error_message();
+  void set_allocated_error_message(std::string* value);
+
+  private:
+  const std::string& _internal_error_message() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_error_message(
+      const std::string& value);
+  std::string* _internal_mutable_error_message();
+
+  public:
+  // .msgTest.Room room = 3;
+  bool has_room() const;
+  void clear_room() ;
+  const ::msgTest::Room& room() const;
+  PROTOBUF_NODISCARD ::msgTest::Room* release_room();
+  ::msgTest::Room* mutable_room();
+  void set_allocated_room(::msgTest::Room* value);
+  void unsafe_arena_set_allocated_room(::msgTest::Room* value);
+  ::msgTest::Room* unsafe_arena_release_room();
+
+  private:
+  const ::msgTest::Room& _internal_room() const;
+  ::msgTest::Room* _internal_mutable_room();
+
+  public:
+  // bool success = 1;
+  void clear_success() ;
+  bool success() const;
+  void set_success(bool value);
+
+  private:
+  bool _internal_success() const;
+  void _internal_set_success(bool value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:msgTest.SC_Enter_Room_Response)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      2, 3, 1,
+      52, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const SC_Enter_Room_Response& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    ::google::protobuf::internal::ArenaStringPtr error_message_;
+    ::msgTest::Room* room_;
+    bool success_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -5198,6 +5216,102 @@ inline void SC_Enter_Room_Response::set_allocated_error_message(std::string* val
     _impl_.error_message_.Set("", GetArena());
   }
   // @@protoc_insertion_point(field_set_allocated:msgTest.SC_Enter_Room_Response.error_message)
+}
+
+// .msgTest.Room room = 3;
+inline bool SC_Enter_Room_Response::has_room() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.room_ != nullptr);
+  return value;
+}
+inline void SC_Enter_Room_Response::clear_room() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.room_ != nullptr) _impl_.room_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const ::msgTest::Room& SC_Enter_Room_Response::_internal_room() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::msgTest::Room* p = _impl_.room_;
+  return p != nullptr ? *p : reinterpret_cast<const ::msgTest::Room&>(::msgTest::_Room_default_instance_);
+}
+inline const ::msgTest::Room& SC_Enter_Room_Response::room() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:msgTest.SC_Enter_Room_Response.room)
+  return _internal_room();
+}
+inline void SC_Enter_Room_Response::unsafe_arena_set_allocated_room(::msgTest::Room* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.room_);
+  }
+  _impl_.room_ = reinterpret_cast<::msgTest::Room*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:msgTest.SC_Enter_Room_Response.room)
+}
+inline ::msgTest::Room* SC_Enter_Room_Response::release_room() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::msgTest::Room* released = _impl_.room_;
+  _impl_.room_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::msgTest::Room* SC_Enter_Room_Response::unsafe_arena_release_room() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:msgTest.SC_Enter_Room_Response.room)
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::msgTest::Room* temp = _impl_.room_;
+  _impl_.room_ = nullptr;
+  return temp;
+}
+inline ::msgTest::Room* SC_Enter_Room_Response::_internal_mutable_room() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.room_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::msgTest::Room>(GetArena());
+    _impl_.room_ = reinterpret_cast<::msgTest::Room*>(p);
+  }
+  return _impl_.room_;
+}
+inline ::msgTest::Room* SC_Enter_Room_Response::mutable_room() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  ::msgTest::Room* _msg = _internal_mutable_room();
+  // @@protoc_insertion_point(field_mutable:msgTest.SC_Enter_Room_Response.room)
+  return _msg;
+}
+inline void SC_Enter_Room_Response::set_allocated_room(::msgTest::Room* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete (_impl_.room_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+
+  _impl_.room_ = reinterpret_cast<::msgTest::Room*>(value);
+  // @@protoc_insertion_point(field_set_allocated:msgTest.SC_Enter_Room_Response.room)
 }
 
 #ifdef __GNUC__

@@ -269,8 +269,16 @@ void PacketHandler::Handle_CS_Enter_Room_Request(shared_ptr<GameSession> session
 	
 	bool ret = GRoomManager->EnterRoom(roomId, session->GetSessionId(), GPlayerManager->GetPlayer(session->GetSessionId()));
 
+	RoomInfo roomInfo = GRoomManager->GetRoomInfo(roomId);
+
 	msgTest::SC_Enter_Room_Response sendEnterRoomResponsePacket;
+	msgTest::Room* room = sendEnterRoomResponsePacket.mutable_room();
 	sendEnterRoomResponsePacket.set_success(ret);
+	room->set_roomid(roomInfo._roomId);
+	room->set_roomname(boost::locale::conv::utf_to_utf<char>(roomInfo._roomName));
+	room->set_playercount(roomInfo._curPlayerCount);
+	room->set_maxplayercount(roomInfo._maxPlayerCount);
+	room->set_hostplayername(roomInfo._hostPlayerName);
 
 	shared_ptr<Buffer> sendBuffer = MakeSendBuffer(sendEnterRoomResponsePacket, PacketId::PKT_SC_ENTER_ROOM_RESPONSE);
 	Job* job = new Job([session, sendBuffer]() {
