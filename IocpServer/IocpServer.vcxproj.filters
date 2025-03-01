@@ -33,6 +33,7 @@
     <ClInclude Include="Global.h">
       <Filter>Main</Filter>
     </ClInclude>
+    <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ServerMain.cpp">
@@ -59,5 +60,6 @@
     <ClCompile Include="Global.cpp">
       <Filter>Main</Filter>
     </ClCompile>
+    <ClCompile Include="Vector.cpp" />
   </ItemGroup>
 </Project>

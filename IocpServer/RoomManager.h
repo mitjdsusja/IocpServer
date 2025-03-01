@@ -1,8 +1,7 @@
 #pragma once
 #include <pch.h>
 
-class Player;
-class PlayerInfo;
+#include "PlayerManager.h"
 
 struct RoomInfo {
 	int32 _roomId;

@@ -14,6 +14,7 @@
 #include "Global.h"
 #include "RoomManager.h"
 #include "GameSession.h"
+#include "Vector.h"
 
 void PacketHandler::RegisterPacketHandlers() {
 
@@ -91,19 +92,21 @@ void PacketHandler::Handle_CS_Login_Requset(shared_ptr<GameSession> session, sha
 		wstring wId(id.begin(), id.end());
 		wstring wPw(pw.begin(), pw.end());
 
-		std::wstring query = L"SELECT COUNT(*), usernum, name FROM USERS WHERE id = '" + wId + L"' AND password_hash = '" + wPw + L"';";
+		std::wstring query = L"SELECT COUNT(*), usernum, name, pos_x, pos_y, pos_z FROM USERS WHERE id = '" + wId + L"' AND password_hash = '" + wPw + L"';";
 		vector<vector<wstring>> result = LDBConnector->ExecuteSelectQuery(query);
 
 		if (!result.empty() && !result[0].empty()) {
-			int32 count = std::stoi(result[0][0]); // 문자열을 숫자로 변환
+			int32 count = stoi(result[0][0]); // 문자열을 숫자로 변환
 			int32 userNum = stoi(result[0][1]);
 			wstring name = result[0][2];
+			Vector position(stof(result[0][3]), stof(result[0][3]), stof(result[0][3]));
+
 			if (count > 0) {
 				//wcout << L"User found!" << endl;
 				userExists = true;
 				
 				session->SetDbId(userNum);
-				GPlayerManager->CreateAndAddPlayer(session, session->GetSessionId(), name);
+				GPlayerManager->CreateAndAddPlayer(session, session->GetSessionId(), name, position);
 			}
 			else {
 				wcout << L"Invalid ID or password." << endl;
@@ -278,7 +281,7 @@ void PacketHandler::Handle_CS_Enter_Room_Request(shared_ptr<GameSession> session
 	room->set_roomname(boost::locale::conv::utf_to_utf<char>(roomInfo._roomName));
 	room->set_playercount(roomInfo._curPlayerCount);
 	room->set_maxplayercount(roomInfo._maxPlayerCount);
-	room->set_hostplayername(roomInfo._hostPlayerName);
+	room->set_hostplayername(boost::locale::conv::utf_to_utf<char>(roomInfo._hostPlayerName));
 
 	shared_ptr<Buffer> sendBuffer = MakeSendBuffer(sendEnterRoomResponsePacket, PacketId::PKT_SC_ENTER_ROOM_RESPONSE);
 	Job* job = new Job([session, sendBuffer]() {

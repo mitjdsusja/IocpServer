@@ -2,8 +2,8 @@
 #include "PlayerManager.h"
 
 
-Player::Player(shared_ptr<Session> owner, wstring name)
- : _owner(owner), _name(name){
+Player::Player(shared_ptr<Session> owner, wstring name, Vector position)
+ : _owner(owner), _name(name), _position(position){
 	
 }
 
@@ -19,7 +19,7 @@ void Player::ClearResource(){
 
 PlayerInfo Player::GetPlayerInfo(){
 
-	PlayerInfo playerInfo = { _name, _roomId };
+	PlayerInfo playerInfo = {_name, _roomId , _position};
 	return playerInfo;
 }
 
@@ -36,9 +36,9 @@ PlayerManager::~PlayerManager(){
 
 }
 
-void PlayerManager::CreateAndAddPlayer(shared_ptr<Session> owner, uint64 sessionId, wstring name){
+void PlayerManager::CreateAndAddPlayer(shared_ptr<Session> owner, uint64 sessionId, wstring name, Vector position){
 	
-	shared_ptr<Player> player = make_shared<Player>(owner, name);
+	shared_ptr<Player> player = make_shared<Player>(owner, name, position);
 	player->SetInfo(name);
 	
 	{
