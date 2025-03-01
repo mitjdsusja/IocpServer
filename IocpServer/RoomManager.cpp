@@ -66,6 +66,20 @@ int32 RoomManager::CreateAndAddRoom(shared_ptr<Player> hostPlayer, wstring roomN
 	return roomId;
 }
 
+bool RoomManager::EnterRoom(int32 roomId, int64 sessionId, shared_ptr<Player> player){
+
+	lock_guard<mutex> lock(_roomsMutex);
+
+	shared_ptr<Room> room = _rooms[roomId];
+	if (room != nullptr) {
+		return false;
+	}
+
+	room->AddPlayer(sessionId, player);
+
+	return true;
+}
+
 void RoomManager::RemoveRoom(int32 roomId){
 
 	_rooms.erase(roomId);

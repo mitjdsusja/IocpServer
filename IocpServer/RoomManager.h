@@ -40,6 +40,7 @@ public:
 	RoomManager(int32 maxRoomCount = 100);
 	
 	int32 CreateAndAddRoom(shared_ptr<Player> hostPlayer, wstring roomName, int32 maxPlayerCount = 10);
+	bool EnterRoom(int32 roomId,int64 sessionid, shared_ptr<Player> player);
 	void RemoveRoom(int32 roomId);
 	void RemovePlayerFromRoom(int32 roomid, uint64 sessionId);
 

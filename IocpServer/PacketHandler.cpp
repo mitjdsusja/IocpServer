@@ -262,6 +262,21 @@ void PacketHandler::Handle_CS_Create_Room_Request(shared_ptr<GameSession> sessio
 
 void PacketHandler::Handle_CS_Enter_Room_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
+	msgTest::CS_Enter_Room_Request recvEnterRoomRequestPacket;
+	recvEnterRoomRequestPacket.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
+
+	int32 roomId = recvEnterRoomRequestPacket.room_id();
+	
+	bool ret = GRoomManager->EnterRoom(roomId, session->GetSessionId(), GPlayerManager->GetPlayer(session->GetSessionId()));
+
+	msgTest::SC_Enter_Room_Response sendEnterRoomResponsePacket;
+	sendEnterRoomResponsePacket.set_success(ret);
+
+	shared_ptr<Buffer> sendBuffer = MakeSendBuffer(sendEnterRoomResponsePacket, PacketId::PKT_SC_ENTER_ROOM_RESPONSE);
+	Job* job = new Job([session, sendBuffer]() {
+		session->Send(sendBuffer);
+	});
+	GJobQueue->Push(job);
 }
 
 
