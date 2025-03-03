@@ -3,6 +3,7 @@
 
 struct PlayerInfo {
 	wstring _name;
+	int32 _level;
 	int32 _roomId;
 	Vector _position;
 };
@@ -29,6 +30,7 @@ private:
 	shared_ptr<Session> _owner = nullptr;
 
 	wstring _name = L"";
+	int32 _level = 0;
 	int32 _roomId = 0;
 	Vector _position;
 

@@ -70,7 +70,7 @@ bool RoomManager::EnterRoom(int32 roomId, int64 sessionId, shared_ptr<Player> pl
 	lock_guard<mutex> lock(_roomsMutex);
 
 	shared_ptr<Room> room = _rooms[roomId];
-	if (room != nullptr) {
+	if (room == nullptr) {
 		return false;
 	}
 

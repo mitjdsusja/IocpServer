@@ -176,7 +176,7 @@ void PacketHandler::Handle_CS_Player_Info_Request(shared_ptr<GameSession> sessio
 	// database
 	GameSession* gameSession = (GameSession*)session.get();
 	wstring query = L"SELECT name, level from users WHERE usernum = " + to_wstring(gameSession->GetDbId()) + L";";
-	wcout << query << endl;
+	//wcout << query << endl;
 	vector<vector<wstring>> result = LDBConnector->ExecuteSelectQuery(query);
 
 	string name;
@@ -218,8 +218,12 @@ void PacketHandler::Handle_CS_Room_Player_List_Request(shared_ptr<GameSession> s
 	msgTest::SC_Room_Player_List_Response sendRoomPlayerListResponsePacket;
 	for (const auto& playerInfo : roomInfo._playerInfoList) {
 		msgTest::Player* player = sendRoomPlayerListResponsePacket.add_player_list();
+		msgTest::Position* position = player->mutable_position();
 		string name = boost::locale::conv::utf_to_utf<char>(playerInfo._name);
 		player->set_name(name);
+		position->set_x(playerInfo._position._x);
+		position->set_y(playerInfo._position._y);
+		position->set_z(playerInfo._position._z);
 	}
 	
 	shared_ptr<Buffer> sendBuffer = MakeSendBuffer(sendRoomPlayerListResponsePacket, PacketId::PKT_SC_ROOM_PLAYER_LIST_RESPONSE);
@@ -288,6 +292,21 @@ void PacketHandler::Handle_CS_Enter_Room_Request(shared_ptr<GameSession> session
 		session->Send(sendBuffer);
 	});
 	GJobQueue->Push(job);
+
+	// notify user join
+	msgTest::SC_Player_Enter_Room_Notification sendPlayerEnterRoomNotificationPacket;
+	msgTest::Player* player = sendPlayerEnterRoomNotificationPacket.mutable_player();
+	msgTest::Position* position = player->mutable_position();
+	PlayerInfo playerInfo = GPlayerManager->GetPlayer(session->GetSessionId())->GetPlayerInfo();
+
+	player->set_name(boost::locale::conv::utf_to_utf<char>(playerInfo._name));
+	player->set_level(playerInfo._level);
+	position->set_x(playerInfo._position._x);
+	position->set_y(playerInfo._position._y);
+	position->set_z(playerInfo._position._z);
+
+
+
 }
 
 

@@ -460,6 +460,31 @@ struct SC_Room_Player_List_ResponseDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SC_Room_Player_List_ResponseDefaultTypeInternal _SC_Room_Player_List_Response_default_instance_;
 
+inline constexpr SC_Player_Enter_Room_Notification::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        player_{nullptr} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR SC_Player_Enter_Room_Notification::SC_Player_Enter_Room_Notification(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct SC_Player_Enter_Room_NotificationDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR SC_Player_Enter_Room_NotificationDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~SC_Player_Enter_Room_NotificationDefaultTypeInternal() {}
+  union {
+    SC_Player_Enter_Room_Notification _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SC_Player_Enter_Room_NotificationDefaultTypeInternal _SC_Player_Enter_Room_Notification_default_instance_;
+
 inline constexpr SC_My_Player_Info_Response::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
@@ -679,6 +704,16 @@ const ::uint32_t
         ~0u,
         ~0u,
         0,
+        PROTOBUF_FIELD_OFFSET(::msgTest::SC_Player_Enter_Room_Notification, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::msgTest::SC_Player_Enter_Room_Notification, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::msgTest::SC_Player_Enter_Room_Notification, _impl_.player_),
+        0,
 };
 
 static const ::_pbi::MigrationSchema
@@ -700,6 +735,7 @@ static const ::_pbi::MigrationSchema
         {155, -1, -1, sizeof(::msgTest::SC_Room_List_Response)},
         {164, -1, -1, sizeof(::msgTest::CS_Enter_Room_Request)},
         {173, 184, -1, sizeof(::msgTest::SC_Enter_Room_Response)},
+        {187, 196, -1, sizeof(::msgTest::SC_Player_Enter_Room_Notification)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::msgTest::_Position_default_instance_._instance,
@@ -719,6 +755,7 @@ static const ::_pb::Message* const file_default_instances[] = {
     &::msgTest::_SC_Room_List_Response_default_instance_._instance,
     &::msgTest::_CS_Enter_Room_Request_default_instance_._instance,
     &::msgTest::_SC_Enter_Room_Response_default_instance_._instance,
+    &::msgTest::_SC_Player_Enter_Room_Notification_default_instance_._instance,
 };
 const char descriptor_table_protodef_messageTest_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
@@ -751,19 +788,21 @@ const char descriptor_table_protodef_messageTest_2eproto[] ABSL_ATTRIBUTE_SECTIO
     "\n\025CS_Enter_Room_Request\022\017\n\007room_id\030\001 \001(\005"
     "\"]\n\026SC_Enter_Room_Response\022\017\n\007success\030\001 "
     "\001(\010\022\025\n\rerror_message\030\002 \001(\t\022\033\n\004room\030\003 \001(\013"
-    "2\r.msgTest.Roomb\006proto3"
+    "2\r.msgTest.Room\"D\n!SC_Player_Enter_Room_"
+    "Notification\022\037\n\006player\030\001 \001(\0132\017.msgTest.P"
+    "layerb\006proto3"
 };
 static ::absl::once_flag descriptor_table_messageTest_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_messageTest_2eproto = {
     false,
     false,
-    1183,
+    1253,
     descriptor_table_protodef_messageTest_2eproto,
     "messageTest.proto",
     &descriptor_table_messageTest_2eproto_once,
     nullptr,
     0,
-    17,
+    18,
     schemas,
     file_default_instances,
     TableStruct_messageTest_2eproto::offsets,
@@ -5231,6 +5270,256 @@ void SC_Enter_Room_Response::InternalSwap(SC_Enter_Room_Response* PROTOBUF_RESTR
 }
 
 ::google::protobuf::Metadata SC_Enter_Room_Response::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class SC_Player_Enter_Room_Notification::_Internal {
+ public:
+  using HasBits =
+      decltype(std::declval<SC_Player_Enter_Room_Notification>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(SC_Player_Enter_Room_Notification, _impl_._has_bits_);
+};
+
+SC_Player_Enter_Room_Notification::SC_Player_Enter_Room_Notification(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:msgTest.SC_Player_Enter_Room_Notification)
+}
+inline PROTOBUF_NDEBUG_INLINE SC_Player_Enter_Room_Notification::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from, const ::msgTest::SC_Player_Enter_Room_Notification& from_msg)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0} {}
+
+SC_Player_Enter_Room_Notification::SC_Player_Enter_Room_Notification(
+    ::google::protobuf::Arena* arena,
+    const SC_Player_Enter_Room_Notification& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SC_Player_Enter_Room_Notification* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.player_ = (cached_has_bits & 0x00000001u) ? ::google::protobuf::Message::CopyConstruct<::msgTest::Player>(
+                              arena, *from._impl_.player_)
+                        : nullptr;
+
+  // @@protoc_insertion_point(copy_constructor:msgTest.SC_Player_Enter_Room_Notification)
+}
+inline PROTOBUF_NDEBUG_INLINE SC_Player_Enter_Room_Notification::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0} {}
+
+inline void SC_Player_Enter_Room_Notification::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.player_ = {};
+}
+SC_Player_Enter_Room_Notification::~SC_Player_Enter_Room_Notification() {
+  // @@protoc_insertion_point(destructor:msgTest.SC_Player_Enter_Room_Notification)
+  SharedDtor(*this);
+}
+inline void SC_Player_Enter_Room_Notification::SharedDtor(MessageLite& self) {
+  SC_Player_Enter_Room_Notification& this_ = static_cast<SC_Player_Enter_Room_Notification&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  delete this_._impl_.player_;
+  this_._impl_.~Impl_();
+}
+
+inline void* SC_Player_Enter_Room_Notification::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) SC_Player_Enter_Room_Notification(arena);
+}
+constexpr auto SC_Player_Enter_Room_Notification::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(SC_Player_Enter_Room_Notification),
+                                            alignof(SC_Player_Enter_Room_Notification));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull SC_Player_Enter_Room_Notification::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_SC_Player_Enter_Room_Notification_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &SC_Player_Enter_Room_Notification::MergeImpl,
+        ::google::protobuf::Message::GetNewImpl<SC_Player_Enter_Room_Notification>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &SC_Player_Enter_Room_Notification::SharedDtor,
+        ::google::protobuf::Message::GetClearImpl<SC_Player_Enter_Room_Notification>(), &SC_Player_Enter_Room_Notification::ByteSizeLong,
+            &SC_Player_Enter_Room_Notification::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(SC_Player_Enter_Room_Notification, _impl_._cached_size_),
+        false,
+    },
+    &SC_Player_Enter_Room_Notification::kDescriptorMethods,
+    &descriptor_table_messageTest_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* SC_Player_Enter_Room_Notification::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 1, 1, 0, 2> SC_Player_Enter_Room_Notification::_table_ = {
+  {
+    PROTOBUF_FIELD_OFFSET(SC_Player_Enter_Room_Notification, _impl_._has_bits_),
+    0, // no _extensions_
+    1, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967294,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    1,  // num_field_entries
+    1,  // num_aux_entries
+    offsetof(decltype(_table_), aux_entries),
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::msgTest::SC_Player_Enter_Room_Notification>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    // .msgTest.Player player = 1;
+    {::_pbi::TcParser::FastMtS1,
+     {10, 0, 0, PROTOBUF_FIELD_OFFSET(SC_Player_Enter_Room_Notification, _impl_.player_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // .msgTest.Player player = 1;
+    {PROTOBUF_FIELD_OFFSET(SC_Player_Enter_Room_Notification, _impl_.player_), _Internal::kHasBitsOffset + 0, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+  }}, {{
+    {::_pbi::TcParser::GetTable<::msgTest::Player>()},
+  }}, {{
+  }},
+};
+
+PROTOBUF_NOINLINE void SC_Player_Enter_Room_Notification::Clear() {
+// @@protoc_insertion_point(message_clear_start:msgTest.SC_Player_Enter_Room_Notification)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    ABSL_DCHECK(_impl_.player_ != nullptr);
+    _impl_.player_->Clear();
+  }
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::uint8_t* SC_Player_Enter_Room_Notification::_InternalSerialize(
+            const MessageLite& base, ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) {
+          const SC_Player_Enter_Room_Notification& this_ = static_cast<const SC_Player_Enter_Room_Notification&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::uint8_t* SC_Player_Enter_Room_Notification::_InternalSerialize(
+            ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+          const SC_Player_Enter_Room_Notification& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(serialize_to_array_start:msgTest.SC_Player_Enter_Room_Notification)
+          ::uint32_t cached_has_bits = 0;
+          (void)cached_has_bits;
+
+          cached_has_bits = this_._impl_._has_bits_[0];
+          // .msgTest.Player player = 1;
+          if (cached_has_bits & 0x00000001u) {
+            target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                1, *this_._impl_.player_, this_._impl_.player_->GetCachedSize(), target,
+                stream);
+          }
+
+          if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+            target =
+                ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+                    this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+          }
+          // @@protoc_insertion_point(serialize_to_array_end:msgTest.SC_Player_Enter_Room_Notification)
+          return target;
+        }
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::size_t SC_Player_Enter_Room_Notification::ByteSizeLong(const MessageLite& base) {
+          const SC_Player_Enter_Room_Notification& this_ = static_cast<const SC_Player_Enter_Room_Notification&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::size_t SC_Player_Enter_Room_Notification::ByteSizeLong() const {
+          const SC_Player_Enter_Room_Notification& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(message_byte_size_start:msgTest.SC_Player_Enter_Room_Notification)
+          ::size_t total_size = 0;
+
+          ::uint32_t cached_has_bits = 0;
+          // Prevent compiler warnings about cached_has_bits being unused
+          (void)cached_has_bits;
+
+           {
+            // .msgTest.Player player = 1;
+            cached_has_bits = this_._impl_._has_bits_[0];
+            if (cached_has_bits & 0x00000001u) {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.player_);
+            }
+          }
+          return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                                     &this_._impl_._cached_size_);
+        }
+
+void SC_Player_Enter_Room_Notification::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<SC_Player_Enter_Room_Notification*>(&to_msg);
+  auto& from = static_cast<const SC_Player_Enter_Room_Notification&>(from_msg);
+  ::google::protobuf::Arena* arena = _this->GetArena();
+  // @@protoc_insertion_point(class_specific_merge_from_start:msgTest.SC_Player_Enter_Room_Notification)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    ABSL_DCHECK(from._impl_.player_ != nullptr);
+    if (_this->_impl_.player_ == nullptr) {
+      _this->_impl_.player_ =
+          ::google::protobuf::Message::CopyConstruct<::msgTest::Player>(arena, *from._impl_.player_);
+    } else {
+      _this->_impl_.player_->MergeFrom(*from._impl_.player_);
+    }
+  }
+  _this->_impl_._has_bits_[0] |= cached_has_bits;
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void SC_Player_Enter_Room_Notification::CopyFrom(const SC_Player_Enter_Room_Notification& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:msgTest.SC_Player_Enter_Room_Notification)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void SC_Player_Enter_Room_Notification::InternalSwap(SC_Player_Enter_Room_Notification* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  swap(_impl_.player_, other->_impl_.player_);
+}
+
+::google::protobuf::Metadata SC_Player_Enter_Room_Notification::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // @@protoc_insertion_point(namespace_scope)

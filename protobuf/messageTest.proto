@@ -84,3 +84,7 @@ message SC_Enter_Room_Response{
     string error_message = 2;
     Room room = 3;
 }
+
+message SC_Player_Enter_Room_Notification{
+    Player player = 1;
+}
