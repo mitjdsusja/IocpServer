@@ -1,23 +1,48 @@
 #include "pch.h"
 #include "RoomManager.h"
 #include "GameSession.h"
+#include "jobQueue.h"
 
 Room::Room(int32 roomId, shared_ptr<Player> hostPlayer, wstring roomName, int32 maxPlayerCount)
 	: _roomId(roomId), _hostPlayer(hostPlayer), _roomName(roomName), _maxPlayerCount(maxPlayerCount){
+
 	AddPlayer(hostPlayer->GetOwner()->GetSessionId(), hostPlayer);
 }
 
 Room::~Room() {
+
 	cout << "[REMOVE ROOM] roomId : " << _roomId << endl;
 }
 
+void Room::Broadcast(shared_ptr<Buffer>& originSendBuffer){
+
+	lock_guard<mutex> lock(_roomMutex);
+
+	for (auto& it : _players) {
+		shared_ptr<GameSession> gameSession = it.second->GetOwner();
+
+		shared_ptr<Buffer> sendBuffer = shared_ptr<Buffer>(GSendBufferPool->Pop(), [](Buffer* buffer) { GSendBufferPool->Push(buffer); });
+		memcpy(sendBuffer->GetBuffer(), originSendBuffer->GetBuffer(), originSendBuffer->WriteSize());
+		sendBuffer->Write(originSendBuffer->WriteSize());
+
+		Job* job = new Job([gameSession, sendBuffer]() {
+			gameSession->Send(sendBuffer);
+		});
+		GJobQueue->Push(job);
+	}
+}
+
 void Room::AddPlayer(uint64 sessionId, shared_ptr<Player> player){
+
+	lock_guard<mutex> lock(_roomMutex);
 
 	_players[sessionId] = player;
 	_curPlayerCount++;
 }
 
 void Room::RemovePlayer(uint64 sessionId){
+
+	lock_guard<mutex> lock(_roomMutex);
 
 	_players.erase(sessionId);
 
@@ -30,6 +55,8 @@ RoomInfo Room::GetRoomInfo(){
 
 	RoomInfo roomInfo = { _roomId, _maxPlayerCount, _curPlayerCount, _roomName , _hostPlayer->GetName()};
 	
+	lock_guard<mutex> lock(_roomMutex);
+
 	vector<PlayerInfo> playerInfoList;
 	for (const auto& player : _players) {
 		playerInfoList.push_back(player.second->GetPlayerInfo());
@@ -47,6 +74,21 @@ vector<PlayerInfo> Room::GetRoomPlayerInfoList(int32 roomId){
 
 RoomManager::RoomManager(int32 maxRoomCount) : _maxRoomCount(maxRoomCount){
 
+}
+
+void RoomManager::BroadcastToRoom(int32 roomId, shared_ptr<Buffer>& sendBuffer){
+
+	shared_ptr<Room> room;
+	{
+		lock_guard<mutex> lock(_roomsMutex);
+
+		room = _rooms[roomId];
+		if (room == nullptr) {
+			cout << "[INVALID ROOM] roomId : " << roomId << endl;
+			return;
+		}
+	}
+	room->Broadcast(sendBuffer);
 }
 
 int32 RoomManager::CreateAndAddRoom(shared_ptr<Player> hostPlayer, wstring roomName, int32 maxPlayerCount){

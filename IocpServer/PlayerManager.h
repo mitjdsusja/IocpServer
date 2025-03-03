@@ -1,6 +1,8 @@
 #pragma once
 #include "Vector.h"
 
+class GameSession;
+
 struct PlayerInfo {
 	wstring _name;
 	int32 _level;
@@ -10,12 +12,12 @@ struct PlayerInfo {
 
 class Player{
 public:
-	Player(shared_ptr<Session> owner, wstring name, Vector position);
+	Player(shared_ptr<GameSession> owner, wstring name, Vector position);
 	~Player();
 
 	void ClearResource();
 
-	shared_ptr<Session> GetOwner() { return _owner; }
+	shared_ptr<GameSession> GetOwner() { return _owner; }
 
 	PlayerInfo GetPlayerInfo();
 
@@ -27,7 +29,7 @@ public:
 	int32 GetRoomId() { return _roomId; }
 
 private:
-	shared_ptr<Session> _owner = nullptr;
+	shared_ptr<GameSession> _owner = nullptr;
 
 	wstring _name = L"";
 	int32 _level = 0;
@@ -42,7 +44,7 @@ public:
 	~PlayerManager();
 
 	// TODO : 매개변수로 각각 값을 주지않고 PlayerINfo로 넘겨주기
-	void CreateAndAddPlayer(shared_ptr<Session> owner, uint64 sessionId, wstring name, Vector position);
+	void CreateAndAddPlayer(shared_ptr<GameSession> owner, uint64 sessionId, wstring name, Vector position);
 	shared_ptr<Player> GetPlayer(uint64 sessionId);
 
 	void RemovePlayer(uint64 sessionId);

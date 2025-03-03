@@ -1,8 +1,9 @@
 #include "pch.h"
 #include "PlayerManager.h"
+#include "GameSession.h"
 
 
-Player::Player(shared_ptr<Session> owner, wstring name, Vector position)
+Player::Player(shared_ptr<GameSession> owner, wstring name, Vector position)
  : _owner(owner), _name(name), _position(position){
 	
 }
@@ -36,7 +37,7 @@ PlayerManager::~PlayerManager(){
 
 }
 
-void PlayerManager::CreateAndAddPlayer(shared_ptr<Session> owner, uint64 sessionId, wstring name, Vector position){
+void PlayerManager::CreateAndAddPlayer(shared_ptr<GameSession> owner, uint64 sessionId, wstring name, Vector position){
 	
 	shared_ptr<Player> player = make_shared<Player>(owner, name, position);
 	player->SetInfo(name);
