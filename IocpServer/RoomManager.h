@@ -23,6 +23,7 @@ public:
 	void RemovePlayer(uint64 sessionId);
 
 	RoomInfo GetRoomInfo();
+	int32 GetPlayerCount();
 
 	vector<PlayerInfo> GetRoomPlayerInfoList(int32 roomId);
 

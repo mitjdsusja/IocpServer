@@ -45,10 +45,6 @@ void Room::RemovePlayer(uint64 sessionId){
 	lock_guard<mutex> lock(_roomMutex);
 
 	_players.erase(sessionId);
-
-	if (_players.empty()) {
-		GRoomManager->RemoveRoom(_roomId);
-	}
 }
 
 RoomInfo Room::GetRoomInfo(){
@@ -64,6 +60,11 @@ RoomInfo Room::GetRoomInfo(){
 	roomInfo._playerInfoList = playerInfoList;
 
 	return roomInfo;
+}
+
+int32 Room::GetPlayerCount(){
+
+	return _players.size();
 }
 
 vector<PlayerInfo> Room::GetRoomPlayerInfoList(int32 roomId){
@@ -121,16 +122,30 @@ bool RoomManager::EnterRoom(int32 roomId, int64 sessionId, shared_ptr<Player> pl
 	return true;
 }
 
-void RoomManager::RemoveRoom(int32 roomId){
+void RoomManager::RemoveRoom(int32 roomId) {
 
-	_rooms.erase(roomId);
+	lock_guard<mutex> lock(_roomsMutex); 
+
+	auto it = _rooms.find(roomId);
+	if (it != _rooms.end()) {
+		_rooms.erase(it);
+	}
 }
 
-void RoomManager::RemovePlayerFromRoom(int32 roomId, uint64 sessionId){
+void RoomManager::RemovePlayerFromRoom(int32 roomId, uint64 sessionId) {
 
-	shared_ptr<Room> room = _rooms[roomId];
-	if (room != nullptr) {
-		room->RemovePlayer(sessionId);
+	lock_guard<mutex> lock(_roomsMutex); 
+
+	auto it = _rooms.find(roomId);
+	if (it == _rooms.end()) {
+		return; 
+	}
+
+	shared_ptr<Room> room = it->second;
+	room->RemovePlayer(sessionId);
+
+	if (room->GetPlayerCount() == 0) {
+		_rooms.erase(it); 
 	}
 }
 
