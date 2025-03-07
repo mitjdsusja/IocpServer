@@ -277,7 +277,10 @@ void PacketHandler::Handle_CS_Enter_Room_Request(shared_ptr<GameSession> session
 
 		roomId = recvEnterRoomRequestPacket.room_id();
 
+		shared_ptr<Player> player = GPlayerManager->GetPlayer(session->GetSessionId());
+
 		bool roomEnterReturn = GRoomManager->EnterRoom(roomId, session->GetSessionId(), GPlayerManager->GetPlayer(session->GetSessionId()));
+		player->SetRoomId(roomId);
 
 		RoomInfo roomInfo = GRoomManager->GetRoomInfo(roomId);
 

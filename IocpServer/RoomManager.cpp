@@ -138,6 +138,7 @@ void RoomManager::RemovePlayerFromRoom(int32 roomId, uint64 sessionId) {
 
 	auto it = _rooms.find(roomId);
 	if (it == _rooms.end()) {
+		cout << "[INVALID ROOM ID] room ID : " << roomId << endl;
 		return; 
 	}
 
