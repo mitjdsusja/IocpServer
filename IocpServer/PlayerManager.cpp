@@ -56,13 +56,17 @@ PlayerManager::~PlayerManager(){
 
 void PlayerManager::CreateAndAddPlayer(shared_ptr<GameSession> owner, uint64 sessionId, wstring name, Vector position){
 	
-	shared_ptr<Player> player = make_shared<Player>(owner, name, position);
-	
-	{
-		lock_guard<mutex> lock(_playersMutex);
+	lock_guard<mutex> lock(_playersMutex);
 
-		_players[sessionId] = player;
+	auto it = _players.find(sessionId);
+	if (it != _players.end()) {
+		cout << "[VALID PLAYER] session Id : " << sessionId << endl;
+		return;
 	}
+
+	shared_ptr<Player> player = make_shared<Player>(owner, name, position);
+
+	_players[sessionId] = player;
 }
 
 shared_ptr<Player> PlayerManager::GetPlayer(uint64 sessionId) {
