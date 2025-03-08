@@ -79,13 +79,13 @@ shared_ptr<Player> PlayerManager::GetPlayer(uint64 sessionId) {
 
 void PlayerManager::RemovePlayer(uint64 sessionId){
 
-	shared_ptr<Player> player = GetPlayer(sessionId);
+	lock_guard<mutex> lock(_playersMutex);
 
-	if (player == nullptr) {
+	auto it = _players.find(sessionId);
+	if (it == _players.end()) {
 		return;
 	}
 
-	lock_guard<mutex> lock(_playersMutex);
 	_players.erase(sessionId);
 }
 
