@@ -69,7 +69,12 @@ shared_ptr<Player> PlayerManager::GetPlayer(uint64 sessionId) {
 	
 	lock_guard<mutex> lock(_playersMutex);
 
-	return _players[sessionId];
+	auto it = _players.find(sessionId);
+	if (it == _players.end()) {
+		return nullptr;
+	}
+
+	return it->second;
 }
 
 void PlayerManager::RemovePlayer(uint64 sessionId){
