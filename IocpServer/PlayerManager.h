@@ -21,15 +21,16 @@ public:
 
 	PlayerInfo GetPlayerInfo();
 
-	void SetInfo(wstring name);
-	void SetName(wstring name) { _name = name; }
-	void SetRoomId(int32 roomId) { _roomId = roomId; }
+	void SetPlayerInfo(PlayerInfo& playerInfo);
+	void SetName(wstring& name);
+	void SetRoomId(int32 roomId);
 
 	wstring GetName() { return _name; }
 	int32 GetRoomId() { return _roomId; }
 
 private:
 	shared_ptr<GameSession> _owner = nullptr;
+	mutex _playerMutex;
 
 	wstring _name = L"";
 	int32 _level = 0;

@@ -24,9 +24,26 @@ PlayerInfo Player::GetPlayerInfo(){
 	return playerInfo;
 }
 
-void Player::SetInfo(wstring name){
+void Player::SetPlayerInfo(PlayerInfo& playerInfo){
 	
-	SetName(name);
+	lock_guard<mutex> lock(_playerMutex);
+
+	_name = playerInfo._name;
+	_roomId = playerInfo._roomId;
+}
+
+void Player::SetName(wstring& name){
+
+	lock_guard<mutex> lock(_playerMutex);
+
+	_name = name;
+}
+
+void Player::SetRoomId(int32 roomId){
+
+	lock_guard<mutex> lock(_playerMutex);
+
+	_roomId = roomId;
 }
 
 PlayerManager::PlayerManager(){
@@ -40,7 +57,6 @@ PlayerManager::~PlayerManager(){
 void PlayerManager::CreateAndAddPlayer(shared_ptr<GameSession> owner, uint64 sessionId, wstring name, Vector position){
 	
 	shared_ptr<Player> player = make_shared<Player>(owner, name, position);
-	player->SetInfo(name);
 	
 	{
 		lock_guard<mutex> lock(_playersMutex);
