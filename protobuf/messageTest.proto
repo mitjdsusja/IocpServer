@@ -88,3 +88,8 @@ message SC_Enter_Room_Response{
 message SC_Player_Enter_Room_Notification{
     Player player = 1;
 }
+
+message CS_Player_Move_Request{
+    Position position = 1;
+    int64 timestamp = 2; 
+}

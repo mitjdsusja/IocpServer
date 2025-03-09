@@ -44,7 +44,7 @@ public:
 	PlayerManager();
 	~PlayerManager();
 
-	// TODO : 매개변수로 각각 값을 주지않고 PlayerINfo로 넘겨주기
+	// TODO : 매개변수로 각각 값을 주지않고 PlayerInfo로 넘겨주기
 	void CreateAndAddPlayer(shared_ptr<GameSession> owner, uint64 sessionId, wstring name, Vector position);
 	shared_ptr<Player> GetPlayer(uint64 sessionId);
 

@@ -175,15 +175,19 @@ void PacketHandler::Handle_CS_Player_Info_Request(shared_ptr<GameSession> sessio
 
 	// database
 	GameSession* gameSession = (GameSession*)session.get();
-	wstring query = L"SELECT name, level from users WHERE usernum = " + to_wstring(gameSession->GetDbId()) + L";";
+	wstring query = L"SELECT name, level, pos_x, pos_y, pos_z from users WHERE usernum = " + to_wstring(gameSession->GetDbId()) + L";";
 	//wcout << query << endl;
 	vector<vector<wstring>> result = LDBConnector->ExecuteSelectQuery(query);
 
 	string name;
 	int32 level;
+	float posX, posY, posZ;
 	if (!result.empty() && !result[0].empty()) {
 		name = boost::locale::conv::utf_to_utf<char>(result[0][0]);
 		level = stoi(result[0][1]);
+		posX = stof(result[0][2]);
+		posY = stof(result[0][3]);
+		posZ = stof(result[0][4]);
 	}
 	else {
 		wcout << L"Query returned no results." << endl;
@@ -193,9 +197,12 @@ void PacketHandler::Handle_CS_Player_Info_Request(shared_ptr<GameSession> sessio
 	// send packet
 	msgTest::SC_My_Player_Info_Response sendPlayerInfoResponsePacket;
 	msgTest::Player* playerInfo = sendPlayerInfoResponsePacket.mutable_player_info();
+	msgTest::Position* position = playerInfo->mutable_position();
 	playerInfo->set_level(level);
 	playerInfo->set_name(name);
-	playerInfo->mutable_position();
+	position->set_x(posX);
+	position->set_y(posY);
+	position->set_z(posZ);
 
 	shared_ptr<Buffer> sendBuffer = MakeSendBuffer(sendPlayerInfoResponsePacket, PacketId::PKT_SC_MY_PLAYER_INFO_RESPONSE);
 
