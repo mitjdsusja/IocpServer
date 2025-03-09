@@ -31,6 +31,7 @@ void PacketHandler::RegisterPacketHandlers() {
 	packetHandleArray[PKT_CS_ROOM_PLAYER_LIST_REQUEST] = Handle_CS_Room_Player_List_Request;
 	packetHandleArray[PKT_CS_ENTER_ROOM_REQUEST] = Handle_CS_Enter_Room_Request;
 	packetHandleArray[PKT_CS_CREATE_ROOM_REQUEST] = Handle_CS_Create_Room_Request;
+	packetHandleArray[PKT_CS_PLAYER_MOVE_REQUEST] = Handle_CS_Player_Move_Request;
 
 
 	/*------------
@@ -325,6 +326,25 @@ void PacketHandler::Handle_CS_Enter_Room_Request(shared_ptr<GameSession> session
 
 		GRoomManager->BroadcastToRoom(roomId, sendBuffer);
 	}
+}
+
+void PacketHandler::Handle_CS_Player_Move_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service){
+
+	msgTest::CS_Player_Move_Request recvPlayerMoveReqeustPacket;
+	recvPlayerMoveReqeustPacket.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
+
+	msgTest::MoveState moveState = recvPlayerMoveReqeustPacket.movestate();
+	wstring playerName = boost::locale::conv::utf_to_utf<wchar_t>(moveState.playername());
+	Vector position(moveState.position().x(), moveState.position().y(), moveState.position().z());
+	int64 timestamp = moveState.timestamp();
+
+	shared_ptr<Player> player = GPlayerManager->GetPlayer(session->GetSessionId());
+
+	if (player == nullptr) {
+		cout << "INVALID PLAYER" << endl;
+		return;
+	}
+	player->SetPlayerMove(position, timestamp);
 }
 
 

@@ -24,12 +24,21 @@ PlayerInfo Player::GetPlayerInfo(){
 	return playerInfo;
 }
 
+void Player::SetPlayerMove(Vector& position, int64 timestamp){
+
+	lock_guard<mutex> lock(_playerMutex);
+
+	_position = position;
+	_moveTimestamp = timestamp;
+}
+
 void Player::SetPlayerInfo(PlayerInfo& playerInfo){
 	
 	lock_guard<mutex> lock(_playerMutex);
 
 	_name = playerInfo._name;
 	_roomId = playerInfo._roomId;
+	_position = playerInfo._position;
 }
 
 void Player::SetName(wstring& name){
@@ -44,6 +53,20 @@ void Player::SetRoomId(int32 roomId){
 	lock_guard<mutex> lock(_playerMutex);
 
 	_roomId = roomId;
+}
+
+void Player::SetPosition(Vector& position){
+
+	lock_guard<mutex> lock(_playerMutex);
+
+	_position = position;
+}
+
+void Player::SetMoveTimestamp(int64 timestamp){
+
+	lock_guard<mutex> lock(_playerMutex);
+
+	_moveTimestamp = timestamp;
 }
 
 PlayerManager::PlayerManager(){
@@ -79,6 +102,12 @@ shared_ptr<Player> PlayerManager::GetPlayer(uint64 sessionId) {
 	}
 
 	return it->second;
+}
+
+void PlayerManager::SetPlayerInfo(int64 sessionId, PlayerInfo& playerInfo){
+
+	shared_ptr<Player> player = GetPlayer(sessionId);
+	player->SetPlayerInfo(playerInfo);
 }
 
 void PlayerManager::RemovePlayer(uint64 sessionId){
