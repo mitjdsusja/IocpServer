@@ -2,29 +2,23 @@ syntax = "proto3";  // proto2 -> proto3·Î º¯°æ
 
 package msgTest;
 
-message Position {  
+message Vector3 {  
     float x = 1;  
     float y = 2;  
     float z = 3;  
 }
 
-message Veloccity {  
-    float x = 1;  
-    float y = 2;  
-    float z = 3; 
-}
-
 message MoveState{
-    int32 userId = 1;
-    Position position = 2; 
-    Veloccity velocity = 3; 
-    int64 timestamp = 5; 
+    string playerName = 1;
+    Vector3 position = 2; 
+    Vector3 velocity = 3; 
+    int64 timestamp = 4; 
 }
 
 message Player{
     string name = 1;
     int32 level = 2;
-    Position position = 3;
+    Vector3 position = 3;
 }
 
 message Room{
@@ -41,31 +35,31 @@ message CS_Login_Request{
 }
 message SC_Login_Response{
     bool success = 1;
-    string error_message = 2;
-    uint64 session_id = 3;
+    string errorMessage = 2;
+    uint64 sessionId = 3;
 }
 
 message CS_My_Player_Info_Request{
-    uint64 session_id = 1;
+    uint64 sessionId = 1;
 }
 message SC_My_Player_Info_Response{
-    Player player_info = 1;
+    Player playerInfo = 1;
 }
 
 message CS_Room_Player_List_Request{
-    int32 room_id = 1;
+    int32 roomId = 1;
 }
 message SC_Room_Player_List_Response{
-    repeated Player player_list = 1;
+    repeated Player playerList = 1;
 }
 
 message CS_Create_Room_Request{
-    string room_name = 1;
-    string host_name = 2;
+    string roomName = 1;
+    string hostName = 2;
 }
 message SC_Create_Room_Response{
     bool success = 1;
-    string error_message = 2;
+    string errorMessage = 2;
     Room room = 3;
 }
 
@@ -73,15 +67,15 @@ message CS_Room_List_Request{
 
 }
 message SC_Room_List_Response{
-    repeated Room room_list = 1;
+    repeated Room roomList = 1;
 }
 
 message CS_Enter_Room_Request{
-    int32 room_id = 1;
+    int32 roomId = 1;
 }
 message SC_Enter_Room_Response{
     bool success = 1;
-    string error_message = 2;
+    string errorMessage = 2;
     Room room = 3;
 }
 
@@ -90,6 +84,9 @@ message SC_Player_Enter_Room_Notification{
 }
 
 message CS_Player_Move_Request{
-    Position position = 1;
-    int64 timestamp = 2; 
+    MoveState moveState = 1;
+}
+
+message SC_Player_Move_Notification{
+    repeated MoveState moveStates = 1;
 }

@@ -123,11 +123,11 @@ void PacketHandler::Handle_CS_Login_Requset(shared_ptr<GameSession> session, sha
 
 	if (userExists == true) {
 		sendLoginResponsePacket.set_success(true);
-		sendLoginResponsePacket.set_session_id(session->GetSessionId());
+		sendLoginResponsePacket.set_sessionid(session->GetSessionId());
 	}
 	else {
 		sendLoginResponsePacket.set_success(false);
-		sendLoginResponsePacket.set_error_message("LOGIN FAIL");
+		sendLoginResponsePacket.set_errormessage("LOGIN FAIL");
 	}
 	sendBuffer = PacketHandler::MakeSendBuffer(sendLoginResponsePacket, PacketId::PKT_SC_LOGIN_RESPONSE);
 
@@ -144,7 +144,7 @@ void PacketHandler::Handle_CS_Room_List_Request(shared_ptr<GameSession> session,
 
 	msgTest::SC_Room_List_Response sendRoomListRequestPacket;
 	for (const auto& roomInfo : roomInfoList) {
-		msgTest::Room* room = sendRoomListRequestPacket.add_room_list();
+		msgTest::Room* room = sendRoomListRequestPacket.add_roomlist();
 		string roomName = boost::locale::conv::utf_to_utf<char>(roomInfo._roomName);
 		string hostPlayerName = boost::locale::conv::utf_to_utf<char>(roomInfo._hostPlayerName);
 
@@ -167,7 +167,7 @@ void PacketHandler::Handle_CS_Player_Info_Request(shared_ptr<GameSession> sessio
 	msgTest::CS_My_Player_Info_Request recvRequestPlayerInfoPacket;
 	recvRequestPlayerInfoPacket.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
 
-	uint64 sessionId = recvRequestPlayerInfoPacket.session_id();
+	uint64 sessionId = recvRequestPlayerInfoPacket.sessionid();
 	if (session->GetSessionId() != sessionId) {
 		cout << "Session ID missmatch" << endl;
 		return;
@@ -196,8 +196,8 @@ void PacketHandler::Handle_CS_Player_Info_Request(shared_ptr<GameSession> sessio
 
 	// send packet
 	msgTest::SC_My_Player_Info_Response sendPlayerInfoResponsePacket;
-	msgTest::Player* playerInfo = sendPlayerInfoResponsePacket.mutable_player_info();
-	msgTest::Position* position = playerInfo->mutable_position();
+	msgTest::Player* playerInfo = sendPlayerInfoResponsePacket.mutable_playerinfo();
+	msgTest::Vector3* position = playerInfo->mutable_position();
 	playerInfo->set_level(level);
 	playerInfo->set_name(name);
 	position->set_x(posX);
@@ -217,15 +217,15 @@ void PacketHandler::Handle_CS_Room_Player_List_Request(shared_ptr<GameSession> s
 	msgTest::CS_Room_Player_List_Request recvRoomPlayerListRequestPacket;
 	recvRoomPlayerListRequestPacket.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
 
-	int32 roomId = recvRoomPlayerListRequestPacket.room_id();
+	int32 roomId = recvRoomPlayerListRequestPacket.roomid();
 	
 	// Get Player List with GRoomManager
 	RoomInfo roomInfo = GRoomManager->GetRoomInfo(roomId);
 
 	msgTest::SC_Room_Player_List_Response sendRoomPlayerListResponsePacket;
 	for (const auto& playerInfo : roomInfo._playerInfoList) {
-		msgTest::Player* player = sendRoomPlayerListResponsePacket.add_player_list();
-		msgTest::Position* position = player->mutable_position();
+		msgTest::Player* player = sendRoomPlayerListResponsePacket.add_playerlist();
+		msgTest::Vector3* position = player->mutable_position();
 		string name = boost::locale::conv::utf_to_utf<char>(playerInfo._name);
 		player->set_name(name);
 		position->set_x(playerInfo._position._x);
@@ -246,8 +246,8 @@ void PacketHandler::Handle_CS_Create_Room_Request(shared_ptr<GameSession> sessio
 	msgTest::CS_Create_Room_Request recvCreateRoomPacket;
 	recvCreateRoomPacket.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
 
-	wstring roomName = boost::locale::conv::utf_to_utf<wchar_t>(recvCreateRoomPacket.room_name());
-	wstring hostName = boost::locale::conv::utf_to_utf<wchar_t>(recvCreateRoomPacket.host_name());
+	wstring roomName = boost::locale::conv::utf_to_utf<wchar_t>(recvCreateRoomPacket.roomname());
+	wstring hostName = boost::locale::conv::utf_to_utf<wchar_t>(recvCreateRoomPacket.hostname());
 
 	shared_ptr<Player> hostPlayer = GPlayerManager->GetPlayer(session->GetSessionId());
 	int roomId = GRoomManager->CreateAndAddRoom(hostPlayer, roomName);
@@ -282,7 +282,7 @@ void PacketHandler::Handle_CS_Enter_Room_Request(shared_ptr<GameSession> session
 		msgTest::CS_Enter_Room_Request recvEnterRoomRequestPacket;
 		recvEnterRoomRequestPacket.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
 
-		roomId = recvEnterRoomRequestPacket.room_id();
+		roomId = recvEnterRoomRequestPacket.roomid();
 
 		shared_ptr<Player> player = GPlayerManager->GetPlayer(session->GetSessionId());
 
@@ -312,7 +312,7 @@ void PacketHandler::Handle_CS_Enter_Room_Request(shared_ptr<GameSession> session
 		// notify user join
 		msgTest::SC_Player_Enter_Room_Notification sendPlayerEnterRoomNotificationPacket;
 		msgTest::Player* player = sendPlayerEnterRoomNotificationPacket.mutable_player();
-		msgTest::Position* position = player->mutable_position();
+		msgTest::Vector3* position = player->mutable_position();
 		PlayerInfo playerInfo = GPlayerManager->GetPlayer(session->GetSessionId())->GetPlayerInfo();
 
 		player->set_name(boost::locale::conv::utf_to_utf<char>(playerInfo._name));
