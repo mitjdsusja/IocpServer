@@ -197,7 +197,7 @@ void PacketHandler::Handle_CS_Player_Info_Request(shared_ptr<GameSession> sessio
 	// send packet
 	msgTest::SC_My_Player_Info_Response sendPlayerInfoResponsePacket;
 	msgTest::Player* playerInfo = sendPlayerInfoResponsePacket.mutable_playerinfo();
-	msgTest::Vector3* position = playerInfo->mutable_position();
+	msgTest::Vector* position = playerInfo->mutable_position();
 	playerInfo->set_level(level);
 	playerInfo->set_name(name);
 	position->set_x(posX);
@@ -225,7 +225,7 @@ void PacketHandler::Handle_CS_Room_Player_List_Request(shared_ptr<GameSession> s
 	msgTest::SC_Room_Player_List_Response sendRoomPlayerListResponsePacket;
 	for (const auto& playerInfo : roomInfo._playerInfoList) {
 		msgTest::Player* player = sendRoomPlayerListResponsePacket.add_playerlist();
-		msgTest::Vector3* position = player->mutable_position();
+		msgTest::Vector* position = player->mutable_position();
 		string name = boost::locale::conv::utf_to_utf<char>(playerInfo._name);
 		player->set_name(name);
 		position->set_x(playerInfo._position._x);
@@ -312,7 +312,7 @@ void PacketHandler::Handle_CS_Enter_Room_Request(shared_ptr<GameSession> session
 		// notify user join
 		msgTest::SC_Player_Enter_Room_Notification sendPlayerEnterRoomNotificationPacket;
 		msgTest::Player* player = sendPlayerEnterRoomNotificationPacket.mutable_player();
-		msgTest::Vector3* position = player->mutable_position();
+		msgTest::Vector* position = player->mutable_position();
 		PlayerInfo playerInfo = GPlayerManager->GetPlayer(session->GetSessionId())->GetPlayerInfo();
 
 		player->set_name(boost::locale::conv::utf_to_utf<char>(playerInfo._name));

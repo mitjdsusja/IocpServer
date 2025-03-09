@@ -26,7 +26,7 @@ namespace _pbi = ::google::protobuf::internal;
 namespace _fl = ::google::protobuf::internal::field_layout;
 namespace msgTest {
 
-inline constexpr Vector3::Impl_::Impl_(
+inline constexpr Vector::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : x_{0},
         y_{0},
@@ -34,7 +34,7 @@ inline constexpr Vector3::Impl_::Impl_(
         _cached_size_{0} {}
 
 template <typename>
-PROTOBUF_CONSTEXPR Vector3::Vector3(::_pbi::ConstantInitialized)
+PROTOBUF_CONSTEXPR Vector::Vector(::_pbi::ConstantInitialized)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(_class_data_.base()),
 #else   // PROTOBUF_CUSTOM_VTABLE
@@ -42,16 +42,16 @@ PROTOBUF_CONSTEXPR Vector3::Vector3(::_pbi::ConstantInitialized)
 #endif  // PROTOBUF_CUSTOM_VTABLE
       _impl_(::_pbi::ConstantInitialized()) {
 }
-struct Vector3DefaultTypeInternal {
-  PROTOBUF_CONSTEXPR Vector3DefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~Vector3DefaultTypeInternal() {}
+struct VectorDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR VectorDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~VectorDefaultTypeInternal() {}
   union {
-    Vector3 _instance;
+    Vector _instance;
   };
 };
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 Vector3DefaultTypeInternal _Vector3_default_instance_;
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 VectorDefaultTypeInternal _Vector_default_instance_;
 
 inline constexpr SC_Login_Response::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
@@ -543,16 +543,16 @@ const ::uint32_t
     TableStruct_messageTest_2eproto::offsets[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
         protodesc_cold) = {
         ~0u,  // no _has_bits_
-        PROTOBUF_FIELD_OFFSET(::msgTest::Vector3, _internal_metadata_),
+        PROTOBUF_FIELD_OFFSET(::msgTest::Vector, _internal_metadata_),
         ~0u,  // no _extensions_
         ~0u,  // no _oneof_case_
         ~0u,  // no _weak_field_map_
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
-        PROTOBUF_FIELD_OFFSET(::msgTest::Vector3, _impl_.x_),
-        PROTOBUF_FIELD_OFFSET(::msgTest::Vector3, _impl_.y_),
-        PROTOBUF_FIELD_OFFSET(::msgTest::Vector3, _impl_.z_),
+        PROTOBUF_FIELD_OFFSET(::msgTest::Vector, _impl_.x_),
+        PROTOBUF_FIELD_OFFSET(::msgTest::Vector, _impl_.y_),
+        PROTOBUF_FIELD_OFFSET(::msgTest::Vector, _impl_.z_),
         PROTOBUF_FIELD_OFFSET(::msgTest::MoveState, _impl_._has_bits_),
         PROTOBUF_FIELD_OFFSET(::msgTest::MoveState, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -751,7 +751,7 @@ const ::uint32_t
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-        {0, -1, -1, sizeof(::msgTest::Vector3)},
+        {0, -1, -1, sizeof(::msgTest::Vector)},
         {11, 23, -1, sizeof(::msgTest::MoveState)},
         {27, 38, -1, sizeof(::msgTest::Player)},
         {41, -1, -1, sizeof(::msgTest::Room)},
@@ -772,7 +772,7 @@ static const ::_pbi::MigrationSchema
         {196, -1, -1, sizeof(::msgTest::SC_Player_Move_Notification)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
-    &::msgTest::_Vector3_default_instance_._instance,
+    &::msgTest::_Vector_default_instance_._instance,
     &::msgTest::_MoveState_default_instance_._instance,
     &::msgTest::_Player_default_instance_._instance,
     &::msgTest::_Room_default_instance_._instance,
@@ -794,46 +794,46 @@ static const ::_pb::Message* const file_default_instances[] = {
 };
 const char descriptor_table_protodef_messageTest_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\021messageTest.proto\022\007msgTest\"*\n\007Vector3\022"
-    "\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\t\n\001z\030\003 \001(\002\"z\n\tMove"
-    "State\022\022\n\nplayerName\030\001 \001(\t\022\"\n\010position\030\002 "
-    "\001(\0132\020.msgTest.Vector3\022\"\n\010velocity\030\003 \001(\0132"
-    "\020.msgTest.Vector3\022\021\n\ttimestamp\030\004 \001(\003\"I\n\006"
-    "Player\022\014\n\004name\030\001 \001(\t\022\r\n\005level\030\002 \001(\005\022\"\n\010p"
-    "osition\030\003 \001(\0132\020.msgTest.Vector3\"m\n\004Room\022"
-    "\016\n\006roomId\030\001 \001(\005\022\020\n\010roomName\030\002 \001(\t\022\026\n\016max"
-    "PlayerCount\030\003 \001(\005\022\023\n\013playerCount\030\004 \001(\005\022\026"
-    "\n\016hostPlayerName\030\005 \001(\t\"0\n\020CS_Login_Reque"
-    "st\022\n\n\002id\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\"M\n\021SC_L"
-    "ogin_Response\022\017\n\007success\030\001 \001(\010\022\024\n\014errorM"
-    "essage\030\002 \001(\t\022\021\n\tsessionId\030\003 \001(\004\".\n\031CS_My"
-    "_Player_Info_Request\022\021\n\tsessionId\030\001 \001(\004\""
-    "A\n\032SC_My_Player_Info_Response\022#\n\nplayerI"
-    "nfo\030\001 \001(\0132\017.msgTest.Player\"-\n\033CS_Room_Pl"
-    "ayer_List_Request\022\016\n\006roomId\030\001 \001(\005\"C\n\034SC_"
-    "Room_Player_List_Response\022#\n\nplayerList\030"
-    "\001 \003(\0132\017.msgTest.Player\"<\n\026CS_Create_Room"
-    "_Request\022\020\n\010roomName\030\001 \001(\t\022\020\n\010hostName\030\002"
-    " \001(\t\"]\n\027SC_Create_Room_Response\022\017\n\007succe"
-    "ss\030\001 \001(\010\022\024\n\014errorMessage\030\002 \001(\t\022\033\n\004room\030\003"
-    " \001(\0132\r.msgTest.Room\"\026\n\024CS_Room_List_Requ"
-    "est\"8\n\025SC_Room_List_Response\022\037\n\010roomList"
-    "\030\001 \003(\0132\r.msgTest.Room\"\'\n\025CS_Enter_Room_R"
-    "equest\022\016\n\006roomId\030\001 \001(\005\"\\\n\026SC_Enter_Room_"
-    "Response\022\017\n\007success\030\001 \001(\010\022\024\n\014errorMessag"
-    "e\030\002 \001(\t\022\033\n\004room\030\003 \001(\0132\r.msgTest.Room\"D\n!"
-    "SC_Player_Enter_Room_Notification\022\037\n\006pla"
-    "yer\030\001 \001(\0132\017.msgTest.Player\"\?\n\026CS_Player_"
-    "Move_Request\022%\n\tmoveState\030\001 \001(\0132\022.msgTes"
-    "t.MoveState\"E\n\033SC_Player_Move_Notificati"
-    "on\022&\n\nmoveStates\030\001 \003(\0132\022.msgTest.MoveSta"
-    "teb\006proto3"
+    "\n\021messageTest.proto\022\007msgTest\")\n\006Vector\022\t"
+    "\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\t\n\001z\030\003 \001(\002\"x\n\tMoveS"
+    "tate\022\022\n\nplayerName\030\001 \001(\t\022!\n\010position\030\002 \001"
+    "(\0132\017.msgTest.Vector\022!\n\010velocity\030\003 \001(\0132\017."
+    "msgTest.Vector\022\021\n\ttimestamp\030\004 \001(\003\"H\n\006Pla"
+    "yer\022\014\n\004name\030\001 \001(\t\022\r\n\005level\030\002 \001(\005\022!\n\010posi"
+    "tion\030\003 \001(\0132\017.msgTest.Vector\"m\n\004Room\022\016\n\006r"
+    "oomId\030\001 \001(\005\022\020\n\010roomName\030\002 \001(\t\022\026\n\016maxPlay"
+    "erCount\030\003 \001(\005\022\023\n\013playerCount\030\004 \001(\005\022\026\n\016ho"
+    "stPlayerName\030\005 \001(\t\"0\n\020CS_Login_Request\022\n"
+    "\n\002id\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\"M\n\021SC_Login"
+    "_Response\022\017\n\007success\030\001 \001(\010\022\024\n\014errorMessa"
+    "ge\030\002 \001(\t\022\021\n\tsessionId\030\003 \001(\004\".\n\031CS_My_Pla"
+    "yer_Info_Request\022\021\n\tsessionId\030\001 \001(\004\"A\n\032S"
+    "C_My_Player_Info_Response\022#\n\nplayerInfo\030"
+    "\001 \001(\0132\017.msgTest.Player\"-\n\033CS_Room_Player"
+    "_List_Request\022\016\n\006roomId\030\001 \001(\005\"C\n\034SC_Room"
+    "_Player_List_Response\022#\n\nplayerList\030\001 \003("
+    "\0132\017.msgTest.Player\"<\n\026CS_Create_Room_Req"
+    "uest\022\020\n\010roomName\030\001 \001(\t\022\020\n\010hostName\030\002 \001(\t"
+    "\"]\n\027SC_Create_Room_Response\022\017\n\007success\030\001"
+    " \001(\010\022\024\n\014errorMessage\030\002 \001(\t\022\033\n\004room\030\003 \001(\013"
+    "2\r.msgTest.Room\"\026\n\024CS_Room_List_Request\""
+    "8\n\025SC_Room_List_Response\022\037\n\010roomList\030\001 \003"
+    "(\0132\r.msgTest.Room\"\'\n\025CS_Enter_Room_Reque"
+    "st\022\016\n\006roomId\030\001 \001(\005\"\\\n\026SC_Enter_Room_Resp"
+    "onse\022\017\n\007success\030\001 \001(\010\022\024\n\014errorMessage\030\002 "
+    "\001(\t\022\033\n\004room\030\003 \001(\0132\r.msgTest.Room\"D\n!SC_P"
+    "layer_Enter_Room_Notification\022\037\n\006player\030"
+    "\001 \001(\0132\017.msgTest.Player\"\?\n\026CS_Player_Move"
+    "_Request\022%\n\tmoveState\030\001 \001(\0132\022.msgTest.Mo"
+    "veState\"E\n\033SC_Player_Move_Notification\022&"
+    "\n\nmoveStates\030\001 \003(\0132\022.msgTest.MoveStateb\006"
+    "proto3"
 };
 static ::absl::once_flag descriptor_table_messageTest_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_messageTest_2eproto = {
     false,
     false,
-    1330,
+    1326,
     descriptor_table_protodef_messageTest_2eproto,
     "messageTest.proto",
     &descriptor_table_messageTest_2eproto_once,
@@ -849,30 +849,30 @@ PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_messageTest_2e
 namespace msgTest {
 // ===================================================================
 
-class Vector3::_Internal {
+class Vector::_Internal {
  public:
 };
 
-Vector3::Vector3(::google::protobuf::Arena* arena)
+Vector::Vector(::google::protobuf::Arena* arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(arena, _class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:msgTest.Vector3)
+  // @@protoc_insertion_point(arena_constructor:msgTest.Vector)
 }
-Vector3::Vector3(
-    ::google::protobuf::Arena* arena, const Vector3& from)
-    : Vector3(arena) {
+Vector::Vector(
+    ::google::protobuf::Arena* arena, const Vector& from)
+    : Vector(arena) {
   MergeFrom(from);
 }
-inline PROTOBUF_NDEBUG_INLINE Vector3::Impl_::Impl_(
+inline PROTOBUF_NDEBUG_INLINE Vector::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* arena)
       : _cached_size_{0} {}
 
-inline void Vector3::SharedCtor(::_pb::Arena* arena) {
+inline void Vector::SharedCtor(::_pb::Arena* arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, x_),
@@ -881,54 +881,54 @@ inline void Vector3::SharedCtor(::_pb::Arena* arena) {
                offsetof(Impl_, x_) +
                sizeof(Impl_::z_));
 }
-Vector3::~Vector3() {
-  // @@protoc_insertion_point(destructor:msgTest.Vector3)
+Vector::~Vector() {
+  // @@protoc_insertion_point(destructor:msgTest.Vector)
   SharedDtor(*this);
 }
-inline void Vector3::SharedDtor(MessageLite& self) {
-  Vector3& this_ = static_cast<Vector3&>(self);
+inline void Vector::SharedDtor(MessageLite& self) {
+  Vector& this_ = static_cast<Vector&>(self);
   this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   ABSL_DCHECK(this_.GetArena() == nullptr);
   this_._impl_.~Impl_();
 }
 
-inline void* Vector3::PlacementNew_(const void*, void* mem,
+inline void* Vector::PlacementNew_(const void*, void* mem,
                                         ::google::protobuf::Arena* arena) {
-  return ::new (mem) Vector3(arena);
+  return ::new (mem) Vector(arena);
 }
-constexpr auto Vector3::InternalNewImpl_() {
-  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(Vector3),
-                                            alignof(Vector3));
+constexpr auto Vector::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(Vector),
+                                            alignof(Vector));
 }
 PROTOBUF_CONSTINIT
 PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::google::protobuf::internal::ClassDataFull Vector3::_class_data_ = {
+const ::google::protobuf::internal::ClassDataFull Vector::_class_data_ = {
     ::google::protobuf::internal::ClassData{
-        &_Vector3_default_instance_._instance,
+        &_Vector_default_instance_._instance,
         &_table_.header,
         nullptr,  // OnDemandRegisterArenaDtor
         nullptr,  // IsInitialized
-        &Vector3::MergeImpl,
-        ::google::protobuf::Message::GetNewImpl<Vector3>(),
+        &Vector::MergeImpl,
+        ::google::protobuf::Message::GetNewImpl<Vector>(),
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-        &Vector3::SharedDtor,
-        ::google::protobuf::Message::GetClearImpl<Vector3>(), &Vector3::ByteSizeLong,
-            &Vector3::_InternalSerialize,
+        &Vector::SharedDtor,
+        ::google::protobuf::Message::GetClearImpl<Vector>(), &Vector::ByteSizeLong,
+            &Vector::_InternalSerialize,
 #endif  // PROTOBUF_CUSTOM_VTABLE
-        PROTOBUF_FIELD_OFFSET(Vector3, _impl_._cached_size_),
+        PROTOBUF_FIELD_OFFSET(Vector, _impl_._cached_size_),
         false,
     },
-    &Vector3::kDescriptorMethods,
+    &Vector::kDescriptorMethods,
     &descriptor_table_messageTest_2eproto,
     nullptr,  // tracker
 };
-const ::google::protobuf::internal::ClassData* Vector3::GetClassData() const {
+const ::google::protobuf::internal::ClassData* Vector::GetClassData() const {
   ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
   ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<2, 3, 0, 0, 2> Vector3::_table_ = {
+const ::_pbi::TcParseTable<2, 3, 0, 0, 2> Vector::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
@@ -943,30 +943,30 @@ const ::_pbi::TcParseTable<2, 3, 0, 0, 2> Vector3::_table_ = {
     nullptr,  // post_loop_handler
     ::_pbi::TcParser::GenericFallback,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::msgTest::Vector3>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::msgTest::Vector>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
     // float x = 1;
     {::_pbi::TcParser::FastF32S1,
-     {13, 63, 0, PROTOBUF_FIELD_OFFSET(Vector3, _impl_.x_)}},
+     {13, 63, 0, PROTOBUF_FIELD_OFFSET(Vector, _impl_.x_)}},
     // float y = 2;
     {::_pbi::TcParser::FastF32S1,
-     {21, 63, 0, PROTOBUF_FIELD_OFFSET(Vector3, _impl_.y_)}},
+     {21, 63, 0, PROTOBUF_FIELD_OFFSET(Vector, _impl_.y_)}},
     // float z = 3;
     {::_pbi::TcParser::FastF32S1,
-     {29, 63, 0, PROTOBUF_FIELD_OFFSET(Vector3, _impl_.z_)}},
+     {29, 63, 0, PROTOBUF_FIELD_OFFSET(Vector, _impl_.z_)}},
   }}, {{
     65535, 65535
   }}, {{
     // float x = 1;
-    {PROTOBUF_FIELD_OFFSET(Vector3, _impl_.x_), 0, 0,
+    {PROTOBUF_FIELD_OFFSET(Vector, _impl_.x_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
     // float y = 2;
-    {PROTOBUF_FIELD_OFFSET(Vector3, _impl_.y_), 0, 0,
+    {PROTOBUF_FIELD_OFFSET(Vector, _impl_.y_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
     // float z = 3;
-    {PROTOBUF_FIELD_OFFSET(Vector3, _impl_.z_), 0, 0,
+    {PROTOBUF_FIELD_OFFSET(Vector, _impl_.z_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
   }},
   // no aux_entries
@@ -974,8 +974,8 @@ const ::_pbi::TcParseTable<2, 3, 0, 0, 2> Vector3::_table_ = {
   }},
 };
 
-PROTOBUF_NOINLINE void Vector3::Clear() {
-// @@protoc_insertion_point(message_clear_start:msgTest.Vector3)
+PROTOBUF_NOINLINE void Vector::Clear() {
+// @@protoc_insertion_point(message_clear_start:msgTest.Vector)
   ::google::protobuf::internal::TSanWrite(&_impl_);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
@@ -988,17 +988,17 @@ PROTOBUF_NOINLINE void Vector3::Clear() {
 }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-        ::uint8_t* Vector3::_InternalSerialize(
+        ::uint8_t* Vector::_InternalSerialize(
             const MessageLite& base, ::uint8_t* target,
             ::google::protobuf::io::EpsCopyOutputStream* stream) {
-          const Vector3& this_ = static_cast<const Vector3&>(base);
+          const Vector& this_ = static_cast<const Vector&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-        ::uint8_t* Vector3::_InternalSerialize(
+        ::uint8_t* Vector::_InternalSerialize(
             ::uint8_t* target,
             ::google::protobuf::io::EpsCopyOutputStream* stream) const {
-          const Vector3& this_ = *this;
+          const Vector& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          // @@protoc_insertion_point(serialize_to_array_start:msgTest.Vector3)
+          // @@protoc_insertion_point(serialize_to_array_start:msgTest.Vector)
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
@@ -1028,18 +1028,18 @@ PROTOBUF_NOINLINE void Vector3::Clear() {
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
                     this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
           }
-          // @@protoc_insertion_point(serialize_to_array_end:msgTest.Vector3)
+          // @@protoc_insertion_point(serialize_to_array_end:msgTest.Vector)
           return target;
         }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-        ::size_t Vector3::ByteSizeLong(const MessageLite& base) {
-          const Vector3& this_ = static_cast<const Vector3&>(base);
+        ::size_t Vector::ByteSizeLong(const MessageLite& base) {
+          const Vector& this_ = static_cast<const Vector&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-        ::size_t Vector3::ByteSizeLong() const {
-          const Vector3& this_ = *this;
+        ::size_t Vector::ByteSizeLong() const {
+          const Vector& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          // @@protoc_insertion_point(message_byte_size_start:msgTest.Vector3)
+          // @@protoc_insertion_point(message_byte_size_start:msgTest.Vector)
           ::size_t total_size = 0;
 
           ::uint32_t cached_has_bits = 0;
@@ -1065,10 +1065,10 @@ PROTOBUF_NOINLINE void Vector3::Clear() {
                                                      &this_._impl_._cached_size_);
         }
 
-void Vector3::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
-  auto* const _this = static_cast<Vector3*>(&to_msg);
-  auto& from = static_cast<const Vector3&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:msgTest.Vector3)
+void Vector::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<Vector*>(&to_msg);
+  auto& from = static_cast<const Vector&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:msgTest.Vector)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -1085,26 +1085,26 @@ void Vector3::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google:
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void Vector3::CopyFrom(const Vector3& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:msgTest.Vector3)
+void Vector::CopyFrom(const Vector& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:msgTest.Vector)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 
-void Vector3::InternalSwap(Vector3* PROTOBUF_RESTRICT other) {
+void Vector::InternalSwap(Vector* PROTOBUF_RESTRICT other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(Vector3, _impl_.z_)
-      + sizeof(Vector3::_impl_.z_)
-      - PROTOBUF_FIELD_OFFSET(Vector3, _impl_.x_)>(
+      PROTOBUF_FIELD_OFFSET(Vector, _impl_.z_)
+      + sizeof(Vector::_impl_.z_)
+      - PROTOBUF_FIELD_OFFSET(Vector, _impl_.x_)>(
           reinterpret_cast<char*>(&_impl_.x_),
           reinterpret_cast<char*>(&other->_impl_.x_));
 }
 
-::google::protobuf::Metadata Vector3::GetMetadata() const {
+::google::protobuf::Metadata Vector::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================
@@ -1147,10 +1147,10 @@ MoveState::MoveState(
       from._internal_metadata_);
   new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
   ::uint32_t cached_has_bits = _impl_._has_bits_[0];
-  _impl_.position_ = (cached_has_bits & 0x00000001u) ? ::google::protobuf::Message::CopyConstruct<::msgTest::Vector3>(
+  _impl_.position_ = (cached_has_bits & 0x00000001u) ? ::google::protobuf::Message::CopyConstruct<::msgTest::Vector>(
                               arena, *from._impl_.position_)
                         : nullptr;
-  _impl_.velocity_ = (cached_has_bits & 0x00000002u) ? ::google::protobuf::Message::CopyConstruct<::msgTest::Vector3>(
+  _impl_.velocity_ = (cached_has_bits & 0x00000002u) ? ::google::protobuf::Message::CopyConstruct<::msgTest::Vector>(
                               arena, *from._impl_.velocity_)
                         : nullptr;
   _impl_.timestamp_ = from._impl_.timestamp_;
@@ -1246,10 +1246,10 @@ const ::_pbi::TcParseTable<2, 4, 2, 36, 2> MoveState::_table_ = {
     // string playerName = 1;
     {::_pbi::TcParser::FastUS1,
      {10, 63, 0, PROTOBUF_FIELD_OFFSET(MoveState, _impl_.playername_)}},
-    // .msgTest.Vector3 position = 2;
+    // .msgTest.Vector position = 2;
     {::_pbi::TcParser::FastMtS1,
      {18, 0, 0, PROTOBUF_FIELD_OFFSET(MoveState, _impl_.position_)}},
-    // .msgTest.Vector3 velocity = 3;
+    // .msgTest.Vector velocity = 3;
     {::_pbi::TcParser::FastMtS1,
      {26, 1, 1, PROTOBUF_FIELD_OFFSET(MoveState, _impl_.velocity_)}},
   }}, {{
@@ -1258,18 +1258,18 @@ const ::_pbi::TcParseTable<2, 4, 2, 36, 2> MoveState::_table_ = {
     // string playerName = 1;
     {PROTOBUF_FIELD_OFFSET(MoveState, _impl_.playername_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
-    // .msgTest.Vector3 position = 2;
+    // .msgTest.Vector position = 2;
     {PROTOBUF_FIELD_OFFSET(MoveState, _impl_.position_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
-    // .msgTest.Vector3 velocity = 3;
+    // .msgTest.Vector velocity = 3;
     {PROTOBUF_FIELD_OFFSET(MoveState, _impl_.velocity_), _Internal::kHasBitsOffset + 1, 1,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
     // int64 timestamp = 4;
     {PROTOBUF_FIELD_OFFSET(MoveState, _impl_.timestamp_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt64)},
   }}, {{
-    {::_pbi::TcParser::GetTable<::msgTest::Vector3>()},
-    {::_pbi::TcParser::GetTable<::msgTest::Vector3>()},
+    {::_pbi::TcParser::GetTable<::msgTest::Vector>()},
+    {::_pbi::TcParser::GetTable<::msgTest::Vector>()},
   }}, {{
     "\21\12\0\0\0\0\0\0"
     "msgTest.MoveState"
@@ -1325,14 +1325,14 @@ PROTOBUF_NOINLINE void MoveState::Clear() {
           }
 
           cached_has_bits = this_._impl_._has_bits_[0];
-          // .msgTest.Vector3 position = 2;
+          // .msgTest.Vector position = 2;
           if (cached_has_bits & 0x00000001u) {
             target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
                 2, *this_._impl_.position_, this_._impl_.position_->GetCachedSize(), target,
                 stream);
           }
 
-          // .msgTest.Vector3 velocity = 3;
+          // .msgTest.Vector velocity = 3;
           if (cached_has_bits & 0x00000002u) {
             target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
                 3, *this_._impl_.velocity_, this_._impl_.velocity_->GetCachedSize(), target,
@@ -1379,12 +1379,12 @@ PROTOBUF_NOINLINE void MoveState::Clear() {
           }
           cached_has_bits = this_._impl_._has_bits_[0];
           if (cached_has_bits & 0x00000003u) {
-            // .msgTest.Vector3 position = 2;
+            // .msgTest.Vector position = 2;
             if (cached_has_bits & 0x00000001u) {
               total_size += 1 +
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.position_);
             }
-            // .msgTest.Vector3 velocity = 3;
+            // .msgTest.Vector velocity = 3;
             if (cached_has_bits & 0x00000002u) {
               total_size += 1 +
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.velocity_);
@@ -1419,7 +1419,7 @@ void MoveState::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::googl
       ABSL_DCHECK(from._impl_.position_ != nullptr);
       if (_this->_impl_.position_ == nullptr) {
         _this->_impl_.position_ =
-            ::google::protobuf::Message::CopyConstruct<::msgTest::Vector3>(arena, *from._impl_.position_);
+            ::google::protobuf::Message::CopyConstruct<::msgTest::Vector>(arena, *from._impl_.position_);
       } else {
         _this->_impl_.position_->MergeFrom(*from._impl_.position_);
       }
@@ -1428,7 +1428,7 @@ void MoveState::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::googl
       ABSL_DCHECK(from._impl_.velocity_ != nullptr);
       if (_this->_impl_.velocity_ == nullptr) {
         _this->_impl_.velocity_ =
-            ::google::protobuf::Message::CopyConstruct<::msgTest::Vector3>(arena, *from._impl_.velocity_);
+            ::google::protobuf::Message::CopyConstruct<::msgTest::Vector>(arena, *from._impl_.velocity_);
       } else {
         _this->_impl_.velocity_->MergeFrom(*from._impl_.velocity_);
       }
@@ -1507,7 +1507,7 @@ Player::Player(
       from._internal_metadata_);
   new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
   ::uint32_t cached_has_bits = _impl_._has_bits_[0];
-  _impl_.position_ = (cached_has_bits & 0x00000001u) ? ::google::protobuf::Message::CopyConstruct<::msgTest::Vector3>(
+  _impl_.position_ = (cached_has_bits & 0x00000001u) ? ::google::protobuf::Message::CopyConstruct<::msgTest::Vector>(
                               arena, *from._impl_.position_)
                         : nullptr;
   _impl_.level_ = from._impl_.level_;
@@ -1603,7 +1603,7 @@ const ::_pbi::TcParseTable<2, 3, 1, 27, 2> Player::_table_ = {
     // int32 level = 2;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(Player, _impl_.level_), 63>(),
      {16, 63, 0, PROTOBUF_FIELD_OFFSET(Player, _impl_.level_)}},
-    // .msgTest.Vector3 position = 3;
+    // .msgTest.Vector position = 3;
     {::_pbi::TcParser::FastMtS1,
      {26, 0, 0, PROTOBUF_FIELD_OFFSET(Player, _impl_.position_)}},
   }}, {{
@@ -1615,11 +1615,11 @@ const ::_pbi::TcParseTable<2, 3, 1, 27, 2> Player::_table_ = {
     // int32 level = 2;
     {PROTOBUF_FIELD_OFFSET(Player, _impl_.level_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
-    // .msgTest.Vector3 position = 3;
+    // .msgTest.Vector position = 3;
     {PROTOBUF_FIELD_OFFSET(Player, _impl_.position_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
-    {::_pbi::TcParser::GetTable<::msgTest::Vector3>()},
+    {::_pbi::TcParser::GetTable<::msgTest::Vector>()},
   }}, {{
     "\16\4\0\0\0\0\0\0"
     "msgTest.Player"
@@ -1676,7 +1676,7 @@ PROTOBUF_NOINLINE void Player::Clear() {
           }
 
           cached_has_bits = this_._impl_._has_bits_[0];
-          // .msgTest.Vector3 position = 3;
+          // .msgTest.Vector position = 3;
           if (cached_has_bits & 0x00000001u) {
             target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
                 3, *this_._impl_.position_, this_._impl_.position_->GetCachedSize(), target,
@@ -1715,7 +1715,7 @@ PROTOBUF_NOINLINE void Player::Clear() {
             }
           }
            {
-            // .msgTest.Vector3 position = 3;
+            // .msgTest.Vector position = 3;
             cached_has_bits = this_._impl_._has_bits_[0];
             if (cached_has_bits & 0x00000001u) {
               total_size += 1 +
@@ -1750,7 +1750,7 @@ void Player::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::
     ABSL_DCHECK(from._impl_.position_ != nullptr);
     if (_this->_impl_.position_ == nullptr) {
       _this->_impl_.position_ =
-          ::google::protobuf::Message::CopyConstruct<::msgTest::Vector3>(arena, *from._impl_.position_);
+          ::google::protobuf::Message::CopyConstruct<::msgTest::Vector>(arena, *from._impl_.position_);
     } else {
       _this->_impl_.position_->MergeFrom(*from._impl_.position_);
     }

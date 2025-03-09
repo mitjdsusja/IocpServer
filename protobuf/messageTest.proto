@@ -2,7 +2,7 @@ syntax = "proto3";  // proto2 -> proto3·Î º¯°æ
 
 package msgTest;
 
-message Vector3 {  
+message Vector {  
     float x = 1;  
     float y = 2;  
     float z = 3;  
@@ -10,15 +10,15 @@ message Vector3 {
 
 message MoveState{
     string playerName = 1;
-    Vector3 position = 2; 
-    Vector3 velocity = 3; 
+    Vector position = 2; 
+    Vector velocity = 3; 
     int64 timestamp = 4; 
 }
 
 message Player{
     string name = 1;
     int32 level = 2;
-    Vector3 position = 3;
+    Vector position = 3;
 }
 
 message Room{

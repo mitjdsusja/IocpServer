@@ -107,9 +107,9 @@ extern SC_Room_List_ResponseDefaultTypeInternal _SC_Room_List_Response_default_i
 class SC_Room_Player_List_Response;
 struct SC_Room_Player_List_ResponseDefaultTypeInternal;
 extern SC_Room_Player_List_ResponseDefaultTypeInternal _SC_Room_Player_List_Response_default_instance_;
-class Vector3;
-struct Vector3DefaultTypeInternal;
-extern Vector3DefaultTypeInternal _Vector3_default_instance_;
+class Vector;
+struct VectorDefaultTypeInternal;
+extern VectorDefaultTypeInternal _Vector_default_instance_;
 }  // namespace msgTest
 namespace google {
 namespace protobuf {
@@ -123,31 +123,31 @@ namespace msgTest {
 
 // -------------------------------------------------------------------
 
-class Vector3 final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:msgTest.Vector3) */ {
+class Vector final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:msgTest.Vector) */ {
  public:
-  inline Vector3() : Vector3(nullptr) {}
-  ~Vector3() PROTOBUF_FINAL;
+  inline Vector() : Vector(nullptr) {}
+  ~Vector() PROTOBUF_FINAL;
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-  void operator delete(Vector3* msg, std::destroying_delete_t) {
+  void operator delete(Vector* msg, std::destroying_delete_t) {
     SharedDtor(*msg);
-    ::google::protobuf::internal::SizedDelete(msg, sizeof(Vector3));
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(Vector));
   }
 #endif
 
   template <typename = void>
-  explicit PROTOBUF_CONSTEXPR Vector3(
+  explicit PROTOBUF_CONSTEXPR Vector(
       ::google::protobuf::internal::ConstantInitialized);
 
-  inline Vector3(const Vector3& from) : Vector3(nullptr, from) {}
-  inline Vector3(Vector3&& from) noexcept
-      : Vector3(nullptr, std::move(from)) {}
-  inline Vector3& operator=(const Vector3& from) {
+  inline Vector(const Vector& from) : Vector(nullptr, from) {}
+  inline Vector(Vector&& from) noexcept
+      : Vector(nullptr, std::move(from)) {}
+  inline Vector& operator=(const Vector& from) {
     CopyFrom(from);
     return *this;
   }
-  inline Vector3& operator=(Vector3&& from) noexcept {
+  inline Vector& operator=(Vector&& from) noexcept {
     if (this == &from) return *this;
     if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
       InternalSwap(&from);
@@ -175,16 +175,16 @@ class Vector3 final : public ::google::protobuf::Message
   static const ::google::protobuf::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const Vector3& default_instance() {
+  static const Vector& default_instance() {
     return *internal_default_instance();
   }
-  static inline const Vector3* internal_default_instance() {
-    return reinterpret_cast<const Vector3*>(
-        &_Vector3_default_instance_);
+  static inline const Vector* internal_default_instance() {
+    return reinterpret_cast<const Vector*>(
+        &_Vector_default_instance_);
   }
   static constexpr int kIndexInFileMessages = 0;
-  friend void swap(Vector3& a, Vector3& b) { a.Swap(&b); }
-  inline void Swap(Vector3* other) {
+  friend void swap(Vector& a, Vector& b) { a.Swap(&b); }
+  inline void Swap(Vector* other) {
     if (other == this) return;
     if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
       InternalSwap(other);
@@ -192,7 +192,7 @@ class Vector3 final : public ::google::protobuf::Message
       ::google::protobuf::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(Vector3* other) {
+  void UnsafeArenaSwap(Vector* other) {
     if (other == this) return;
     ABSL_DCHECK(GetArena() == other->GetArena());
     InternalSwap(other);
@@ -200,13 +200,13 @@ class Vector3 final : public ::google::protobuf::Message
 
   // implements Message ----------------------------------------------
 
-  Vector3* New(::google::protobuf::Arena* arena = nullptr) const {
-    return ::google::protobuf::Message::DefaultConstruct<Vector3>(arena);
+  Vector* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<Vector>(arena);
   }
   using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const Vector3& from);
+  void CopyFrom(const Vector& from);
   using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const Vector3& from) { Vector3::MergeImpl(*this, from); }
+  void MergeFrom(const Vector& from) { Vector::MergeImpl(*this, from); }
 
   private:
   static void MergeImpl(
@@ -243,18 +243,18 @@ class Vector3 final : public ::google::protobuf::Message
   private:
   void SharedCtor(::google::protobuf::Arena* arena);
   static void SharedDtor(MessageLite& self);
-  void InternalSwap(Vector3* other);
+  void InternalSwap(Vector* other);
  private:
   template <typename T>
   friend ::absl::string_view(
       ::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "msgTest.Vector3"; }
+  static ::absl::string_view FullMessageName() { return "msgTest.Vector"; }
 
  protected:
-  explicit Vector3(::google::protobuf::Arena* arena);
-  Vector3(::google::protobuf::Arena* arena, const Vector3& from);
-  Vector3(::google::protobuf::Arena* arena, Vector3&& from) noexcept
-      : Vector3(arena) {
+  explicit Vector(::google::protobuf::Arena* arena);
+  Vector(::google::protobuf::Arena* arena, const Vector& from);
+  Vector(::google::protobuf::Arena* arena, Vector&& from) noexcept
+      : Vector(arena) {
     *this = ::std::move(from);
   }
   const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
@@ -303,7 +303,7 @@ class Vector3 final : public ::google::protobuf::Message
   void _internal_set_z(float value);
 
   public:
-  // @@protoc_insertion_point(class_scope:msgTest.Vector3)
+  // @@protoc_insertion_point(class_scope:msgTest.Vector)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
@@ -325,7 +325,7 @@ class Vector3 final : public ::google::protobuf::Message
                           ::google::protobuf::Arena* arena);
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
-                          const Vector3& from_msg);
+                          const Vector& from_msg);
     float x_;
     float y_;
     float z_;
@@ -2765,19 +2765,19 @@ class Player final : public ::google::protobuf::Message
   std::string* _internal_mutable_name();
 
   public:
-  // .msgTest.Vector3 position = 3;
+  // .msgTest.Vector position = 3;
   bool has_position() const;
   void clear_position() ;
-  const ::msgTest::Vector3& position() const;
-  PROTOBUF_NODISCARD ::msgTest::Vector3* release_position();
-  ::msgTest::Vector3* mutable_position();
-  void set_allocated_position(::msgTest::Vector3* value);
-  void unsafe_arena_set_allocated_position(::msgTest::Vector3* value);
-  ::msgTest::Vector3* unsafe_arena_release_position();
+  const ::msgTest::Vector& position() const;
+  PROTOBUF_NODISCARD ::msgTest::Vector* release_position();
+  ::msgTest::Vector* mutable_position();
+  void set_allocated_position(::msgTest::Vector* value);
+  void unsafe_arena_set_allocated_position(::msgTest::Vector* value);
+  ::msgTest::Vector* unsafe_arena_release_position();
 
   private:
-  const ::msgTest::Vector3& _internal_position() const;
-  ::msgTest::Vector3* _internal_mutable_position();
+  const ::msgTest::Vector& _internal_position() const;
+  ::msgTest::Vector* _internal_mutable_position();
 
   public:
   // int32 level = 2;
@@ -2816,7 +2816,7 @@ class Player final : public ::google::protobuf::Message
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::google::protobuf::internal::ArenaStringPtr name_;
-    ::msgTest::Vector3* position_;
+    ::msgTest::Vector* position_;
     ::int32_t level_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -2992,34 +2992,34 @@ class MoveState final : public ::google::protobuf::Message
   std::string* _internal_mutable_playername();
 
   public:
-  // .msgTest.Vector3 position = 2;
+  // .msgTest.Vector position = 2;
   bool has_position() const;
   void clear_position() ;
-  const ::msgTest::Vector3& position() const;
-  PROTOBUF_NODISCARD ::msgTest::Vector3* release_position();
-  ::msgTest::Vector3* mutable_position();
-  void set_allocated_position(::msgTest::Vector3* value);
-  void unsafe_arena_set_allocated_position(::msgTest::Vector3* value);
-  ::msgTest::Vector3* unsafe_arena_release_position();
+  const ::msgTest::Vector& position() const;
+  PROTOBUF_NODISCARD ::msgTest::Vector* release_position();
+  ::msgTest::Vector* mutable_position();
+  void set_allocated_position(::msgTest::Vector* value);
+  void unsafe_arena_set_allocated_position(::msgTest::Vector* value);
+  ::msgTest::Vector* unsafe_arena_release_position();
 
   private:
-  const ::msgTest::Vector3& _internal_position() const;
-  ::msgTest::Vector3* _internal_mutable_position();
+  const ::msgTest::Vector& _internal_position() const;
+  ::msgTest::Vector* _internal_mutable_position();
 
   public:
-  // .msgTest.Vector3 velocity = 3;
+  // .msgTest.Vector velocity = 3;
   bool has_velocity() const;
   void clear_velocity() ;
-  const ::msgTest::Vector3& velocity() const;
-  PROTOBUF_NODISCARD ::msgTest::Vector3* release_velocity();
-  ::msgTest::Vector3* mutable_velocity();
-  void set_allocated_velocity(::msgTest::Vector3* value);
-  void unsafe_arena_set_allocated_velocity(::msgTest::Vector3* value);
-  ::msgTest::Vector3* unsafe_arena_release_velocity();
+  const ::msgTest::Vector& velocity() const;
+  PROTOBUF_NODISCARD ::msgTest::Vector* release_velocity();
+  ::msgTest::Vector* mutable_velocity();
+  void set_allocated_velocity(::msgTest::Vector* value);
+  void unsafe_arena_set_allocated_velocity(::msgTest::Vector* value);
+  ::msgTest::Vector* unsafe_arena_release_velocity();
 
   private:
-  const ::msgTest::Vector3& _internal_velocity() const;
-  ::msgTest::Vector3* _internal_mutable_velocity();
+  const ::msgTest::Vector& _internal_velocity() const;
+  ::msgTest::Vector* _internal_mutable_velocity();
 
   public:
   // int64 timestamp = 4;
@@ -3058,8 +3058,8 @@ class MoveState final : public ::google::protobuf::Message
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::google::protobuf::internal::ArenaStringPtr playername_;
-    ::msgTest::Vector3* position_;
-    ::msgTest::Vector3* velocity_;
+    ::msgTest::Vector* position_;
+    ::msgTest::Vector* velocity_;
     ::int64_t timestamp_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -4063,70 +4063,70 @@ class CS_Player_Move_Request final : public ::google::protobuf::Message
 #endif  // __GNUC__
 // -------------------------------------------------------------------
 
-// Vector3
+// Vector
 
 // float x = 1;
-inline void Vector3::clear_x() {
+inline void Vector::clear_x() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.x_ = 0;
 }
-inline float Vector3::x() const {
-  // @@protoc_insertion_point(field_get:msgTest.Vector3.x)
+inline float Vector::x() const {
+  // @@protoc_insertion_point(field_get:msgTest.Vector.x)
   return _internal_x();
 }
-inline void Vector3::set_x(float value) {
+inline void Vector::set_x(float value) {
   _internal_set_x(value);
-  // @@protoc_insertion_point(field_set:msgTest.Vector3.x)
+  // @@protoc_insertion_point(field_set:msgTest.Vector.x)
 }
-inline float Vector3::_internal_x() const {
+inline float Vector::_internal_x() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.x_;
 }
-inline void Vector3::_internal_set_x(float value) {
+inline void Vector::_internal_set_x(float value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.x_ = value;
 }
 
 // float y = 2;
-inline void Vector3::clear_y() {
+inline void Vector::clear_y() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.y_ = 0;
 }
-inline float Vector3::y() const {
-  // @@protoc_insertion_point(field_get:msgTest.Vector3.y)
+inline float Vector::y() const {
+  // @@protoc_insertion_point(field_get:msgTest.Vector.y)
   return _internal_y();
 }
-inline void Vector3::set_y(float value) {
+inline void Vector::set_y(float value) {
   _internal_set_y(value);
-  // @@protoc_insertion_point(field_set:msgTest.Vector3.y)
+  // @@protoc_insertion_point(field_set:msgTest.Vector.y)
 }
-inline float Vector3::_internal_y() const {
+inline float Vector::_internal_y() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.y_;
 }
-inline void Vector3::_internal_set_y(float value) {
+inline void Vector::_internal_set_y(float value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.y_ = value;
 }
 
 // float z = 3;
-inline void Vector3::clear_z() {
+inline void Vector::clear_z() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.z_ = 0;
 }
-inline float Vector3::z() const {
-  // @@protoc_insertion_point(field_get:msgTest.Vector3.z)
+inline float Vector::z() const {
+  // @@protoc_insertion_point(field_get:msgTest.Vector.z)
   return _internal_z();
 }
-inline void Vector3::set_z(float value) {
+inline void Vector::set_z(float value) {
   _internal_set_z(value);
-  // @@protoc_insertion_point(field_set:msgTest.Vector3.z)
+  // @@protoc_insertion_point(field_set:msgTest.Vector.z)
 }
-inline float Vector3::_internal_z() const {
+inline float Vector::_internal_z() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.z_;
 }
-inline void Vector3::_internal_set_z(float value) {
+inline void Vector::_internal_set_z(float value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.z_ = value;
 }
@@ -4183,7 +4183,7 @@ inline void MoveState::set_allocated_playername(std::string* value) {
   // @@protoc_insertion_point(field_set_allocated:msgTest.MoveState.playerName)
 }
 
-// .msgTest.Vector3 position = 2;
+// .msgTest.Vector position = 2;
 inline bool MoveState::has_position() const {
   bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.position_ != nullptr);
@@ -4194,21 +4194,21 @@ inline void MoveState::clear_position() {
   if (_impl_.position_ != nullptr) _impl_.position_->Clear();
   _impl_._has_bits_[0] &= ~0x00000001u;
 }
-inline const ::msgTest::Vector3& MoveState::_internal_position() const {
+inline const ::msgTest::Vector& MoveState::_internal_position() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  const ::msgTest::Vector3* p = _impl_.position_;
-  return p != nullptr ? *p : reinterpret_cast<const ::msgTest::Vector3&>(::msgTest::_Vector3_default_instance_);
+  const ::msgTest::Vector* p = _impl_.position_;
+  return p != nullptr ? *p : reinterpret_cast<const ::msgTest::Vector&>(::msgTest::_Vector_default_instance_);
 }
-inline const ::msgTest::Vector3& MoveState::position() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+inline const ::msgTest::Vector& MoveState::position() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
   // @@protoc_insertion_point(field_get:msgTest.MoveState.position)
   return _internal_position();
 }
-inline void MoveState::unsafe_arena_set_allocated_position(::msgTest::Vector3* value) {
+inline void MoveState::unsafe_arena_set_allocated_position(::msgTest::Vector* value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (GetArena() == nullptr) {
     delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.position_);
   }
-  _impl_.position_ = reinterpret_cast<::msgTest::Vector3*>(value);
+  _impl_.position_ = reinterpret_cast<::msgTest::Vector*>(value);
   if (value != nullptr) {
     _impl_._has_bits_[0] |= 0x00000001u;
   } else {
@@ -4216,11 +4216,11 @@ inline void MoveState::unsafe_arena_set_allocated_position(::msgTest::Vector3* v
   }
   // @@protoc_insertion_point(field_unsafe_arena_set_allocated:msgTest.MoveState.position)
 }
-inline ::msgTest::Vector3* MoveState::release_position() {
+inline ::msgTest::Vector* MoveState::release_position() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
 
   _impl_._has_bits_[0] &= ~0x00000001u;
-  ::msgTest::Vector3* released = _impl_.position_;
+  ::msgTest::Vector* released = _impl_.position_;
   _impl_.position_ = nullptr;
   if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
     auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
@@ -4235,30 +4235,30 @@ inline ::msgTest::Vector3* MoveState::release_position() {
   }
   return released;
 }
-inline ::msgTest::Vector3* MoveState::unsafe_arena_release_position() {
+inline ::msgTest::Vector* MoveState::unsafe_arena_release_position() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   // @@protoc_insertion_point(field_release:msgTest.MoveState.position)
 
   _impl_._has_bits_[0] &= ~0x00000001u;
-  ::msgTest::Vector3* temp = _impl_.position_;
+  ::msgTest::Vector* temp = _impl_.position_;
   _impl_.position_ = nullptr;
   return temp;
 }
-inline ::msgTest::Vector3* MoveState::_internal_mutable_position() {
+inline ::msgTest::Vector* MoveState::_internal_mutable_position() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.position_ == nullptr) {
-    auto* p = ::google::protobuf::Message::DefaultConstruct<::msgTest::Vector3>(GetArena());
-    _impl_.position_ = reinterpret_cast<::msgTest::Vector3*>(p);
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::msgTest::Vector>(GetArena());
+    _impl_.position_ = reinterpret_cast<::msgTest::Vector*>(p);
   }
   return _impl_.position_;
 }
-inline ::msgTest::Vector3* MoveState::mutable_position() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+inline ::msgTest::Vector* MoveState::mutable_position() ABSL_ATTRIBUTE_LIFETIME_BOUND {
   _impl_._has_bits_[0] |= 0x00000001u;
-  ::msgTest::Vector3* _msg = _internal_mutable_position();
+  ::msgTest::Vector* _msg = _internal_mutable_position();
   // @@protoc_insertion_point(field_mutable:msgTest.MoveState.position)
   return _msg;
 }
-inline void MoveState::set_allocated_position(::msgTest::Vector3* value) {
+inline void MoveState::set_allocated_position(::msgTest::Vector* value) {
   ::google::protobuf::Arena* message_arena = GetArena();
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (message_arena == nullptr) {
@@ -4275,11 +4275,11 @@ inline void MoveState::set_allocated_position(::msgTest::Vector3* value) {
     _impl_._has_bits_[0] &= ~0x00000001u;
   }
 
-  _impl_.position_ = reinterpret_cast<::msgTest::Vector3*>(value);
+  _impl_.position_ = reinterpret_cast<::msgTest::Vector*>(value);
   // @@protoc_insertion_point(field_set_allocated:msgTest.MoveState.position)
 }
 
-// .msgTest.Vector3 velocity = 3;
+// .msgTest.Vector velocity = 3;
 inline bool MoveState::has_velocity() const {
   bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.velocity_ != nullptr);
@@ -4290,21 +4290,21 @@ inline void MoveState::clear_velocity() {
   if (_impl_.velocity_ != nullptr) _impl_.velocity_->Clear();
   _impl_._has_bits_[0] &= ~0x00000002u;
 }
-inline const ::msgTest::Vector3& MoveState::_internal_velocity() const {
+inline const ::msgTest::Vector& MoveState::_internal_velocity() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  const ::msgTest::Vector3* p = _impl_.velocity_;
-  return p != nullptr ? *p : reinterpret_cast<const ::msgTest::Vector3&>(::msgTest::_Vector3_default_instance_);
+  const ::msgTest::Vector* p = _impl_.velocity_;
+  return p != nullptr ? *p : reinterpret_cast<const ::msgTest::Vector&>(::msgTest::_Vector_default_instance_);
 }
-inline const ::msgTest::Vector3& MoveState::velocity() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+inline const ::msgTest::Vector& MoveState::velocity() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
   // @@protoc_insertion_point(field_get:msgTest.MoveState.velocity)
   return _internal_velocity();
 }
-inline void MoveState::unsafe_arena_set_allocated_velocity(::msgTest::Vector3* value) {
+inline void MoveState::unsafe_arena_set_allocated_velocity(::msgTest::Vector* value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (GetArena() == nullptr) {
     delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.velocity_);
   }
-  _impl_.velocity_ = reinterpret_cast<::msgTest::Vector3*>(value);
+  _impl_.velocity_ = reinterpret_cast<::msgTest::Vector*>(value);
   if (value != nullptr) {
     _impl_._has_bits_[0] |= 0x00000002u;
   } else {
@@ -4312,11 +4312,11 @@ inline void MoveState::unsafe_arena_set_allocated_velocity(::msgTest::Vector3* v
   }
   // @@protoc_insertion_point(field_unsafe_arena_set_allocated:msgTest.MoveState.velocity)
 }
-inline ::msgTest::Vector3* MoveState::release_velocity() {
+inline ::msgTest::Vector* MoveState::release_velocity() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
 
   _impl_._has_bits_[0] &= ~0x00000002u;
-  ::msgTest::Vector3* released = _impl_.velocity_;
+  ::msgTest::Vector* released = _impl_.velocity_;
   _impl_.velocity_ = nullptr;
   if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
     auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
@@ -4331,30 +4331,30 @@ inline ::msgTest::Vector3* MoveState::release_velocity() {
   }
   return released;
 }
-inline ::msgTest::Vector3* MoveState::unsafe_arena_release_velocity() {
+inline ::msgTest::Vector* MoveState::unsafe_arena_release_velocity() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   // @@protoc_insertion_point(field_release:msgTest.MoveState.velocity)
 
   _impl_._has_bits_[0] &= ~0x00000002u;
-  ::msgTest::Vector3* temp = _impl_.velocity_;
+  ::msgTest::Vector* temp = _impl_.velocity_;
   _impl_.velocity_ = nullptr;
   return temp;
 }
-inline ::msgTest::Vector3* MoveState::_internal_mutable_velocity() {
+inline ::msgTest::Vector* MoveState::_internal_mutable_velocity() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.velocity_ == nullptr) {
-    auto* p = ::google::protobuf::Message::DefaultConstruct<::msgTest::Vector3>(GetArena());
-    _impl_.velocity_ = reinterpret_cast<::msgTest::Vector3*>(p);
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::msgTest::Vector>(GetArena());
+    _impl_.velocity_ = reinterpret_cast<::msgTest::Vector*>(p);
   }
   return _impl_.velocity_;
 }
-inline ::msgTest::Vector3* MoveState::mutable_velocity() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+inline ::msgTest::Vector* MoveState::mutable_velocity() ABSL_ATTRIBUTE_LIFETIME_BOUND {
   _impl_._has_bits_[0] |= 0x00000002u;
-  ::msgTest::Vector3* _msg = _internal_mutable_velocity();
+  ::msgTest::Vector* _msg = _internal_mutable_velocity();
   // @@protoc_insertion_point(field_mutable:msgTest.MoveState.velocity)
   return _msg;
 }
-inline void MoveState::set_allocated_velocity(::msgTest::Vector3* value) {
+inline void MoveState::set_allocated_velocity(::msgTest::Vector* value) {
   ::google::protobuf::Arena* message_arena = GetArena();
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (message_arena == nullptr) {
@@ -4371,7 +4371,7 @@ inline void MoveState::set_allocated_velocity(::msgTest::Vector3* value) {
     _impl_._has_bits_[0] &= ~0x00000002u;
   }
 
-  _impl_.velocity_ = reinterpret_cast<::msgTest::Vector3*>(value);
+  _impl_.velocity_ = reinterpret_cast<::msgTest::Vector*>(value);
   // @@protoc_insertion_point(field_set_allocated:msgTest.MoveState.velocity)
 }
 
@@ -4471,7 +4471,7 @@ inline void Player::_internal_set_level(::int32_t value) {
   _impl_.level_ = value;
 }
 
-// .msgTest.Vector3 position = 3;
+// .msgTest.Vector position = 3;
 inline bool Player::has_position() const {
   bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.position_ != nullptr);
@@ -4482,21 +4482,21 @@ inline void Player::clear_position() {
   if (_impl_.position_ != nullptr) _impl_.position_->Clear();
   _impl_._has_bits_[0] &= ~0x00000001u;
 }
-inline const ::msgTest::Vector3& Player::_internal_position() const {
+inline const ::msgTest::Vector& Player::_internal_position() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  const ::msgTest::Vector3* p = _impl_.position_;
-  return p != nullptr ? *p : reinterpret_cast<const ::msgTest::Vector3&>(::msgTest::_Vector3_default_instance_);
+  const ::msgTest::Vector* p = _impl_.position_;
+  return p != nullptr ? *p : reinterpret_cast<const ::msgTest::Vector&>(::msgTest::_Vector_default_instance_);
 }
-inline const ::msgTest::Vector3& Player::position() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+inline const ::msgTest::Vector& Player::position() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
   // @@protoc_insertion_point(field_get:msgTest.Player.position)
   return _internal_position();
 }
-inline void Player::unsafe_arena_set_allocated_position(::msgTest::Vector3* value) {
+inline void Player::unsafe_arena_set_allocated_position(::msgTest::Vector* value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (GetArena() == nullptr) {
     delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.position_);
   }
-  _impl_.position_ = reinterpret_cast<::msgTest::Vector3*>(value);
+  _impl_.position_ = reinterpret_cast<::msgTest::Vector*>(value);
   if (value != nullptr) {
     _impl_._has_bits_[0] |= 0x00000001u;
   } else {
@@ -4504,11 +4504,11 @@ inline void Player::unsafe_arena_set_allocated_position(::msgTest::Vector3* valu
   }
   // @@protoc_insertion_point(field_unsafe_arena_set_allocated:msgTest.Player.position)
 }
-inline ::msgTest::Vector3* Player::release_position() {
+inline ::msgTest::Vector* Player::release_position() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
 
   _impl_._has_bits_[0] &= ~0x00000001u;
-  ::msgTest::Vector3* released = _impl_.position_;
+  ::msgTest::Vector* released = _impl_.position_;
   _impl_.position_ = nullptr;
   if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
     auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
@@ -4523,30 +4523,30 @@ inline ::msgTest::Vector3* Player::release_position() {
   }
   return released;
 }
-inline ::msgTest::Vector3* Player::unsafe_arena_release_position() {
+inline ::msgTest::Vector* Player::unsafe_arena_release_position() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   // @@protoc_insertion_point(field_release:msgTest.Player.position)
 
   _impl_._has_bits_[0] &= ~0x00000001u;
-  ::msgTest::Vector3* temp = _impl_.position_;
+  ::msgTest::Vector* temp = _impl_.position_;
   _impl_.position_ = nullptr;
   return temp;
 }
-inline ::msgTest::Vector3* Player::_internal_mutable_position() {
+inline ::msgTest::Vector* Player::_internal_mutable_position() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.position_ == nullptr) {
-    auto* p = ::google::protobuf::Message::DefaultConstruct<::msgTest::Vector3>(GetArena());
-    _impl_.position_ = reinterpret_cast<::msgTest::Vector3*>(p);
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::msgTest::Vector>(GetArena());
+    _impl_.position_ = reinterpret_cast<::msgTest::Vector*>(p);
   }
   return _impl_.position_;
 }
-inline ::msgTest::Vector3* Player::mutable_position() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+inline ::msgTest::Vector* Player::mutable_position() ABSL_ATTRIBUTE_LIFETIME_BOUND {
   _impl_._has_bits_[0] |= 0x00000001u;
-  ::msgTest::Vector3* _msg = _internal_mutable_position();
+  ::msgTest::Vector* _msg = _internal_mutable_position();
   // @@protoc_insertion_point(field_mutable:msgTest.Player.position)
   return _msg;
 }
-inline void Player::set_allocated_position(::msgTest::Vector3* value) {
+inline void Player::set_allocated_position(::msgTest::Vector* value) {
   ::google::protobuf::Arena* message_arena = GetArena();
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (message_arena == nullptr) {
@@ -4563,7 +4563,7 @@ inline void Player::set_allocated_position(::msgTest::Vector3* value) {
     _impl_._has_bits_[0] &= ~0x00000001u;
   }
 
-  _impl_.position_ = reinterpret_cast<::msgTest::Vector3*>(value);
+  _impl_.position_ = reinterpret_cast<::msgTest::Vector*>(value);
   // @@protoc_insertion_point(field_set_allocated:msgTest.Player.position)
 }
 
