@@ -1,6 +1,10 @@
 #include "pch.h"
 #include "Vector.h"
 
+Vector::Vector() {
+
+}
+
 Vector::Vector(float x, float y) : Vector(x, y, 0){
 
 }

@@ -8,11 +8,12 @@ struct PlayerInfo {
 	int32 _level;
 	int32 _roomId;
 	Vector _position;
+	int64 _moveTimestamp;
 };
 
 class Player{
 public:
-	Player(shared_ptr<GameSession> owner, wstring name, Vector position);
+	Player(shared_ptr<GameSession> owner, PlayerInfo playerInfo);
 	~Player();
 
 	void ClearResource();
@@ -29,19 +30,14 @@ public:
 	void SetPosition(Vector& position);
 	void SetMoveTimestamp(int64 timestamp);
 
-	wstring GetName() { return _name; }
-	int32 GetRoomId() { return _roomId; }
+	wstring GetName() { return _playerInfo._name; }
+	int32 GetRoomId() { return _playerInfo._roomId; }
 
 private:
 	shared_ptr<GameSession> _owner = nullptr;
 	mutex _playerMutex;
 
-	wstring _name = L"";
-	int32 _level = 0;
-	int32 _roomId = 0;
-	Vector _position;
-	int64 _moveTimestamp = 0;
-
+	PlayerInfo _playerInfo = {};
 };
 
 class PlayerManager {
@@ -49,8 +45,7 @@ public:
 	PlayerManager();
 	~PlayerManager();
 
-	// TODO : 매개변수로 각각 값을 주지않고 PlayerInfo로 넘겨주기
-	void CreateAndAddPlayer(shared_ptr<GameSession> owner, uint64 sessionId, wstring name, Vector position);
+	void CreateAndAddPlayer(shared_ptr<GameSession> owner, uint64 sessionId, PlayerInfo playerInfo);
 	shared_ptr<Player> GetPlayer(uint64 sessionId);
 	void SetPlayerInfo(int64 sessionId, PlayerInfo& playerInfo);
 

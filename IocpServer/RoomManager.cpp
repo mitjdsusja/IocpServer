@@ -14,7 +14,7 @@ Room::~Room() {
 	cout << "[REMOVE ROOM] roomId : " << _roomId << endl;
 }
 
-void Room::Broadcast(shared_ptr<Buffer>& originSendBuffer){
+void Room::Broadcast(shared_ptr<Buffer> originSendBuffer){
 
 	lock_guard<mutex> lock(_roomMutex);
 
@@ -77,7 +77,7 @@ RoomManager::RoomManager(int32 maxRoomCount) : _maxRoomCount(maxRoomCount){
 
 }
 
-void RoomManager::BroadcastToRoom(int32 roomId, shared_ptr<Buffer>& sendBuffer){
+void RoomManager::BroadcastToRoom(int32 roomId, shared_ptr<Buffer> sendBuffer){
 
 	shared_ptr<Room> room;
 	{

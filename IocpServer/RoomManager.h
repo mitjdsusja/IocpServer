@@ -17,7 +17,7 @@ public:
 	Room(int32 roomId, shared_ptr<Player> hostPlayer, wstring roomName, int32 maxPlayerCount);
 	~Room();
 
-	void Broadcast(shared_ptr<Buffer>& sendBuffer);
+	void Broadcast(shared_ptr<Buffer> sendBuffer);
 
 	void AddPlayer(uint64 sessionId, shared_ptr<Player> player);
 	void RemovePlayer(uint64 sessionId);
@@ -43,7 +43,7 @@ class RoomManager{
 public:
 	RoomManager(int32 maxRoomCount = 100);
 
-	void BroadcastToRoom(int32 roomId, shared_ptr<Buffer>& sendBuffer);
+	void BroadcastToRoom(int32 roomId, shared_ptr<Buffer> sendBuffer);
 	
 	int32 CreateAndAddRoom(shared_ptr<Player> hostPlayer, wstring roomName, int32 maxPlayerCount = 10);
 	bool EnterRoom(int32 roomId,int64 sessionid, shared_ptr<Player> player);

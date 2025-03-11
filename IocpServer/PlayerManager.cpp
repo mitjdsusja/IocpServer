@@ -3,13 +3,13 @@
 #include "GameSession.h"
 
 
-Player::Player(shared_ptr<GameSession> owner, wstring name, Vector position)
- : _owner(owner), _name(name), _position(position){
+Player::Player(shared_ptr<GameSession> owner, PlayerInfo playerInfo)
+ : _owner(owner), _playerInfo(playerInfo){
 	
 }
 
 Player::~Player() {
-	wcout << L"[REMOVE PLAYER DATA] name :" << _name << endl;
+	wcout << L"[REMOVE PLAYER DATA] name :" << _playerInfo._name << endl;
 	ClearResource();
 }
 
@@ -20,53 +20,52 @@ void Player::ClearResource(){
 
 PlayerInfo Player::GetPlayerInfo(){
 
-	PlayerInfo playerInfo = {_name, _level, _roomId , _position};
-	return playerInfo;
+	return _playerInfo;
 }
 
 void Player::SetPlayerMove(Vector& position, int64 timestamp){
 
 	lock_guard<mutex> lock(_playerMutex);
 
-	_position = position;
-	_moveTimestamp = timestamp;
+	_playerInfo._position = position;
+	_playerInfo._moveTimestamp = timestamp;
 }
 
 void Player::SetPlayerInfo(PlayerInfo& playerInfo){
 	
 	lock_guard<mutex> lock(_playerMutex);
 
-	_name = playerInfo._name;
-	_roomId = playerInfo._roomId;
-	_position = playerInfo._position;
+	_playerInfo._name = playerInfo._name;
+	_playerInfo._roomId = playerInfo._roomId;
+	_playerInfo._position = playerInfo._position;
 }
 
 void Player::SetName(wstring& name){
 
 	lock_guard<mutex> lock(_playerMutex);
 
-	_name = name;
+	_playerInfo._name = name;
 }
 
 void Player::SetRoomId(int32 roomId){
 
 	lock_guard<mutex> lock(_playerMutex);
 
-	_roomId = roomId;
+	_playerInfo._roomId = roomId;
 }
 
 void Player::SetPosition(Vector& position){
 
 	lock_guard<mutex> lock(_playerMutex);
 
-	_position = position;
+	_playerInfo._position = position;
 }
 
 void Player::SetMoveTimestamp(int64 timestamp){
 
 	lock_guard<mutex> lock(_playerMutex);
 
-	_moveTimestamp = timestamp;
+	_playerInfo._moveTimestamp = timestamp;
 }
 
 PlayerManager::PlayerManager(){
@@ -77,7 +76,7 @@ PlayerManager::~PlayerManager(){
 
 }
 
-void PlayerManager::CreateAndAddPlayer(shared_ptr<GameSession> owner, uint64 sessionId, wstring name, Vector position){
+void PlayerManager::CreateAndAddPlayer(shared_ptr<GameSession> owner, uint64 sessionId, PlayerInfo playerInfo){
 	
 	lock_guard<mutex> lock(_playersMutex);
 
@@ -87,7 +86,7 @@ void PlayerManager::CreateAndAddPlayer(shared_ptr<GameSession> owner, uint64 ses
 		return;
 	}
 
-	shared_ptr<Player> player = make_shared<Player>(owner, name, position);
+	shared_ptr<Player> player = make_shared<Player>(owner, playerInfo);
 
 	_players[sessionId] = player;
 }

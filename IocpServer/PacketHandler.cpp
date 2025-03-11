@@ -93,21 +93,30 @@ void PacketHandler::Handle_CS_Login_Requset(shared_ptr<GameSession> session, sha
 		wstring wId(id.begin(), id.end());
 		wstring wPw(pw.begin(), pw.end());
 
-		std::wstring query = L"SELECT COUNT(*), usernum, name, pos_x, pos_y, pos_z FROM USERS WHERE id = '" + wId + L"' AND password_hash = '" + wPw + L"';";
+		std::wstring query = L"SELECT COUNT(*), usernum, level, name, pos_x, pos_y, pos_z FROM USERS WHERE id = '" + wId + L"' AND password_hash = '" + wPw + L"';";
 		vector<vector<wstring>> result = LDBConnector->ExecuteSelectQuery(query);
 
 		if (!result.empty() && !result[0].empty()) {
 			int32 count = stoi(result[0][0]); // 문자열을 숫자로 변환
 			int32 userNum = stoi(result[0][1]);
-			wstring name = result[0][2];
-			Vector position(stof(result[0][3]), stof(result[0][3]), stof(result[0][3]));
+			int32 level = stoi(result[0][2]);
+			wstring name = result[0][3];
+			Vector position(stof(result[0][4]), stof(result[0][5]), stof(result[0][6]));
 
 			if (count > 0) {
 				//wcout << L"User found!" << endl;
 				userExists = true;
 				
 				session->SetDbId(userNum);
-				GPlayerManager->CreateAndAddPlayer(session, session->GetSessionId(), name, position);
+
+				PlayerInfo playerInfo;
+				playerInfo._level = level;
+				playerInfo._name = name;
+				playerInfo._position._x = position._x;
+				playerInfo._position._y = position._y;
+				playerInfo._position._z = position._z;
+				playerInfo._moveTimestamp = 0;
+;				GPlayerManager->CreateAndAddPlayer(session, session->GetSessionId(), playerInfo);
 			}
 			else {
 				wcout << L"Invalid ID or password." << endl;
