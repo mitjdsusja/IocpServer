@@ -88,5 +88,7 @@ void LockBufferPool::Push(Buffer* buffer){
 	_buffers.push_back(buffer);
 	_remainedCount++;
 
+	//cout << "++REMAININF BUFFER : " << _remainedCount << endl;
+
 	//cout << this_thread::get_id() << "<PUSH> Remained Buffer : " << _remainedCount << endl;
 }
