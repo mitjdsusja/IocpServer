@@ -24,7 +24,7 @@ void PacketHandler::RegisterPacketHandlers() {
 	/*------------
 		C -> S
 	-------------*/
-	packetHandleArray[PKT_CS_LOGIN_REQUEST] = Handle_CS_Login_Requset;
+	packetHandleArray[PKT_CS_LOGIN_REQUEST] = Handle_CS_Login_Request;
 	packetHandleArray[PKT_CS_ROOM_LIST_REQUEST] = Handle_CS_Room_List_Request;
 	packetHandleArray[PKT_CS_PLAYER_INFO_REQUEST] = Handle_CS_Player_Info_Request;
 	packetHandleArray[PKT_CS_PLAYER_LIST_REQUEST] = Handle_CS_Room_Player_List_Request;
@@ -75,7 +75,7 @@ void PacketHandler::Handle_Invalid(shared_ptr<GameSession> session, shared_ptr<B
 /*------------
 	C -> S
 -------------*/
-void PacketHandler::Handle_CS_Login_Requset(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
+void PacketHandler::Handle_CS_Login_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
 	// Check Id, Passwd
 	msgTest::CS_Login_Request recvLoginPacket;

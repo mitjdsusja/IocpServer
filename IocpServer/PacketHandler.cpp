@@ -25,7 +25,7 @@ void PacketHandler::RegisterPacketHandlers() {
 	/*------------
 		C -> S
 	-------------*/
-	packetHandleArray[PKT_CS_LOGIN_REQUEST] = Handle_CS_Login_Requset;
+	packetHandleArray[PKT_CS_LOGIN_REQUEST] = Handle_CS_Login_Request;
 	packetHandleArray[PKT_CS_ROOM_LIST_REQUEST] = Handle_CS_Room_List_Request;
 	packetHandleArray[PKT_CS_MY_PLAYER_INFO_REQUEST] = Handle_CS_Player_Info_Request;
 	packetHandleArray[PKT_CS_ROOM_PLAYER_LIST_REQUEST] = Handle_CS_Room_Player_List_Request;
@@ -53,7 +53,7 @@ void PacketHandler::HandlePacket(shared_ptr<GameSession> session, PacketHeader* 
 	int32 dataSize = dataBuffer->GetDataSize();
 
 	memcpy(buffer->GetBuffer(), data, dataSize);
-	buffer->Write(dataBuffer->packetSize);
+	buffer->Write(dataSize);
 
 	int32 packetId = dataBuffer->packetId;
 
@@ -77,15 +77,20 @@ void PacketHandler::Handle_Invalid(shared_ptr<GameSession> session, shared_ptr<B
 /*------------
 	C -> S
 -------------*/
-void PacketHandler::Handle_CS_Login_Requset(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
-	
+void PacketHandler::Handle_CS_Login_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
+
 	// Check Id, Passwd
 	msgTest::CS_Login_Request recvLoginPacket;
 	recvLoginPacket.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
-	
+
+	uint32 writeSize = dataBuffer->WriteSize();
+
+	BYTE* str = dataBuffer->GetBuffer();
+
 	string id = recvLoginPacket.id();
 	string pw = recvLoginPacket.password();
-	cout << "[Login] ID : " << id << " " << "PW : " << pw << endl;
+	string errorMessage = "";
+	//cout << "[Login Request] ID : " << id << " " << "PW : " << pw << endl;
 
 	bool userExists = false;
 	{
@@ -119,10 +124,12 @@ void PacketHandler::Handle_CS_Login_Requset(shared_ptr<GameSession> session, sha
 ;				GPlayerManager->CreateAndAddPlayer(session, session->GetSessionId(), playerInfo);
 			}
 			else {
+				errorMessage = "Invalid ID or password.";
 				wcout << L"Invalid ID or password." << endl;
 			}
 		}
 		else {
+			errorMessage = "Query returned no results.";
 			wcout << L"Query returned no results." << endl;
 		}
 
@@ -137,7 +144,7 @@ void PacketHandler::Handle_CS_Login_Requset(shared_ptr<GameSession> session, sha
 	}
 	else {
 		sendLoginResponsePacket.set_success(false);
-		sendLoginResponsePacket.set_errormessage("LOGIN FAIL");
+		sendLoginResponsePacket.set_errormessage(errorMessage);
 	}
 	sendBuffer = PacketHandler::MakeSendBuffer(sendLoginResponsePacket, PacketId::PKT_SC_LOGIN_RESPONSE);
 

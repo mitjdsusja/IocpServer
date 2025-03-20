@@ -59,7 +59,7 @@ private:
 		C -> S
 	-------------*/
 	// static void Handle_CS_(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
-	static void Handle_CS_Login_Requset(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_CS_Login_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
 	static void Handle_CS_Room_List_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
 	static void Handle_CS_Player_Info_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
 	static void Handle_CS_Room_Player_List_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);

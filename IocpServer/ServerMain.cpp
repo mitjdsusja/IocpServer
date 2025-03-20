@@ -86,7 +86,7 @@ void ReserveLoopBroadcastUserInfo(Service* service) {
 			position->set_z(playerInfo._position._z);
 			moveState->set_timestamp(playerInfo._moveTimestamp);
 
-			wcout << playerInfo._name << " " << playerInfo._position._x << playerInfo._position._z << endl;
+			//wcout << playerInfo._name << " " << playerInfo._position._x << playerInfo._position._z << endl;
 		}
 
 		shared_ptr<Buffer> sendBuffer = PacketHandler::MakeSendBuffer(sendPlayerMoveNotificationPacket, PacketId::PKT_SC_PLAYER_MOVE_NOTIFICATION);
