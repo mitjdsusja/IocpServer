@@ -23,21 +23,20 @@ PlayerInfo Player::GetPlayerInfo(){
 	return _playerInfo;
 }
 
-void Player::SetPlayerMove(Vector& position, int64 timestamp){
+void Player::SetPlayerMove(PlayerInfo& playerInfo){
 
 	lock_guard<mutex> lock(_playerMutex);
 
-	_playerInfo._position = position;
-	_playerInfo._moveTimestamp = timestamp;
+	_playerInfo._position = playerInfo._position;
+	_playerInfo._velocity = playerInfo._velocity;
+	_playerInfo._moveTimestamp = playerInfo._moveTimestamp;
 }
 
-void Player::SetPlayerInfo(PlayerInfo& playerInfo){
-	
+void Player::SetPlayerInfo(PlayerInfo& playerInfo) {
+
 	lock_guard<mutex> lock(_playerMutex);
 
-	_playerInfo._name = playerInfo._name;
-	_playerInfo._roomId = playerInfo._roomId;
-	_playerInfo._position = playerInfo._position;
+	_playerInfo = playerInfo;
 }
 
 void Player::SetName(wstring& name){
@@ -59,6 +58,13 @@ void Player::SetPosition(Vector& position){
 	lock_guard<mutex> lock(_playerMutex);
 
 	_playerInfo._position = position;
+}
+
+void Player::SetVelocity(Vector& velocity){
+
+	lock_guard<mutex> lock(_playerMutex);
+
+	_playerInfo._velocity = velocity;
 }
 
 void Player::SetMoveTimestamp(int64 timestamp){

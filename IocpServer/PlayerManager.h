@@ -8,6 +8,7 @@ struct PlayerInfo {
 	int32 _level;
 	int32 _roomId;
 	Vector _position;
+	Vector _velocity;
 	int64 _moveTimestamp;
 };
 
@@ -22,12 +23,13 @@ public:
 
 	PlayerInfo GetPlayerInfo();
 
-	void SetPlayerMove(Vector& position, int64 timestamp);
+	void SetPlayerMove(PlayerInfo& playerInfo);
 
 	void SetPlayerInfo(PlayerInfo& playerInfo);
 	void SetName(wstring& name);
 	void SetRoomId(int32 roomId);
 	void SetPosition(Vector& position);
+	void SetVelocity(Vector& velocity);
 	void SetMoveTimestamp(int64 timestamp);
 
 	wstring GetName() { return _playerInfo._name; }

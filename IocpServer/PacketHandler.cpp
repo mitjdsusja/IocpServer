@@ -352,15 +352,21 @@ void PacketHandler::Handle_CS_Player_Move_Request(shared_ptr<GameSession> sessio
 	msgTest::MoveState moveState = recvPlayerMoveReqeustPacket.movestate();
 	wstring playerName = boost::locale::conv::utf_to_utf<wchar_t>(moveState.playername());
 	Vector position(moveState.position().x(), moveState.position().y(), moveState.position().z());
+	Vector velocity(moveState.velocity().x(), moveState.velocity().y(), moveState.velocity().z());
 	int64 timestamp = moveState.timestamp();
 
 	shared_ptr<Player> player = GPlayerManager->GetPlayer(session->GetSessionId());
+	PlayerInfo playerInfo;
+	playerInfo._name = playerName;
+	playerInfo._position = position;
+	playerInfo._velocity = velocity;
+	playerInfo._moveTimestamp = timestamp;
 
 	if (player == nullptr) {
 		cout << "INVALID PLAYER" << endl;
 		return;
 	}
-	player->SetPlayerMove(position, timestamp);
+	player->SetPlayerMove(playerInfo);
 }
 
 
