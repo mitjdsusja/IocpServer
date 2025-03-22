@@ -84,6 +84,9 @@ void ReserveLoopBroadcastUserInfo(Service* service) {
 			position->set_x(playerInfo._position._x);
 			position->set_y(playerInfo._position._y);
 			position->set_z(playerInfo._position._z);
+			velocity->set_x(playerInfo._velocity._x);
+			velocity->set_y(playerInfo._velocity._y);
+			velocity->set_z(playerInfo._velocity._z);
 			moveState->set_timestamp(playerInfo._moveTimestamp);
 
 			//wcout << playerInfo._name << " " << playerInfo._position._x << playerInfo._position._z << endl;
