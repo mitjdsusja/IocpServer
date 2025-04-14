@@ -3,6 +3,12 @@
 
 #include "Job.h"
 
+struct TimedJobComparer {
+	bool operator()(TimedJob* lhs, TimedJob* rhs) const {
+		return lhs->_executeTick > rhs->_executeTick;
+	}
+};
+
 class TimedJob : public Job{
 public:
 	TimedJob(uint64 executeTick, function<void()> callback) : Job(callback), _executeTick(executeTick){
@@ -24,7 +30,7 @@ public:
 	
 private:
 	mutex _queueMutex;
-	priority_queue<TimedJob*> _timedJobQueue;
+	priority_queue<TimedJob*, vector<TimedJob*>, TimedJobComparer> _timedJobQueue;
 	atomic<bool> _isEnqueuing;
 };
 
