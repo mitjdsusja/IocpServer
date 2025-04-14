@@ -90,7 +90,9 @@
     <ClCompile Include="Job.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
-    <ClCompile Include="DBConnector.cpp" />
+    <ClCompile Include="DBConnector.cpp">
+      <Filter>DB</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -165,7 +167,9 @@
     <ClInclude Include="PacketHeader.h">
       <Filter>Packet</Filter>
     </ClInclude>
-    <ClInclude Include="DBConnector.h" />
+    <ClInclude Include="DBConnector.h">
+      <Filter>DB</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\protobuf\messageTest.proto">
