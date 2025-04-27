@@ -5,11 +5,16 @@
 #include "RoomManager.h"
 
 GameSession::GameSession(Service* owner) : Session(owner){
-
+	
 }
 
 GameSession::~GameSession(){
-	cout << "~GameSession() " << endl;
+	//cout << "~GameSession() " << endl;
+}
+
+void GameSession::OnConnect(){
+
+	GPlayerManager->CreateAndAddPlayer(static_pointer_cast<GameSession>(shared_from_this()), GetSessionId());
 }
 
 void GameSession::OnSend(int32 sendBytes){
@@ -24,12 +29,20 @@ void GameSession::OnRecvPacket(BYTE* recvBuffer, int32 recvBytes){
 
 void GameSession::OnDisconnect(){
 
+	uint64 sessionId = GetSessionId();
 	cout << "[DISCONNECT] SessionId : " << GetSessionId() << endl;
 
 	shared_ptr<Player> player = GPlayerManager->GetPlayer(GetSessionId());
-	PlayerInfo playerInfo = player->GetPlayerInfo();
+	if (player == nullptr) {
 
-	GRoomManager->RemovePlayerFromRoom(playerInfo._roomId, GetSessionId());
+		//cout << "INVALID PLAYERID" << endl;
+	}
+	else {
+
+		PlayerInfo playerInfo = player->GetPlayerInfo();
+		GRoomManager->RemovePlayerFromRoom(playerInfo._roomId, GetSessionId());
+	}
+
 	GPlayerManager->RemovePlayer(GetSessionId());
 
 }

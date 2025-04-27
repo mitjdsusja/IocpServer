@@ -17,7 +17,7 @@ Session::~Session(){
 
 	delete _recvBuffer;
 
-	cout << "~Session()" << endl;
+	//cout << "~Session()" << endl;
 }
 
 void Session::Connect(NetAddress peerAddress){
@@ -60,7 +60,7 @@ void Session::Disconnect(){
 	if (_sendEvent._owner != nullptr) _sendEvent._owner = nullptr;
 	if (_recvEvent._owner != nullptr) _recvEvent._owner = nullptr;
 
-	_owner->removeSession(shared_from_this());
+	_owner->removeSession(static_cast<shared_ptr<Session>>(shared_from_this()));
 }
 
 void Session::Process(OverlappedEvent* event, int32 numOfBytes){

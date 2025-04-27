@@ -24,6 +24,7 @@ enum {
 };
 
 void ReserveLoopBroadcastUserInfo(Service* service);
+void DBInsertuser(wstring id, wstring pw);
 
 int main() {
 	wcout.imbue(std::locale("kor"));
@@ -60,12 +61,23 @@ int main() {
 		});
 	}
 
+	for (int i = 1; i <= 100; i++) {
+		DBInsertuser(L"bot" + i, L"bot" + i);
+	}
+
 	// Reserve User Position 
 	GJobTimer->Reserve(100, [serverService]() {
 		ReserveLoopBroadcastUserInfo(serverService);
 	});
 
 	GThreadManager->Join();
+}
+
+void DBInsertuser(wstring id, wstring pw) {
+
+	std::wstring query = L"INSERT INTO users (id, password_hash, name) VALUES (";
+	query += (L"'" + id + L"'," + L"'" + pw + L"');");
+	LDBConnector->ExecuteQuary(query);
 }
 
 void ReserveLoopBroadcastUserInfo(Service* service) {

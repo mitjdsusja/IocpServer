@@ -121,7 +121,7 @@ void PacketHandler::Handle_CS_Login_Request(shared_ptr<GameSession> session, sha
 				playerInfo._position._y = position._y;
 				playerInfo._position._z = position._z;
 				playerInfo._moveTimestamp = 0;
-;				GPlayerManager->CreateAndAddPlayer(session, session->GetSessionId(), playerInfo);
+				GPlayerManager->SetPlayerInfo(session->GetSessionId(), playerInfo);
 			}
 			else {
 				errorMessage = "Invalid ID or password.";

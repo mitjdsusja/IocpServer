@@ -97,6 +97,7 @@ void Listener::Process(OverlappedEvent* event, int32 numOfBytes){
 void Listener::RegisterAccept(AcceptEvent* acceptEvent){
 
 	shared_ptr<Session> session = _owner->CreateSession();
+	session->SetSessionId(_owner->GenerateSessionId());
 	session->SetOwner(_owner);
 	RecvBuffer* recvBuffer = session->GetRecvBuffer();
 	acceptEvent->_session = session;
@@ -106,6 +107,7 @@ void Listener::RegisterAccept(AcceptEvent* acceptEvent){
 
 void Listener::OnAccept(shared_ptr<Session> session) {
 
+	session->OnConnect();
 	NetAddress peerAddress = session->GetPeerAddressRef();
 	wcout << L"[ACCEPT] " << "Address : " << peerAddress.GetIpAddress() << " Port : " << peerAddress.GetPort() << endl;
 }

@@ -47,6 +47,7 @@ public:
 	PlayerManager();
 	~PlayerManager();
 
+	void CreateAndAddPlayer(shared_ptr<GameSession> owner, uint64 sessionId);
 	void CreateAndAddPlayer(shared_ptr<GameSession> owner, uint64 sessionId, PlayerInfo playerInfo);
 	shared_ptr<Player> GetPlayer(uint64 sessionId);
 	void SetPlayerInfo(int64 sessionId, PlayerInfo& playerInfo);

@@ -3,12 +3,16 @@
 #include "BufferPool.h"
 #include "PacketHandler.h"
 
+atomic<uint64> Service::_sessionIdCount = 0;
+
 Service::Service(ServiceType type, NetAddress address, int32 maxSessionCount, function<shared_ptr<Session>(void)> sessionCreateFunc) 
 	: _serviceType(type), _address(address), _maxSessionCount(maxSessionCount), _sessionCreateFunc(sessionCreateFunc){
 	
 	SocketManager::SetEnv();
 
 	_completionPortHandler = new CompletionPortHandler();
+
+	_sessionIdCount = chrono::duration_cast<chrono::milliseconds>(chrono::steady_clock::now().time_since_epoch()).count();
 }
 
 Service::~Service(){
@@ -33,18 +37,9 @@ void Service::AddSession(shared_ptr<Session> session){
 	_curSessionCount++;
 	cout << "Add Session : " << _curSessionCount << endl;
 
-	session->SetSessionId(GenerateSessionId());
-
 	cout << "SessionId : " << session->GetSessionId() << endl;
 	
 	_sessions[session->GetSessionId()] = session;
-}
-
-uint64 Service::GenerateSessionId(){
-
-	uint64_t timePart = chrono::duration_cast<chrono::milliseconds>(chrono::steady_clock::now().time_since_epoch()).count();
-	
-	return timePart;
 }
 
 void Service::removeSession(shared_ptr<Session> session){
@@ -81,6 +76,11 @@ void Service::Broadcast(shared_ptr<Buffer> sendDataBuffer){
 void Service::RegisterHandle(HANDLE handle){
 
 	_completionPortHandler->RegisterHandle(handle);
+}
+
+uint64 Service::GenerateSessionId(){
+
+	return _sessionIdCount.fetch_add(1);
 }
 
 ServerService::ServerService(NetAddress addres, int32 maxSessionCount, function<shared_ptr<Session>(void)> sessionCreateFunc) 

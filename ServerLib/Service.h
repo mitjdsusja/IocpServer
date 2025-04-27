@@ -21,11 +21,12 @@ public:
 
 	shared_ptr<Session> CreateSession();
 	void AddSession(shared_ptr<Session> session);
-	uint64 GenerateSessionId();
 	void removeSession(shared_ptr<Session> session);
 	void Broadcast(shared_ptr<Buffer> sendDataBuffer);
 
 	void RegisterHandle(HANDLE handle);
+
+	static uint64 GenerateSessionId();
 
 public:
 	int32 GetCurSessionCount() { return _curSessionCount; }
@@ -43,6 +44,7 @@ protected:
 
 	int32 _maxSessionCount = 0;
 	int32 _curSessionCount = 0;
+	static atomic<uint64> _sessionIdCount;
 
 	function<shared_ptr<Session>(void)> _sessionCreateFunc;
 };

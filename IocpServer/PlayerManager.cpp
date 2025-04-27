@@ -82,6 +82,13 @@ PlayerManager::~PlayerManager(){
 
 }
 
+void PlayerManager::CreateAndAddPlayer(shared_ptr<GameSession> owner, uint64 sessionId){
+
+	PlayerInfo playerInfo = {};
+
+	CreateAndAddPlayer(owner, sessionId, playerInfo);
+}
+
 void PlayerManager::CreateAndAddPlayer(shared_ptr<GameSession> owner, uint64 sessionId, PlayerInfo playerInfo){
 	
 	lock_guard<mutex> lock(_playersMutex);
