@@ -57,7 +57,7 @@ void PacketHandler::HandlePacket(shared_ptr<GameSession> session, PacketHeader* 
 
 	int32 packetId = dataBuffer->packetId;
 
-	cout << "[RECV] " << packetId << " From : " << session->GetSessionId() << endl;
+	//cout << "[RECV] " << packetId << " From : " << session->GetSessionId() << endl;
 	
 	// push jobQueue
 	Job* job = new Job([session, buffer, service, packetId]() {
@@ -125,7 +125,7 @@ void PacketHandler::Handle_CS_Login_Request(shared_ptr<GameSession> session, sha
 			}
 			else {
 				errorMessage = "Invalid ID or password.";
-				wcout << L"Invalid ID or password." << endl;
+				wcout << L"Invalid ID or password."  << wId << endl;
 			}
 		}
 		else {
@@ -133,6 +133,7 @@ void PacketHandler::Handle_CS_Login_Request(shared_ptr<GameSession> session, sha
 			wcout << L"Query returned no results." << endl;
 		}
 
+		
 	}
 
 	shared_ptr<Buffer> sendBuffer;
@@ -147,6 +148,8 @@ void PacketHandler::Handle_CS_Login_Request(shared_ptr<GameSession> session, sha
 		sendLoginResponsePacket.set_errormessage(errorMessage);
 	}
 	sendBuffer = PacketHandler::MakeSendBuffer(sendLoginResponsePacket, PacketId::PKT_SC_LOGIN_RESPONSE);
+
+	//cout << "Login request : " << id << " _ " << pw << endl;
 
 	// Send Result
 	Job* job = new Job([session, sendBuffer]() {

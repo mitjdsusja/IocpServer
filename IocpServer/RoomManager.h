@@ -45,7 +45,7 @@ public:
 
 	void BroadcastToRoom(int32 roomId, shared_ptr<Buffer> sendBuffer);
 	
-	int32 CreateAndAddRoom(shared_ptr<Player> hostPlayer, wstring roomName, int32 maxPlayerCount = 10);
+	int32 CreateAndAddRoom(shared_ptr<Player> hostPlayer, wstring roomName, int32 maxPlayerCount = 100);
 	bool EnterRoom(int32 roomId,int64 sessionid, shared_ptr<Player> player);
 	void RemoveRoom(int32 roomId);
 	void RemovePlayerFromRoom(int32 roomid, uint64 sessionId);

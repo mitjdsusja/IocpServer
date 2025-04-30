@@ -11,7 +11,7 @@ Room::Room(int32 roomId, shared_ptr<Player> hostPlayer, wstring roomName, int32 
 
 Room::~Room() {
 
-	cout << "[REMOVE ROOM] roomId : " << _roomId << endl;
+	//cout << "[REMOVE ROOM] roomId : " << _roomId << endl;
 }
 
 void Room::Broadcast(shared_ptr<Buffer> originSendBuffer){
@@ -85,7 +85,7 @@ void RoomManager::BroadcastToRoom(int32 roomId, shared_ptr<Buffer> sendBuffer){
 
 		room = _rooms[roomId];
 		if (room == nullptr) {
-			cout << "[INVALID ROOM] roomId : " << roomId << endl;
+			//cout << "[INVALID ROOM] roomId : " << roomId << endl;
 			return;
 		}
 	}
@@ -118,6 +118,7 @@ bool RoomManager::EnterRoom(int32 roomId, int64 sessionId, shared_ptr<Player> pl
 	}
 
 	room->AddPlayer(sessionId, player);
+	wcout << "Enter Room : " << player->GetName() << endl;
 
 	return true;
 }
@@ -138,12 +139,15 @@ void RoomManager::RemovePlayerFromRoom(int32 roomId, uint64 sessionId) {
 
 	auto it = _rooms.find(roomId);
 	if (it == _rooms.end()) {
-		cout << "[INVALID ROOM ID] room ID : " << roomId << endl;
+		//cout << "[INVALID ROOM ID] room ID : " << roomId << endl;
 		return; 
 	}
 
 	shared_ptr<Room> room = it->second;
 	room->RemovePlayer(sessionId);
+
+	const auto& player = GPlayerManager->GetPlayer(sessionId);
+	wcout << "Remove Player : " << player->GetName() << endl;
 
 	if (room->GetPlayerCount() == 0) {
 		_rooms.erase(it); 
@@ -172,7 +176,7 @@ RoomInfo RoomManager::GetRoomInfo(int32 roomId){
 	map<int32, shared_ptr<Room>>::iterator iter;
 	iter = _rooms.find(roomId);
 	if (iter == _rooms.end()) {
-		cout << "[INVALID ROOM ID] roomId : " << roomId << endl;
+		//cout << "[INVALID ROOM ID] roomId : " << roomId << endl;
 		return RoomInfo();
 	}
 	

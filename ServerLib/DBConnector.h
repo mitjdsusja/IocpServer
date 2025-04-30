@@ -12,7 +12,7 @@ public:
 	void PrintError(SQLHANDLE henv, SQLHANDLE hdbc, SQLHANDLE hstmt);
 	void Init();
 	void Connect();
-	bool ExecuteQuary(wstring query);
+	bool ExecuteQuery(wstring query);
 	vector<vector<wstring>> ExecuteSelectQuery(wstring query);
 
 private:

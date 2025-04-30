@@ -79,7 +79,7 @@ void DBConnector::Connect() {
     }
 }
 
-bool DBConnector::ExecuteQuary(wstring query) {
+bool DBConnector::ExecuteQuery(wstring query) {
 
     // SQL Äõ¸® ½ÇÇà
     ret = SQLExecDirect(hStmt, (SQLWCHAR*)query.c_str(), SQL_NTS);
