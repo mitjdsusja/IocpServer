@@ -307,6 +307,10 @@ void PacketHandler::Handle_CS_Enter_Room_Request(shared_ptr<GameSession> session
 		shared_ptr<Player> player = GPlayerManager->GetPlayer(session->GetSessionId());
 
 		bool roomEnterReturn = GRoomManager->EnterRoom(roomId, session->GetSessionId(), GPlayerManager->GetPlayer(session->GetSessionId()));
+		if (roomEnterReturn == false) {
+			wcout << "방 입장 실패 : " << player->GetName() << endl;
+			return;
+		}
 		player->SetRoomId(roomId);
 
 		RoomInfo roomInfo = GRoomManager->GetRoomInfo(roomId);
@@ -342,6 +346,7 @@ void PacketHandler::Handle_CS_Enter_Room_Request(shared_ptr<GameSession> session
 		position->set_z(playerInfo._position._z);
 
 		shared_ptr<Buffer> sendBuffer = MakeSendBuffer(sendPlayerEnterRoomNotificationPacket, PacketId::PKT_SC_PLAYER_ENTER_ROOM_NOTIFICATION);
+		wcout << "Notification Enter Player : " << playerInfo._name << endl;
 
 		GRoomManager->BroadcastToRoom(roomId, sendBuffer);
 	}

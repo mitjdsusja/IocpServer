@@ -11,7 +11,7 @@ Room::Room(int32 roomId, shared_ptr<Player> hostPlayer, wstring roomName, int32 
 
 Room::~Room() {
 
-	//cout << "[REMOVE ROOM] roomId : " << _roomId << endl;
+	cout << "[REMOVE ROOM] roomId : " << _roomId << endl;
 }
 
 void Room::Broadcast(shared_ptr<Buffer> originSendBuffer){
@@ -25,6 +25,7 @@ void Room::Broadcast(shared_ptr<Buffer> originSendBuffer){
 		memcpy(sendBuffer->GetBuffer(), originSendBuffer->GetBuffer(), originSendBuffer->WriteSize());
 		sendBuffer->Write(originSendBuffer->WriteSize());
 
+		//wcout << "Broadcast : " << it.second->GetName() << endl;
 		Job* job = new Job([gameSession, sendBuffer]() {
 			gameSession->Send(sendBuffer);
 		});
@@ -118,7 +119,7 @@ bool RoomManager::EnterRoom(int32 roomId, int64 sessionId, shared_ptr<Player> pl
 	}
 
 	room->AddPlayer(sessionId, player);
-	wcout << "Enter Room : " << player->GetName() << endl;
+	wcout << "Enter Room : " << player->GetName() << " Total Player : " << room->GetPlayerCount() << endl;
 
 	return true;
 }
