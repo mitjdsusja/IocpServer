@@ -53,14 +53,14 @@ void Player::SetRoomId(int32 roomId){
 	_playerInfo._roomId = roomId;
 }
 
-void Player::SetPosition(Vector& position){
+void Player::SetPosition(Vector<int16>& position){
 
 	lock_guard<mutex> lock(_playerMutex);
 
 	_playerInfo._position = position;
 }
 
-void Player::SetVelocity(Vector& velocity){
+void Player::SetVelocity(Vector<int16>& velocity){
 
 	lock_guard<mutex> lock(_playerMutex);
 

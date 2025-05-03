@@ -273,34 +273,34 @@ class Vector final : public ::google::protobuf::Message
     kYFieldNumber = 2,
     kZFieldNumber = 3,
   };
-  // float x = 1;
+  // sint32 x = 1;
   void clear_x() ;
-  float x() const;
-  void set_x(float value);
+  ::int32_t x() const;
+  void set_x(::int32_t value);
 
   private:
-  float _internal_x() const;
-  void _internal_set_x(float value);
+  ::int32_t _internal_x() const;
+  void _internal_set_x(::int32_t value);
 
   public:
-  // float y = 2;
+  // sint32 y = 2;
   void clear_y() ;
-  float y() const;
-  void set_y(float value);
+  ::int32_t y() const;
+  void set_y(::int32_t value);
 
   private:
-  float _internal_y() const;
-  void _internal_set_y(float value);
+  ::int32_t _internal_y() const;
+  void _internal_set_y(::int32_t value);
 
   public:
-  // float z = 3;
+  // sint32 z = 3;
   void clear_z() ;
-  float z() const;
-  void set_z(float value);
+  ::int32_t z() const;
+  void set_z(::int32_t value);
 
   private:
-  float _internal_z() const;
-  void _internal_set_z(float value);
+  ::int32_t _internal_z() const;
+  void _internal_set_z(::int32_t value);
 
   public:
   // @@protoc_insertion_point(class_scope:msgTest.Vector)
@@ -326,9 +326,9 @@ class Vector final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const Vector& from_msg);
-    float x_;
-    float y_;
-    float z_;
+    ::int32_t x_;
+    ::int32_t y_;
+    ::int32_t z_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -4065,68 +4065,68 @@ class CS_Player_Move_Request final : public ::google::protobuf::Message
 
 // Vector
 
-// float x = 1;
+// sint32 x = 1;
 inline void Vector::clear_x() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.x_ = 0;
 }
-inline float Vector::x() const {
+inline ::int32_t Vector::x() const {
   // @@protoc_insertion_point(field_get:msgTest.Vector.x)
   return _internal_x();
 }
-inline void Vector::set_x(float value) {
+inline void Vector::set_x(::int32_t value) {
   _internal_set_x(value);
   // @@protoc_insertion_point(field_set:msgTest.Vector.x)
 }
-inline float Vector::_internal_x() const {
+inline ::int32_t Vector::_internal_x() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.x_;
 }
-inline void Vector::_internal_set_x(float value) {
+inline void Vector::_internal_set_x(::int32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.x_ = value;
 }
 
-// float y = 2;
+// sint32 y = 2;
 inline void Vector::clear_y() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.y_ = 0;
 }
-inline float Vector::y() const {
+inline ::int32_t Vector::y() const {
   // @@protoc_insertion_point(field_get:msgTest.Vector.y)
   return _internal_y();
 }
-inline void Vector::set_y(float value) {
+inline void Vector::set_y(::int32_t value) {
   _internal_set_y(value);
   // @@protoc_insertion_point(field_set:msgTest.Vector.y)
 }
-inline float Vector::_internal_y() const {
+inline ::int32_t Vector::_internal_y() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.y_;
 }
-inline void Vector::_internal_set_y(float value) {
+inline void Vector::_internal_set_y(::int32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.y_ = value;
 }
 
-// float z = 3;
+// sint32 z = 3;
 inline void Vector::clear_z() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.z_ = 0;
 }
-inline float Vector::z() const {
+inline ::int32_t Vector::z() const {
   // @@protoc_insertion_point(field_get:msgTest.Vector.z)
   return _internal_z();
 }
-inline void Vector::set_z(float value) {
+inline void Vector::set_z(::int32_t value) {
   _internal_set_z(value);
   // @@protoc_insertion_point(field_set:msgTest.Vector.z)
 }
-inline float Vector::_internal_z() const {
+inline ::int32_t Vector::_internal_z() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.z_;
 }
-inline void Vector::_internal_set_z(float value) {
+inline void Vector::_internal_set_z(::int32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.z_ = value;
 }

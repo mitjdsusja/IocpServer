@@ -106,7 +106,7 @@ void PacketHandler::Handle_CS_Login_Request(shared_ptr<GameSession> session, sha
 			int32 userNum = stoi(result[0][1]);
 			int32 level = stoi(result[0][2]);
 			wstring name = result[0][3];
-			Vector position(stof(result[0][4]), stof(result[0][5]), stof(result[0][6]));
+			Vector<int16> position(stoi(result[0][4]), stoi(result[0][5]), stoi(result[0][6]));
 
 			if (count > 0) {
 				//wcout << L"User found!" << endl;
@@ -201,13 +201,13 @@ void PacketHandler::Handle_CS_Player_Info_Request(shared_ptr<GameSession> sessio
 
 	string name;
 	int32 level;
-	float posX, posY, posZ;
+	int16 posX, posY, posZ;
 	if (!result.empty() && !result[0].empty()) {
 		name = boost::locale::conv::utf_to_utf<char>(result[0][0]);
 		level = stoi(result[0][1]);
-		posX = stof(result[0][2]);
-		posY = stof(result[0][3]);
-		posZ = stof(result[0][4]);
+		posX = stoi(result[0][2]);
+		posY = stoi(result[0][3]);
+		posZ = stoi(result[0][4]);
 	}
 	else {
 		wcout << L"Query returned no results." << endl;
@@ -359,8 +359,8 @@ void PacketHandler::Handle_CS_Player_Move_Request(shared_ptr<GameSession> sessio
 
 	msgTest::MoveState moveState = recvPlayerMoveReqeustPacket.movestate();
 	wstring playerName = boost::locale::conv::utf_to_utf<wchar_t>(moveState.playername());
-	Vector position(moveState.position().x(), moveState.position().y(), moveState.position().z());
-	Vector velocity(moveState.velocity().x(), moveState.velocity().y(), moveState.velocity().z());
+	Vector<int16> position(moveState.position().x(), moveState.position().y(), moveState.position().z());
+	Vector<int16> velocity(moveState.velocity().x(), moveState.velocity().y(), moveState.velocity().z());
 	int64 timestamp = moveState.timestamp();
 
 	shared_ptr<Player> player = GPlayerManager->GetPlayer(session->GetSessionId());

@@ -795,7 +795,7 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_messageTest_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\021messageTest.proto\022\007msgTest\")\n\006Vector\022\t"
-    "\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\t\n\001z\030\003 \001(\002\"x\n\tMoveS"
+    "\n\001x\030\001 \001(\021\022\t\n\001y\030\002 \001(\021\022\t\n\001z\030\003 \001(\021\"x\n\tMoveS"
     "tate\022\022\n\nplayerName\030\001 \001(\t\022!\n\010position\030\002 \001"
     "(\0132\017.msgTest.Vector\022!\n\010velocity\030\003 \001(\0132\017."
     "msgTest.Vector\022\021\n\ttimestamp\030\004 \001(\003\"H\n\006Pla"
@@ -947,27 +947,27 @@ const ::_pbi::TcParseTable<2, 3, 0, 0, 2> Vector::_table_ = {
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // float x = 1;
-    {::_pbi::TcParser::FastF32S1,
-     {13, 63, 0, PROTOBUF_FIELD_OFFSET(Vector, _impl_.x_)}},
-    // float y = 2;
-    {::_pbi::TcParser::FastF32S1,
-     {21, 63, 0, PROTOBUF_FIELD_OFFSET(Vector, _impl_.y_)}},
-    // float z = 3;
-    {::_pbi::TcParser::FastF32S1,
-     {29, 63, 0, PROTOBUF_FIELD_OFFSET(Vector, _impl_.z_)}},
+    // sint32 x = 1;
+    {::_pbi::TcParser::FastZ32S1,
+     {8, 63, 0, PROTOBUF_FIELD_OFFSET(Vector, _impl_.x_)}},
+    // sint32 y = 2;
+    {::_pbi::TcParser::FastZ32S1,
+     {16, 63, 0, PROTOBUF_FIELD_OFFSET(Vector, _impl_.y_)}},
+    // sint32 z = 3;
+    {::_pbi::TcParser::FastZ32S1,
+     {24, 63, 0, PROTOBUF_FIELD_OFFSET(Vector, _impl_.z_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // float x = 1;
+    // sint32 x = 1;
     {PROTOBUF_FIELD_OFFSET(Vector, _impl_.x_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float y = 2;
+    (0 | ::_fl::kFcSingular | ::_fl::kSInt32)},
+    // sint32 y = 2;
     {PROTOBUF_FIELD_OFFSET(Vector, _impl_.y_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float z = 3;
+    (0 | ::_fl::kFcSingular | ::_fl::kSInt32)},
+    // sint32 z = 3;
     {PROTOBUF_FIELD_OFFSET(Vector, _impl_.z_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kSInt32)},
   }},
   // no aux_entries
   {{
@@ -1002,24 +1002,24 @@ PROTOBUF_NOINLINE void Vector::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // float x = 1;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_x()) != 0) {
+          // sint32 x = 1;
+          if (this_._internal_x() != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteSInt32ToArray(
                 1, this_._internal_x(), target);
           }
 
-          // float y = 2;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_y()) != 0) {
+          // sint32 y = 2;
+          if (this_._internal_y() != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteSInt32ToArray(
                 2, this_._internal_y(), target);
           }
 
-          // float z = 3;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_z()) != 0) {
+          // sint32 z = 3;
+          if (this_._internal_z() != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteSInt32ToArray(
                 3, this_._internal_z(), target);
           }
 
@@ -1048,17 +1048,20 @@ PROTOBUF_NOINLINE void Vector::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // float x = 1;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_x()) != 0) {
-              total_size += 5;
+            // sint32 x = 1;
+            if (this_._internal_x() != 0) {
+              total_size += ::_pbi::WireFormatLite::SInt32SizePlusOne(
+                  this_._internal_x());
             }
-            // float y = 2;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_y()) != 0) {
-              total_size += 5;
+            // sint32 y = 2;
+            if (this_._internal_y() != 0) {
+              total_size += ::_pbi::WireFormatLite::SInt32SizePlusOne(
+                  this_._internal_y());
             }
-            // float z = 3;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_z()) != 0) {
-              total_size += 5;
+            // sint32 z = 3;
+            if (this_._internal_z() != 0) {
+              total_size += ::_pbi::WireFormatLite::SInt32SizePlusOne(
+                  this_._internal_z());
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -1073,13 +1076,13 @@ void Vector::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (::absl::bit_cast<::uint32_t>(from._internal_x()) != 0) {
+  if (from._internal_x() != 0) {
     _this->_impl_.x_ = from._impl_.x_;
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_y()) != 0) {
+  if (from._internal_y() != 0) {
     _this->_impl_.y_ = from._impl_.y_;
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_z()) != 0) {
+  if (from._internal_z() != 0) {
     _this->_impl_.z_ = from._impl_.z_;
   }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
