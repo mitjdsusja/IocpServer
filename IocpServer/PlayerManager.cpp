@@ -20,7 +20,11 @@ void Player::ClearResource(){
 
 PlayerInfo Player::GetPlayerInfo(){
 
-	return _playerInfo;
+	lock_guard<mutex> lock(_playerMutex);
+
+	PlayerInfo info = _playerInfo;
+	_playerInfo._isInfoUpdated = false;
+	return info;
 }
 
 void Player::SetPlayerMove(PlayerInfo& playerInfo){
@@ -30,6 +34,7 @@ void Player::SetPlayerMove(PlayerInfo& playerInfo){
 	_playerInfo._position = playerInfo._position;
 	_playerInfo._velocity = playerInfo._velocity;
 	_playerInfo._moveTimestamp = playerInfo._moveTimestamp;
+	_playerInfo._isInfoUpdated = true;
 }
 
 void Player::SetPlayerInfo(PlayerInfo& playerInfo) {
@@ -37,6 +42,7 @@ void Player::SetPlayerInfo(PlayerInfo& playerInfo) {
 	lock_guard<mutex> lock(_playerMutex);
 
 	_playerInfo = playerInfo;
+	_playerInfo._isInfoUpdated = true;
 }
 
 void Player::SetName(wstring& name){
@@ -44,6 +50,7 @@ void Player::SetName(wstring& name){
 	lock_guard<mutex> lock(_playerMutex);
 
 	_playerInfo._name = name;
+	_playerInfo._isInfoUpdated = true;
 }
 
 void Player::SetRoomId(int32 roomId){
@@ -51,6 +58,7 @@ void Player::SetRoomId(int32 roomId){
 	lock_guard<mutex> lock(_playerMutex);
 
 	_playerInfo._roomId = roomId;
+	_playerInfo._isInfoUpdated = true;
 }
 
 void Player::SetPosition(Vector<int16>& position){
@@ -58,6 +66,7 @@ void Player::SetPosition(Vector<int16>& position){
 	lock_guard<mutex> lock(_playerMutex);
 
 	_playerInfo._position = position;
+	_playerInfo._isInfoUpdated = true;
 }
 
 void Player::SetVelocity(Vector<int16>& velocity){
@@ -65,6 +74,7 @@ void Player::SetVelocity(Vector<int16>& velocity){
 	lock_guard<mutex> lock(_playerMutex);
 
 	_playerInfo._velocity = velocity;
+	_playerInfo._isInfoUpdated = true;
 }
 
 void Player::SetMoveTimestamp(int64 timestamp){
@@ -72,6 +82,7 @@ void Player::SetMoveTimestamp(int64 timestamp){
 	lock_guard<mutex> lock(_playerMutex);
 
 	_playerInfo._moveTimestamp = timestamp;
+	_playerInfo._isInfoUpdated = true;
 }
 
 PlayerManager::PlayerManager(){

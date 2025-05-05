@@ -4,12 +4,13 @@
 class GameSession;
 
 struct PlayerInfo {
-	wstring _name;
-	int32 _level;
-	int32 _roomId;
+	wstring _name = L"";
+	int32 _level = 0;
+	int32 _roomId = 0;
 	Vector<int16> _position;
 	Vector<int16> _velocity;
-	int64 _moveTimestamp;
+	int64 _moveTimestamp = 0;
+	bool _isInfoUpdated = true;
 };
 
 class Player{

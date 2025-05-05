@@ -93,7 +93,16 @@ void ReserveLoopBroadcastUserInfo(Service* service) {
 		msgTest::SC_Player_Move_Notification sendPlayerMoveNotificationPacket;
 
 		vector<PlayerInfo> playerInfoList = roomInfo._playerInfoList;
+		bool needUserUpdateBroadcast = false;
 		for (PlayerInfo playerInfo : playerInfoList) {
+
+			if (playerInfo._isInfoUpdated == false) {
+				continue;
+			}
+			else {
+				needUserUpdateBroadcast = true;
+			}
+
 			msgTest::MoveState* moveState = sendPlayerMoveNotificationPacket.add_movestates();
 			msgTest::Vector* position = moveState->mutable_position();
 			msgTest::Vector* velocity = moveState->mutable_velocity();
@@ -109,6 +118,7 @@ void ReserveLoopBroadcastUserInfo(Service* service) {
 
 			//wcout << playerInfo._name << " " << playerInfo._position._x << playerInfo._position._z << endl;
 		}
+		if (needUserUpdateBroadcast == false) continue;
 
 		shared_ptr<Buffer> sendBuffer = PacketHandler::MakeSendBuffer(sendPlayerMoveNotificationPacket, PacketId::PKT_SC_PLAYER_MOVE_NOTIFICATION);
 
