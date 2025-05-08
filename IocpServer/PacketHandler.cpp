@@ -74,9 +74,26 @@ void PacketHandler::Handle_Invalid(shared_ptr<GameSession> session, shared_ptr<B
 }
 
 
+
+
 /*------------
 	C -> S
 -------------*/
+void PacketHandler::Handle_CS_Ping(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service){
+
+	msgTest::CS_Ping recvPingPacket;
+	recvPingPacket.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
+
+	msgTest::SC_Pong sendPongPacket;
+	sendPongPacket.set_timestamp(recvPingPacket.timestamp());
+
+	shared_ptr<Buffer> sendBuffer = MakeSendBuffer<msgTest::SC_Pong>(sendPongPacket, PacketId::PKT_SC_PONG);
+	Job* job = new Job([session, sendBuffer]() {
+		session->Send(sendBuffer);
+	});
+	GJobQueue->Push(job);
+}
+
 void PacketHandler::Handle_CS_Login_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
 	// Check Id, Passwd
@@ -378,9 +395,14 @@ void PacketHandler::Handle_CS_Player_Move_Request(shared_ptr<GameSession> sessio
 }
 
 
+
 /*------------
 	S -> C
 -------------*/
+void PacketHandler::Handle_CS_Pong(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service){
+
+}
+
 void PacketHandler::Handle_SC_Login_Response(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
 }

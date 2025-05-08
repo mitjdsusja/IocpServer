@@ -10,6 +10,9 @@
     <Filter Include="Protobuf">
       <UniqueIdentifier>{9c6f2b38-e324-4bf0-a769-49188b615400}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{bbcb2233-4ea4-4853-bff1-a81ccaef4cb4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -33,7 +36,12 @@
     <ClInclude Include="Global.h">
       <Filter>Main</Filter>
     </ClInclude>
-    <ClInclude Include="Vector.h" />
+    <ClInclude Include="Vector.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="GridManager.h">
+      <Filter>Content</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ServerMain.cpp">
@@ -60,6 +68,11 @@
     <ClCompile Include="Global.cpp">
       <Filter>Main</Filter>
     </ClCompile>
-    <ClCompile Include="Vector.cpp" />
+    <ClCompile Include="Vector.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="GridManager.cpp">
+      <Filter>Content</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

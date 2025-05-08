@@ -12,6 +12,7 @@ enum PacketId {
 	// 1000 ~ 1099
 	PKT_CS_1000 = 1000,
 	PKT_CS_LOGIN_REQUEST = 1001,
+	PKT_CS_PING = 1002,
 
 	// 1100 ~ 1199
 	PKT_CS_ROOM_LIST_REQUEST = 1101,
@@ -31,6 +32,7 @@ enum PacketId {
 	// 2000 ~ 
 	PKT_SC_2000 = 2000,
 	PKT_SC_LOGIN_RESPONSE = 2001,
+	PKT_SC_PONG = 2002,
 
 	// 2100 ~ 2199
 	PKT_SC_2100 = 2100,
@@ -62,6 +64,7 @@ private:
 		C -> S
 	-------------*/
 	// static void Handle_CS_(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_CS_Ping(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
 	static void Handle_CS_Login_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
 	static void Handle_CS_Room_List_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
 	static void Handle_CS_Player_Info_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
@@ -73,6 +76,7 @@ private:
 	/*------------
 		S -> C
 	-------------*/
+	static void Handle_CS_Pong(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
 	static void Handle_SC_Login_Response(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
 	static void Handle_SC_Room_List_Response(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
 	static void Handle_SC_Player_Info_Response(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);

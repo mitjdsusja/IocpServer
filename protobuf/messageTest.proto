@@ -29,6 +29,13 @@ message Room{
     string hostPlayerName = 5;
 }
 
+message CS_Ping{
+    int64 timestamp = 1;
+}
+message SC_Pong{
+    int64 timestamp = 1;
+}
+
 message CS_Login_Request{
     string id = 1;
     string password = 2;

@@ -12,7 +12,7 @@ Service::Service(ServiceType type, NetAddress address, int32 maxSessionCount, fu
 
 	_completionPortHandler = new CompletionPortHandler();
 
-	_sessionIdCount = chrono::duration_cast<chrono::milliseconds>(chrono::steady_clock::now().time_since_epoch()).count();
+	_sessionIdCount.fetch_add(1);
 }
 
 Service::~Service(){
@@ -80,7 +80,7 @@ void Service::RegisterHandle(HANDLE handle){
 
 uint64 Service::GenerateSessionId(){
 
-	return _sessionIdCount.fetch_add(1);
+	return _sessionIdCount;
 }
 
 ServerService::ServerService(NetAddress addres, int32 maxSessionCount, function<shared_ptr<Session>(void)> sessionCreateFunc) 
