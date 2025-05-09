@@ -22,14 +22,15 @@ public:
 		Job* job = _jobQueue.front();
 		_jobQueue.pop();
 
-		uint64 popTime = chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch()).count();
-		uint16 elapsedTime = popTime - job->GetCreateTime();
-		_enqueueToDequeueTimeQueue.push_back(elapsedTime);
-		_enqueueToDequeueTimeSum += elapsedTime;
-		//cout << "createTime : " << job->GetCreateTime() << endl;
-		//cout << "poptime : " << popTime << endl;
-		//cout << "Elapsed Time : " << elapsedTime << endl;
-		//cout << elapsedTime << endl;
+		if (job->GetJobType() == JobType::NORMALJOB) {
+			uint64 popTime = chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch()).count();
+			uint16 elapsedTime = popTime - job->GetCreateTime();
+			_enqueueToDequeueTimeQueue.push_back(elapsedTime);
+			_enqueueToDequeueTimeSum += elapsedTime;
+			//cout << "createTime : " << job->GetCreateTime() << endl;
+			//cout << "poptime : " << popTime << endl;
+			//cout << "Elapsed Time : " << elapsedTime << endl;
+		}
 		if (_enqueueToDequeueTimeQueue.size() > 100) {
 			uint16 time = _enqueueToDequeueTimeQueue.front();
 			_enqueueToDequeueTimeQueue.pop_front();
@@ -41,7 +42,12 @@ public:
 
 	uint64 GetJobCreateTimeAvg() {
 
-		return _enqueueToDequeueTimeSum / _enqueueToDequeueTimeQueue.size();
+		uint64 result = 0;
+		if (_enqueueToDequeueTimeQueue.size() != 0) {
+			result = _enqueueToDequeueTimeSum / _enqueueToDequeueTimeQueue.size();
+		}
+
+		return result;
 	}
 
 private:

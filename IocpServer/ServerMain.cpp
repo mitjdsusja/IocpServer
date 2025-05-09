@@ -25,6 +25,7 @@ enum {
 
 void ReserveLoopBroadcastUserInfo(Service* service);
 void ReservePrintJobQueueTime();
+void ReserveJobCreate();
 void DBInsertuser(wstring id, wstring pw, wstring name);
 
 int main() {
@@ -77,6 +78,9 @@ int main() {
 	GJobTimer->Reserve(1000, []() {
 		ReservePrintJobQueueTime();
 	});
+	//GJobTimer->Reserve(100, []() {
+	//	ReserveJobCreate();
+	//});
 
 	GThreadManager->Join();
 }
@@ -144,5 +148,17 @@ void ReservePrintJobQueueTime() {
 
 	GJobTimer->Reserve(1000, []() {
 		ReservePrintJobQueueTime();
+	});
+}
+
+void ReserveJobCreate() {
+
+	Job* job = new Job([]() {
+	});
+
+	GJobQueue->Push(job);
+
+	GJobTimer->Reserve(100, []() {
+		ReserveJobCreate();
 	});
 }

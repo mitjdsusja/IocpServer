@@ -5,7 +5,7 @@
 
 class TimedJob : public Job{
 public:
-	TimedJob(uint64 executeTick, function<void()> callback) : Job(callback), _executeTick(executeTick){
+	TimedJob(uint64 executeTick, function<void()> callback) : Job(callback, JobType::TIMEDJOB), _executeTick(executeTick){
 
 	}
 	~TimedJob() {

@@ -1,12 +1,18 @@
 #pragma once
 #include <functional>
 
+enum JobType {
+
+	NORMALJOB = 1,
+	TIMEDJOB = 2,
+};
 
 class Job{
 public:
-	Job(function<void()> callback)
-		: _callback(move(callback)),
-		_createTime(chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch()).count()){
+	Job(function<void()> callback, JobType jobType = JobType::NORMALJOB)
+		: _callback(move(callback)), _jobType(jobType),
+		_createTime(chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch()).count())
+	{
 		
 	}
 	virtual ~Job() = default;
@@ -15,13 +21,17 @@ public:
 		_callback();
 	}
 
+	JobType GetJobType() {
+		return _jobType;
+	}
+
 	uint64 GetCreateTime() {
 		return _createTime;
 	}
 
 private:
 	function<void()> _callback;
-	uint64 _createTime;
-
+	uint64 _createTime = 0;
+	JobType _jobType;
 };
 
