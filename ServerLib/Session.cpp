@@ -8,6 +8,7 @@ Session::Session(Service* owner) : _owner(owner) {
 
 	_peerSocket = SocketManager::CreateSocket();
 	_recvBuffer = new RecvBuffer(RECV_BUFFER_SIZE);
+
 }
 Session::~Session(){
 	

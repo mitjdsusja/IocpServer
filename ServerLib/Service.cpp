@@ -11,8 +11,6 @@ Service::Service(ServiceType type, NetAddress address, int32 maxSessionCount, fu
 	SocketManager::SetEnv();
 
 	_completionPortHandler = new CompletionPortHandler();
-
-	_sessionIdCount.fetch_add(1);
 }
 
 Service::~Service(){
@@ -33,11 +31,9 @@ shared_ptr<Session> Service::CreateSession(){
 void Service::AddSession(shared_ptr<Session> session){
 
 	lock_guard<mutex> _lock(_sessionsMutex);
-	
-	_curSessionCount++;
-	cout << "Add Session : " << _curSessionCount << endl;
 
-	cout << "SessionId : " << session->GetSessionId() << endl;
+	_curSessionCount++;
+	cout << "Add SessionId : " << session->GetSessionId() << " Cur SessionCount : " << _curSessionCount << endl;
 	
 	_sessions[session->GetSessionId()] = session;
 }
@@ -80,7 +76,9 @@ void Service::RegisterHandle(HANDLE handle){
 
 uint64 Service::GenerateSessionId(){
 
-	return _sessionIdCount;
+	uint64 sessionId = _sessionIdCount.fetch_add(1);
+
+	return sessionId;
 }
 
 ServerService::ServerService(NetAddress addres, int32 maxSessionCount, function<shared_ptr<Session>(void)> sessionCreateFunc) 

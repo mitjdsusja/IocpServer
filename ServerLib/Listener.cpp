@@ -97,8 +97,9 @@ void Listener::Process(OverlappedEvent* event, int32 numOfBytes){
 void Listener::RegisterAccept(AcceptEvent* acceptEvent){
 
 	shared_ptr<Session> session = _owner->CreateSession();
-	session->SetSessionId(_owner->GenerateSessionId());
 	session->SetOwner(_owner);
+	session->SetSessionId(_owner->GenerateSessionId());
+	//cout << "Register SessionId : " << session->GetSessionId() << endl;
 	RecvBuffer* recvBuffer = session->GetRecvBuffer();
 	acceptEvent->_session = session;
 
