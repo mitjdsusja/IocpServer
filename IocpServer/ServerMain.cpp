@@ -24,6 +24,7 @@ enum {
 };
 
 void ReserveLoopBroadcastUserInfo(Service* service);
+void ReservePrintJobQueueTime();
 void DBInsertuser(wstring id, wstring pw, wstring name);
 
 int main() {
@@ -72,6 +73,9 @@ int main() {
 	// Reserve User Position 
 	GJobTimer->Reserve(100, [serverService]() {
 		ReserveLoopBroadcastUserInfo(serverService);
+	});
+	GJobTimer->Reserve(1000, []() {
+		ReservePrintJobQueueTime();
 	});
 
 	GThreadManager->Join();
@@ -131,5 +135,14 @@ void ReserveLoopBroadcastUserInfo(Service* service) {
 
 	GJobTimer->Reserve(100, [service]() {
 		ReserveLoopBroadcastUserInfo(service);
+	});
+}
+
+void ReservePrintJobQueueTime() {
+
+	cout << "JobTime Avg : " << GJobQueue->GetJobCreateTimeAvg() << endl;
+
+	GJobTimer->Reserve(1000, []() {
+		ReservePrintJobQueueTime();
 	});
 }
