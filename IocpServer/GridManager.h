@@ -20,6 +20,11 @@ public:
 	vector<uint64> GetNearByPlayers(uint64 sessionId);
 
 private:
+	int16 GetCellCoord(int16 value) {
+
+		return (value >= 0) ? (value / _cellSize) : ((value - _cellSize + 1) / _cellSize);
+	}
+
 	struct CellHash {
 		uint64 operator()(const pair<int, int>& cell) const {
 			return hash<int32>()(cell.first) ^ (hash<int32>()(cell.second) << 1);
