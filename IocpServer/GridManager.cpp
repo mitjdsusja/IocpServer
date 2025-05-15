@@ -26,14 +26,19 @@ void GridManager::RemovePlayer(uint64 sessionId){
 
 void GridManager::MovePosition(uint64 sessionId, Vector<int16> newPosition){
 
-	if (_players.count(sessionId) == false) return;
+	if (_players.count(sessionId) == false) {
+		cout << "GridManager MovePosition None Player" << endl;
+		return;
+	}
 
+	//cout << "new Position : " << newPosition._x << " " << newPosition._z << endl;
 	GridPlayer& p = _players[sessionId];
 	Vector<int16> newCell;
-	newCell._x = newPosition._x / _cellSize;
-	newCell._y = newPosition._z / _cellSize;
+	newCell._x = newPosition._x / 100 / _cellSize;
+	newCell._y = newPosition._z / 100 / _cellSize;
 
 	if (newCell._x != p._cell._x || newCell._y != p._cell._y) {
+		//cout << "new Cell : " << newCell._x << " " << newCell._y << endl;
 		_grid[{p._cell._x, p._cell._y}].erase(sessionId);
 		_grid[{newCell._x, newCell._y}].insert(sessionId);
 		p._cell._x = newCell._x;
@@ -52,19 +57,25 @@ vector<uint64> GridManager::GetNearByPlayers(uint64 sessionId) {
 	for (int16 gridX = -1; gridX <= 1; ++gridX) {
 		for (int16 gridY = -1; gridY <= 1; ++gridY) {
 
-			int16 cellX = gridPlayer._cell._x;
-			int16 cellY = gridPlayer._cell._y;
+			int16 cellX = gridPlayer._cell._x + gridX;
+			int16 cellY = gridPlayer._cell._y + gridY;
 
 			auto it = _grid.find({ cellX, cellY });
 			if (it == _grid.end()) continue;
 
-			for (int otherPlayerSessionId : it->second) {
+			for (int64 otherPlayerSessionId : it->second) {
 				if (otherPlayerSessionId != sessionId) {
 					nearPlayers.push_back(otherPlayerSessionId);
 				}
 			}
 		}
 	}
+
+	cout << sessionId << " Near Players : " << nearPlayers.size() << endl;
+	for (uint64 nearPlayerSessionId : nearPlayers) {
+		cout << nearPlayerSessionId << ", ";
+	}
+	cout << endl;
 
 	return nearPlayers;
 }

@@ -1,7 +1,6 @@
 #pragma once
 #include <pch.h>
 
-#include "PlayerManager.h"
 #include "GridManager.h"
 
 struct RoomInfo {
@@ -29,6 +28,7 @@ public:
 	RoomInfo GetRoomInfo();
 	int32 GetPlayerCount();
 
+	void RegisterBroadcastMovement(uint32 reserveTime);
 	vector<PlayerInfo> GetRoomPlayerInfoList(int32 roomId);
 
 private:

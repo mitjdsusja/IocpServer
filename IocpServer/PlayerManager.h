@@ -2,6 +2,7 @@
 #include "Vector.h"
 
 class GameSession;
+class Room;
 
 struct PlayerInfo {
 	wstring _name = L"";
@@ -26,6 +27,7 @@ public:
 
 	void SetPlayerMove(PlayerInfo& playerInfo);
 
+	void SetJoinedRoom(shared_ptr<Room> room);
 	void SetPlayerInfo(PlayerInfo& playerInfo);
 	void SetName(wstring& name);
 	void SetRoomId(int32 roomId);
@@ -40,6 +42,7 @@ private:
 	shared_ptr<GameSession> _owner = nullptr;
 	mutex _playerMutex;
 
+	shared_ptr<Room> _joinedRoom;
 	PlayerInfo _playerInfo = {};
 };
 

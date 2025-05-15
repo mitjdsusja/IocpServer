@@ -4,13 +4,15 @@
 #include "jobQueue.h"
 #include "messageTest.pb.h"
 #include "PacketHandler.h"
+#include "JobTimer.h"
 
 #include <boost/locale.hpp>
 
 Room::Room(int32 roomId, shared_ptr<Player> hostPlayer, wstring roomName, int32 maxPlayerCount)
-	: _gridManager(make_shared<GridManager>(25)), _roomId(roomId), _hostPlayer(hostPlayer), _roomName(roomName), _maxPlayerCount(maxPlayerCount){
+	: _gridManager(make_shared<GridManager>(10)), _roomId(roomId), _hostPlayer(hostPlayer), _roomName(roomName), _maxPlayerCount(maxPlayerCount){
 
 	AddPlayer(hostPlayer->GetOwner()->GetSessionId(), hostPlayer);
+	RegisterBroadcastMovement(100);
 }
 
 Room::~Room() {
@@ -129,6 +131,16 @@ int32 Room::GetPlayerCount(){
 	return _players.size();
 }
 
+void Room::RegisterBroadcastMovement(uint32 reserveTime){
+
+	BroadcastPlayerMovement();
+	//cout << "Broadcast Movement" << endl;
+
+	GJobTimer->Reserve(reserveTime, [this, reserveTime]() {
+		RegisterBroadcastMovement(reserveTime);
+	});
+}
+
 vector<PlayerInfo> Room::GetRoomPlayerInfoList(int32 roomId){
 
 	vector<PlayerInfo> playerInfoList;
@@ -176,6 +188,8 @@ int32 RoomManager::CreateAndAddRoom(shared_ptr<Player> hostPlayer, wstring roomN
 	shared_ptr<Room> room = MakeRoomPtr(roomId, hostPlayer, roomName, maxPlayerCount);
 	_rooms[roomId] = room;
 
+	hostPlayer->SetJoinedRoom(room);
+
 	return roomId;
 }
 
@@ -189,6 +203,7 @@ bool RoomManager::EnterRoom(int32 roomId, int64 sessionId, shared_ptr<Player> pl
 	}
 
 	room->AddPlayer(sessionId, player);
+	player->SetJoinedRoom(room);
 	wcout << "Enter Room : " << player->GetName() << " Total Player : " << room->GetPlayerCount() << endl;
 
 	return true;

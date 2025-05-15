@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "PlayerManager.h"
 #include "GameSession.h"
+#include "RoomManager.h"
 
 
 Player::Player(shared_ptr<GameSession> owner, PlayerInfo playerInfo)
@@ -9,6 +10,9 @@ Player::Player(shared_ptr<GameSession> owner, PlayerInfo playerInfo)
 }
 
 Player::~Player() {
+
+	_joinedRoom = nullptr;
+
 	wcout << L"[REMOVE PLAYER DATA] name :" << _playerInfo._name << endl;
 	ClearResource();
 }
@@ -35,6 +39,23 @@ void Player::SetPlayerMove(PlayerInfo& playerInfo){
 	_playerInfo._velocity = playerInfo._velocity;
 	_playerInfo._moveTimestamp = playerInfo._moveTimestamp;
 	_playerInfo._isInfoUpdated = true;
+
+	if (_joinedRoom != nullptr) {
+		//cout << "Player move" << endl;
+		_joinedRoom->MovePlayer(GetOwner()->GetSessionId(), playerInfo._position);
+	}
+}
+
+void Player::SetJoinedRoom(shared_ptr<Room> room){
+
+	lock_guard<mutex> lock(_playerMutex);
+
+	if (_joinedRoom != nullptr) {
+		cout << "이미 방에 들어와 있습니다." << endl;
+		return;
+	}
+	
+	_joinedRoom = room;
 }
 
 void Player::SetPlayerInfo(PlayerInfo& playerInfo) {
