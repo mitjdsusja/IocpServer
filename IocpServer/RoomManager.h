@@ -12,7 +12,7 @@ struct RoomInfo {
 	vector<PlayerInfo> _playerInfoList;
 };
 
-class Room {
+class Room : public enable_shared_from_this<Room> {
 public:
 	Room(int32 roomId, shared_ptr<Player> hostPlayer, wstring roomName, int32 maxPlayerCount);
 	~Room();

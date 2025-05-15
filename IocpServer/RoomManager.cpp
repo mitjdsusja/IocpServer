@@ -12,7 +12,6 @@ Room::Room(int32 roomId, shared_ptr<Player> hostPlayer, wstring roomName, int32 
 	: _gridManager(make_shared<GridManager>(10)), _roomId(roomId), _hostPlayer(hostPlayer), _roomName(roomName), _maxPlayerCount(maxPlayerCount){
 
 	AddPlayer(hostPlayer->GetOwner()->GetSessionId(), hostPlayer);
-	RegisterBroadcastMovement(100);
 }
 
 Room::~Room() {
@@ -136,8 +135,8 @@ void Room::RegisterBroadcastMovement(uint32 reserveTime){
 	BroadcastPlayerMovement();
 	//cout << "Broadcast Movement" << endl;
 
-	GJobTimer->Reserve(reserveTime, [this, reserveTime]() {
-		RegisterBroadcastMovement(reserveTime);
+	GJobTimer->Reserve(reserveTime, [thisRoomRef = shared_from_this(), reserveTime]() {
+		thisRoomRef->RegisterBroadcastMovement(reserveTime);
 	});
 }
 
@@ -189,6 +188,8 @@ int32 RoomManager::CreateAndAddRoom(shared_ptr<Player> hostPlayer, wstring roomN
 	_rooms[roomId] = room;
 
 	hostPlayer->SetJoinedRoom(room);
+
+	room->RegisterBroadcastMovement(100);
 
 	return roomId;
 }

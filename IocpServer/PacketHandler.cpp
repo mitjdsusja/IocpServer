@@ -331,6 +331,7 @@ void PacketHandler::Handle_CS_Enter_Room_Request(shared_ptr<GameSession> session
 		}
 		player->SetRoomId(roomId);
 
+
 		RoomInfo roomInfo = GRoomManager->GetRoomInfo(roomId);
 
 		msgTest::SC_Enter_Room_Response sendEnterRoomResponsePacket;
