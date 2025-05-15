@@ -2,9 +2,13 @@
 #include "RoomManager.h"
 #include "GameSession.h"
 #include "jobQueue.h"
+#include "messageTest.pb.h"
+#include "PacketHandler.h"
+
+#include <boost/locale.hpp>
 
 Room::Room(int32 roomId, shared_ptr<Player> hostPlayer, wstring roomName, int32 maxPlayerCount)
-	: _roomId(roomId), _hostPlayer(hostPlayer), _roomName(roomName), _maxPlayerCount(maxPlayerCount){
+	: _gridManager(make_shared<GridManager>(25)), _roomId(roomId), _hostPlayer(hostPlayer), _roomName(roomName), _maxPlayerCount(maxPlayerCount){
 
 	AddPlayer(hostPlayer->GetOwner()->GetSessionId(), hostPlayer);
 }
@@ -39,6 +43,8 @@ void Room::AddPlayer(uint64 sessionId, shared_ptr<Player> player){
 
 	_players[sessionId] = player;
 	_curPlayerCount++;
+
+	_gridManager->AddPlayer(sessionId, player->GetPlayerInfo()._position);
 }
 
 void Room::RemovePlayer(uint64 sessionId){
@@ -46,6 +52,61 @@ void Room::RemovePlayer(uint64 sessionId){
 	lock_guard<mutex> lock(_roomMutex);
 
 	_players.erase(sessionId);
+	_gridManager->RemovePlayer(sessionId);
+}
+
+void Room::MovePlayer(uint64 sessionId, Vector<int16> newPosition){
+
+	lock_guard<mutex> _lock(_roomMutex);
+
+	_gridManager->MovePosition(sessionId, newPosition);
+}
+
+void Room::BroadcastPlayerMovement(){
+
+	lock_guard<mutex> _lock(_roomMutex);
+
+	for (auto& p : _players) {
+		auto& player = p.second;
+
+		vector<uint64> nearPlayerSessionIdList = _gridManager->GetNearByPlayers(p.first);
+
+		msgTest::SC_Player_Move_Notification sendPlayerMoveNotificationPacket;
+		bool needUserUpdateBroadcast = false;
+
+		for (uint64 sessionId : nearPlayerSessionIdList){
+
+			PlayerInfo playerInfo = _players[sessionId]->GetPlayerInfo();
+			if (playerInfo._isInfoUpdated == false) {
+				continue;
+			}
+			else {
+				needUserUpdateBroadcast = true;
+			}
+
+			msgTest::MoveState* moveState = sendPlayerMoveNotificationPacket.add_movestates();
+			msgTest::Vector* position = moveState->mutable_position();
+			msgTest::Vector* velocity = moveState->mutable_velocity();
+
+			moveState->set_playername(boost::locale::conv::utf_to_utf<char>(playerInfo._name));
+			position->set_x(playerInfo._position._x);
+			position->set_y(playerInfo._position._y);
+			position->set_z(playerInfo._position._z);
+			velocity->set_x(playerInfo._velocity._x);
+			velocity->set_y(playerInfo._velocity._y);
+			velocity->set_z(playerInfo._velocity._z);
+			moveState->set_timestamp(playerInfo._moveTimestamp);
+		}
+
+		if (needUserUpdateBroadcast == false) continue;
+
+		shared_ptr<Buffer> sendBuffer = PacketHandler::MakeSendBuffer(sendPlayerMoveNotificationPacket, PacketId::PKT_SC_PLAYER_MOVE_NOTIFICATION);
+
+		Job* job = new Job([session = player->GetOwner(), sendBuffer]() {
+			session->Send(sendBuffer);
+		});
+		GJobQueue->Push(job);
+	}
 }
 
 RoomInfo Room::GetRoomInfo(){
@@ -71,7 +132,16 @@ int32 Room::GetPlayerCount(){
 vector<PlayerInfo> Room::GetRoomPlayerInfoList(int32 roomId){
 
 	vector<PlayerInfo> playerInfoList;
-	return vector<PlayerInfo>();
+
+	lock_guard<mutex> _lock(_roomMutex);
+	
+	for (auto& p : _players) {
+		auto& player = p.second;
+
+		playerInfoList.push_back(player->GetPlayerInfo());
+	}
+
+	return playerInfoList;
 }
 
 RoomManager::RoomManager(int32 maxRoomCount) : _maxRoomCount(maxRoomCount){

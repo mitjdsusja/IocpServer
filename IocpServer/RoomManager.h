@@ -2,6 +2,7 @@
 #include <pch.h>
 
 #include "PlayerManager.h"
+#include "GridManager.h"
 
 struct RoomInfo {
 	int32 _roomId;
@@ -21,6 +22,9 @@ public:
 
 	void AddPlayer(uint64 sessionId, shared_ptr<Player> player);
 	void RemovePlayer(uint64 sessionId);
+	void MovePlayer(uint64 sessionId, Vector<int16> newPosition);
+
+	void BroadcastPlayerMovement();
 
 	RoomInfo GetRoomInfo();
 	int32 GetPlayerCount();
@@ -29,6 +33,8 @@ public:
 
 private:
 	mutex _roomMutex;
+
+	shared_ptr<GridManager> _gridManager;
 
 	int32 _roomId = 0;
 	int32 _maxPlayerCount = 0;
