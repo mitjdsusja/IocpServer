@@ -56,9 +56,21 @@ int main() {
 
 		GThreadManager->Launch([=]() {
 			while (true) {
-				Job* job = GJobQueue->Pop();
-				job->Execute();
-				delete job;
+				try {
+					Job* job = GJobQueue->Pop();
+					cout << "Job POP" << endl;
+					if (job == nullptr) cout << "Job Null" << endl;
+					job->Execute();
+					cout << "jobExecute " << endl;
+					delete job;
+				}
+				catch (exception& e) {
+					cout << "job Thread Exception : " << e.what() << endl;
+				}
+				catch (...) {
+					cout << "Job Thread Unknown Exception" << endl;
+				}
+				
 			}
 		});
 	}

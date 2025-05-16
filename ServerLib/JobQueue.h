@@ -10,15 +10,17 @@ public:
 			lock_guard<mutex> lock(_queueMutex);
 			_jobQueue.push(job);
 		}
+		//cout << "thread ƒÆ¿ò" << endl;
 		_cv.notify_one();
 	}
 	Job* Pop() {
 		unique_lock<mutex> lock(_queueMutex);
 
 		while (_jobQueue.empty()) {
+			//cout << "thread Àáµë " << endl;
 			_cv.wait(lock);
 		}
-		
+		//cout << "thread ±ú¾î³²" << endl;
 		Job* job = _jobQueue.front();
 		_jobQueue.pop();
 
