@@ -24,6 +24,7 @@ public:
 	shared_ptr<GameSession> GetOwner() { return _owner; }
 
 	PlayerInfo GetPlayerInfo();
+	shared_ptr<Room> GetJoinedRoom();
 
 	void SetPlayerMove(PlayerInfo& playerInfo);
 

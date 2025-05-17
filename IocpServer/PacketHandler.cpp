@@ -393,7 +393,9 @@ void PacketHandler::Handle_CS_Player_Move_Request(shared_ptr<GameSession> sessio
 		cout << "INVALID PLAYER" << endl;
 		return;
 	}
+	shared_ptr<Room> room = player->GetJoinedRoom();
 	player->SetPlayerMove(playerInfo);
+	room->MovePlayer(player->GetOwner()->GetSessionId(), position);
 }
 
 

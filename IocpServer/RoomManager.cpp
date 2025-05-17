@@ -66,8 +66,9 @@ void Room::MovePlayer(uint64 sessionId, Vector<int16> newPosition){
 void Room::BroadcastPlayerMovement(){
 
 	lock_guard<mutex> _lock(_roomMutex);
-
+	
 	for (auto& p : _players) {
+		
 		auto& player = p.second;
 
 		vector<uint64> nearPlayerSessionIdList = _gridManager->GetNearByPlayers(p.first);
@@ -77,32 +78,39 @@ void Room::BroadcastPlayerMovement(){
 
 		for (uint64 sessionId : nearPlayerSessionIdList){
 
-			PlayerInfo playerInfo = _players[sessionId]->GetPlayerInfo();
-			if (playerInfo._isInfoUpdated == false) {
-				continue;
-			}
-			else {
-				needUserUpdateBroadcast = true;
-			}
+			try {
+				auto it = _players.find(sessionId);
+				if (it == _players.end()) continue;
 
-			msgTest::MoveState* moveState = sendPlayerMoveNotificationPacket.add_movestates();
-			msgTest::Vector* position = moveState->mutable_position();
-			msgTest::Vector* velocity = moveState->mutable_velocity();
+				PlayerInfo playerInfo = _players[sessionId]->GetPlayerInfo();
+				if (playerInfo._isInfoUpdated == false) {
+					continue;
+				}
+				else {
+					needUserUpdateBroadcast = true;
+				}
 
-			moveState->set_playername(boost::locale::conv::utf_to_utf<char>(playerInfo._name));
-			position->set_x(playerInfo._position._x);
-			position->set_y(playerInfo._position._y);
-			position->set_z(playerInfo._position._z);
-			velocity->set_x(playerInfo._velocity._x);
-			velocity->set_y(playerInfo._velocity._y);
-			velocity->set_z(playerInfo._velocity._z);
-			moveState->set_timestamp(playerInfo._moveTimestamp);
+				msgTest::MoveState* moveState = sendPlayerMoveNotificationPacket.add_movestates();
+				msgTest::Vector* position = moveState->mutable_position();
+				msgTest::Vector* velocity = moveState->mutable_velocity();
+
+				moveState->set_playername(boost::locale::conv::utf_to_utf<char>(playerInfo._name));
+				position->set_x(playerInfo._position._x);
+				position->set_y(playerInfo._position._y);
+				position->set_z(playerInfo._position._z);
+				velocity->set_x(playerInfo._velocity._x);
+				velocity->set_y(playerInfo._velocity._y);
+				velocity->set_z(playerInfo._velocity._z);
+				moveState->set_timestamp(playerInfo._moveTimestamp);
+			}
+			catch (exception& e) {
+				cout << "Exception in broadcastmovement" << endl;
+			}
 		}
 
 		if (needUserUpdateBroadcast == false) continue;
 
 		shared_ptr<Buffer> sendBuffer = PacketHandler::MakeSendBuffer(sendPlayerMoveNotificationPacket, PacketId::PKT_SC_PLAYER_MOVE_NOTIFICATION);
-
 		Job* job = new Job([session = player->GetOwner(), sendBuffer]() {
 			session->Send(sendBuffer);
 		});

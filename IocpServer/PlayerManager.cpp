@@ -31,18 +31,22 @@ PlayerInfo Player::GetPlayerInfo(){
 	return info;
 }
 
-void Player::SetPlayerMove(PlayerInfo& playerInfo){
+shared_ptr<Room> Player::GetJoinedRoom(){
 
 	lock_guard<mutex> lock(_playerMutex);
 
-	_playerInfo._position = playerInfo._position;
-	_playerInfo._velocity = playerInfo._velocity;
-	_playerInfo._moveTimestamp = playerInfo._moveTimestamp;
-	_playerInfo._isInfoUpdated = true;
+	return _joinedRoom;
+}
 
-	if (_joinedRoom != nullptr) {
-		//cout << "Player move" << endl;
-		_joinedRoom->MovePlayer(GetOwner()->GetSessionId(), playerInfo._position);
+void Player::SetPlayerMove(PlayerInfo& playerInfo){
+
+	{
+		lock_guard<mutex> lock(_playerMutex);
+
+		_playerInfo._position = playerInfo._position;
+		_playerInfo._velocity = playerInfo._velocity;
+		_playerInfo._moveTimestamp = playerInfo._moveTimestamp;
+		_playerInfo._isInfoUpdated = true;
 	}
 }
 

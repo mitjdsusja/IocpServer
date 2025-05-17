@@ -18,7 +18,21 @@ public:
 	virtual ~Job() = default;
 
 	void Execute() {
-		_callback();
+		try {
+			if (_callback) {
+				//cout << "Execute callback " << endl;
+				_callback();
+			}
+			else {
+				//cout << "inVALID CALLBACK" << endl;
+			}
+		}
+		catch(exception& e){
+			cout << "Exception int Job Execute " << e.what() << endl;
+		}
+		catch(...){
+			cout << "Unknown Exception in Job Execute" << endl;
+		}
 	}
 
 	JobType GetJobType() {

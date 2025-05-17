@@ -58,10 +58,7 @@ int main() {
 			while (true) {
 				try {
 					Job* job = GJobQueue->Pop();
-					cout << "Job POP" << endl;
-					if (job == nullptr) cout << "Job Null" << endl;
 					job->Execute();
-					cout << "jobExecute " << endl;
 					delete job;
 				}
 				catch (exception& e) {
@@ -87,9 +84,9 @@ int main() {
 	//GJobTimer->Reserve(100, [serverService]() {
 	//	ReserveLoopBroadcastUserInfo(serverService);
 	//});
-	GJobTimer->Reserve(1000, []() {
+	/*GJobTimer->Reserve(1000, []() {
 		ReservePrintJobQueueTime();
-	});
+	});*/
 	//GJobTimer->Reserve(100, []() {
 	//	ReserveJobCreate();
 	//});
