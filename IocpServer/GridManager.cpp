@@ -3,8 +3,8 @@
 
 void GridManager::AddPlayer(uint64 sessionId, Vector<int16> position){
 
-	int16 cellX = position._x / _cellSize;
-	int16 cellY = position._y / _cellSize;
+	int16 cellX = GetCellCoord(position._x / 100);
+	int16 cellY = GetCellCoord(position._y / 100);
 
 	_players[sessionId] = {
 		sessionId,
