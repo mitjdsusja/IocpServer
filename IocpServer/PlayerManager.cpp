@@ -168,6 +168,7 @@ void PlayerManager::RemovePlayer(uint64 sessionId){
 	}
 
 	_players.erase(sessionId);
+	//cout << "Remained Player Count : " << _players.size() << endl;
 }
 
 

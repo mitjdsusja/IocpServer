@@ -54,6 +54,11 @@ void Room::RemovePlayer(uint64 sessionId){
 
 	_players.erase(sessionId);
 	_gridManager->RemovePlayer(sessionId);
+
+	if (_players.size() == 0) {
+		_hostPlayer = nullptr;
+		DestroyRoom();
+	}
 }
 
 void Room::MovePlayer(uint64 sessionId, Vector<int16> newPosition){
@@ -141,11 +146,18 @@ int32 Room::GetPlayerCount(){
 void Room::RegisterBroadcastMovement(uint32 reserveTime){
 
 	BroadcastPlayerMovement();
-	//cout << "Broadcast Movement" << endl;
+	//cout << "[Room " << _roomId << "] Broadcast Movement " << endl;
+
+	if (_removeRoomFlag == true) return;
 
 	GJobTimer->Reserve(reserveTime, [thisRoomRef = shared_from_this(), reserveTime]() {
 		thisRoomRef->RegisterBroadcastMovement(reserveTime);
 	});
+}
+
+void Room::DestroyRoom(){
+
+	_removeRoomFlag = true;
 }
 
 vector<PlayerInfo> Room::GetRoomPlayerInfoList(int32 roomId){
@@ -162,6 +174,10 @@ vector<PlayerInfo> Room::GetRoomPlayerInfoList(int32 roomId){
 
 	return playerInfoList;
 }
+
+/*-----------------
+	RoomManager
+-------------------*/
 
 RoomManager::RoomManager(int32 maxRoomCount) : _maxRoomCount(maxRoomCount){
 
@@ -242,11 +258,12 @@ void RoomManager::RemovePlayerFromRoom(int32 roomId, uint64 sessionId) {
 	room->RemovePlayer(sessionId);
 
 	const auto& player = GPlayerManager->GetPlayer(sessionId);
-	wcout << "Remove Player : " << player->GetName() << endl;
+	wcout << "Remove Player From Room : " << player->GetName() << endl;
 
 	if (room->GetPlayerCount() == 0) {
 		_rooms.erase(it); 
 	}
+	//cout << "Reamined Room Count : " << _rooms.size() << endl;
 }
 
 vector<RoomInfo> RoomManager::GetRoomInfoList(){

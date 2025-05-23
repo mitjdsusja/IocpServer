@@ -33,7 +33,7 @@ public:
 			//cout << "poptime : " << popTime << endl;
 			//cout << "Elapsed Time : " << elapsedTime << endl;
 		}
-		if (_enqueueToDequeueTimeQueue.size() > 100) {
+		if (_enqueueToDequeueTimeQueue.size() > 10) {
 			uint16 time = _enqueueToDequeueTimeQueue.front();
 			_enqueueToDequeueTimeQueue.pop_front();
 			_enqueueToDequeueTimeSum -= time;
@@ -50,6 +50,11 @@ public:
 		}
 
 		return result;
+	}
+
+	int32 GetJobQueueLength() {
+		
+		return _jobQueue.size();
 	}
 
 private:

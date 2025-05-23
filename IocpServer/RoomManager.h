@@ -29,6 +29,7 @@ public:
 	int32 GetPlayerCount();
 
 	void RegisterBroadcastMovement(uint32 reserveTime);
+	void DestroyRoom();
 	vector<PlayerInfo> GetRoomPlayerInfoList(int32 roomId);
 
 private:
@@ -43,6 +44,7 @@ private:
 	shared_ptr<Player> _hostPlayer = nullptr;
 	map<uint64, shared_ptr<Player>> _players;
 
+	bool _removeRoomFlag = false;
 };
 
 class RoomManager{
