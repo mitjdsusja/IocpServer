@@ -84,28 +84,28 @@ void Room::BroadcastPlayerMovement(){
 			continue;
 		}
 
+		msgTest::SC_Player_Move_Notification sendPlayerMoveNotificationPacket;
+		msgTest::MoveState* moveState = sendPlayerMoveNotificationPacket.add_movestates();
+		msgTest::Vector* position = moveState->mutable_position();
+		msgTest::Vector* velocity = moveState->mutable_velocity();
+
+		moveState->set_playername(boost::locale::conv::utf_to_utf<char>(playerInfo._name));
+		position->set_x(playerInfo._position._x);
+		position->set_y(playerInfo._position._y);
+		position->set_z(playerInfo._position._z);
+		velocity->set_x(playerInfo._velocity._x);
+		velocity->set_y(playerInfo._velocity._y);
+		velocity->set_z(playerInfo._velocity._z);
+		moveState->set_timestamp(playerInfo._moveTimestamp);
+
+		auto sendBuffer = PacketHandler::MakeSendBuffer(sendPlayerMoveNotificationPacket, PacketId::PKT_SC_PLAYER_MOVE_NOTIFICATION);
+
 		for (uint64 sessionId : nearPlayerSessionIdList){
 
 			if (sessionId == p.first) continue;
 
-			msgTest::SC_Player_Move_Notification sendPlayerMoveNotificationPacket;
-			msgTest::MoveState* moveState = sendPlayerMoveNotificationPacket.add_movestates();
-			msgTest::Vector* position = moveState->mutable_position();
-			msgTest::Vector* velocity = moveState->mutable_velocity();
-
 			auto& targetPlayer = _players[sessionId];
 			auto targetSession = targetPlayer->GetOwner();
-
-			moveState->set_playername(boost::locale::conv::utf_to_utf<char>(playerInfo._name));
-			position->set_x(playerInfo._position._x);
-			position->set_y(playerInfo._position._y);
-			position->set_z(playerInfo._position._z);
-			velocity->set_x(playerInfo._velocity._x);
-			velocity->set_y(playerInfo._velocity._y);
-			velocity->set_z(playerInfo._velocity._z);
-			moveState->set_timestamp(playerInfo._moveTimestamp);
-
-			auto sendBuffer = PacketHandler::MakeSendBuffer(sendPlayerMoveNotificationPacket, PacketId::PKT_SC_PLAYER_MOVE_NOTIFICATION);
 
 			Job* job = new Job([session = targetSession, sendBuffer]() {
 				session->Send(sendBuffer);
