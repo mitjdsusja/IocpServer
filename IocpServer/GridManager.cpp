@@ -13,7 +13,7 @@ void GridManager::AddPlayer(uint64 sessionId, Vector<int16> position){
 	};
 
 	_grid[{ cellX, cellY }].insert(sessionId);
-	cout << sessionId << " new Cell : " << cellX << " " << cellY << endl;
+	//cout << sessionId << " new Cell : " << cellX << " " << cellY << endl;
 }
 
 void GridManager::RemovePlayer(uint64 sessionId){
@@ -39,7 +39,7 @@ void GridManager::MovePosition(uint64 sessionId, Vector<int16> newPosition){
 	newCell._y = GetCellCoord(newPosition._z / 100);
 
 	if (newCell._x != p._cell._x || newCell._y != p._cell._y) {
-		cout << sessionId << " new Cell : " << newCell._x << " " << newCell._y << endl;
+		//cout << sessionId << " new Cell : " << newCell._x << " " << newCell._y << endl;
 		_grid[{p._cell._x, p._cell._y}].erase(sessionId);
 		_grid[{newCell._x, newCell._y}].insert(sessionId);
 		p._cell._x = newCell._x;
