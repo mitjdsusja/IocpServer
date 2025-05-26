@@ -71,6 +71,33 @@ void Room::MovePlayer(uint64 sessionId, Vector<int16> newPosition){
 void Room::BroadcastPlayerMovement(){
 
 	lock_guard<mutex> _lock(_roomMutex);
+
+	unordered_map<uint64, msgTest::MoveState> updatedMoveStates;
+
+	for (auto& p : _players) {
+
+		auto& player = p.second;
+
+		PlayerInfo playerInfo = player->GetPlayerInfo();
+		if (playerInfo._isInfoUpdated == false) {
+			continue;
+		}
+
+		msgTest::MoveState moveState;
+		msgTest::Vector* position = moveState.mutable_position();
+		msgTest::Vector* velocity = moveState.mutable_velocity();
+
+		moveState.set_playername(boost::locale::conv::utf_to_utf<char>(playerInfo._name));
+		position->set_x(playerInfo._position._x);
+		position->set_y(playerInfo._position._y);
+		position->set_z(playerInfo._position._z);
+		velocity->set_x(playerInfo._velocity._x);
+		velocity->set_y(playerInfo._velocity._y);
+		velocity->set_z(playerInfo._velocity._z);
+		moveState.set_timestamp(playerInfo._moveTimestamp);
+
+		updatedMoveStates[p.first] = move(moveState);
+	}
 	
 	for (auto& p : _players) {
 		
@@ -78,41 +105,29 @@ void Room::BroadcastPlayerMovement(){
 
 		vector<uint64> nearPlayerSessionIdList = _gridManager->GetNearByPlayers(p.first);
 
-		PlayerInfo playerInfo = player->GetPlayerInfo();
-		// 위치 업데이트 없으면 다음 플레이어
-		if (playerInfo._isInfoUpdated == false) {
+		msgTest::SC_Player_Move_Notification sendPlayerMoveNotificationPacket;
+
+		for (uint64 targetSessionId : nearPlayerSessionIdList) {
+			
+			auto it = updatedMoveStates.find(targetSessionId);
+			if (it != updatedMoveStates.end()) {
+				msgTest::MoveState* moveState = sendPlayerMoveNotificationPacket.add_movestates();
+				*moveState = it->second;
+			}
+		}
+
+		if (sendPlayerMoveNotificationPacket.movestates_size() == 0) {
 			continue;
 		}
 
-		msgTest::SC_Player_Move_Notification sendPlayerMoveNotificationPacket;
-		msgTest::MoveState* moveState = sendPlayerMoveNotificationPacket.add_movestates();
-		msgTest::Vector* position = moveState->mutable_position();
-		msgTest::Vector* velocity = moveState->mutable_velocity();
-
-		moveState->set_playername(boost::locale::conv::utf_to_utf<char>(playerInfo._name));
-		position->set_x(playerInfo._position._x);
-		position->set_y(playerInfo._position._y);
-		position->set_z(playerInfo._position._z);
-		velocity->set_x(playerInfo._velocity._x);
-		velocity->set_y(playerInfo._velocity._y);
-		velocity->set_z(playerInfo._velocity._z);
-		moveState->set_timestamp(playerInfo._moveTimestamp);
-
 		auto sendBuffer = PacketHandler::MakeSendBuffer(sendPlayerMoveNotificationPacket, PacketId::PKT_SC_PLAYER_MOVE_NOTIFICATION);
 
-		for (uint64 sessionId : nearPlayerSessionIdList){
+		auto targetSession = player->GetOwner();
+		Job* job = new Job([session = targetSession, sendBuffer]() {
+			session->Send(sendBuffer);
+		});
 
-			if (sessionId == p.first) continue;
-
-			auto& targetPlayer = _players[sessionId];
-			auto targetSession = targetPlayer->GetOwner();
-
-			Job* job = new Job([session = targetSession, sendBuffer]() {
-				session->Send(sendBuffer);
-			});
-
-			GJobQueue->Push(job);
-		}
+		GJobQueue->Push(job);
 	}
 }
 
