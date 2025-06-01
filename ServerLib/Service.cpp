@@ -33,7 +33,7 @@ void Service::AddSession(shared_ptr<Session> session){
 	lock_guard<mutex> _lock(_sessionsMutex);
 
 	_curSessionCount++;
-	cout << "Add SessionId : " << session->GetSessionId() << " Cur SessionCount : " << _curSessionCount << endl;
+	cout << "[Add SessionId] " << session->GetSessionId() << " Cur SessionCount : " << _curSessionCount << endl;
 	
 	_sessions[session->GetSessionId()] = session;
 }

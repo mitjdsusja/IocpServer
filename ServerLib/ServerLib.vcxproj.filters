@@ -93,6 +93,9 @@
     <ClCompile Include="DBConnector.cpp">
       <Filter>DB</Filter>
     </ClCompile>
+    <ClCompile Include="JobScheduler.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -169,6 +172,9 @@
     </ClInclude>
     <ClInclude Include="DBConnector.h">
       <Filter>DB</Filter>
+    </ClInclude>
+    <ClInclude Include="JobScheduler.h">
+      <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

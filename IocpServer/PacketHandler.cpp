@@ -145,6 +145,8 @@ void PacketHandler::Handle_CS_Login_Request(shared_ptr<GameSession> session, sha
 				errorMessage = "Invalid ID or password.";
 				wcout << L"Invalid ID or password."  << wId << endl;
 			}
+
+			wcout << L"[Client Login] " << name << endl;
 		}
 		else {
 			errorMessage = "Query returned no results.";
@@ -289,7 +291,7 @@ void PacketHandler::Handle_CS_Create_Room_Request(shared_ptr<GameSession> sessio
 
 	shared_ptr<Player> hostPlayer = GPlayerManager->GetPlayer(session->GetSessionId());
 	int roomId = GRoomManager->CreateAndAddRoom(hostPlayer, roomName);
-	cout << "[CreateRoom] Room ID : " << roomId << endl;
+	cout << "[Create Room] Room ID : " << roomId << endl;
 
 	hostPlayer->SetRoomId(roomId);
 
@@ -365,7 +367,7 @@ void PacketHandler::Handle_CS_Enter_Room_Request(shared_ptr<GameSession> session
 		position->set_z(playerInfo._position._z);
 
 		shared_ptr<Buffer> sendBuffer = MakeSendBuffer(sendPlayerEnterRoomNotificationPacket, PacketId::PKT_SC_PLAYER_ENTER_ROOM_NOTIFICATION);
-		wcout << "Notification Enter Player : " << playerInfo._name << endl;
+		wcout << "[Enter Room] " << playerInfo._name << " To " << roomId << endl;
 
 		GRoomManager->BroadcastToRoom(roomId, sendBuffer);
 	}

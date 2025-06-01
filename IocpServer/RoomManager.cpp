@@ -4,7 +4,9 @@
 #include "jobQueue.h"
 #include "messageTest.pb.h"
 #include "PacketHandler.h"
+#include "Job.h"
 #include "JobTimer.h"
+#include "JobScheduler.h"
 
 #include <boost/locale.hpp>
 
@@ -17,6 +19,47 @@ Room::Room(int32 roomId, shared_ptr<Player> hostPlayer, wstring roomName, int32 
 Room::~Room() {
 
 	cout << "[REMOVE ROOM] roomId : " << _roomId << endl;
+}
+
+void Room::PushJob(Job* job){
+
+	{
+		lock_guard<mutex> lock(_jobQueueMutex);
+		_jobQueue.push(job);
+	}
+
+	bool expected = false;
+	if (_pendingJob.compare_exchange_strong(expected, true)) {
+		GJobScheduler->PushJobQueue(shared_from_this());
+	}
+}
+
+void Room::ExecuteJob(){
+
+	// Swap JobQueue
+	{
+		queue<Job*> newJobQueue;
+		lock_guard<mutex> lock(_jobQueueMutex);
+
+		swap(newJobQueue, _jobQueue);
+	}
+
+	while (_jobQueue.empty() == false) {
+		Job* job = _jobQueue.front();
+		_jobQueue.pop();
+
+		job->Execute();
+
+		delete job;
+	}
+}
+
+bool Room::HasJobs(){
+
+	lock_guard<mutex> lock(_jobQueueMutex);
+
+	if (_jobQueue.empty())	return false;
+	else return true;
 }
 
 void Room::Broadcast(shared_ptr<Buffer> originSendBuffer){
@@ -63,7 +106,7 @@ void Room::RemovePlayer(uint64 sessionId){
 
 void Room::MovePlayer(uint64 sessionId, Vector<int16> newPosition){
 
-	lock_guard<mutex> _lock(_roomMutex);
+	lock_guard<mutex> lock(_roomMutex);
 
 	_gridManager->MovePosition(sessionId, newPosition);
 }
@@ -237,7 +280,7 @@ bool RoomManager::EnterRoom(int32 roomId, int64 sessionId, shared_ptr<Player> pl
 
 	room->AddPlayer(sessionId, player);
 	player->SetJoinedRoom(room);
-	wcout << "Enter Room : " << player->GetName() << " Total Player : " << room->GetPlayerCount() << endl;
+	//wcout << "Enter Room : " << player->GetName() << " Total Player : " << room->GetPlayerCount() << endl;
 
 	return true;
 }
@@ -252,7 +295,7 @@ void RoomManager::RemoveRoom(int32 roomId) {
 	}
 }
 
-void RoomManager::RemovePlayerFromRoom(int32 roomId, uint64 sessionId) {
+void RoomManager::LeavePlayerFromRoom(int32 roomId, uint64 sessionId) {
 
 	lock_guard<mutex> lock(_roomsMutex); 
 
@@ -266,7 +309,7 @@ void RoomManager::RemovePlayerFromRoom(int32 roomId, uint64 sessionId) {
 	room->RemovePlayer(sessionId);
 
 	const auto& player = GPlayerManager->GetPlayer(sessionId);
-	wcout << "Remove Player From Room : " << player->GetName() << endl;
+	wcout << "[Leave Player] " << player->GetName() << " From " << room->GetRoomInfo()._roomId << endl;
 
 	if (room->GetPlayerCount() == 0) {
 		_rooms.erase(it); 

@@ -3,6 +3,16 @@
 #include "ServerPch.h"
 #include "Job.h"
 
+class IJobQueue {
+public:
+	virtual ~IJobQueue() = default;
+
+	virtual void PushJob(Job* job) = 0;
+	virtual void ExecuteJob() = 0;
+	virtual bool HasJobs() = 0;
+	
+};
+
 class JobQueue {
 public:
 	void Push(Job* job) {

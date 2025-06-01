@@ -40,7 +40,7 @@ void GameSession::OnDisconnect(){
 	else {
 
 		PlayerInfo playerInfo = player->GetPlayerInfo();
-		GRoomManager->RemovePlayerFromRoom(playerInfo._roomId, GetSessionId());
+		GRoomManager->LeavePlayerFromRoom(playerInfo._roomId, GetSessionId());
 	}
 
 	GPlayerManager->RemovePlayer(GetSessionId());

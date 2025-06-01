@@ -2,6 +2,7 @@
 #include <pch.h>
 
 #include "GridManager.h"
+#include "JobQueue.h"
 
 struct RoomInfo {
 	int32 _roomId;
@@ -12,10 +13,14 @@ struct RoomInfo {
 	vector<PlayerInfo> _playerInfoList;
 };
 
-class Room : public enable_shared_from_this<Room> {
+class Room : public enable_shared_from_this<Room>, public IJobQueue {
 public:
 	Room(int32 roomId, shared_ptr<Player> hostPlayer, wstring roomName, int32 maxPlayerCount);
 	~Room();
+
+	void PushJob(Job* job) override;
+	void ExecuteJob() override;
+	bool HasJobs() override;
 
 	void Broadcast(shared_ptr<Buffer> sendBuffer);
 
@@ -45,6 +50,11 @@ private:
 	map<uint64, shared_ptr<Player>> _players;
 
 	bool _removeRoomFlag = false;
+
+	// Job
+	atomic<bool> _pendingJob = false;
+	mutex _jobQueueMutex;
+	queue<Job*> _jobQueue;
 };
 
 class RoomManager{
@@ -56,7 +66,7 @@ public:
 	int32 CreateAndAddRoom(shared_ptr<Player> hostPlayer, wstring roomName, int32 maxPlayerCount = 100);
 	bool EnterRoom(int32 roomId,int64 sessionid, shared_ptr<Player> player);
 	void RemoveRoom(int32 roomId);
-	void RemovePlayerFromRoom(int32 roomid, uint64 sessionId);
+	void LeavePlayerFromRoom(int32 roomid, uint64 sessionId);
 
 	vector<RoomInfo> GetRoomInfoList();
 	RoomInfo GetRoomInfo(int32 roomId);

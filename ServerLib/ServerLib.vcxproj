@@ -25,6 +25,7 @@
     <ClCompile Include="ErrorHandler.cpp" />
     <ClCompile Include="Job.cpp" />
     <ClCompile Include="JobQueue.cpp" />
+    <ClCompile Include="JobScheduler.cpp" />
     <ClCompile Include="JobTimer.cpp" />
     <ClCompile Include="Listener.cpp" />
     <ClCompile Include="LockFreeQueue.cpp" />
@@ -54,6 +55,7 @@
     <ClInclude Include="ErrorHandler.h" />
     <ClInclude Include="Job.h" />
     <ClInclude Include="JobQueue.h" />
+    <ClInclude Include="JobScheduler.h" />
     <ClInclude Include="JobTimer.h" />
     <ClInclude Include="Listener.h" />
     <ClInclude Include="LockFreeQueue.h" />
