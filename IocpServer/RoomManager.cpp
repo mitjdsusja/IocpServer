@@ -10,10 +10,10 @@
 
 #include <boost/locale.hpp>
 
-Room::Room(int32 roomId, shared_ptr<Player> hostPlayer, wstring roomName, int32 maxPlayerCount)
-	: _gridManager(make_shared<GridManager>(10)), _roomId(roomId), _hostPlayer(hostPlayer), _roomName(roomName), _maxPlayerCount(maxPlayerCount){
+Room::Room(int32 roomId, wstring roomName, int32 maxPlayerCount, RoomPlayer hostPlayerData)
+	: _gridManager(make_shared<GridManager>(10)), _roomId(roomId), _hostPlayerSessionId(hostPlayerData._sessionId), _roomName(roomName), _maxPlayerCount(maxPlayerCount){
 
-	AddPlayer(hostPlayer->GetOwner()->GetSessionId(), hostPlayer);
+	AddPlayer(hostPlayerData._sessionId, hostPlayerData);
 }
 
 Room::~Room() {
@@ -23,65 +23,41 @@ Room::~Room() {
 
 void Room::Broadcast(shared_ptr<Buffer> originSendBuffer){
 
-	lock_guard<mutex> lock(_roomMutex);
-
-	for (auto& it : _players) {
-		shared_ptr<GameSession> gameSession = it.second->GetOwner();
-
-		shared_ptr<Buffer> sendBuffer = shared_ptr<Buffer>(GSendBufferPool->Pop(), [](Buffer* buffer) { GSendBufferPool->Push(buffer); });
-		memcpy(sendBuffer->GetBuffer(), originSendBuffer->GetBuffer(), originSendBuffer->WriteSize());
-		sendBuffer->Write(originSendBuffer->WriteSize());
-
-		//wcout << "Broadcast : " << it.second->GetName() << endl;
-		Job* job = new Job([gameSession, sendBuffer]() {
-			gameSession->Send(sendBuffer);
-		});
-		GJobQueue->Push(job);
-	}
 }
 
-void Room::AddPlayer(uint64 sessionId, shared_ptr<Player> player){
+void Room::AddPlayer(uint64 sessionId, RoomPlayer playerData){
 
-	lock_guard<mutex> lock(_roomMutex);
-
-	_players[sessionId] = player;
+	_players[sessionId] = playerData;
 	_curPlayerCount++;
 
-	_gridManager->AddPlayer(sessionId, player->GetPlayerInfo()._position);
+	_gridManager->AddPlayer(sessionId, playerData._gameState._position);
 }
 
 void Room::RemovePlayer(uint64 sessionId){
-
-	lock_guard<mutex> lock(_roomMutex);
 
 	_players.erase(sessionId);
 	_gridManager->RemovePlayer(sessionId);
 
 	if (_players.size() == 0) {
-		_hostPlayer = nullptr;
+		_hostPlayerSessionId = 0;
 		DestroyRoom();
 	}
 }
 
 void Room::MovePlayer(uint64 sessionId, Vector<int16> newPosition){
 
-	lock_guard<mutex> lock(_roomMutex);
-
 	_gridManager->MovePosition(sessionId, newPosition);
 }
 
 void Room::BroadcastPlayerMovement(){
 
-	lock_guard<mutex> _lock(_roomMutex);
-
 	unordered_map<uint64, msgTest::MoveState> updatedMoveStates;
 
 	for (auto& p : _players) {
 
-		auto& player = p.second;
+		auto& playerData = p.second;
 
-		PlayerInfo playerInfo = player->GetPlayerInfo();
-		if (playerInfo._isInfoUpdated == false) {
+		if (playerData._gameState._updatePosition == false) {
 			continue;
 		}
 
@@ -89,14 +65,14 @@ void Room::BroadcastPlayerMovement(){
 		msgTest::Vector* position = moveState.mutable_position();
 		msgTest::Vector* velocity = moveState.mutable_velocity();
 
-		moveState.set_playername(boost::locale::conv::utf_to_utf<char>(playerInfo._name));
-		position->set_x(playerInfo._position._x);
-		position->set_y(playerInfo._position._y);
-		position->set_z(playerInfo._position._z);
-		velocity->set_x(playerInfo._velocity._x);
-		velocity->set_y(playerInfo._velocity._y);
-		velocity->set_z(playerInfo._velocity._z);
-		moveState.set_timestamp(playerInfo._moveTimestamp);
+		moveState.set_playername(boost::locale::conv::utf_to_utf<char>(playerData._gameState._name));
+		position->set_x(playerData._gameState._position._x);
+		position->set_y(playerData._gameState._position._y);
+		position->set_z(playerData._gameState._position._z);
+		velocity->set_x(playerData._gameState._velocity._x);
+		velocity->set_y(playerData._gameState._velocity._y);
+		velocity->set_z(playerData._gameState._velocity._z);
+		moveState.set_timestamp(playerData._gameState._moveTimeStamp);
 
 		updatedMoveStates[p.first] = move(moveState);
 	}
@@ -124,26 +100,19 @@ void Room::BroadcastPlayerMovement(){
 
 		auto sendBuffer = PacketHandler::MakeSendBuffer(sendPlayerMoveNotificationPacket, PacketId::PKT_SC_PLAYER_MOVE_NOTIFICATION);
 
-		auto targetSession = player->GetOwner();
-		Job* job = new Job([session = targetSession, sendBuffer]() {
-			session->Send(sendBuffer);
-		});
-
-		GJobQueue->Push(job);
+		GPlayerManager->PushSendJob(player._sessionId, sendBuffer);
 	}
 }
 
 RoomInfo Room::GetRoomInfo(){
 
-	RoomInfo roomInfo = { _roomId, _maxPlayerCount, _curPlayerCount, _roomName , _hostPlayer->GetName()};
+	RoomInfo roomInfo = { _roomId, _maxPlayerCount, _curPlayerCount, _roomName , _players[_hostPlayerSessionId]._gameState._name};
 	
-	lock_guard<mutex> lock(_roomMutex);
-
-	vector<PlayerInfo> playerInfoList;
+	vector<uint64> playersSessionId;
 	for (const auto& player : _players) {
-		playerInfoList.push_back(player.second->GetPlayerInfo());
+		playersSessionId.push_back(player.second._sessionId);
 	}
-	roomInfo._playerInfoList = playerInfoList;
+	roomInfo._playersSessionId = playersSessionId;
 
 	return roomInfo;
 }
@@ -168,21 +137,6 @@ void Room::RegisterBroadcastMovement(uint32 reserveTime){
 void Room::DestroyRoom(){
 
 	_removeRoomFlag = true;
-}
-
-vector<PlayerInfo> Room::GetRoomPlayerInfoList(int32 roomId){
-
-	vector<PlayerInfo> playerInfoList;
-
-	lock_guard<mutex> _lock(_roomMutex);
-	
-	for (auto& p : _players) {
-		auto& player = p.second;
-
-		playerInfoList.push_back(player->GetPlayerInfo());
-	}
-
-	return playerInfoList;
 }
 
 /*-----------------
@@ -228,7 +182,7 @@ int32 RoomManager::CreateAndAddRoom(shared_ptr<Player> hostPlayer, wstring roomN
 	return roomId;
 }
 
-bool RoomManager::EnterRoom(int32 roomId, int64 sessionId, shared_ptr<Player> player){
+bool RoomManager::EnterRoom(int32 roomId, int64 sessionId, Room::RoomPlayer enterPlayerData){
 
 	lock_guard<mutex> lock(_roomsMutex);
 
@@ -237,8 +191,7 @@ bool RoomManager::EnterRoom(int32 roomId, int64 sessionId, shared_ptr<Player> pl
 		return false;
 	}
 
-	room->AddPlayer(sessionId, player);
-	player->SetJoinedRoom(room);
+	room->AddPlayer(sessionId, enterPlayerData);
 	//wcout << "Enter Room : " << player->GetName() << " Total Player : " << room->GetPlayerCount() << endl;
 
 	return true;

@@ -1,5 +1,6 @@
 #pragma once
 #include "Vector.h"
+#include "JobQueue.h"
 
 class GameSession;
 class Room;
@@ -16,48 +17,47 @@ struct PlayerInfo {
 
 class Player{
 public:
-	Player(shared_ptr<GameSession> owner, PlayerInfo playerInfo);
+	struct GameStateData {
+		wstring _name;
+		Vector<int16> _position;
+		Vector<int16> _velocity;
+		uint64 _moveTimeStamp;
+		bool _updatePosition;
+	};
+public:
+	Player(shared_ptr<GameSession> owner, PlayerInfo& playerInfo);
 	~Player();
 
-	void ClearResource();
-
-	shared_ptr<GameSession> GetOwner() { return _owner; }
-
+	shared_ptr<GameSession> GetOwnerSession() { return _owner; }
 	PlayerInfo GetPlayerInfo();
-	shared_ptr<Room> GetJoinedRoom();
 
-	void SetPlayerMove(PlayerInfo& playerInfo);
-
-	void SetJoinedRoom(shared_ptr<Room> room);
-	void SetPlayerInfo(PlayerInfo& playerInfo);
-	void SetName(wstring& name);
+	void UpdatePlayerInfo(const PlayerInfo& newInfo);
+	void SetName(const wstring& name);
+	void SetLevel(int32 level);
 	void SetRoomId(int32 roomId);
 	void SetPosition(Vector<int16>& position);
 	void SetVelocity(Vector<int16>& velocity);
 	void SetMoveTimestamp(int64 timestamp);
+	void UpdateGameState(const GameStateData& gameState);
 
-	wstring GetName() { return _playerInfo._name; }
-	int32 GetRoomId() { return _playerInfo._roomId; }
+private:
+	void ClearResource();
 
 private:
 	shared_ptr<GameSession> _owner = nullptr;
 	mutex _playerMutex;
 
-	shared_ptr<Room> _joinedRoom;
 	PlayerInfo _playerInfo = {};
 };
 
-class PlayerManager {
+class PlayerManager : public JobQueueBase {
 public:
 	PlayerManager();
 	~PlayerManager();
 
-	void CreateAndAddPlayer(shared_ptr<GameSession> owner, uint64 sessionId);
-	void CreateAndAddPlayer(shared_ptr<GameSession> owner, uint64 sessionId, PlayerInfo playerInfo);
-	shared_ptr<Player> GetPlayer(uint64 sessionId);
-	void SetPlayerInfo(int64 sessionId, PlayerInfo& playerInfo);
-
-	void RemovePlayer(uint64 sessionId);
+	void PushCreatePlayerJob(shared_ptr<GameSession> ownerSession, uint64 sessionId, PlayerInfo playerInfo);
+	void PushRemovePlayerJob(uint64 sessionId);
+	void PushUpdatePlayerGameStateJob(uint64 sessionId, const Player::GameStateData& gameState);
 
 private:
 	mutex _playersMutex;

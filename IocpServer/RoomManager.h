@@ -10,17 +10,23 @@ struct RoomInfo {
 	int32 _curPlayerCount;
 	wstring _roomName;
 	wstring _hostPlayerName;
-	vector<PlayerInfo> _playerInfoList;
+	uint64 _hostPlayerSessionId;
+	vector<uint64> _playersSessionId;
 };
 
 class Room : public JobQueueBase {
 public:
-	Room(int32 roomId, shared_ptr<Player> hostPlayer, wstring roomName, int32 maxPlayerCount);
+	struct RoomPlayer {
+		uint64 _sessionId;
+		Player::GameStateData _gameState;
+	};
+public:
+	Room(int32 roomId, wstring roomName, int32 maxPlayerCount, RoomPlayer hostPlayerData);
 	~Room();
 
 	void Broadcast(shared_ptr<Buffer> sendBuffer);
 
-	void AddPlayer(uint64 sessionId, shared_ptr<Player> player);
+	void AddPlayer(uint64 sessionId, RoomPlayer playerData);
 	void RemovePlayer(uint64 sessionId);
 	void MovePlayer(uint64 sessionId, Vector<int16> newPosition);
 
@@ -31,7 +37,6 @@ public:
 
 	void RegisterBroadcastMovement(uint32 reserveTime);
 	void DestroyRoom();
-	vector<PlayerInfo> GetRoomPlayerInfoList(int32 roomId);
 
 private:
 	mutex _roomMutex;
@@ -42,8 +47,8 @@ private:
 	int32 _maxPlayerCount = 0;
 	int32 _curPlayerCount = 0;
 	wstring _roomName = L"NULL";
-	shared_ptr<Player> _hostPlayer = nullptr;
-	map<uint64, shared_ptr<Player>> _players;
+	uint64 _hostPlayerSessionId = 0;
+	map<uint64, RoomPlayer> _players;
 
 	bool _removeRoomFlag = false;
 
@@ -56,7 +61,7 @@ public:
 	void BroadcastToRoom(int32 roomId, shared_ptr<Buffer> sendBuffer);
 	
 	int32 CreateAndAddRoom(shared_ptr<Player> hostPlayer, wstring roomName, int32 maxPlayerCount = 100);
-	bool EnterRoom(int32 roomId,int64 sessionid, shared_ptr<Player> player);
+	bool EnterRoom(int32 roomId,int64 sessionid, Room::RoomPlayer enterPlayerData);
 	void RemoveRoom(int32 roomId);
 	void LeavePlayerFromRoom(int32 roomid, uint64 sessionId);
 

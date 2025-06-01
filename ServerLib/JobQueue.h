@@ -3,21 +3,12 @@
 #include "ServerPch.h"
 #include "Job.h"
 
-class IJobQueue {
+class JobQueueBase :  public enable_shared_from_this<JobQueueBase> {
 public:
-	virtual ~IJobQueue() = default;
+	virtual ~JobQueueBase() = default;
 
-	virtual void PushJob(Job* job) = 0;
-	virtual void ExecuteJob() = 0;
-	virtual bool HasJobs() = 0;
-
-};
-
-class JobQueueBase : public IJobQueue, public enable_shared_from_this<JobQueueBase> {
-	// IJobQueue을(를) 통해 상속됨
-	void PushJob(Job* job) override;
-	void ExecuteJob() override;
-	bool HasJobs() override;
+	void PushJob(Job* job);
+	void ExecuteJob();
 
 protected:
 	atomic<bool> _pendingJob = false;

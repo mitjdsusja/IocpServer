@@ -2,16 +2,15 @@
 #include "PlayerManager.h"
 #include "GameSession.h"
 #include "RoomManager.h"
+#include "JobQueue.h"
 
 
-Player::Player(shared_ptr<GameSession> owner, PlayerInfo playerInfo)
+Player::Player(shared_ptr<GameSession> owner, PlayerInfo& playerInfo)
  : _owner(owner), _playerInfo(playerInfo){
 	
 }
 
 Player::~Player() {
-
-	_joinedRoom = nullptr;
 
 	wcout << L"[REMOVE PLAYER DATA] name :" << _playerInfo._name << endl;
 	ClearResource();
@@ -26,56 +25,26 @@ PlayerInfo Player::GetPlayerInfo(){
 
 	lock_guard<mutex> lock(_playerMutex);
 
-	PlayerInfo info = _playerInfo;
-	_playerInfo._isInfoUpdated = false;
-	return info;
+	return _playerInfo;
 }
 
-shared_ptr<Room> Player::GetJoinedRoom(){
+void Player::UpdatePlayerInfo(const PlayerInfo& newInfo){
 
 	lock_guard<mutex> lock(_playerMutex);
 
-	return _joinedRoom;
+	_playerInfo = newInfo;
 }
 
-void Player::SetPlayerMove(PlayerInfo& playerInfo){
-
-	{
-		lock_guard<mutex> lock(_playerMutex);
-
-		_playerInfo._position = playerInfo._position;
-		_playerInfo._velocity = playerInfo._velocity;
-		_playerInfo._moveTimestamp = playerInfo._moveTimestamp;
-		_playerInfo._isInfoUpdated = true;
-	}
-}
-
-void Player::SetJoinedRoom(shared_ptr<Room> room){
-
-	lock_guard<mutex> lock(_playerMutex);
-
-	if (_joinedRoom != nullptr) {
-		cout << "이미 방에 들어와 있습니다." << endl;
-		return;
-	}
-	
-	_joinedRoom = room;
-}
-
-void Player::SetPlayerInfo(PlayerInfo& playerInfo) {
-
-	lock_guard<mutex> lock(_playerMutex);
-
-	_playerInfo = playerInfo;
-	_playerInfo._isInfoUpdated = true;
-}
-
-void Player::SetName(wstring& name){
+void Player::SetName(const wstring& name){
 
 	lock_guard<mutex> lock(_playerMutex);
 
 	_playerInfo._name = name;
-	_playerInfo._isInfoUpdated = true;
+}
+
+void Player::SetLevel(int32 level){
+
+	_playerInfo._level = level;
 }
 
 void Player::SetRoomId(int32 roomId){
@@ -83,7 +52,6 @@ void Player::SetRoomId(int32 roomId){
 	lock_guard<mutex> lock(_playerMutex);
 
 	_playerInfo._roomId = roomId;
-	_playerInfo._isInfoUpdated = true;
 }
 
 void Player::SetPosition(Vector<int16>& position){
@@ -91,7 +59,6 @@ void Player::SetPosition(Vector<int16>& position){
 	lock_guard<mutex> lock(_playerMutex);
 
 	_playerInfo._position = position;
-	_playerInfo._isInfoUpdated = true;
 }
 
 void Player::SetVelocity(Vector<int16>& velocity){
@@ -99,7 +66,6 @@ void Player::SetVelocity(Vector<int16>& velocity){
 	lock_guard<mutex> lock(_playerMutex);
 
 	_playerInfo._velocity = velocity;
-	_playerInfo._isInfoUpdated = true;
 }
 
 void Player::SetMoveTimestamp(int64 timestamp){
@@ -107,7 +73,14 @@ void Player::SetMoveTimestamp(int64 timestamp){
 	lock_guard<mutex> lock(_playerMutex);
 
 	_playerInfo._moveTimestamp = timestamp;
-	_playerInfo._isInfoUpdated = true;
+}
+
+void Player::UpdateGameState(const GameStateData& gameState){
+
+	lock_guard<mutex> lock(_playerMutex);
+
+	_playerInfo._position = gameState._position;
+	_playerInfo._velocity = gameState._velocity;
 }
 
 PlayerManager::PlayerManager(){
@@ -118,58 +91,25 @@ PlayerManager::~PlayerManager(){
 
 }
 
-void PlayerManager::CreateAndAddPlayer(shared_ptr<GameSession> owner, uint64 sessionId){
+void PlayerManager::PushCreatePlayerJob(shared_ptr<GameSession> ownerSession, uint64 sessionId, PlayerInfo playerInfo){
 
-	PlayerInfo playerInfo = {};
-
-	CreateAndAddPlayer(owner, sessionId, playerInfo);
+	Job* job = new Job([&]() {
+		shared_ptr<Player> player = make_shared<Player>(ownerSession, playerInfo);
+		_players.insert({ sessionId, player });
+	});
+	PushJob(job);
 }
 
-void PlayerManager::CreateAndAddPlayer(shared_ptr<GameSession> owner, uint64 sessionId, PlayerInfo playerInfo){
-	
-	lock_guard<mutex> lock(_playersMutex);
+void PlayerManager::PushRemovePlayerJob(uint64 sessionId){
 
-	auto it = _players.find(sessionId);
-	if (it != _players.end()) {
-		cout << "[VALID PLAYER] session Id : " << sessionId << endl;
-		return;
-	}
 
-	shared_ptr<Player> player = make_shared<Player>(owner, playerInfo);
-
-	_players[sessionId] = player;
 }
 
-shared_ptr<Player> PlayerManager::GetPlayer(uint64 sessionId) {
-	
-	lock_guard<mutex> lock(_playersMutex);
+void PlayerManager::PushUpdatePlayerGameStateJob(uint64 sessionId, const Player::GameStateData& gameState){
 
-	auto it = _players.find(sessionId);
-	if (it == _players.end()) {
-		return nullptr;
-	}
 
-	return it->second;
 }
 
-void PlayerManager::SetPlayerInfo(int64 sessionId, PlayerInfo& playerInfo){
-
-	shared_ptr<Player> player = GetPlayer(sessionId);
-	player->SetPlayerInfo(playerInfo);
-}
-
-void PlayerManager::RemovePlayer(uint64 sessionId){
-
-	lock_guard<mutex> lock(_playersMutex);
-
-	auto it = _players.find(sessionId);
-	if (it == _players.end()) {
-		return;
-	}
-
-	_players.erase(sessionId);
-	//cout << "Remained Player Count : " << _players.size() << endl;
-}
 
 
 

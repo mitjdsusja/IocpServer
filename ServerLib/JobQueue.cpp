@@ -54,10 +54,3 @@ void JobQueueBase::ExecuteJob(){
 	}
 }
 
-bool JobQueueBase::HasJobs(){
-
-	lock_guard<mutex> lock(_jobQueueMutex);
-
-	if (_jobQueue.empty())	return false;
-	else return true;
-}

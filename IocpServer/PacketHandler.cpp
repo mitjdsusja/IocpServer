@@ -260,10 +260,10 @@ void PacketHandler::Handle_CS_Room_Player_List_Request(shared_ptr<GameSession> s
 	int32 roomId = recvRoomPlayerListRequestPacket.roomid();
 	
 	// Get Player List with GRoomManager
-	RoomInfo roomInfo = GRoomManager->GetRoomInfo(roomId);
+	GPlayerManager->
 
 	msgTest::SC_Room_Player_List_Response sendRoomPlayerListResponsePacket;
-	for (const auto& playerInfo : roomInfo._playerInfoList) {
+	for (const auto& playerInfo : roomInfo.) {
 		msgTest::Player* player = sendRoomPlayerListResponsePacket.add_playerlist();
 		msgTest::Vector* position = player->mutable_position();
 		string name = boost::locale::conv::utf_to_utf<char>(playerInfo._name);
