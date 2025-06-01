@@ -10,7 +10,19 @@ public:
 	virtual void PushJob(Job* job) = 0;
 	virtual void ExecuteJob() = 0;
 	virtual bool HasJobs() = 0;
-	
+
+};
+
+class JobQueueBase : public IJobQueue, public enable_shared_from_this<JobQueueBase> {
+	// IJobQueue을(를) 통해 상속됨
+	void PushJob(Job* job) override;
+	void ExecuteJob() override;
+	bool HasJobs() override;
+
+protected:
+	atomic<bool> _pendingJob = false;
+	mutex _jobQueueMutex;
+	queue<Job*> _jobQueue;
 };
 
 class JobQueue {

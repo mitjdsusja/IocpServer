@@ -13,14 +13,10 @@ struct RoomInfo {
 	vector<PlayerInfo> _playerInfoList;
 };
 
-class Room : public enable_shared_from_this<Room>, public IJobQueue {
+class Room : public JobQueueBase {
 public:
 	Room(int32 roomId, shared_ptr<Player> hostPlayer, wstring roomName, int32 maxPlayerCount);
 	~Room();
-
-	void PushJob(Job* job) override;
-	void ExecuteJob() override;
-	bool HasJobs() override;
 
 	void Broadcast(shared_ptr<Buffer> sendBuffer);
 
@@ -51,10 +47,6 @@ private:
 
 	bool _removeRoomFlag = false;
 
-	// Job
-	atomic<bool> _pendingJob = false;
-	mutex _jobQueueMutex;
-	queue<Job*> _jobQueue;
 };
 
 class RoomManager{
