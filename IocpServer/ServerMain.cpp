@@ -8,6 +8,7 @@
 #include "PacketHandler.h"
 #include "JobQueue.h"
 #include "JobTimer.h"
+#include "JobScheduler.h"
 
 #include "messageTest.pb.h"
 
@@ -58,9 +59,8 @@ int main() {
 		GThreadManager->Launch([=]() {
 			while (true) {
 				try {
-					Job* job = GJobQueue->Pop();
-					job->Execute();
-					delete job;
+					shared_ptr<IJobQueue> jobQueue = GJobScheduler->PopJobQueue();
+					jobQueue->ExecuteJob();
 				}
 				catch (exception& e) {
 					cout << "job Thread Exception : " << e.what() << endl;
