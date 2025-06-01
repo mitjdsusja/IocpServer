@@ -36,21 +36,40 @@ void Room::PushJob(Job* job){
 
 void Room::ExecuteJob(){
 
+	queue<Job*> jobsToExecute;
+
 	// Swap JobQueue
 	{
-		queue<Job*> newJobQueue;
 		lock_guard<mutex> lock(_jobQueueMutex);
 
-		swap(newJobQueue, _jobQueue);
+		swap(jobsToExecute, _jobQueue);
 	}
 
-	while (_jobQueue.empty() == false) {
-		Job* job = _jobQueue.front();
-		_jobQueue.pop();
+	while (jobsToExecute.empty() == false) {
+		Job* job = jobsToExecute.front();
+		jobsToExecute.pop();
 
 		job->Execute();
 
 		delete job;
+	}
+
+	// Execute중 작업이 queue에 추가 되있을 수 있음.
+	bool scheduleNeeded = false;
+	{
+		lock_guard<mutex> lock(_jobQueueMutex);
+
+		// Execute중 작업이 추가된 경우
+		if (_jobQueue.empty() == false) {
+			scheduleNeeded = true;
+		}
+		else {
+			_pendingJob.store(false);
+		}
+	}
+
+	if (scheduleNeeded == true) {
+		GJobScheduler->PushJobQueue(shared_from_this());
 	}
 }
 
