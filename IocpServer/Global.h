@@ -3,6 +3,6 @@
 class RoomManager;
 class PlayerManager;
 
-extern RoomManager* GRoomManager;
-extern PlayerManager* GPlayerManager;
+extern shared_ptr<RoomManager> GRoomManager;
+extern shared_ptr<PlayerManager> GPlayerManager;
 

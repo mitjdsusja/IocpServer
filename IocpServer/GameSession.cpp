@@ -34,4 +34,5 @@ void GameSession::OnDisconnect(){
 	// player data 정리
 	// - 방에서 나가기
 	// - PlayerManager에서 제거
+	GPlayerManager->PushJobRemovePlayer(GetSessionId());
 }

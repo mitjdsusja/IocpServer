@@ -87,7 +87,8 @@ void PacketHandler::Handle_CS_Ping(shared_ptr<GameSession> session, shared_ptr<B
 
 	shared_ptr<Buffer> sendBuffer = MakeSendBuffer<msgTest::SC_Pong>(sendPongPacket, PacketId::PKT_SC_PONG);
 	
-	GPlayerManager->PushJobSendData(session->GetSessionId(), sendBuffer);
+	session->Send(sendBuffer);
+	//GPlayerManager->PushJobSendData(session->GetSessionId(), sendBuffer);
 }
 
 void PacketHandler::Handle_CS_Login_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
@@ -132,6 +133,7 @@ void PacketHandler::Handle_CS_Login_Request(shared_ptr<GameSession> session, sha
 				PlayerStats stats;
 
 				stats._level = level;
+				baseInfo._sessionId = session->GetSessionId();
 				baseInfo._name = name;
 				position._position._x = parsePosition._x;
 				position._position._y = parsePosition._y;

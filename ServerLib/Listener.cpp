@@ -102,7 +102,7 @@ void Listener::RegisterAccept(AcceptEvent* acceptEvent){
 	//cout << "Register SessionId : " << session->GetSessionId() << endl;
 	RecvBuffer* recvBuffer = session->GetRecvBuffer();
 	acceptEvent->_session = session;
-
+	
 	SocketManager::Accept(_listenSocket, session->GetSocket(), recvBuffer->WritePos(), acceptEvent);
 }
 
@@ -110,7 +110,7 @@ void Listener::OnAccept(shared_ptr<Session> session) {
 
 	session->OnConnect();
 	NetAddress peerAddress = session->GetPeerAddressRef();
-	wcout << L"[ACCEPT] " << "Address : " << peerAddress.GetIpAddress() << " Port : " << peerAddress.GetPort() << endl;
+	wcout << L"[Listener::OnAccept] " << "Address : " << peerAddress.GetIpAddress() << " Port : " << peerAddress.GetPort() << endl;
 }
 
 void Listener::CleanResource(){

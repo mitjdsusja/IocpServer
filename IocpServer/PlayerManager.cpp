@@ -267,11 +267,13 @@ void PlayerManager::PushJobGetstats(uint64 sessionId, function<void(PlayerStats)
 
 void PlayerManager::SendData(uint64 sessionId, const shared_ptr<Buffer>& sendBuffer) {
 
-	shared_ptr<Player>& player = _players[sessionId];
-	if (player == nullptr) {
+	const auto& p = _players.find(sessionId);
+	if (p == _players.end()) {
 		cout << "[PlayerManager::SendData] Invalid Player : " << sessionId << endl;
 		return;
 	}
+
+	shared_ptr<Player>& player = p->second;
 
 	player->PushJobSendData(sendBuffer);
 }

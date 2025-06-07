@@ -123,7 +123,7 @@ bool SocketManager::Recv(SOCKET targetSocket, RecvBuffer* recvBuffer, RecvEvent*
 	wsaBuf.buf = (char*)recvBuffer->WritePos();
 	wsaBuf.len = recvBuffer->FreeSize();
 
-	if (SOCKET_ERROR == WSARecv(targetSocket, &wsaBuf, 1, &recvBytes, &flag, recvEvent, NULL)) {
+	if (SOCKET_ERROR == ::WSARecv(targetSocket, &wsaBuf, 1, &recvBytes, &flag, recvEvent, NULL)) {
 		int32 err = WSAGetLastError();
 		if (err == WSA_IO_PENDING) {
 			// TODO : PENDING
