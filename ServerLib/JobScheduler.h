@@ -10,5 +10,7 @@ public:
 
 private:
 	LockQueue<shared_ptr<JobQueueBase>> _scheduledJobQueue;
+	mutex _mutex;
+	condition_variable _cv;
 };
 
