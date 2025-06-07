@@ -15,7 +15,7 @@ Player::Player(shared_ptr<GameSession> owner)
 
 Player::~Player() {
 
-	wcout << L"[REMOVE PLAYER DATA] name :" << _info._baseInfo._name << endl;
+	wcout << L"[Player::~Player] name :" << _info._baseInfo._name << endl;
 	ClearResource();
 }
 

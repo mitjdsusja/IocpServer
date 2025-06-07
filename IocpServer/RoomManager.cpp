@@ -20,7 +20,7 @@ Room::Room(const InitRoomInfo& initRoomInfo, const RoomPlayer& hostPlayerData)
 
 Room::~Room() {
 
-	cout << "[REMOVE ROOM] roomId : " << _roomInfo._initRoomInfo._roomId << endl;
+	cout << "[Room::~Room] roomId : " << _roomInfo._initRoomInfo._roomId << endl;
 }
 
 void Room::Broadcast(shared_ptr<Buffer> originSendBuffer){
