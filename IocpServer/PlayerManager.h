@@ -39,15 +39,19 @@ public:
 	void PushJobGetPosition(function<void(PlayerPosition)> func);
 	void PushJobGetStats(function<void(PlayerStats)> func);
 
+	void PushJobSetPosition(const PlayerPosition& position);
+
 	shared_ptr<GameSession>& GetOwnerSession() { return _owner; }
 
 public:
 	void SendData(const shared_ptr<Buffer>& sendBuffer);
 	void UpdatePosition(const PlayerPosition& newPosition);
 
-	PlayerBaseInfo GetPlayerBaseInfo();
-	PlayerPosition GetPlayerPosition();
-	PlayerStats GetPlayerStats();
+	PlayerBaseInfo GetBaseInfo();
+	PlayerPosition GetPosition();
+	PlayerStats GetStats();
+
+	void SetPosition(const PlayerPosition& position);
 
 private:
 	void ClearResource();
@@ -73,10 +77,14 @@ public:
 	void PushJobGetPosition(uint64 sessionId, function<void(PlayerPosition)> func);
 	void PushJobGetstats(uint64 sessionId, function<void(PlayerStats)> func);
 
+	void PushJobSetPosition(uint64 sessionId, PlayerPosition position);
+
 public:
 	void SendData(uint64 sessionId, const shared_ptr<Buffer>& sendBuffer);
 	void CreateAndPushPlayer(const shared_ptr<GameSession>& ownerSession, const PlayerBaseInfo& baseInfo, const PlayerPosition& position, const PlayerStats& stats);
 	void RemovePlayer(uint64 sessionId);
+
+	void SetPosition(uint64 sessionId, const PlayerPosition& position);
 
 private:
 	mutex _playersMutex;

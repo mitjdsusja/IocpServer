@@ -242,6 +242,12 @@ void RoomManager::PushJobCreateAndPushRoom(const InitRoomInfo& initRoomInfo, con
 	unique_ptr<Job> job = make_unique<Job>([self, initRoomInfo, hostPlayerData]() {
 		int32 roomId = self->CreateAndPushRoom(initRoomInfo, hostPlayerData);
 
+		if (roomId != 0) {
+			PlayerPosition position;
+			position._roomId = roomId;
+			GPlayerManager->PushJobSetPosition(hostPlayerData._sessionId, position);
+		}
+
 		msgTest::SC_Create_Room_Response createRoomResponsePacket;
 		msgTest::Room* room = createRoomResponsePacket.mutable_room();
 
@@ -401,7 +407,7 @@ int32 RoomManager::CreateAndPushRoom(const InitRoomInfo& initRoomInfo, const Roo
 	shared_ptr<Room> room = MakeRoomPtr(roomInfo, hostPlayerData);
 	_rooms[roomId] = room;
 
-	//room->RegisterBroadcastMovement(100);
+	wcout << "[RoomManager::CreateAndPushRoom] EnterRoom roomId : " << roomId << " playerName : " << hostPlayerData._gameState._name << endl;
 
 	return roomId;
 }

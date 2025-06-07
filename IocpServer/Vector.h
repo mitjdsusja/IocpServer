@@ -13,11 +13,34 @@ public:
 
 	}
 
-	Vector operator+(const Vector& other) {
+	Vector& operator+(const Vector& other) {
 		return Vector(_x + other._x, _y + other._y, _z + other._z);
 	}
-	Vector operator-(const Vector& other) {
+	Vector& operator-(const Vector& other) {
 		return Vector(_x - other._x, _y - other._y, _z - other._z);
+	}
+	bool operator!=(const Vector& other) {
+
+		if (this->_x != other._x) return true;
+		if (this->_y != other._y) return true;
+		if (this->_z != other._z) return true;
+
+		return false;
+	}
+	Vector& operator=(const Vector& other) {
+
+		_x = other._x;
+		_y = other._y;
+		_z = other._z;
+
+		return *this;
+	}
+
+	bool IsZero() const {
+		if (_x != 0 || _y != 0 || _z != 0) {
+			return false;
+		}
+		return true;
 	}
 
 public:

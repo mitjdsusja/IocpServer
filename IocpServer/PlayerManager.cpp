@@ -1,5 +1,6 @@
 #include "pch.h"
 #include <string>
+#include "Vector.h"
 #include "PlayerManager.h"
 #include "GameSession.h"
 #include "RoomManager.h"
@@ -58,7 +59,7 @@ void Player::PushJobGetBaseInfo(function<void(PlayerBaseInfo)> func){
 
 	unique_ptr<Job> job = make_unique<Job>([self, func]() {
 
-		PlayerBaseInfo baseInfo =  self->GetPlayerBaseInfo();
+		PlayerBaseInfo baseInfo =  self->GetBaseInfo();
 		func(baseInfo);
 	});
 
@@ -71,7 +72,7 @@ void Player::PushJobGetPosition(function<void(PlayerPosition)> func){
 
 	unique_ptr<Job> job = make_unique<Job>([self, func]() {
 
-		PlayerPosition position = self->GetPlayerPosition();
+		PlayerPosition position = self->GetPosition();
 		func(position);
 	});
 
@@ -84,11 +85,23 @@ void Player::PushJobGetStats(function<void(PlayerStats)> func){
 
 	unique_ptr<Job> job = make_unique<Job>([self, func]() {
 
-		PlayerStats stats = self->GetPlayerStats();
+		PlayerStats stats = self->GetStats();
 		func(stats);
 	});
 
 	PushJob(move(job));
+}
+
+void Player::PushJobSetPosition(const PlayerPosition& position){
+
+	shared_ptr<Player> self = static_pointer_cast<Player>(shared_from_this());
+
+	unique_ptr<Job> job = make_unique<Job>([self, position]() {
+
+		self->SetPosition(position);
+	});
+
+	this->PushJob(move(job));
 }
 
 void Player::SendData(const shared_ptr<Buffer>& sendBuffer){
@@ -101,19 +114,31 @@ void Player::UpdatePosition(const PlayerPosition& newPosition){
 	_info._position = newPosition;
 }
 
-PlayerBaseInfo Player::GetPlayerBaseInfo(){
+PlayerBaseInfo Player::GetBaseInfo(){
 
 	return _info._baseInfo;
 }
 
-PlayerPosition Player::GetPlayerPosition(){
+PlayerPosition Player::GetPosition(){
 	
 	return _info._position;
 }
 
-PlayerStats Player::GetPlayerStats(){
+PlayerStats Player::GetStats(){
 	
 	return _info._stats;
+}
+
+void Player::SetPosition(const PlayerPosition& position){
+
+	if(position._roomId != 0) _info._position._roomId = position._roomId;
+	if(position._moveTimestamp != 0) _info._position._moveTimestamp = position._moveTimestamp;
+	if (position._position.IsZero() == false) {
+		_info._position._position = position._position;
+	}
+	if (position._velocity.IsZero() == false) {
+		_info._position._velocity = position._velocity;
+	}
 }
 
 /*-------------------
@@ -265,6 +290,18 @@ void PlayerManager::PushJobGetstats(uint64 sessionId, function<void(PlayerStats)
 	PushJob(move(job));
 }
 
+void PlayerManager::PushJobSetPosition(uint64 sessionId, PlayerPosition position){
+
+	shared_ptr<PlayerManager> self = static_pointer_cast<PlayerManager>(shared_from_this());
+
+	unique_ptr<Job> job = make_unique<Job>([self, sessionId, position]() {
+		
+		self->SetPosition(sessionId, position);
+	});
+
+	this->PushJob(move(job));
+}
+
 void PlayerManager::SendData(uint64 sessionId, const shared_ptr<Buffer>& sendBuffer) {
 
 	const auto& p = _players.find(sessionId);
@@ -302,6 +339,20 @@ void PlayerManager::RemovePlayer(uint64 sessionId) {
 	// 추가 예정
 
 	_players.erase(sessionId);
+}
+
+void PlayerManager::SetPosition(uint64 sessionId, const PlayerPosition& position){
+
+	const auto& p = _players.find(sessionId);
+	if (p == _players.end()) {
+
+		wcout << "[PlayerManager::SetPosition] Invalid sessionId : " << sessionId << endl;
+		return;
+	}
+
+	const shared_ptr<Player>& player = p->second;
+
+	player->PushJobSetPosition(position);
 }
 
 

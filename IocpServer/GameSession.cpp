@@ -29,10 +29,12 @@ void GameSession::OnRecvPacket(BYTE* recvBuffer, int32 recvBytes){
 void GameSession::OnDisconnect(){
 
 	uint64 sessionId = GetSessionId();
-	cout << "[DISCONNECT] SessionId : " << GetSessionId() << endl;
+	cout << "[GameSession::OnDisconnect] SessionId : " << sessionId << endl;
 
 	// player data 정리
-	// - 방에서 나가기
-	// - PlayerManager에서 제거
+	GPlayerManager->PushJobGetPosition(sessionId, [sessionId](PlayerPosition position) {
+		
+		GRoomManager->PushJobLeaveRoom(position._roomId, sessionId);
+	});
 	GPlayerManager->PushJobRemovePlayer(GetSessionId());
 }
