@@ -434,6 +434,8 @@ void RoomManager::LeaveRoom(int32 roomId, uint64 sessionId) {
 
 	shared_ptr<Room> room = it->second;
 	room->PushJobLeavePlayer(sessionId);
+
+	_rooms.erase(roomId);
 }
 
 void RoomManager::RemoveRoom(int32 roomId) {
