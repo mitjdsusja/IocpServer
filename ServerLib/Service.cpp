@@ -2,6 +2,8 @@
 #include "Service.h"
 #include "BufferPool.h"
 #include "PacketHandler.h"
+#include "Listener.h"
+#include "Session.h"
 
 atomic<uint64> Service::_sessionIdCount = 0;
 

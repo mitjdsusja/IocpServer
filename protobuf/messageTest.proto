@@ -9,10 +9,11 @@ message Vector {
 }
 
 message MoveState{
-    string playerName = 1;
-    Vector position = 2; 
-    Vector velocity = 3; 
-    int64 timestamp = 4; 
+    int32 roomId = 1;
+    string playerName = 2;
+    Vector position = 3; 
+    Vector velocity = 4; 
+    int64 timestamp = 5; 
 }
 
 message Player{

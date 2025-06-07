@@ -29,6 +29,7 @@
     <ClCompile Include="JobTimer.cpp" />
     <ClCompile Include="Listener.cpp" />
     <ClCompile Include="LockFreeQueue.cpp" />
+    <ClCompile Include="LockQueue.cpp" />
     <ClCompile Include="NetAddress.cpp" />
     <ClCompile Include="OverlappedEvent.cpp" />
     <ClCompile Include="pch.cpp">
@@ -59,6 +60,7 @@
     <ClInclude Include="JobTimer.h" />
     <ClInclude Include="Listener.h" />
     <ClInclude Include="LockFreeQueue.h" />
+    <ClInclude Include="LockQueue.h" />
     <ClInclude Include="Mecro.h" />
     <ClInclude Include="NetAddress.h" />
     <ClInclude Include="OverlappedEvent.h" />

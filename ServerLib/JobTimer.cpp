@@ -10,29 +10,29 @@ void JobTimer::Reserve(uint64 delayTime, function<void()>&& callback){
 	_timedJobQueue.push(timedJob);
 }
 
-void JobTimer::EnqueueReadyJobs(JobQueue& jobQueue){
-	if (_isEnqueuing.exchange(true) == true) {
-		return;
-	}
-
-	vector<TimedJob*> jobs;
-	{
-		lock_guard<mutex> lock(_queueMutex);
-
-		while (_timedJobQueue.empty() == false) {
-			TimedJob* timedJob = _timedJobQueue.top();
-			if (GetTickCount64() < timedJob->_executeTick) {
-				break;
-			}
-
-			jobs.push_back(timedJob);
-			_timedJobQueue.pop();
-		}
-	}
-
-	for (TimedJob* job : jobs) {
-		jobQueue.Push(job);
-	}
-
-	_isEnqueuing.store(false);
-}
+//void JobTimer::EnqueueReadyJobs(JobQueue& jobQueue){
+//	if (_isEnqueuing.exchange(true) == true) {
+//		return;
+//	}
+//
+//	vector<TimedJob*> jobs;
+//	{
+//		lock_guard<mutex> lock(_queueMutex);
+//
+//		while (_timedJobQueue.empty() == false) {
+//			TimedJob* timedJob = _timedJobQueue.top();
+//			if (GetTickCount64() < timedJob->_executeTick) {
+//				break;
+//			}
+//
+//			jobs.push_back(timedJob);
+//			_timedJobQueue.pop();
+//		}
+//	}
+//
+//	for (TimedJob* job : jobs) {
+//		jobQueue.Push(job);
+//	}
+//
+//	_isEnqueuing.store(false);
+//}

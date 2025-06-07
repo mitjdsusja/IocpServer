@@ -40,7 +40,7 @@ SOCKET SocketManager::CreateSocket(){
 
 bool SocketManager::Bind(SOCKET socket, NetAddress address) {
 
-	if (SOCKET_ERROR == bind(socket, (SOCKADDR*)&address.GetSockAddr(), sizeof(SOCKADDR))) {
+	if (SOCKET_ERROR == ::bind(socket, (SOCKADDR*)&address.GetSockAddr(), sizeof(SOCKADDR))) {
 		int32 err = WSAGetLastError();
 		ErrorHandler::HandleError(L"Bind Error", err);
 
@@ -57,7 +57,7 @@ bool SocketManager::BindAnyAddress(SOCKET socket, uint16 port) {
 	address.sin_port = htons(port);
 	address.sin_addr.s_addr = htonl(INADDR_ANY);
 
-	if (SOCKET_ERROR == bind(socket, (SOCKADDR*)&address, sizeof(SOCKADDR_IN))) {
+	if (SOCKET_ERROR == ::bind(socket, (SOCKADDR*)&address, sizeof(SOCKADDR_IN))) {
 		int32 err = WSAGetLastError();
 		ErrorHandler::HandleError(L"BindAnyAddress Error", err);
 

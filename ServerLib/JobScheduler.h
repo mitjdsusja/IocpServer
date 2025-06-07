@@ -1,14 +1,14 @@
 #pragma once
+#include "LockQueue.h"
 
-class IJobQueue;
+class JobQueueBase;
 
 class JobScheduler{
 public:
-	void PushJobQueue(shared_ptr<IJobQueue> JobQueue);
-	shared_ptr<IJobQueue> PopJobQueue();
+	void PushJobQueue(shared_ptr<JobQueueBase> JobQueue);
+	shared_ptr<JobQueueBase> PopJobQueue();
 
 private:
-	mutex _jobQueueMutex;
-	queue<shared_ptr<IJobQueue>> _scheduledJobQueue;
+	LockQueue<shared_ptr<JobQueueBase>> _scheduledJobQueue;
 };
 

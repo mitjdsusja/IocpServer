@@ -12,8 +12,9 @@
 #include "messageTest.pb.h"
 
 #include "Global.h"
-#include "RoomManager.h"
+#include "PlayerManager.h"
 #include "GameSession.h"
+#include "RoomManager.h"
 #include "Vector.h"
 
 void PacketHandler::RegisterPacketHandlers() {
@@ -60,11 +61,7 @@ void PacketHandler::HandlePacket(shared_ptr<GameSession> session, PacketHeader* 
 
 	//cout << "[RECV] " << packetId << " From : " << session->GetSessionId() << endl;
 	
-	// push jobQueue
-	Job* job = new Job([session, buffer, service, packetId]() {
-		packetHandleArray[packetId](session, buffer, service);
-		});
-	GJobQueue->Push(job);
+	packetHandleArray[packetId](session, buffer, service);
 }
 
 void PacketHandler::Handle_Invalid(shared_ptr<GameSession> session, shared_ptr<Buffer> buffer, Service* service) {
@@ -89,10 +86,8 @@ void PacketHandler::Handle_CS_Ping(shared_ptr<GameSession> session, shared_ptr<B
 	sendPongPacket.set_timestamp(recvPingPacket.timestamp());
 
 	shared_ptr<Buffer> sendBuffer = MakeSendBuffer<msgTest::SC_Pong>(sendPongPacket, PacketId::PKT_SC_PONG);
-	Job* job = new Job([session, sendBuffer]() {
-		session->Send(sendBuffer);
-	});
-	GJobQueue->Push(job);
+	
+	GPlayerManager->PushJobSendData(session->GetSessionId(), sendBuffer);
 }
 
 void PacketHandler::Handle_CS_Login_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
@@ -124,7 +119,7 @@ void PacketHandler::Handle_CS_Login_Request(shared_ptr<GameSession> session, sha
 			int32 userNum = stoi(result[0][1]);
 			int32 level = stoi(result[0][2]);
 			wstring name = result[0][3];
-			Vector<int16> position(stoi(result[0][4]), stoi(result[0][5]), stoi(result[0][6]));
+			Vector<int16> parsePosition(stoi(result[0][4]), stoi(result[0][5]), stoi(result[0][6]));
 
 			if (count > 0) {
 				//wcout << L"User found!" << endl;
@@ -132,31 +127,32 @@ void PacketHandler::Handle_CS_Login_Request(shared_ptr<GameSession> session, sha
 				
 				session->SetDbId(userNum);
 
-				PlayerInfo playerInfo;
-				playerInfo._level = level;
-				playerInfo._name = name;
-				playerInfo._position._x = position._x;
-				playerInfo._position._y = position._y;
-				playerInfo._position._z = position._z;
-				playerInfo._moveTimestamp = 0;
-				GPlayerManager->SetPlayerInfo(session->GetSessionId(), playerInfo);
+				PlayerBaseInfo baseInfo;
+				PlayerPosition position;
+				PlayerStats stats;
+
+				stats._level = level;
+				baseInfo._name = name;
+				position._position._x = parsePosition._x;
+				position._position._y = parsePosition._y;
+				position._position._z = parsePosition._z;
+				position._moveTimestamp = 0;
+
+				GPlayerManager->PushJobCreateAndPushPlayer(session, baseInfo, position, stats);
 			}
 			else {
 				errorMessage = "Invalid ID or password.";
-				wcout << L"Invalid ID or password."  << wId << endl;
+				wcout << L"[PacketHandler::Handle_CS_Login_Request] Invalid ID or password."  << wId << endl;
 			}
 
-			wcout << L"[Client Login] " << name << endl;
+			wcout << L"[PacketHandler::Handle_CS_Login_Request] Client Login : " << name << endl;
 		}
 		else {
 			errorMessage = "Query returned no results.";
-			wcout << L"Query returned no results." << endl;
+			wcout << L"[PacketHandler::Handle_CS_Login_Request] Query returned no results." << endl;
 		}
-
-		
 	}
 
-	shared_ptr<Buffer> sendBuffer;
 	msgTest::SC_Login_Response sendLoginResponsePacket;
 
 	if (userExists == true) {
@@ -167,39 +163,32 @@ void PacketHandler::Handle_CS_Login_Request(shared_ptr<GameSession> session, sha
 		sendLoginResponsePacket.set_success(false);
 		sendLoginResponsePacket.set_errormessage(errorMessage);
 	}
-	sendBuffer = PacketHandler::MakeSendBuffer(sendLoginResponsePacket, PacketId::PKT_SC_LOGIN_RESPONSE);
+	shared_ptr<Buffer> sendBuffer = PacketHandler::MakeSendBuffer(sendLoginResponsePacket, PacketId::PKT_SC_LOGIN_RESPONSE);
 
-	//cout << "Login request : " << id << " _ " << pw << endl;
-
-	// Send Result
-	Job* job = new Job([session, sendBuffer]() {
-		session->Send(sendBuffer);
-	});
-	GJobQueue->Push(job);
+	GPlayerManager->PushJobSendData(session->GetSessionId(), sendBuffer);
 }
 
 void PacketHandler::Handle_CS_Room_List_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
-	
-	vector<RoomInfo> roomInfoList = GRoomManager->GetRoomInfoList();
 
-	msgTest::SC_Room_List_Response sendRoomListRequestPacket;
-	for (const auto& roomInfo : roomInfoList) {
-		msgTest::Room* room = sendRoomListRequestPacket.add_roomlist();
-		string roomName = boost::locale::conv::utf_to_utf<char>(roomInfo._roomName);
-		string hostPlayerName = boost::locale::conv::utf_to_utf<char>(roomInfo._hostPlayerName);
+	GRoomManager->PushJobGetRoomInfoList([session](vector<RoomInfo> roomInfoList) {
 
-		room->set_roomid(roomInfo._roomId);
-		room->set_roomname(roomName);
-		room->set_maxplayercount(roomInfo._maxPlayerCount);
-		room->set_playercount(roomInfo._curPlayerCount);
-		room->set_hostplayername(hostPlayerName);
-	}
+		msgTest::SC_Room_List_Response roomListResponsePacket;
+		for (const auto& roomInfo : roomInfoList) {
+			msgTest::Room* room = roomListResponsePacket.add_roomlist();
+			string roomName = boost::locale::conv::utf_to_utf<char>(roomInfo._initRoomInfo._roomName);
+			string hostPlayerName = boost::locale::conv::utf_to_utf<char>(roomInfo._hostPlayerName);
 
-	shared_ptr<Buffer> sendBuffer = MakeSendBuffer(sendRoomListRequestPacket, PacketId::PKT_SC_ROOM_LIST_RESPONSE);
-	Job* job = new Job([session, sendBuffer]() {
-		session->Send(sendBuffer);
+			room->set_roomid(roomInfo._initRoomInfo._roomId);
+			room->set_roomname(roomName);
+			room->set_maxplayercount(roomInfo._initRoomInfo._maxPlayerCount);
+			room->set_playercount(roomInfo._curPlayerCount);
+			room->set_hostplayername(hostPlayerName);
+		}
+
+		shared_ptr<Buffer> sendBuffer = PacketHandler::MakeSendBuffer(roomListResponsePacket, PacketId::PKT_SC_ROOM_LIST_RESPONSE);
+
+		GPlayerManager->SendData(session->GetSessionId(), sendBuffer);
 	});
-	GJobQueue->Push(job);
 }
 
 void PacketHandler::Handle_CS_Player_Info_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
@@ -214,8 +203,7 @@ void PacketHandler::Handle_CS_Player_Info_Request(shared_ptr<GameSession> sessio
 	}
 
 	// database
-	GameSession* gameSession = (GameSession*)session.get();
-	wstring query = L"SELECT name, level, pos_x, pos_y, pos_z from users WHERE usernum = " + to_wstring(gameSession->GetDbId()) + L";";
+	wstring query = L"SELECT name, level, pos_x, pos_y, pos_z from users WHERE usernum = " + to_wstring(session->GetDbId()) + L";";
 	//wcout << query << endl;
 	vector<vector<wstring>> result = LDBConnector->ExecuteSelectQuery(query);
 
@@ -246,10 +234,7 @@ void PacketHandler::Handle_CS_Player_Info_Request(shared_ptr<GameSession> sessio
 
 	shared_ptr<Buffer> sendBuffer = MakeSendBuffer(sendPlayerInfoResponsePacket, PacketId::PKT_SC_MY_PLAYER_INFO_RESPONSE);
 
-	Job* job = new Job([session, sendBuffer]() {
-		session->Send(sendBuffer);
-		});
-	GJobQueue->Push(job);
+	GPlayerManager->PushJobSendData(session->GetSessionId(), sendBuffer);
 }
 
 void PacketHandler::Handle_CS_Room_Player_List_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
@@ -259,26 +244,23 @@ void PacketHandler::Handle_CS_Room_Player_List_Request(shared_ptr<GameSession> s
 
 	int32 roomId = recvRoomPlayerListRequestPacket.roomid();
 	
-	// Get Player List with GRoomManager
-	GPlayerManager->
+	GRoomManager->PushJobGetRoomPlayerList(roomId, [session](vector<Room::RoomPlayer> roomPlayerList) {
 
-	msgTest::SC_Room_Player_List_Response sendRoomPlayerListResponsePacket;
-	for (const auto& playerInfo : roomInfo.) {
-		msgTest::Player* player = sendRoomPlayerListResponsePacket.add_playerlist();
-		msgTest::Vector* position = player->mutable_position();
-		string name = boost::locale::conv::utf_to_utf<char>(playerInfo._name);
-		player->set_name(name);
-		position->set_x(playerInfo._position._x);
-		position->set_y(playerInfo._position._y);
-		position->set_z(playerInfo._position._z);
-	}
-	
-	shared_ptr<Buffer> sendBuffer = MakeSendBuffer(sendRoomPlayerListResponsePacket, PacketId::PKT_SC_ROOM_PLAYER_LIST_RESPONSE);
+		msgTest::SC_Room_Player_List_Response sendRoomPlayerListResponsePacket;
+		for (const auto& roomPlayer : roomPlayerList) {
+			msgTest::Player* player = sendRoomPlayerListResponsePacket.add_playerlist();
+			msgTest::Vector* position = player->mutable_position();
+			string name = boost::locale::conv::utf_to_utf<char>(roomPlayer._gameState._name);
+			player->set_name(name);
+			position->set_x(roomPlayer._gameState._position._x);
+			position->set_y(roomPlayer._gameState._position._y);
+			position->set_z(roomPlayer._gameState._position._z);
+		}
 
-	Job* job = new Job([session, sendBuffer]() {
-		session->Send(sendBuffer);
-		});
-	GJobQueue->Push(job);
+		shared_ptr<Buffer> sendBuffer = MakeSendBuffer(sendRoomPlayerListResponsePacket, PacketId::PKT_SC_ROOM_PLAYER_LIST_RESPONSE);
+
+		GPlayerManager->PushJobSendData(session->GetSessionId(), sendBuffer);
+	});
 }
 
 void PacketHandler::Handle_CS_Create_Room_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service){
@@ -289,88 +271,35 @@ void PacketHandler::Handle_CS_Create_Room_Request(shared_ptr<GameSession> sessio
 	wstring roomName = boost::locale::conv::utf_to_utf<wchar_t>(recvCreateRoomPacket.roomname());
 	wstring hostName = boost::locale::conv::utf_to_utf<wchar_t>(recvCreateRoomPacket.hostname());
 
-	shared_ptr<Player> hostPlayer = GPlayerManager->GetPlayer(session->GetSessionId());
-	int roomId = GRoomManager->CreateAndAddRoom(hostPlayer, roomName);
-	cout << "[Create Room] Room ID : " << roomId << endl;
+	InitRoomInfo initRoomInfo;
+	initRoomInfo._roomName = roomName;
 
-	hostPlayer->SetRoomId(roomId);
+	Room::RoomPlayer hostPlayerData;
+	hostPlayerData._sessionId = session->GetSessionId();
+	hostPlayerData._gameState._name = hostName;
 
-	RoomInfo roomInfo = GRoomManager->GetRoomInfo(roomId);
-
-	msgTest::SC_Create_Room_Response sendCreateRoomResponsePacket;
-	msgTest::Room* room = sendCreateRoomResponsePacket.mutable_room();
-
-	sendCreateRoomResponsePacket.set_success(true);
-	room->set_roomid(roomInfo._roomId);
-	room->set_roomname(boost::locale::conv::utf_to_utf<char>(roomInfo._roomName));
-	room->set_maxplayercount(roomInfo._maxPlayerCount);
-	room->set_playercount(roomInfo._curPlayerCount);
-	room->set_hostplayername(boost::locale::conv::utf_to_utf<char>(roomInfo._hostPlayerName));
-
-	shared_ptr<Buffer> sendBuffer = MakeSendBuffer(sendCreateRoomResponsePacket, PacketId::PKT_SC_CREATE_ROOM_RESPONSE);
-	Job* job = new Job([session, sendBuffer]() {
-		session->Send(sendBuffer);
-		});
-	GJobQueue->Push(job);
+	GRoomManager->PushJobCreateAndPushRoom(initRoomInfo, hostPlayerData);
 }
 
 void PacketHandler::Handle_CS_Enter_Room_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
-	int32 roomId = 0;
-	// enter response
-	{
-		msgTest::CS_Enter_Room_Request recvEnterRoomRequestPacket;
-		recvEnterRoomRequestPacket.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
+	msgTest::CS_Enter_Room_Request recvEnterRoomRequestPacket;
+	recvEnterRoomRequestPacket.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
 
-		roomId = recvEnterRoomRequestPacket.roomid();
+	int32 enterRoomId = recvEnterRoomRequestPacket.roomid();
 
-		shared_ptr<Player> player = GPlayerManager->GetPlayer(session->GetSessionId());
+	GPlayerManager->PushJobGetRoomPlayer(session->GetSessionId(), [enterRoomId](PlayerBaseInfo baseInfo, PlayerPosition position) {
+		
+		Room::RoomPlayer roomPlayer;
+		roomPlayer._sessionId = baseInfo._sessionId;
+		roomPlayer._gameState._moveTimeStamp = position._moveTimestamp;
+		roomPlayer._gameState._name = baseInfo._name;
+		roomPlayer._gameState._position = position._position;
+		roomPlayer._gameState._updatePosition = true;
+		roomPlayer._gameState._velocity = position._velocity;
 
-		bool roomEnterReturn = GRoomManager->EnterRoom(roomId, session->GetSessionId(), GPlayerManager->GetPlayer(session->GetSessionId()));
-		if (roomEnterReturn == false) {
-			wcout << "방 입장 실패 : " << player->GetName() << endl;
-			return;
-		}
-		player->SetRoomId(roomId);
-
-
-		RoomInfo roomInfo = GRoomManager->GetRoomInfo(roomId);
-
-		msgTest::SC_Enter_Room_Response sendEnterRoomResponsePacket;
-		msgTest::Room* room = sendEnterRoomResponsePacket.mutable_room();
-		sendEnterRoomResponsePacket.set_success(roomEnterReturn);
-		room->set_roomid(roomInfo._roomId);
-		room->set_roomname(boost::locale::conv::utf_to_utf<char>(roomInfo._roomName));
-		room->set_playercount(roomInfo._curPlayerCount);
-		room->set_maxplayercount(roomInfo._maxPlayerCount);
-		room->set_hostplayername(boost::locale::conv::utf_to_utf<char>(roomInfo._hostPlayerName));
-
-		shared_ptr<Buffer> sendBuffer = MakeSendBuffer(sendEnterRoomResponsePacket, PacketId::PKT_SC_ENTER_ROOM_RESPONSE);
-		Job* job = new Job([session, sendBuffer]() {
-			session->Send(sendBuffer);
-			});
-		GJobQueue->Push(job);
-
-		if (roomEnterReturn == false) return;
-	}
-	{
-		// notify user join
-		msgTest::SC_Player_Enter_Room_Notification sendPlayerEnterRoomNotificationPacket;
-		msgTest::Player* player = sendPlayerEnterRoomNotificationPacket.mutable_player();
-		msgTest::Vector* position = player->mutable_position();
-		PlayerInfo playerInfo = GPlayerManager->GetPlayer(session->GetSessionId())->GetPlayerInfo();
-
-		player->set_name(boost::locale::conv::utf_to_utf<char>(playerInfo._name));
-		player->set_level(playerInfo._level);
-		position->set_x(playerInfo._position._x);
-		position->set_y(playerInfo._position._y);
-		position->set_z(playerInfo._position._z);
-
-		shared_ptr<Buffer> sendBuffer = MakeSendBuffer(sendPlayerEnterRoomNotificationPacket, PacketId::PKT_SC_PLAYER_ENTER_ROOM_NOTIFICATION);
-		wcout << "[Enter Room] " << playerInfo._name << " To " << roomId << endl;
-
-		GRoomManager->BroadcastToRoom(roomId, sendBuffer);
-	}
+		GRoomManager->PushJobEnterRoom(enterRoomId, move(roomPlayer));
+	});
 }
 
 void PacketHandler::Handle_CS_Player_Move_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service){
@@ -379,25 +308,15 @@ void PacketHandler::Handle_CS_Player_Move_Request(shared_ptr<GameSession> sessio
 	recvPlayerMoveReqeustPacket.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
 
 	msgTest::MoveState moveState = recvPlayerMoveReqeustPacket.movestate();
-	wstring playerName = boost::locale::conv::utf_to_utf<wchar_t>(moveState.playername());
-	Vector<int16> position(moveState.position().x(), moveState.position().y(), moveState.position().z());
-	Vector<int16> velocity(moveState.velocity().x(), moveState.velocity().y(), moveState.velocity().z());
-	int64 timestamp = moveState.timestamp();
+	Room::RoomPlayer roomPlayerData;
+	roomPlayerData._sessionId = session->GetSessionId();
+	roomPlayerData._gameState._moveTimeStamp = moveState.timestamp();
+	roomPlayerData._gameState._name = boost::locale::conv::utf_to_utf<wchar_t>(moveState.playername());
+	roomPlayerData._gameState._position = { (int16)moveState.position().x(), (int16)moveState.position().y(), (int16)moveState.position().z() };
+	roomPlayerData._gameState._velocity = { (int16)moveState.velocity().x(), (int16)moveState.velocity().y(), (int16)moveState.velocity().z() };
+	roomPlayerData._gameState._updatePosition = true;
 
-	shared_ptr<Player> player = GPlayerManager->GetPlayer(session->GetSessionId());
-	PlayerInfo playerInfo;
-	playerInfo._name = playerName;
-	playerInfo._position = position;
-	playerInfo._velocity = velocity;
-	playerInfo._moveTimestamp = timestamp;
-
-	if (player == nullptr) {
-		cout << "INVALID PLAYER" << endl;
-		return;
-	}
-	shared_ptr<Room> room = player->GetJoinedRoom();
-	player->SetPlayerMove(playerInfo);
-	room->MovePlayer(player->GetOwner()->GetSessionId(), position);
+	GRoomManager->PushJobMovePlayer(moveState.roomid(), roomPlayerData);
 }
 
 

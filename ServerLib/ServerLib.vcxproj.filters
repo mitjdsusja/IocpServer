@@ -96,6 +96,9 @@
     <ClCompile Include="JobScheduler.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
+    <ClCompile Include="LockQueue.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -174,6 +177,9 @@
       <Filter>DB</Filter>
     </ClInclude>
     <ClInclude Include="JobScheduler.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="LockQueue.h">
       <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>

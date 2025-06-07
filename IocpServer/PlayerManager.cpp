@@ -1,18 +1,20 @@
 #include "pch.h"
+#include <string>
 #include "PlayerManager.h"
 #include "GameSession.h"
 #include "RoomManager.h"
 #include "JobQueue.h"
+#include "Job.h"
 
 
-Player::Player(shared_ptr<GameSession> owner, PlayerInfo& playerInfo)
- : _owner(owner), _playerInfo(playerInfo){
+Player::Player(shared_ptr<GameSession> owner)
+ : _owner(owner){
 	
 }
 
 Player::~Player() {
 
-	wcout << L"[REMOVE PLAYER DATA] name :" << _playerInfo._name << endl;
+	wcout << L"[REMOVE PLAYER DATA] name :" << _info._baseInfo._name << endl;
 	ClearResource();
 }
 
@@ -21,67 +23,102 @@ void Player::ClearResource(){
 	_owner = nullptr;
 }
 
-PlayerInfo Player::GetPlayerInfo(){
+void Player::InitPlayer(const PlayerBaseInfo& baseInfo, const PlayerPosition& position, const PlayerStats& stats){
 
-	lock_guard<mutex> lock(_playerMutex);
-
-	return _playerInfo;
+	_info._baseInfo = baseInfo;
+	_info._position = position;
+	_info._stats = stats;
 }
 
-void Player::UpdatePlayerInfo(const PlayerInfo& newInfo){
+void Player::PushJobSendData(const shared_ptr<Buffer>& sendBuffer){
 
-	lock_guard<mutex> lock(_playerMutex);
+	shared_ptr<Player> self = static_pointer_cast<Player>(shared_from_this());
 
-	_playerInfo = newInfo;
+	unique_ptr<Job> job = make_unique<Job>([self, sendBuffer]() {
+		self->SendData(sendBuffer);
+	});
+
+	PushJob(move(job));
 }
 
-void Player::SetName(const wstring& name){
+void Player::PushJobUpdatePosition(const PlayerPosition& newPosition){
 
-	lock_guard<mutex> lock(_playerMutex);
+	const shared_ptr<Player>& self = static_pointer_cast<Player>(shared_from_this());
 
-	_playerInfo._name = name;
+	unique_ptr<Job> job = make_unique<Job>([self, newPosition]() {
+		self->UpdatePosition(newPosition);
+	});
+
+	PushJob(move(job));
 }
 
-void Player::SetLevel(int32 level){
+void Player::PushJobGetBaseInfo(function<void(PlayerBaseInfo)> func){
 
-	_playerInfo._level = level;
+	shared_ptr<Player> self = static_pointer_cast<Player>(shared_from_this());
+
+	unique_ptr<Job> job = make_unique<Job>([self, func]() {
+
+		PlayerBaseInfo baseInfo =  self->GetPlayerBaseInfo();
+		func(baseInfo);
+	});
+
+	PushJob(move(job));
 }
 
-void Player::SetRoomId(int32 roomId){
+void Player::PushJobGetPosition(function<void(PlayerPosition)> func){
 
-	lock_guard<mutex> lock(_playerMutex);
+	shared_ptr<Player> self = static_pointer_cast<Player>(shared_from_this());
 
-	_playerInfo._roomId = roomId;
+	unique_ptr<Job> job = make_unique<Job>([self, func]() {
+
+		PlayerPosition position = self->GetPlayerPosition();
+		func(position);
+	});
+
+	PushJob(move(job));
 }
 
-void Player::SetPosition(Vector<int16>& position){
+void Player::PushJobGetStats(function<void(PlayerStats)> func){
 
-	lock_guard<mutex> lock(_playerMutex);
+	shared_ptr<Player> self = static_pointer_cast<Player>(shared_from_this());
 
-	_playerInfo._position = position;
+	unique_ptr<Job> job = make_unique<Job>([self, func]() {
+
+		PlayerStats stats = self->GetPlayerStats();
+		func(stats);
+	});
+
+	PushJob(move(job));
 }
 
-void Player::SetVelocity(Vector<int16>& velocity){
+void Player::SendData(const shared_ptr<Buffer>& sendBuffer){
 
-	lock_guard<mutex> lock(_playerMutex);
-
-	_playerInfo._velocity = velocity;
+	_owner->Send(sendBuffer);
 }
 
-void Player::SetMoveTimestamp(int64 timestamp){
+void Player::UpdatePosition(const PlayerPosition& newPosition){
 
-	lock_guard<mutex> lock(_playerMutex);
-
-	_playerInfo._moveTimestamp = timestamp;
+	_info._position = newPosition;
 }
 
-void Player::UpdateGameState(const GameStateData& gameState){
+PlayerBaseInfo Player::GetPlayerBaseInfo(){
 
-	lock_guard<mutex> lock(_playerMutex);
-
-	_playerInfo._position = gameState._position;
-	_playerInfo._velocity = gameState._velocity;
+	return _info._baseInfo;
 }
+
+PlayerPosition Player::GetPlayerPosition(){
+	
+	return _info._position;
+}
+
+PlayerStats Player::GetPlayerStats(){
+	
+	return _info._stats;
+}
+
+/*-------------------
+	PlayerManager
+---------------------*/
 
 PlayerManager::PlayerManager(){
 
@@ -91,25 +128,179 @@ PlayerManager::~PlayerManager(){
 
 }
 
-void PlayerManager::PushCreatePlayerJob(shared_ptr<GameSession> ownerSession, uint64 sessionId, PlayerInfo playerInfo){
+void PlayerManager::PushJobSendData(uint64 sessionId, const shared_ptr<Buffer>& sendBuffer){
 
-	Job* job = new Job([&]() {
-		shared_ptr<Player> player = make_shared<Player>(ownerSession, playerInfo);
-		_players.insert({ sessionId, player });
+	shared_ptr<PlayerManager> self = static_pointer_cast<PlayerManager>(shared_from_this());
+
+	unique_ptr<Job> job = make_unique<Job>([self, sessionId, sendBuffer]() {
+		self->SendData(sessionId, sendBuffer);
 	});
-	PushJob(job);
+
+	PushJob(move(job));
 }
 
-void PlayerManager::PushRemovePlayerJob(uint64 sessionId){
+void PlayerManager::PushJobCreateAndPushPlayer(const shared_ptr<GameSession>& ownerSession, const PlayerBaseInfo& baseInfo, const PlayerPosition& position, const PlayerStats& stats) {
 
+	shared_ptr<PlayerManager> self = static_pointer_cast<PlayerManager>(shared_from_this());
 
+	unique_ptr<Job> job = make_unique<Job>([self, ownerSession, baseInfo, position, stats]() {
+		self->CreateAndPushPlayer(ownerSession, baseInfo, position, stats);
+	});
+
+	PushJob(move(job));
 }
 
-void PlayerManager::PushUpdatePlayerGameStateJob(uint64 sessionId, const Player::GameStateData& gameState){
+void PlayerManager::PushJobRemovePlayer(uint64 sessionId){
 
+	shared_ptr<PlayerManager> self = static_pointer_cast<PlayerManager>(shared_from_this());
 
+	unique_ptr<Job> job = make_unique<Job>([self, sessionId]() {
+		self->RemovePlayer(sessionId);
+	});
+
+	PushJob(move(job));
 }
 
+void PlayerManager::PushJobGetRoomPlayer(uint64 sessionId, function<void(PlayerBaseInfo, PlayerPosition)> func){
+
+	shared_ptr<PlayerManager> self = static_pointer_cast<PlayerManager>(shared_from_this());
+
+	unique_ptr<Job> job = make_unique<Job>([self, sessionId, func]() {
+		auto iter = self->_players.find(sessionId);
+		if (iter == self->_players.end()){
+
+			cout << "[PlayerManager::PushJobGetRoomPlayer] Invalid sessionId : " << sessionId << endl;
+			return;
+		}
+
+		const shared_ptr<Player>& player = iter->second;
+
+		// 결과 저장용 변수
+		shared_ptr<PlayerBaseInfo> baseInfo = make_shared<PlayerBaseInfo>();
+		shared_ptr<PlayerPosition> position = make_shared<PlayerPosition>();
+		shared_ptr<atomic<int>> counter = make_shared<atomic<int>>(2);
+
+		// 두 작업이 모두 완료되었을 때 callback 호출
+		auto done = [baseInfo, position, counter, func]() {
+			if (counter->fetch_sub(1) == 1) {
+				func(*baseInfo, *position);
+			}
+		};
+
+		// Player에게 작업 위임
+		player->PushJobGetBaseInfo([baseInfo, done](const PlayerBaseInfo& info) {
+			*baseInfo = info;
+			done();
+		});
+
+		player->PushJobGetPosition([position, done](const PlayerPosition& pos) {
+			*position = pos;
+			done();
+		});
+	});
+
+	self->PushJob(move(job));
+}
+
+void PlayerManager::PushJobGetBaseInfo(uint64 sessionId, function<void(PlayerBaseInfo)> func) {
+
+	shared_ptr<PlayerManager> self = static_pointer_cast<PlayerManager>(shared_from_this());
+
+	unique_ptr<Job> job = make_unique<Job>([self, sessionId, func]() {
+
+		auto iter = self->_players.find(sessionId);
+		if (iter == self->_players.end()) {
+
+			cout << "[PlayerManager::PushJobGetRoomPlayer] Invalid sessionId : " << sessionId << endl;
+			return;
+		}
+
+		const shared_ptr<Player>& player = iter->second;
+
+		player->PushJobGetBaseInfo(func);
+	});
+
+	PushJob(move(job));
+}
+
+void PlayerManager::PushJobGetPosition(uint64 sessionId, function<void(PlayerPosition)> func) {
+
+	shared_ptr<PlayerManager> self = static_pointer_cast<PlayerManager>(shared_from_this());
+
+	unique_ptr<Job> job = make_unique<Job>([self, sessionId, func]() {
+
+		auto iter = self->_players.find(sessionId);
+		if (iter == self->_players.end()) {
+
+			cout << "[PlayerManager::PushJobGetPosition] Invalid sessionId : " << sessionId << endl;
+			return;
+		}
+
+		const shared_ptr<Player>& player = iter->second;
+
+		player->PushJobGetPosition(func);
+		});
+
+	PushJob(move(job));
+}
+
+void PlayerManager::PushJobGetstats(uint64 sessionId, function<void(PlayerStats)> func) {
+
+	shared_ptr<PlayerManager> self = static_pointer_cast<PlayerManager>(shared_from_this());
+
+	unique_ptr<Job> job = make_unique<Job>([self, sessionId, func]() {
+
+		auto iter = self->_players.find(sessionId);
+		if (iter == self->_players.end()) {
+
+			cout << "[PlayerManager::PushJobGetPosition] Invalid sessionId : " << sessionId << endl;
+			return;
+		}
+
+		const shared_ptr<Player>& player = iter->second;
+
+		player->PushJobGetStats(func);
+	});
+
+	PushJob(move(job));
+}
+
+void PlayerManager::SendData(uint64 sessionId, const shared_ptr<Buffer>& sendBuffer) {
+
+	shared_ptr<Player>& player = _players[sessionId];
+	if (player == nullptr) {
+		cout << "[PlayerManager::SendData] Invalid Player : " << sessionId << endl;
+		return;
+	}
+
+	player->PushJobSendData(sendBuffer);
+}
+
+void PlayerManager::CreateAndPushPlayer(const shared_ptr<GameSession>& ownerSession, const PlayerBaseInfo& baseInfo, const PlayerPosition& position, const PlayerStats& stats){
+
+	shared_ptr<Player> player = make_shared<Player>(ownerSession);
+	player->InitPlayer(baseInfo, position, stats);
+
+	_players.insert({ baseInfo._sessionId, player });
+
+	wcout << L"[PlayerManager::CreateAndPushPlayer] Create Player : " << baseInfo._name << endl;
+}
+
+void PlayerManager::RemovePlayer(uint64 sessionId) {
+
+	const auto& p = _players.find(sessionId);
+	if (_players.end() == p) {
+		cout << "[PlayerManager::RemovePlayer] Invalid SessionId : " << sessionId << endl;
+		return;
+	}
+
+	shared_ptr<Player> player = p->second;
+
+	// DB에 PlayerData 저장
+	// 추가 예정
+
+	_players.erase(sessionId);
+}
 
 
 

@@ -1,6 +1,5 @@
 #pragma once
 #include "Session.h"
-#include "PlayerManager.h"
 
 class GameSession : public Session{
 public :

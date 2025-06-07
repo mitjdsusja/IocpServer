@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Listener.h"
-
-class ClientSession;
+#include "Session.h"
+#include "Service.h"
 
 Listener::Listener(Service* owner) : _owner(owner){
 

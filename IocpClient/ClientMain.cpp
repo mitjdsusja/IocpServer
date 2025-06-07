@@ -41,7 +41,7 @@ int main() {
 
 		GThreadManager->Launch([=]() {
 			while (true) {
-				Job* job = GJobQueue->Pop();
+				AsyncJob* job = GJobQueue->Pop();
 				job->Execute();
 				delete job;
 			}

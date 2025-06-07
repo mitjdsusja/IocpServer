@@ -1,20 +1,12 @@
 #include "pch.h"
 #include "JobScheduler.h"
-#include "JobQueue.h"
 
-void JobScheduler::PushJobQueue(shared_ptr<IJobQueue> jobQueue){
+void JobScheduler::PushJobQueue(shared_ptr<JobQueueBase> jobQueue){
 
-	lock_guard<mutex> lock(_jobQueueMutex);
-
-	_scheduledJobQueue.push(jobQueue);
+	_scheduledJobQueue.Push(jobQueue);
 }
 
-shared_ptr<IJobQueue> JobScheduler::PopJobQueue(){
+shared_ptr<JobQueueBase> JobScheduler::PopJobQueue(){
 
-	lock_guard<mutex> lock(_jobQueueMutex);
-
-	shared_ptr<IJobQueue> jobQueue = _scheduledJobQueue.front();
-	_scheduledJobQueue.pop();
-
-	return jobQueue;
+	return _scheduledJobQueue.Pop();
 }

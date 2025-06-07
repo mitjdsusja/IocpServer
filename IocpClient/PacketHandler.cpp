@@ -58,7 +58,7 @@ void PacketHandler::HandlePacket(shared_ptr<GameSession> session, PacketHeader* 
 	cout << "[RECV] " << packetId << " From : " << session->GetSessionId() << endl;
 
 	// push jobQueue
-	Job* job = new Job([session, buffer, service, packetId]() {
+	AsyncJob* job = new AsyncJob([session, buffer, service, packetId]() {
 		packetHandleArray[packetId](session, buffer, service);
 		});
 	GJobQueue->Push(job);
@@ -130,7 +130,7 @@ void PacketHandler::Handle_CS_Login_Request(shared_ptr<GameSession> session, sha
 	sendBuffer = PacketHandler::MakeSendBuffer(sendLoginResponsePacket, PacketId::PKT_SC_LOGIN_RESPONSE);
 
 	// Send Result
-	Job* job = new Job([session, sendBuffer]() {
+	AsyncJob* job = new AsyncJob([session, sendBuffer]() {
 		session->Send(sendBuffer);
 		});
 	GJobQueue->Push(job);
@@ -154,7 +154,7 @@ void PacketHandler::Handle_CS_Room_List_Request(shared_ptr<GameSession> session,
 	}
 
 	shared_ptr<Buffer> sendBuffer = MakeSendBuffer(sendRoomListRequestPacket, PacketId::PKT_SC_ROOM_LIST_RESPONSE);
-	Job* job = new Job([session, sendBuffer]() {
+	AsyncJob* job = new AsyncJob([session, sendBuffer]() {
 		session->Send(sendBuffer);
 		});
 	GJobQueue->Push(job);
@@ -197,7 +197,7 @@ void PacketHandler::Handle_CS_Player_Info_Request(shared_ptr<GameSession> sessio
 
 	shared_ptr<Buffer> sendBuffer = MakeSendBuffer(sendPlayerInfoResponsePacket, PacketId::PKT_SC_PLAYER_INFO_RESPONSE);
 
-	Job* job = new Job([session, sendBuffer]() {
+	AsyncJob* job = new AsyncJob([session, sendBuffer]() {
 		session->Send(sendBuffer);
 		});
 	GJobQueue->Push(job);
@@ -223,7 +223,7 @@ void PacketHandler::Handle_CS_Create_Room_Request(shared_ptr<GameSession> sessio
 
 
 	shared_ptr<Buffer> sendBuffer = MakeSendBuffer(sendCreateRoomResponsePacket, PacketId::PKT_SC_CREATE_ROOM_RESPONSE);
-	Job* job = new Job([session, sendBuffer]() {
+	AsyncJob* job = new AsyncJob([session, sendBuffer]() {
 		session->Send(sendBuffer);
 		});
 	GJobQueue->Push(job);

@@ -3357,12 +3357,13 @@ class MoveState final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
-    kPlayerNameFieldNumber = 1,
-    kPositionFieldNumber = 2,
-    kVelocityFieldNumber = 3,
-    kTimestampFieldNumber = 4,
+    kPlayerNameFieldNumber = 2,
+    kPositionFieldNumber = 3,
+    kVelocityFieldNumber = 4,
+    kTimestampFieldNumber = 5,
+    kRoomIdFieldNumber = 1,
   };
-  // string playerName = 1;
+  // string playerName = 2;
   void clear_playername() ;
   const std::string& playername() const;
   template <typename Arg_ = const std::string&, typename... Args_>
@@ -3378,7 +3379,7 @@ class MoveState final : public ::google::protobuf::Message
   std::string* _internal_mutable_playername();
 
   public:
-  // .msgTest.Vector position = 2;
+  // .msgTest.Vector position = 3;
   bool has_position() const;
   void clear_position() ;
   const ::msgTest::Vector& position() const;
@@ -3393,7 +3394,7 @@ class MoveState final : public ::google::protobuf::Message
   ::msgTest::Vector* _internal_mutable_position();
 
   public:
-  // .msgTest.Vector velocity = 3;
+  // .msgTest.Vector velocity = 4;
   bool has_velocity() const;
   void clear_velocity() ;
   const ::msgTest::Vector& velocity() const;
@@ -3408,7 +3409,7 @@ class MoveState final : public ::google::protobuf::Message
   ::msgTest::Vector* _internal_mutable_velocity();
 
   public:
-  // int64 timestamp = 4;
+  // int64 timestamp = 5;
   void clear_timestamp() ;
   ::int64_t timestamp() const;
   void set_timestamp(::int64_t value);
@@ -3418,12 +3419,22 @@ class MoveState final : public ::google::protobuf::Message
   void _internal_set_timestamp(::int64_t value);
 
   public:
+  // int32 roomId = 1;
+  void clear_roomid() ;
+  ::int32_t roomid() const;
+  void set_roomid(::int32_t value);
+
+  private:
+  ::int32_t _internal_roomid() const;
+  void _internal_set_roomid(::int32_t value);
+
+  public:
   // @@protoc_insertion_point(class_scope:msgTest.MoveState)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      2, 4, 2,
+      3, 5, 2,
       36, 2>
       _table_;
 
@@ -3447,6 +3458,7 @@ class MoveState final : public ::google::protobuf::Message
     ::msgTest::Vector* position_;
     ::msgTest::Vector* velocity_;
     ::int64_t timestamp_;
+    ::int32_t roomid_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -4521,7 +4533,29 @@ inline void Vector::_internal_set_z(::int32_t value) {
 
 // MoveState
 
-// string playerName = 1;
+// int32 roomId = 1;
+inline void MoveState::clear_roomid() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.roomid_ = 0;
+}
+inline ::int32_t MoveState::roomid() const {
+  // @@protoc_insertion_point(field_get:msgTest.MoveState.roomId)
+  return _internal_roomid();
+}
+inline void MoveState::set_roomid(::int32_t value) {
+  _internal_set_roomid(value);
+  // @@protoc_insertion_point(field_set:msgTest.MoveState.roomId)
+}
+inline ::int32_t MoveState::_internal_roomid() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.roomid_;
+}
+inline void MoveState::_internal_set_roomid(::int32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.roomid_ = value;
+}
+
+// string playerName = 2;
 inline void MoveState::clear_playername() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.playername_.ClearToEmpty();
@@ -4569,7 +4603,7 @@ inline void MoveState::set_allocated_playername(std::string* value) {
   // @@protoc_insertion_point(field_set_allocated:msgTest.MoveState.playerName)
 }
 
-// .msgTest.Vector position = 2;
+// .msgTest.Vector position = 3;
 inline bool MoveState::has_position() const {
   bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.position_ != nullptr);
@@ -4665,7 +4699,7 @@ inline void MoveState::set_allocated_position(::msgTest::Vector* value) {
   // @@protoc_insertion_point(field_set_allocated:msgTest.MoveState.position)
 }
 
-// .msgTest.Vector velocity = 3;
+// .msgTest.Vector velocity = 4;
 inline bool MoveState::has_velocity() const {
   bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.velocity_ != nullptr);
@@ -4761,7 +4795,7 @@ inline void MoveState::set_allocated_velocity(::msgTest::Vector* value) {
   // @@protoc_insertion_point(field_set_allocated:msgTest.MoveState.velocity)
 }
 
-// int64 timestamp = 4;
+// int64 timestamp = 5;
 inline void MoveState::clear_timestamp() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.timestamp_ = ::int64_t{0};

@@ -5,7 +5,7 @@
 
 class TimedJob : public Job{
 public:
-	TimedJob(uint64 executeTick, function<void()> callback) : Job(callback, JobType::TIMEDJOB), _executeTick(executeTick){
+	TimedJob(uint64 executeTick, function<void()>&& callback) : Job(callback), _executeTick(executeTick){
 
 	}
 	~TimedJob() {
@@ -26,7 +26,7 @@ struct TimedJobComparer {
 class JobTimer{
 public:
 	void Reserve(uint64 delayTime, function<void()>&& callback);
-	void EnqueueReadyJobs(JobQueue& jobQueue);
+	//void EnqueueReadyJobs(JobQueue& jobQueue);
 	
 private:
 	mutex _queueMutex;

@@ -1,13 +1,11 @@
 #include "pch.h"
+#include "Job.h"
 #include "JobQueue.h"
 #include "JobScheduler.h"
 
-void JobQueueBase::PushJob(Job* job){
+void JobQueueBase::PushJob(unique_ptr<Job> job){
 
-	{
-		lock_guard<mutex> lock(_jobQueueMutex);
-		_jobQueue.push(job);
-	}
+	_jobQueue.Push(move(job));
 
 	bool expected = false;
 	if (_pendingJob.compare_exchange_strong(expected, true)) {
@@ -17,31 +15,18 @@ void JobQueueBase::PushJob(Job* job){
 
 void JobQueueBase::ExecuteJob(){
 
-	queue<Job*> jobsToExecute;
+	vector<unique_ptr<Job>> jobsToExecute;
+	_jobQueue.PopAll(jobsToExecute);
 
-	// Swap JobQueue
-	{
-		lock_guard<mutex> lock(_jobQueueMutex);
-
-		swap(jobsToExecute, _jobQueue);
-	}
-
-	while (jobsToExecute.empty() == false) {
-		Job* job = jobsToExecute.front();
-		jobsToExecute.pop();
-
+	for (unique_ptr<Job>& job : jobsToExecute) {
 		job->Execute();
-
-		delete job;
 	}
 
 	// Execute중 작업이 queue에 추가 되있을 수 있음.
 	bool scheduleNeeded = false;
 	{
-		lock_guard<mutex> lock(_jobQueueMutex);
-
 		// Execute중 작업이 추가된 경우
-		if (_jobQueue.empty() == false) {
+		if (_jobQueue.Empty() == false) {
 			scheduleNeeded = true;
 		}
 		else {

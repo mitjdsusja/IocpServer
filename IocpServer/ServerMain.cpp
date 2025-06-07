@@ -25,8 +25,6 @@ enum {
 };
 
 void ReserveLoopBroadcastUserInfo(Service* service);
-void ReservePrintJobQueueTime();
-void ReservePrintJobQueueInfo();
 void ReserveJobCreate();
 void DBInsertuser(wstring id, wstring pw, wstring name);
 
@@ -48,7 +46,7 @@ int main() {
 		GThreadManager->Launch([=]() {
 			while (true) {
 				serverService->CompletionEventThread(10);
-				GJobTimer->EnqueueReadyJobs(*GJobQueue);
+				//GJobTimer->EnqueueReadyJobs(*GJobQueue);
 			}
 		});
 	}
@@ -59,7 +57,7 @@ int main() {
 		GThreadManager->Launch([=]() {
 			while (true) {
 				try {
-					shared_ptr<IJobQueue> jobQueue = GJobScheduler->PopJobQueue();
+					shared_ptr<JobQueueBase> jobQueue = GJobScheduler->PopJobQueue();
 					jobQueue->ExecuteJob();
 				}
 				catch (exception& e) {
@@ -73,24 +71,10 @@ int main() {
 		});
 	}
 
-	/*
-	LDBConnector = new DBConnector();
-	for (int i = 1; i <= 100; i++) {
-		std::wstring num = std::to_wstring(i);
-		DBInsertuser(L"bot" + num, L"bot" + num, L"bot" + num);
-	}
-	*/
-
-	// Reserve User Position 
-	//GJobTimer->Reserve(100, [serverService]() {
-	//	ReserveLoopBroadcastUserInfo(serverService);
+	//GJobTimer->Reserve(1000, []() {
+	//	ReservePrintJobQueueInfo();
 	//});
-	GJobTimer->Reserve(1000, []() {
-		ReservePrintJobQueueInfo();
-	});
-	//GJobTimer->Reserve(100, []() {
-	//	ReserveJobCreate();
-	//});
+	
 
 	GThreadManager->Join();
 }
@@ -106,39 +90,20 @@ void DBInsertuser(wstring id, wstring pw, wstring name) {
 
 void ReserveLoopBroadcastUserInfo(Service* service) {
 
-	
-
-	GJobTimer->Reserve(100, [service]() {
+	/*GJobTimer->Reserve(100, [service]() {
 		ReserveLoopBroadcastUserInfo(service);
-	});
+	});*/
 }
 
-
-void ReservePrintJobQueueInfo() {
-	cout << "JobTime Avg : " << GJobQueue->GetJobCreateTimeAvg() << " ";
-	cout << "JobQueue Length : " << GJobQueue->GetJobQueueLength() << endl;
-
-	GJobTimer->Reserve(1000, []() {
-		ReservePrintJobQueueInfo();
-		});
-}
-void ReservePrintJobQueueTime() {
-
-	cout << "JobTime Avg : " << GJobQueue->GetJobCreateTimeAvg() << endl;
-
-	GJobTimer->Reserve(1000, []() {
-		ReservePrintJobQueueTime();
-	});
-}
 
 void ReserveJobCreate() {
 
-	Job* job = new Job([]() {
-	});
+	//Job* job = new Job([]() {
+	//});
 
-	GJobQueue->Push(job);
+	//GJobQueue->Push(job);
 
-	GJobTimer->Reserve(100, []() {
-		ReserveJobCreate();
-	});
+	//GJobTimer->Reserve(100, []() {
+	//	ReserveJobCreate();
+	//});
 }

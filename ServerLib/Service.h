@@ -2,8 +2,9 @@
 #include <functional>
 
 #include "CompletionPortHandler.h"
-#include "Listener.h"
-#include "Session.h"
+
+class Listener;
+class Session;
 
 enum ServiceType {
 	Server,

@@ -1,44 +1,53 @@
 #pragma once
 #include "Vector.h"
 #include "JobQueue.h"
+#include "RoomManager.h"
 
 class GameSession;
-class Room;
 
-struct PlayerInfo {
+struct PlayerBaseInfo {
+	uint64 _sessionId = 0;
 	wstring _name = L"";
-	int32 _level = 0;
+};
+struct PlayerPosition {
 	int32 _roomId = 0;
 	Vector<int16> _position;
 	Vector<int16> _velocity;
 	int64 _moveTimestamp = 0;
-	bool _isInfoUpdated = true;
+};
+struct PlayerStats {
+	int32 _level = 0;
+	
+};
+struct PlayerInfo {
+	PlayerBaseInfo _baseInfo;
+	PlayerPosition _position;
+	PlayerStats _stats;
 };
 
-class Player{
+class Player : public JobQueueBase{
 public:
-	struct GameStateData {
-		wstring _name;
-		Vector<int16> _position;
-		Vector<int16> _velocity;
-		uint64 _moveTimeStamp;
-		bool _updatePosition;
-	};
-public:
-	Player(shared_ptr<GameSession> owner, PlayerInfo& playerInfo);
+	Player(shared_ptr<GameSession> owner);
 	~Player();
 
-	shared_ptr<GameSession> GetOwnerSession() { return _owner; }
-	PlayerInfo GetPlayerInfo();
+	void InitPlayer(const PlayerBaseInfo& baseInfo, const PlayerPosition& position, const PlayerStats& stats);
 
-	void UpdatePlayerInfo(const PlayerInfo& newInfo);
-	void SetName(const wstring& name);
-	void SetLevel(int32 level);
-	void SetRoomId(int32 roomId);
-	void SetPosition(Vector<int16>& position);
-	void SetVelocity(Vector<int16>& velocity);
-	void SetMoveTimestamp(int64 timestamp);
-	void UpdateGameState(const GameStateData& gameState);
+	void PushJobSendData(const shared_ptr<Buffer>& sendBuffer);
+	void PushJobUpdatePosition(const PlayerPosition& newPosition);
+
+	void PushJobGetBaseInfo(function<void(PlayerBaseInfo)> func);
+	void PushJobGetPosition(function<void(PlayerPosition)> func);
+	void PushJobGetStats(function<void(PlayerStats)> func);
+
+	shared_ptr<GameSession>& GetOwnerSession() { return _owner; }
+
+public:
+	void SendData(const shared_ptr<Buffer>& sendBuffer);
+	void UpdatePosition(const PlayerPosition& newPosition);
+
+	PlayerBaseInfo GetPlayerBaseInfo();
+	PlayerPosition GetPlayerPosition();
+	PlayerStats GetPlayerStats();
 
 private:
 	void ClearResource();
@@ -47,7 +56,7 @@ private:
 	shared_ptr<GameSession> _owner = nullptr;
 	mutex _playerMutex;
 
-	PlayerInfo _playerInfo = {};
+	PlayerInfo _info;
 };
 
 class PlayerManager : public JobQueueBase {
@@ -55,12 +64,23 @@ public:
 	PlayerManager();
 	~PlayerManager();
 
-	void PushCreatePlayerJob(shared_ptr<GameSession> ownerSession, uint64 sessionId, PlayerInfo playerInfo);
-	void PushRemovePlayerJob(uint64 sessionId);
-	void PushUpdatePlayerGameStateJob(uint64 sessionId, const Player::GameStateData& gameState);
+	void PushJobSendData(uint64 sessionId, const shared_ptr<Buffer>& sendBuffer);
+	void PushJobCreateAndPushPlayer(const shared_ptr<GameSession>& ownerSession, const PlayerBaseInfo& baseInfo, const PlayerPosition& position, const PlayerStats& stats);
+	void PushJobRemovePlayer(uint64 sessionId);
+
+	void PushJobGetRoomPlayer(uint64 sessionId, function<void(PlayerBaseInfo, PlayerPosition)>);
+	void PushJobGetBaseInfo(uint64 sessionId, function<void(PlayerBaseInfo)> func);
+	void PushJobGetPosition(uint64 sessionId, function<void(PlayerPosition)> func);
+	void PushJobGetstats(uint64 sessionId, function<void(PlayerStats)> func);
+
+public:
+	void SendData(uint64 sessionId, const shared_ptr<Buffer>& sendBuffer);
+	void CreateAndPushPlayer(const shared_ptr<GameSession>& ownerSession, const PlayerBaseInfo& baseInfo, const PlayerPosition& position, const PlayerStats& stats);
+	void RemovePlayer(uint64 sessionId);
 
 private:
 	mutex _playersMutex;
+
 	map<uint64, shared_ptr<Player>> _players;
 
 };

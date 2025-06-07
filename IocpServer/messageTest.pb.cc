@@ -438,7 +438,8 @@ inline constexpr MoveState::Impl_::Impl_(
             ::_pbi::ConstantInitialized()),
         position_{nullptr},
         velocity_{nullptr},
-        timestamp_{::int64_t{0}} {}
+        timestamp_{::int64_t{0}},
+        roomid_{0} {}
 
 template <typename>
 PROTOBUF_CONSTEXPR MoveState::MoveState(::_pbi::ConstantInitialized)
@@ -611,10 +612,12 @@ const ::uint32_t
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::msgTest::MoveState, _impl_.roomid_),
         PROTOBUF_FIELD_OFFSET(::msgTest::MoveState, _impl_.playername_),
         PROTOBUF_FIELD_OFFSET(::msgTest::MoveState, _impl_.position_),
         PROTOBUF_FIELD_OFFSET(::msgTest::MoveState, _impl_.velocity_),
         PROTOBUF_FIELD_OFFSET(::msgTest::MoveState, _impl_.timestamp_),
+        ~0u,
         ~0u,
         0,
         1,
@@ -820,26 +823,26 @@ const ::uint32_t
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
         {0, -1, -1, sizeof(::msgTest::Vector)},
-        {11, 23, -1, sizeof(::msgTest::MoveState)},
-        {27, 38, -1, sizeof(::msgTest::Player)},
-        {41, -1, -1, sizeof(::msgTest::Room)},
-        {54, -1, -1, sizeof(::msgTest::CS_Ping)},
-        {63, -1, -1, sizeof(::msgTest::SC_Pong)},
-        {72, -1, -1, sizeof(::msgTest::CS_Login_Request)},
-        {82, -1, -1, sizeof(::msgTest::SC_Login_Response)},
-        {93, -1, -1, sizeof(::msgTest::CS_My_Player_Info_Request)},
-        {102, 111, -1, sizeof(::msgTest::SC_My_Player_Info_Response)},
-        {112, -1, -1, sizeof(::msgTest::CS_Room_Player_List_Request)},
-        {121, -1, -1, sizeof(::msgTest::SC_Room_Player_List_Response)},
-        {130, -1, -1, sizeof(::msgTest::CS_Create_Room_Request)},
-        {140, 151, -1, sizeof(::msgTest::SC_Create_Room_Response)},
-        {154, -1, -1, sizeof(::msgTest::CS_Room_List_Request)},
-        {162, -1, -1, sizeof(::msgTest::SC_Room_List_Response)},
-        {171, -1, -1, sizeof(::msgTest::CS_Enter_Room_Request)},
-        {180, 191, -1, sizeof(::msgTest::SC_Enter_Room_Response)},
-        {194, 203, -1, sizeof(::msgTest::SC_Player_Enter_Room_Notification)},
-        {204, 213, -1, sizeof(::msgTest::CS_Player_Move_Request)},
-        {214, -1, -1, sizeof(::msgTest::SC_Player_Move_Notification)},
+        {11, 24, -1, sizeof(::msgTest::MoveState)},
+        {29, 40, -1, sizeof(::msgTest::Player)},
+        {43, -1, -1, sizeof(::msgTest::Room)},
+        {56, -1, -1, sizeof(::msgTest::CS_Ping)},
+        {65, -1, -1, sizeof(::msgTest::SC_Pong)},
+        {74, -1, -1, sizeof(::msgTest::CS_Login_Request)},
+        {84, -1, -1, sizeof(::msgTest::SC_Login_Response)},
+        {95, -1, -1, sizeof(::msgTest::CS_My_Player_Info_Request)},
+        {104, 113, -1, sizeof(::msgTest::SC_My_Player_Info_Response)},
+        {114, -1, -1, sizeof(::msgTest::CS_Room_Player_List_Request)},
+        {123, -1, -1, sizeof(::msgTest::SC_Room_Player_List_Response)},
+        {132, -1, -1, sizeof(::msgTest::CS_Create_Room_Request)},
+        {142, 153, -1, sizeof(::msgTest::SC_Create_Room_Response)},
+        {156, -1, -1, sizeof(::msgTest::CS_Room_List_Request)},
+        {164, -1, -1, sizeof(::msgTest::SC_Room_List_Response)},
+        {173, -1, -1, sizeof(::msgTest::CS_Enter_Room_Request)},
+        {182, 193, -1, sizeof(::msgTest::SC_Enter_Room_Response)},
+        {196, 205, -1, sizeof(::msgTest::SC_Player_Enter_Room_Notification)},
+        {206, 215, -1, sizeof(::msgTest::CS_Player_Move_Request)},
+        {216, -1, -1, sizeof(::msgTest::SC_Player_Move_Notification)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::msgTest::_Vector_default_instance_._instance,
@@ -867,46 +870,47 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_messageTest_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\021messageTest.proto\022\007msgTest\")\n\006Vector\022\t"
-    "\n\001x\030\001 \001(\021\022\t\n\001y\030\002 \001(\021\022\t\n\001z\030\003 \001(\021\"x\n\tMoveS"
-    "tate\022\022\n\nplayerName\030\001 \001(\t\022!\n\010position\030\002 \001"
-    "(\0132\017.msgTest.Vector\022!\n\010velocity\030\003 \001(\0132\017."
-    "msgTest.Vector\022\021\n\ttimestamp\030\004 \001(\003\"H\n\006Pla"
-    "yer\022\014\n\004name\030\001 \001(\t\022\r\n\005level\030\002 \001(\005\022!\n\010posi"
-    "tion\030\003 \001(\0132\017.msgTest.Vector\"m\n\004Room\022\016\n\006r"
-    "oomId\030\001 \001(\005\022\020\n\010roomName\030\002 \001(\t\022\026\n\016maxPlay"
-    "erCount\030\003 \001(\005\022\023\n\013playerCount\030\004 \001(\005\022\026\n\016ho"
-    "stPlayerName\030\005 \001(\t\"\034\n\007CS_Ping\022\021\n\ttimesta"
-    "mp\030\001 \001(\003\"\034\n\007SC_Pong\022\021\n\ttimestamp\030\001 \001(\003\"0"
-    "\n\020CS_Login_Request\022\n\n\002id\030\001 \001(\t\022\020\n\010passwo"
-    "rd\030\002 \001(\t\"M\n\021SC_Login_Response\022\017\n\007success"
-    "\030\001 \001(\010\022\024\n\014errorMessage\030\002 \001(\t\022\021\n\tsessionI"
-    "d\030\003 \001(\004\".\n\031CS_My_Player_Info_Request\022\021\n\t"
-    "sessionId\030\001 \001(\004\"A\n\032SC_My_Player_Info_Res"
-    "ponse\022#\n\nplayerInfo\030\001 \001(\0132\017.msgTest.Play"
-    "er\"-\n\033CS_Room_Player_List_Request\022\016\n\006roo"
-    "mId\030\001 \001(\005\"C\n\034SC_Room_Player_List_Respons"
-    "e\022#\n\nplayerList\030\001 \003(\0132\017.msgTest.Player\"<"
-    "\n\026CS_Create_Room_Request\022\020\n\010roomName\030\001 \001"
-    "(\t\022\020\n\010hostName\030\002 \001(\t\"]\n\027SC_Create_Room_R"
-    "esponse\022\017\n\007success\030\001 \001(\010\022\024\n\014errorMessage"
-    "\030\002 \001(\t\022\033\n\004room\030\003 \001(\0132\r.msgTest.Room\"\026\n\024C"
-    "S_Room_List_Request\"8\n\025SC_Room_List_Resp"
-    "onse\022\037\n\010roomList\030\001 \003(\0132\r.msgTest.Room\"\'\n"
-    "\025CS_Enter_Room_Request\022\016\n\006roomId\030\001 \001(\005\"\\"
-    "\n\026SC_Enter_Room_Response\022\017\n\007success\030\001 \001("
+    "\n\001x\030\001 \001(\021\022\t\n\001y\030\002 \001(\021\022\t\n\001z\030\003 \001(\021\"\210\001\n\tMove"
+    "State\022\016\n\006roomId\030\001 \001(\005\022\022\n\nplayerName\030\002 \001("
+    "\t\022!\n\010position\030\003 \001(\0132\017.msgTest.Vector\022!\n\010"
+    "velocity\030\004 \001(\0132\017.msgTest.Vector\022\021\n\ttimes"
+    "tamp\030\005 \001(\003\"H\n\006Player\022\014\n\004name\030\001 \001(\t\022\r\n\005le"
+    "vel\030\002 \001(\005\022!\n\010position\030\003 \001(\0132\017.msgTest.Ve"
+    "ctor\"m\n\004Room\022\016\n\006roomId\030\001 \001(\005\022\020\n\010roomName"
+    "\030\002 \001(\t\022\026\n\016maxPlayerCount\030\003 \001(\005\022\023\n\013player"
+    "Count\030\004 \001(\005\022\026\n\016hostPlayerName\030\005 \001(\t\"\034\n\007C"
+    "S_Ping\022\021\n\ttimestamp\030\001 \001(\003\"\034\n\007SC_Pong\022\021\n\t"
+    "timestamp\030\001 \001(\003\"0\n\020CS_Login_Request\022\n\n\002i"
+    "d\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\"M\n\021SC_Login_Re"
+    "sponse\022\017\n\007success\030\001 \001(\010\022\024\n\014errorMessage\030"
+    "\002 \001(\t\022\021\n\tsessionId\030\003 \001(\004\".\n\031CS_My_Player"
+    "_Info_Request\022\021\n\tsessionId\030\001 \001(\004\"A\n\032SC_M"
+    "y_Player_Info_Response\022#\n\nplayerInfo\030\001 \001"
+    "(\0132\017.msgTest.Player\"-\n\033CS_Room_Player_Li"
+    "st_Request\022\016\n\006roomId\030\001 \001(\005\"C\n\034SC_Room_Pl"
+    "ayer_List_Response\022#\n\nplayerList\030\001 \003(\0132\017"
+    ".msgTest.Player\"<\n\026CS_Create_Room_Reques"
+    "t\022\020\n\010roomName\030\001 \001(\t\022\020\n\010hostName\030\002 \001(\t\"]\n"
+    "\027SC_Create_Room_Response\022\017\n\007success\030\001 \001("
     "\010\022\024\n\014errorMessage\030\002 \001(\t\022\033\n\004room\030\003 \001(\0132\r."
-    "msgTest.Room\"D\n!SC_Player_Enter_Room_Not"
-    "ification\022\037\n\006player\030\001 \001(\0132\017.msgTest.Play"
-    "er\"\?\n\026CS_Player_Move_Request\022%\n\tmoveStat"
-    "e\030\001 \001(\0132\022.msgTest.MoveState\"E\n\033SC_Player"
-    "_Move_Notification\022&\n\nmoveStates\030\001 \003(\0132\022"
-    ".msgTest.MoveStateb\006proto3"
+    "msgTest.Room\"\026\n\024CS_Room_List_Request\"8\n\025"
+    "SC_Room_List_Response\022\037\n\010roomList\030\001 \003(\0132"
+    "\r.msgTest.Room\"\'\n\025CS_Enter_Room_Request\022"
+    "\016\n\006roomId\030\001 \001(\005\"\\\n\026SC_Enter_Room_Respons"
+    "e\022\017\n\007success\030\001 \001(\010\022\024\n\014errorMessage\030\002 \001(\t"
+    "\022\033\n\004room\030\003 \001(\0132\r.msgTest.Room\"D\n!SC_Play"
+    "er_Enter_Room_Notification\022\037\n\006player\030\001 \001"
+    "(\0132\017.msgTest.Player\"\?\n\026CS_Player_Move_Re"
+    "quest\022%\n\tmoveState\030\001 \001(\0132\022.msgTest.MoveS"
+    "tate\"E\n\033SC_Player_Move_Notification\022&\n\nm"
+    "oveStates\030\001 \003(\0132\022.msgTest.MoveStateb\006pro"
+    "to3"
 };
 static ::absl::once_flag descriptor_table_messageTest_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_messageTest_2eproto = {
     false,
     false,
-    1386,
+    1403,
     descriptor_table_protodef_messageTest_2eproto,
     "messageTest.proto",
     &descriptor_table_messageTest_2eproto_once,
@@ -1229,7 +1233,13 @@ MoveState::MoveState(
   _impl_.velocity_ = (cached_has_bits & 0x00000002u) ? ::google::protobuf::Message::CopyConstruct<::msgTest::Vector>(
                               arena, *from._impl_.velocity_)
                         : nullptr;
-  _impl_.timestamp_ = from._impl_.timestamp_;
+  ::memcpy(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, timestamp_),
+           reinterpret_cast<const char *>(&from._impl_) +
+               offsetof(Impl_, timestamp_),
+           offsetof(Impl_, roomid_) -
+               offsetof(Impl_, timestamp_) +
+               sizeof(Impl_::roomid_));
 
   // @@protoc_insertion_point(copy_constructor:msgTest.MoveState)
 }
@@ -1244,9 +1254,9 @@ inline void MoveState::SharedCtor(::_pb::Arena* arena) {
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, position_),
            0,
-           offsetof(Impl_, timestamp_) -
+           offsetof(Impl_, roomid_) -
                offsetof(Impl_, position_) +
-               sizeof(Impl_::timestamp_));
+               sizeof(Impl_::roomid_));
 }
 MoveState::~MoveState() {
   // @@protoc_insertion_point(destructor:msgTest.MoveState)
@@ -1298,15 +1308,15 @@ const ::google::protobuf::internal::ClassData* MoveState::GetClassData() const {
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<2, 4, 2, 36, 2> MoveState::_table_ = {
+const ::_pbi::TcParseTable<3, 5, 2, 36, 2> MoveState::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(MoveState, _impl_._has_bits_),
     0, // no _extensions_
-    4, 24,  // max_field_number, fast_idx_mask
+    5, 56,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967280,  // skipmap
+    4294967264,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    4,  // num_field_entries
+    5,  // num_field_entries
     2,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
@@ -1316,38 +1326,47 @@ const ::_pbi::TcParseTable<2, 4, 2, 36, 2> MoveState::_table_ = {
     ::_pbi::TcParser::GetTable<::msgTest::MoveState>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // int64 timestamp = 4;
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(MoveState, _impl_.timestamp_), 63>(),
-     {32, 63, 0, PROTOBUF_FIELD_OFFSET(MoveState, _impl_.timestamp_)}},
-    // string playerName = 1;
+    {::_pbi::TcParser::MiniParse, {}},
+    // int32 roomId = 1;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(MoveState, _impl_.roomid_), 63>(),
+     {8, 63, 0, PROTOBUF_FIELD_OFFSET(MoveState, _impl_.roomid_)}},
+    // string playerName = 2;
     {::_pbi::TcParser::FastUS1,
-     {10, 63, 0, PROTOBUF_FIELD_OFFSET(MoveState, _impl_.playername_)}},
-    // .msgTest.Vector position = 2;
+     {18, 63, 0, PROTOBUF_FIELD_OFFSET(MoveState, _impl_.playername_)}},
+    // .msgTest.Vector position = 3;
     {::_pbi::TcParser::FastMtS1,
-     {18, 0, 0, PROTOBUF_FIELD_OFFSET(MoveState, _impl_.position_)}},
-    // .msgTest.Vector velocity = 3;
+     {26, 0, 0, PROTOBUF_FIELD_OFFSET(MoveState, _impl_.position_)}},
+    // .msgTest.Vector velocity = 4;
     {::_pbi::TcParser::FastMtS1,
-     {26, 1, 1, PROTOBUF_FIELD_OFFSET(MoveState, _impl_.velocity_)}},
+     {34, 1, 1, PROTOBUF_FIELD_OFFSET(MoveState, _impl_.velocity_)}},
+    // int64 timestamp = 5;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(MoveState, _impl_.timestamp_), 63>(),
+     {40, 63, 0, PROTOBUF_FIELD_OFFSET(MoveState, _impl_.timestamp_)}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
   }}, {{
     65535, 65535
   }}, {{
-    // string playerName = 1;
+    // int32 roomId = 1;
+    {PROTOBUF_FIELD_OFFSET(MoveState, _impl_.roomid_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
+    // string playerName = 2;
     {PROTOBUF_FIELD_OFFSET(MoveState, _impl_.playername_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
-    // .msgTest.Vector position = 2;
+    // .msgTest.Vector position = 3;
     {PROTOBUF_FIELD_OFFSET(MoveState, _impl_.position_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
-    // .msgTest.Vector velocity = 3;
+    // .msgTest.Vector velocity = 4;
     {PROTOBUF_FIELD_OFFSET(MoveState, _impl_.velocity_), _Internal::kHasBitsOffset + 1, 1,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
-    // int64 timestamp = 4;
+    // int64 timestamp = 5;
     {PROTOBUF_FIELD_OFFSET(MoveState, _impl_.timestamp_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt64)},
   }}, {{
     {::_pbi::TcParser::GetTable<::msgTest::Vector>()},
     {::_pbi::TcParser::GetTable<::msgTest::Vector>()},
   }}, {{
-    "\21\12\0\0\0\0\0\0"
+    "\21\0\12\0\0\0\0\0"
     "msgTest.MoveState"
     "playerName"
   }},
@@ -1372,7 +1391,9 @@ PROTOBUF_NOINLINE void MoveState::Clear() {
       _impl_.velocity_->Clear();
     }
   }
-  _impl_.timestamp_ = ::int64_t{0};
+  ::memset(&_impl_.timestamp_, 0, static_cast<::size_t>(
+      reinterpret_cast<char*>(&_impl_.roomid_) -
+      reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.roomid_));
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
@@ -1392,33 +1413,40 @@ PROTOBUF_NOINLINE void MoveState::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // string playerName = 1;
+          // int32 roomId = 1;
+          if (this_._internal_roomid() != 0) {
+            target = ::google::protobuf::internal::WireFormatLite::
+                WriteInt32ToArrayWithField<1>(
+                    stream, this_._internal_roomid(), target);
+          }
+
+          // string playerName = 2;
           if (!this_._internal_playername().empty()) {
             const std::string& _s = this_._internal_playername();
             ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
                 _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "msgTest.MoveState.playerName");
-            target = stream->WriteStringMaybeAliased(1, _s, target);
+            target = stream->WriteStringMaybeAliased(2, _s, target);
           }
 
           cached_has_bits = this_._impl_._has_bits_[0];
-          // .msgTest.Vector position = 2;
+          // .msgTest.Vector position = 3;
           if (cached_has_bits & 0x00000001u) {
             target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
-                2, *this_._impl_.position_, this_._impl_.position_->GetCachedSize(), target,
+                3, *this_._impl_.position_, this_._impl_.position_->GetCachedSize(), target,
                 stream);
           }
 
-          // .msgTest.Vector velocity = 3;
+          // .msgTest.Vector velocity = 4;
           if (cached_has_bits & 0x00000002u) {
             target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
-                3, *this_._impl_.velocity_, this_._impl_.velocity_->GetCachedSize(), target,
+                4, *this_._impl_.velocity_, this_._impl_.velocity_->GetCachedSize(), target,
                 stream);
           }
 
-          // int64 timestamp = 4;
+          // int64 timestamp = 5;
           if (this_._internal_timestamp() != 0) {
             target = ::google::protobuf::internal::WireFormatLite::
-                WriteInt64ToArrayWithField<4>(
+                WriteInt64ToArrayWithField<5>(
                     stream, this_._internal_timestamp(), target);
           }
 
@@ -1447,7 +1475,7 @@ PROTOBUF_NOINLINE void MoveState::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // string playerName = 1;
+            // string playerName = 2;
             if (!this_._internal_playername().empty()) {
               total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
                                               this_._internal_playername());
@@ -1455,22 +1483,27 @@ PROTOBUF_NOINLINE void MoveState::Clear() {
           }
           cached_has_bits = this_._impl_._has_bits_[0];
           if (cached_has_bits & 0x00000003u) {
-            // .msgTest.Vector position = 2;
+            // .msgTest.Vector position = 3;
             if (cached_has_bits & 0x00000001u) {
               total_size += 1 +
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.position_);
             }
-            // .msgTest.Vector velocity = 3;
+            // .msgTest.Vector velocity = 4;
             if (cached_has_bits & 0x00000002u) {
               total_size += 1 +
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.velocity_);
             }
           }
            {
-            // int64 timestamp = 4;
+            // int64 timestamp = 5;
             if (this_._internal_timestamp() != 0) {
               total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(
                   this_._internal_timestamp());
+            }
+            // int32 roomId = 1;
+            if (this_._internal_roomid() != 0) {
+              total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
+                  this_._internal_roomid());
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -1513,6 +1546,9 @@ void MoveState::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::googl
   if (from._internal_timestamp() != 0) {
     _this->_impl_.timestamp_ = from._impl_.timestamp_;
   }
+  if (from._internal_roomid() != 0) {
+    _this->_impl_.roomid_ = from._impl_.roomid_;
+  }
   _this->_impl_._has_bits_[0] |= cached_has_bits;
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -1533,8 +1569,8 @@ void MoveState::InternalSwap(MoveState* PROTOBUF_RESTRICT other) {
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.playername_, &other->_impl_.playername_, arena);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(MoveState, _impl_.timestamp_)
-      + sizeof(MoveState::_impl_.timestamp_)
+      PROTOBUF_FIELD_OFFSET(MoveState, _impl_.roomid_)
+      + sizeof(MoveState::_impl_.roomid_)
       - PROTOBUF_FIELD_OFFSET(MoveState, _impl_.position_)>(
           reinterpret_cast<char*>(&_impl_.position_),
           reinterpret_cast<char*>(&other->_impl_.position_));
