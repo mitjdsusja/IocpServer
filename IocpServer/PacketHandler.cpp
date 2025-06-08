@@ -275,6 +275,7 @@ void PacketHandler::Handle_CS_Create_Room_Request(shared_ptr<GameSession> sessio
 
 	InitRoomInfo initRoomInfo;
 	initRoomInfo._roomName = roomName;
+	initRoomInfo._maxPlayerCount = 100;
 
 	Room::RoomPlayer hostPlayerData;
 	hostPlayerData._sessionId = session->GetSessionId();
@@ -300,7 +301,7 @@ void PacketHandler::Handle_CS_Enter_Room_Request(shared_ptr<GameSession> session
 		roomPlayer._gameState._updatePosition = true;
 		roomPlayer._gameState._velocity = position._velocity;
 
-		GRoomManager->PushJobEnterRoom(enterRoomId, move(roomPlayer));
+		GRoomManager->PushJobEnterRoom(enterRoomId, roomPlayer);
 	});
 }
 

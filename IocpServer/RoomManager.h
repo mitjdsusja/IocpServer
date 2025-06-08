@@ -36,7 +36,7 @@ public:
 	Room(const InitRoomInfo& initRoomInfo, const RoomPlayer& hostPlayerData);
 	~Room();
 
-	void Broadcast(shared_ptr<Buffer> sendBuffer);
+	void PushJobBroadcast(shared_ptr<Buffer> sendBuffer);
 	void BroadcastPlayerMovement();
 
 	void PushJobEnterPlayer(uint64 enterPlayerSessionId, const RoomPlayer& initialPlayerData);
@@ -52,6 +52,8 @@ public:
 	void DestroyRoom();
 
 public:
+	void Broadcast(const shared_ptr<Buffer>& sendBuffer);
+
 	bool EnterPlayer(uint64 enterPlayerSessionId, const RoomPlayer& initialPlayerData);
 	void LeavePlayer(uint64 sessionId);
 	void MovePlayer(uint64 sessionId, const Room::RoomPlayer& roomPlayerData);
