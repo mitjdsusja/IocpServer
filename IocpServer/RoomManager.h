@@ -80,7 +80,6 @@ public:
 
 	void PushJobCreateAndPushRoom(const InitRoomInfo& initRoomInfo, const Room::RoomPlayer& hostPlayerData);
 	void PushJobEnterRoom(int32 roomid, const Room::RoomPlayer& enterPlayerData);
-	void PushJobEnterRoom(int32 roomId, future<Room::RoomPlayer> initialPlayerData);
 	void PushJobLeaveRoom(int32 roomId, uint64 sessionId);
 	void PushJobRemoveRoom(int32 roomId);
 	void PushJobMovePlayer(int32 roomId, const Room::RoomPlayer& roomPlayerData);

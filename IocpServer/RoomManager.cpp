@@ -181,6 +181,7 @@ void Room::RegisterBroadcastMovement(uint32 reserveTime){
 void Room::DestroyRoom(){
 
 	_removeRoomFlag = true;
+	GRoomManager->PushJobRemoveRoom(_roomInfo._initRoomInfo._roomId);
 }
 
 bool Room::EnterPlayer(uint64 sessionId, const RoomPlayer& playerData) {
@@ -278,19 +279,6 @@ void RoomManager::PushJobEnterRoom(int32 roomId, const Room::RoomPlayer& enterPl
 
 	unique_ptr<Job> job = make_unique<Job>([self, roomId, enterPlayerData]() {
 		self->EnterRoom(roomId, enterPlayerData);
-	});
-
-	PushJob(move(job));
-}
-
-void RoomManager::PushJobEnterRoom(int32 roomId, future<Room::RoomPlayer> initialPlayerData){
-
-	shared_ptr<RoomManager> self = static_pointer_cast<RoomManager>(shared_from_this());
-	Room::RoomPlayer roomPlayerData = initialPlayerData.get();
-
-	unique_ptr<Job> job = make_unique<Job>([self, roomPlayerData]() {
-
-		self->EnterRoom(roomPlayerData._sessionId, roomPlayerData);
 	});
 
 	PushJob(move(job));
@@ -434,8 +422,6 @@ void RoomManager::LeaveRoom(int32 roomId, uint64 sessionId) {
 
 	shared_ptr<Room> room = it->second;
 	room->PushJobLeavePlayer(sessionId);
-
-	_rooms.erase(roomId);
 }
 
 void RoomManager::RemoveRoom(int32 roomId) {
