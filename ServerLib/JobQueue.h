@@ -2,7 +2,6 @@
 #include "LockQueue.h"
 
 class Job;
-class Job;
 
 class JobQueueBase : public enable_shared_from_this<JobQueueBase>{
 public:

@@ -46,6 +46,7 @@ int main() {
 		GThreadManager->Launch([=]() {
 			while (true) {
 				serverService->CompletionEventThread(10);
+				GJobScheduler->CheckTimedJob();
 				//GJobTimer->EnqueueReadyJobs(*GJobQueue);
 			}
 		});
