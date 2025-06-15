@@ -37,7 +37,8 @@ public:
 	~Room();
 
 	void PushJobBroadcast(shared_ptr<Buffer> sendBuffer);
-	void BroadcastPlayerMovement();
+	void PushJobBroadcastPosition();
+	void PushJobRegisterBroadcastPosition();
 
 	void PushJobEnterPlayer(uint64 enterPlayerSessionId, const RoomPlayer& initialPlayerData);
 	void PushJobLeavePlayer(uint64 leavePlayerSessionId);
@@ -53,6 +54,7 @@ public:
 
 public:
 	void Broadcast(const shared_ptr<Buffer>& sendBuffer);
+	void BroadcastPlayerMovement();
 
 	bool EnterPlayer(uint64 enterPlayerSessionId, const RoomPlayer& initialPlayerData);
 	void LeavePlayer(uint64 sessionId);

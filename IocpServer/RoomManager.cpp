@@ -32,61 +32,33 @@ void Room::PushJobBroadcast(shared_ptr<Buffer> originSendBuffer){
 	});
 }
 
+void Room::PushJobBroadcastPosition(){
 
+	shared_ptr<Room> self = static_pointer_cast<Room>(shared_from_this());
 
-void Room::BroadcastPlayerMovement(){
+	unique_ptr<Job> job = make_unique<Job>([self]() {
+		self->BroadcastPlayerMovement();
+	});
+}
 
-	unordered_map<uint64, msgTest::MoveState> updatedMoveStates;
+void Room::PushJobRegisterBroadcastPosition(){
 
-	for (auto& p : _players) {
+	shared_ptr<Room> self = static_pointer_cast<Room>(shared_from_this());
 
-		auto& playerData = p.second;
+	shared_ptr<ScheduledTimedJob> scheduledTimedJob = make_shared<ScheduledTimedJob>();
+	scheduledTimedJob->_timedJobRef = make_unique<TimedJob>(100, [self]() {
 
-		if (playerData._gameState._updatePosition == false) {
-			continue;
+		self->BroadcastPlayerMovement();
+
+		if (self->_removeRoomFlag == true) {
+			return;
 		}
 
-		msgTest::MoveState moveState;
-		msgTest::Vector* position = moveState.mutable_position();
-		msgTest::Vector* velocity = moveState.mutable_velocity();
+		self->PushJobRegisterBroadcastPosition();
+	});
+	scheduledTimedJob->_jobQueueRef = self;
 
-		moveState.set_playername(boost::locale::conv::utf_to_utf<char>(playerData._gameState._name));
-		position->set_x(playerData._gameState._position._x);
-		position->set_y(playerData._gameState._position._y);
-		position->set_z(playerData._gameState._position._z);
-		velocity->set_x(playerData._gameState._velocity._x);
-		velocity->set_y(playerData._gameState._velocity._y);
-		velocity->set_z(playerData._gameState._velocity._z);
-		moveState.set_timestamp(playerData._gameState._moveTimeStamp);
-
-		updatedMoveStates[p.first] = move(moveState);
-	}
-	
-	for (auto& p : _players) {
-		
-		auto& player = p.second;
-
-		vector<uint64> nearPlayerSessionIdList = _gridManager->GetNearByPlayers(p.first);
-
-		msgTest::SC_Player_Move_Notification sendPlayerMoveNotificationPacket;
-
-		for (uint64 targetSessionId : nearPlayerSessionIdList) {
-			
-			auto it = updatedMoveStates.find(targetSessionId);
-			if (it != updatedMoveStates.end()) {
-				msgTest::MoveState* moveState = sendPlayerMoveNotificationPacket.add_movestates();
-				*moveState = it->second;
-			}
-		}
-
-		if (sendPlayerMoveNotificationPacket.movestates_size() == 0) {
-			continue;
-		}
-
-		auto sendBuffer = PacketHandler::MakeSendBuffer(sendPlayerMoveNotificationPacket, PacketId::PKT_SC_PLAYER_MOVE_NOTIFICATION);
-
-		GPlayerManager->PushJobSendData(player._sessionId, sendBuffer);
-	}
+	GJobScheduler->RegisterTimedJob(scheduledTimedJob);
 }
 
 void Room::PushJobEnterPlayer(uint64 enterPlayerSessionId, const RoomPlayer& initialPlayerData){
@@ -219,12 +191,69 @@ void Room::Broadcast(const shared_ptr<Buffer>& sendBuffer){
 	}
 }
 
+void Room::BroadcastPlayerMovement() {
+
+	unordered_map<uint64, msgTest::MoveState> updatedMoveStates;
+
+	for (auto& p : _players) {
+
+		auto& playerData = p.second;
+
+		if (playerData._gameState._updatePosition == false) {
+			continue;
+		}
+
+		msgTest::MoveState moveState;
+		msgTest::Vector* position = moveState.mutable_position();
+		msgTest::Vector* velocity = moveState.mutable_velocity();
+
+		moveState.set_playername(boost::locale::conv::utf_to_utf<char>(playerData._gameState._name));
+		position->set_x(playerData._gameState._position._x);
+		position->set_y(playerData._gameState._position._y);
+		position->set_z(playerData._gameState._position._z);
+		velocity->set_x(playerData._gameState._velocity._x);
+		velocity->set_y(playerData._gameState._velocity._y);
+		velocity->set_z(playerData._gameState._velocity._z);
+		moveState.set_timestamp(playerData._gameState._moveTimeStamp);
+
+		updatedMoveStates[p.first] = move(moveState);
+	}
+
+	for (auto& p : _players) {
+
+		auto& player = p.second;
+
+		vector<uint64> nearPlayerSessionIdList = _gridManager->GetNearByPlayers(p.first);
+
+		msgTest::SC_Player_Move_Notification sendPlayerMoveNotificationPacket;
+
+		for (uint64 targetSessionId : nearPlayerSessionIdList) {
+
+			auto it = updatedMoveStates.find(targetSessionId);
+			if (it != updatedMoveStates.end()) {
+				msgTest::MoveState* moveState = sendPlayerMoveNotificationPacket.add_movestates();
+				*moveState = it->second;
+			}
+		}
+
+		if (sendPlayerMoveNotificationPacket.movestates_size() == 0) {
+			continue;
+		}
+
+		auto sendBuffer = PacketHandler::MakeSendBuffer(sendPlayerMoveNotificationPacket, PacketId::PKT_SC_PLAYER_MOVE_NOTIFICATION);
+
+		GPlayerManager->PushJobSendData(player._sessionId, sendBuffer);
+	}
+}
+
 bool Room::EnterPlayer(uint64 sessionId, const RoomPlayer& playerData) {
 
 	_players[sessionId] = playerData;
 	_roomInfo._curPlayerCount++;
 
 	_gridManager->AddPlayer(sessionId, playerData._gameState._position);
+
+	wcout << L"[Room::EnterPlayer] roomId : " << _roomInfo._initRoomInfo._roomId << " EnterPlayer : " << playerData._gameState._name << endl;
 
 	return true;
 }
@@ -431,6 +460,8 @@ int32 RoomManager::CreateAndPushRoom(const InitRoomInfo& initRoomInfo, const Roo
 	_rooms[roomId] = room;
 
 	wcout << "[RoomManager::CreateAndPushRoom] EnterRoom roomId : " << roomId << " playerName : " << hostPlayerData._gameState._name << endl;
+
+	room->PushJobRegisterBroadcastPosition();
 
 	return roomId;
 }

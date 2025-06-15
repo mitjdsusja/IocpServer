@@ -1,5 +1,6 @@
 #pragma once
 #include "LockQueue.h"
+#include "JobTimer.h"
 
 class JobQueueBase;
 class TimedJob;
@@ -9,6 +10,12 @@ public:
 	unique_ptr<TimedJob> _timedJobRef;
 	shared_ptr<JobQueueBase> _jobQueueRef;
 
+};
+
+struct ScheduledTimedJobComparer {
+	bool operator()(const shared_ptr<ScheduledTimedJob>& lhs, const shared_ptr<ScheduledTimedJob>& rhs) const {
+		return lhs->_timedJobRef->_executeTick > rhs->_timedJobRef->_executeTick;
+	}
 };
 
 class JobScheduler{
@@ -26,6 +33,9 @@ private:
 
 	mutex _timedJobQueue;
 	atomic<bool> _isEnqueuing = false;
-	priority_queue<shared_ptr<ScheduledTimedJob>> _scheduledTimedJobQueue;
+	priority_queue<
+		shared_ptr<ScheduledTimedJob>,
+		vector<shared_ptr<ScheduledTimedJob>>,
+		ScheduledTimedJobComparer> _scheduledTimedJobQueue;
 };
 
