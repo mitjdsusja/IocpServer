@@ -71,6 +71,10 @@ void Room::PushJobEnterPlayer(uint64 enterPlayerSessionId, const RoomPlayer& ini
 
 		RoomInfo roomInfo = self->GetRoomInfo();
 
+		PlayerPosition position;
+		position._roomId = roomInfo._initRoomInfo._roomId;
+		GPlayerManager->PushJobSetPosition(initialPlayerData._sessionId, position);
+
 		// Enter Result Send
 		{
 			msgTest::SC_Enter_Room_Response enterRoomResponsePacket;
@@ -262,6 +266,8 @@ void Room::LeavePlayer(uint64 sessionId) {
 
 	_players.erase(sessionId);
 	_gridManager->RemovePlayer(sessionId);
+
+	wcout << L"[Room::LeavePlayer] RoomId : " << _roomInfo._initRoomInfo._roomId << " LeavePlayer : " << sessionId << endl;
 
 	if (_players.size() == 0) {
 		DestroyRoom();
