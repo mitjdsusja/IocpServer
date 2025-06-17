@@ -24,10 +24,7 @@ void JobScheduler::RegisterTimedJob(shared_ptr<ScheduledTimedJob> scheduledTimed
 
 	lock_guard<mutex> lock(_timedJobQueue);
 
-	scheduledTimedJob->_timedJobRef->_executeTick = GetTickCount64();
 	_scheduledTimedJobQueue.push(scheduledTimedJob);
-
-	_isEnqueuing.store(true);
 }
 
 void JobScheduler::CheckTimedJob(){
