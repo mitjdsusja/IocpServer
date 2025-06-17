@@ -267,7 +267,7 @@ void Room::LeavePlayer(uint64 sessionId) {
 	_players.erase(sessionId);
 	_gridManager->RemovePlayer(sessionId);
 
-	wcout << L"[Room::LeavePlayer] RoomId : " << _roomInfo._initRoomInfo._roomId << " LeavePlayer : " << sessionId << endl;
+	wcout << L"[Room::LeavePlayer] RoomId : " << _roomInfo._initRoomInfo._roomId << " LeavePlayer : " << sessionId << " Remained Count : " << _players.size() << endl;
 
 	if (_players.size() == 0) {
 		DestroyRoom();
@@ -368,10 +368,12 @@ void RoomManager::PushJobLeaveRoom(int32 roomId, uint64 sessionId){
 void RoomManager::PushJobRemoveRoom(int32 roomId){
 
 	shared_ptr<RoomManager> self = static_pointer_cast<RoomManager>(shared_from_this());
-
+	
 	unique_ptr<Job> job = make_unique<Job>([self, roomId]() {
 		self->RemoveRoom(roomId);
 	});
+
+	PushJob(move(job));
 }
 
 void RoomManager::PushJobMovePlayer(int32 roomId, const Room::RoomPlayer& roomPlayerData){

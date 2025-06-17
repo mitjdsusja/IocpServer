@@ -53,6 +53,7 @@ void JobScheduler::CheckTimedJob(){
 		}
 	}
 
+	cout << "[JobScheduler::CheckTimedJob] TimedJob : " << timedJobs.size() << endl;
 	for (int16 index = 0; index < timedJobs.size(); index++) {
 
 		jobQueues[index]->PushJob(move(timedJobs[index]));
