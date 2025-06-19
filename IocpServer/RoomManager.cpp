@@ -206,6 +206,7 @@ void Room::BroadcastPlayerMovement() {
 		if (playerData._gameState._updatePosition == false) {
 			continue;
 		}
+		playerData._gameState._updatePosition = false;
 
 		msgTest::MoveState moveState;
 		msgTest::Vector* position = moveState.mutable_position();
