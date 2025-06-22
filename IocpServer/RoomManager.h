@@ -39,6 +39,7 @@ public:
 	void PushJobBroadcast(shared_ptr<Buffer> sendBuffer);
 	void PushJobBroadcastPosition();
 	void PushJobRegisterBroadcastPosition();
+	void PushJobRegisterBroadcastPlayerInGrid();
 
 	void PushJobEnterPlayer(uint64 enterPlayerSessionId, const RoomPlayer& initialPlayerData);
 	void PushJobLeavePlayer(uint64 leavePlayerSessionId);

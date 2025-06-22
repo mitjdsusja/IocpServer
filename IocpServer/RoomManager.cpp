@@ -61,6 +61,11 @@ void Room::PushJobRegisterBroadcastPosition(){
 	GJobScheduler->RegisterTimedJob(scheduledTimedJob);
 }
 
+void Room::PushJobRegisterBroadcastPlayerInGrid(){
+
+
+}
+
 void Room::PushJobEnterPlayer(uint64 enterPlayerSessionId, const RoomPlayer& initialPlayerData){
 
 	shared_ptr<Room> self = static_pointer_cast<Room>(shared_from_this());
