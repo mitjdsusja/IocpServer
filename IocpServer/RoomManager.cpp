@@ -284,7 +284,7 @@ void Room::BroadcastPlayerInGrid(){
 		msgTest::SC_Player_List_In_Grid sendPlayerListInGridPacket;
 
 		for (auto& player : _players) {
-			string* name = sendPlayerListInGridPacket.add_name();
+			string* name = sendPlayerListInGridPacket.add_playernamelist();
 			*name = boost::locale::conv::utf_to_utf<char>(player.second._gameState._name);
 		}
 
