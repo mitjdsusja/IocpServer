@@ -78,6 +78,31 @@ struct SC_PongDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SC_PongDefaultTypeInternal _SC_Pong_default_instance_;
 
+inline constexpr SC_Player_List_In_Grid::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : name_{},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR SC_Player_List_In_Grid::SC_Player_List_In_Grid(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct SC_Player_List_In_GridDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR SC_Player_List_In_GridDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~SC_Player_List_In_GridDefaultTypeInternal() {}
+  union {
+    SC_Player_List_In_Grid _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SC_Player_List_In_GridDefaultTypeInternal _SC_Player_List_In_Grid_default_instance_;
+
 inline constexpr SC_Login_Response::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : errormessage_(
@@ -818,6 +843,15 @@ const ::uint32_t
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
         PROTOBUF_FIELD_OFFSET(::msgTest::SC_Player_Move_Notification, _impl_.movestates_),
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::msgTest::SC_Player_List_In_Grid, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::msgTest::SC_Player_List_In_Grid, _impl_.name_),
 };
 
 static const ::_pbi::MigrationSchema
@@ -843,6 +877,7 @@ static const ::_pbi::MigrationSchema
         {196, 205, -1, sizeof(::msgTest::SC_Player_Enter_Room_Notification)},
         {206, 215, -1, sizeof(::msgTest::CS_Player_Move_Request)},
         {216, -1, -1, sizeof(::msgTest::SC_Player_Move_Notification)},
+        {225, -1, -1, sizeof(::msgTest::SC_Player_List_In_Grid)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::msgTest::_Vector_default_instance_._instance,
@@ -866,6 +901,7 @@ static const ::_pb::Message* const file_default_instances[] = {
     &::msgTest::_SC_Player_Enter_Room_Notification_default_instance_._instance,
     &::msgTest::_CS_Player_Move_Request_default_instance_._instance,
     &::msgTest::_SC_Player_Move_Notification_default_instance_._instance,
+    &::msgTest::_SC_Player_List_In_Grid_default_instance_._instance,
 };
 const char descriptor_table_protodef_messageTest_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
@@ -903,20 +939,21 @@ const char descriptor_table_protodef_messageTest_2eproto[] ABSL_ATTRIBUTE_SECTIO
     "(\0132\017.msgTest.Player\"\?\n\026CS_Player_Move_Re"
     "quest\022%\n\tmoveState\030\001 \001(\0132\022.msgTest.MoveS"
     "tate\"E\n\033SC_Player_Move_Notification\022&\n\nm"
-    "oveStates\030\001 \003(\0132\022.msgTest.MoveStateb\006pro"
+    "oveStates\030\001 \003(\0132\022.msgTest.MoveState\"&\n\026S"
+    "C_Player_List_In_Grid\022\014\n\004name\030\001 \003(\tb\006pro"
     "to3"
 };
 static ::absl::once_flag descriptor_table_messageTest_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_messageTest_2eproto = {
     false,
     false,
-    1403,
+    1443,
     descriptor_table_protodef_messageTest_2eproto,
     "messageTest.proto",
     &descriptor_table_messageTest_2eproto_once,
     nullptr,
     0,
-    21,
+    22,
     schemas,
     file_default_instances,
     TableStruct_messageTest_2eproto::offsets,
@@ -6316,6 +6353,249 @@ void SC_Player_Move_Notification::InternalSwap(SC_Player_Move_Notification* PROT
 }
 
 ::google::protobuf::Metadata SC_Player_Move_Notification::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class SC_Player_List_In_Grid::_Internal {
+ public:
+};
+
+SC_Player_List_In_Grid::SC_Player_List_In_Grid(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:msgTest.SC_Player_List_In_Grid)
+}
+inline PROTOBUF_NDEBUG_INLINE SC_Player_List_In_Grid::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from, const ::msgTest::SC_Player_List_In_Grid& from_msg)
+      : name_{visibility, arena, from.name_},
+        _cached_size_{0} {}
+
+SC_Player_List_In_Grid::SC_Player_List_In_Grid(
+    ::google::protobuf::Arena* arena,
+    const SC_Player_List_In_Grid& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SC_Player_List_In_Grid* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+
+  // @@protoc_insertion_point(copy_constructor:msgTest.SC_Player_List_In_Grid)
+}
+inline PROTOBUF_NDEBUG_INLINE SC_Player_List_In_Grid::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : name_{visibility, arena},
+        _cached_size_{0} {}
+
+inline void SC_Player_List_In_Grid::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+}
+SC_Player_List_In_Grid::~SC_Player_List_In_Grid() {
+  // @@protoc_insertion_point(destructor:msgTest.SC_Player_List_In_Grid)
+  SharedDtor(*this);
+}
+inline void SC_Player_List_In_Grid::SharedDtor(MessageLite& self) {
+  SC_Player_List_In_Grid& this_ = static_cast<SC_Player_List_In_Grid&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.~Impl_();
+}
+
+inline void* SC_Player_List_In_Grid::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) SC_Player_List_In_Grid(arena);
+}
+constexpr auto SC_Player_List_In_Grid::InternalNewImpl_() {
+  constexpr auto arena_bits = ::google::protobuf::internal::EncodePlacementArenaOffsets({
+      PROTOBUF_FIELD_OFFSET(SC_Player_List_In_Grid, _impl_.name_) +
+          decltype(SC_Player_List_In_Grid::_impl_.name_)::
+              InternalGetArenaOffset(
+                  ::google::protobuf::Message::internal_visibility()),
+  });
+  if (arena_bits.has_value()) {
+    return ::google::protobuf::internal::MessageCreator::ZeroInit(
+        sizeof(SC_Player_List_In_Grid), alignof(SC_Player_List_In_Grid), *arena_bits);
+  } else {
+    return ::google::protobuf::internal::MessageCreator(&SC_Player_List_In_Grid::PlacementNew_,
+                                 sizeof(SC_Player_List_In_Grid),
+                                 alignof(SC_Player_List_In_Grid));
+  }
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull SC_Player_List_In_Grid::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_SC_Player_List_In_Grid_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &SC_Player_List_In_Grid::MergeImpl,
+        ::google::protobuf::Message::GetNewImpl<SC_Player_List_In_Grid>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &SC_Player_List_In_Grid::SharedDtor,
+        ::google::protobuf::Message::GetClearImpl<SC_Player_List_In_Grid>(), &SC_Player_List_In_Grid::ByteSizeLong,
+            &SC_Player_List_In_Grid::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(SC_Player_List_In_Grid, _impl_._cached_size_),
+        false,
+    },
+    &SC_Player_List_In_Grid::kDescriptorMethods,
+    &descriptor_table_messageTest_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* SC_Player_List_In_Grid::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 1, 0, 43, 2> SC_Player_List_In_Grid::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    1, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967294,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    1,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::msgTest::SC_Player_List_In_Grid>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    // repeated string name = 1;
+    {::_pbi::TcParser::FastUR1,
+     {10, 63, 0, PROTOBUF_FIELD_OFFSET(SC_Player_List_In_Grid, _impl_.name_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // repeated string name = 1;
+    {PROTOBUF_FIELD_OFFSET(SC_Player_List_In_Grid, _impl_.name_), 0, 0,
+    (0 | ::_fl::kFcRepeated | ::_fl::kUtf8String | ::_fl::kRepSString)},
+  }},
+  // no aux_entries
+  {{
+    "\36\4\0\0\0\0\0\0"
+    "msgTest.SC_Player_List_In_Grid"
+    "name"
+  }},
+};
+
+PROTOBUF_NOINLINE void SC_Player_List_In_Grid::Clear() {
+// @@protoc_insertion_point(message_clear_start:msgTest.SC_Player_List_In_Grid)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.name_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::uint8_t* SC_Player_List_In_Grid::_InternalSerialize(
+            const MessageLite& base, ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) {
+          const SC_Player_List_In_Grid& this_ = static_cast<const SC_Player_List_In_Grid&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::uint8_t* SC_Player_List_In_Grid::_InternalSerialize(
+            ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+          const SC_Player_List_In_Grid& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(serialize_to_array_start:msgTest.SC_Player_List_In_Grid)
+          ::uint32_t cached_has_bits = 0;
+          (void)cached_has_bits;
+
+          // repeated string name = 1;
+          for (int i = 0, n = this_._internal_name_size(); i < n; ++i) {
+            const auto& s = this_._internal_name().Get(i);
+            ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+                s.data(), static_cast<int>(s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "msgTest.SC_Player_List_In_Grid.name");
+            target = stream->WriteString(1, s, target);
+          }
+
+          if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+            target =
+                ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+                    this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+          }
+          // @@protoc_insertion_point(serialize_to_array_end:msgTest.SC_Player_List_In_Grid)
+          return target;
+        }
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::size_t SC_Player_List_In_Grid::ByteSizeLong(const MessageLite& base) {
+          const SC_Player_List_In_Grid& this_ = static_cast<const SC_Player_List_In_Grid&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::size_t SC_Player_List_In_Grid::ByteSizeLong() const {
+          const SC_Player_List_In_Grid& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(message_byte_size_start:msgTest.SC_Player_List_In_Grid)
+          ::size_t total_size = 0;
+
+          ::uint32_t cached_has_bits = 0;
+          // Prevent compiler warnings about cached_has_bits being unused
+          (void)cached_has_bits;
+
+          ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+           {
+            // repeated string name = 1;
+            {
+              total_size +=
+                  1 * ::google::protobuf::internal::FromIntSize(this_._internal_name().size());
+              for (int i = 0, n = this_._internal_name().size(); i < n; ++i) {
+                total_size += ::google::protobuf::internal::WireFormatLite::StringSize(
+                    this_._internal_name().Get(i));
+              }
+            }
+          }
+          return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                                     &this_._impl_._cached_size_);
+        }
+
+void SC_Player_List_In_Grid::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<SC_Player_List_In_Grid*>(&to_msg);
+  auto& from = static_cast<const SC_Player_List_In_Grid&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:msgTest.SC_Player_List_In_Grid)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  _this->_internal_mutable_name()->MergeFrom(from._internal_name());
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void SC_Player_List_In_Grid::CopyFrom(const SC_Player_List_In_Grid& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:msgTest.SC_Player_List_In_Grid)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void SC_Player_List_In_Grid::InternalSwap(SC_Player_List_In_Grid* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.name_.InternalSwap(&other->_impl_.name_);
+}
+
+::google::protobuf::Metadata SC_Player_List_In_Grid::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // @@protoc_insertion_point(namespace_scope)

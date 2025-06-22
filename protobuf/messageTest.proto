@@ -98,3 +98,7 @@ message CS_Player_Move_Request{
 message SC_Player_Move_Notification{
     repeated MoveState moveStates = 1;
 }
+
+message SC_Player_List_In_Grid{
+    repeated string name = 1;
+}

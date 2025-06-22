@@ -63,7 +63,22 @@ void Room::PushJobRegisterBroadcastPosition(){
 
 void Room::PushJobRegisterBroadcastPlayerInGrid(){
 
+	shared_ptr<Room> self = static_pointer_cast<Room>(shared_from_this());
 
+	shared_ptr<ScheduledTimedJob> scheduledTimedJob = make_shared<ScheduledTimedJob>();
+	scheduledTimedJob->_timedJobRef = make_unique<TimedJob>(1000, [self]() {
+
+		self->BroadcastPlayerInGrid();
+
+		if (self->_removeRoomFlag == true) {
+			return;
+		}
+
+		self->PushJobRegisterBroadcastPlayerInGrid();
+	});
+	scheduledTimedJob->_jobQueueRef = self;
+
+	GJobScheduler->RegisterTimedJob(scheduledTimedJob);
 }
 
 void Room::PushJobEnterPlayer(uint64 enterPlayerSessionId, const RoomPlayer& initialPlayerData){
@@ -253,6 +268,29 @@ void Room::BroadcastPlayerMovement() {
 		auto sendBuffer = PacketHandler::MakeSendBuffer(sendPlayerMoveNotificationPacket, PacketId::PKT_SC_PLAYER_MOVE_NOTIFICATION);
 
 		GPlayerManager->PushJobSendData(player._sessionId, sendBuffer);
+	}
+}
+
+void Room::BroadcastPlayerInGrid(){
+
+	for (auto& p : _players) {
+
+		uint64 sessionId = p.first;
+		RoomPlayer& curPlayer = p.second;
+		vector<uint64> sessionIdInGrid;
+
+		sessionIdInGrid = _gridManager->GetNearByPlayers(sessionId);
+
+		msgTest::SC_Player_List_In_Grid sendPlayerListInGridPacket;
+
+		for (auto& player : _players) {
+			string* name = sendPlayerListInGridPacket.add_name();
+			*name = boost::locale::conv::utf_to_utf<char>(player.second._gameState._name);
+		}
+
+		shared_ptr<Buffer> sendBuffer = PacketHandler::MakeSendBuffer(sendPlayerListInGridPacket, PacketId::PKT_SC_PLAYER_LIST_IN_GRID);
+
+		GPlayerManager->PushJobSendData(sessionId, sendBuffer);
 	}
 }
 

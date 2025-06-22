@@ -56,6 +56,7 @@ public:
 public:
 	void Broadcast(const shared_ptr<Buffer>& sendBuffer);
 	void BroadcastPlayerMovement();
+	void BroadcastPlayerInGrid();
 
 	bool EnterPlayer(uint64 enterPlayerSessionId, const RoomPlayer& initialPlayerData);
 	void LeavePlayer(uint64 sessionId);
