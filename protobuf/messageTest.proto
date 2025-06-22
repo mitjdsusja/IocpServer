@@ -100,5 +100,5 @@ message SC_Player_Move_Notification{
 }
 
 message SC_Player_List_In_Grid{
-    repeated string name = 1;
+    repeated string playerNameList = 1;
 }

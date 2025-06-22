@@ -682,28 +682,28 @@ class SC_Player_List_In_Grid final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
-    kNameFieldNumber = 1,
+    kPlayerNameListFieldNumber = 1,
   };
-  // repeated string name = 1;
-  int name_size() const;
+  // repeated string playerNameList = 1;
+  int playernamelist_size() const;
   private:
-  int _internal_name_size() const;
+  int _internal_playernamelist_size() const;
 
   public:
-  void clear_name() ;
-  const std::string& name(int index) const;
-  std::string* mutable_name(int index);
+  void clear_playernamelist() ;
+  const std::string& playernamelist(int index) const;
+  std::string* mutable_playernamelist(int index);
   template <typename Arg_ = const std::string&, typename... Args_>
-  void set_name(int index, Arg_&& value, Args_... args);
-  std::string* add_name();
+  void set_playernamelist(int index, Arg_&& value, Args_... args);
+  std::string* add_playernamelist();
   template <typename Arg_ = const std::string&, typename... Args_>
-  void add_name(Arg_&& value, Args_... args);
-  const ::google::protobuf::RepeatedPtrField<std::string>& name() const;
-  ::google::protobuf::RepeatedPtrField<std::string>* mutable_name();
+  void add_playernamelist(Arg_&& value, Args_... args);
+  const ::google::protobuf::RepeatedPtrField<std::string>& playernamelist() const;
+  ::google::protobuf::RepeatedPtrField<std::string>* mutable_playernamelist();
 
   private:
-  const ::google::protobuf::RepeatedPtrField<std::string>& _internal_name() const;
-  ::google::protobuf::RepeatedPtrField<std::string>* _internal_mutable_name();
+  const ::google::protobuf::RepeatedPtrField<std::string>& _internal_playernamelist() const;
+  ::google::protobuf::RepeatedPtrField<std::string>* _internal_mutable_playernamelist();
 
   public:
   // @@protoc_insertion_point(class_scope:msgTest.SC_Player_List_In_Grid)
@@ -712,7 +712,7 @@ class SC_Player_List_In_Grid final : public ::google::protobuf::Message
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
       0, 1, 0,
-      43, 2>
+      53, 2>
       _table_;
 
   friend class ::google::protobuf::MessageLite;
@@ -729,7 +729,7 @@ class SC_Player_List_In_Grid final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const SC_Player_List_In_Grid& from_msg);
-    ::google::protobuf::RepeatedPtrField<std::string> name_;
+    ::google::protobuf::RepeatedPtrField<std::string> playernamelist_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -6591,68 +6591,68 @@ SC_Player_Move_Notification::_internal_mutable_movestates() {
 
 // SC_Player_List_In_Grid
 
-// repeated string name = 1;
-inline int SC_Player_List_In_Grid::_internal_name_size() const {
-  return _internal_name().size();
+// repeated string playerNameList = 1;
+inline int SC_Player_List_In_Grid::_internal_playernamelist_size() const {
+  return _internal_playernamelist().size();
 }
-inline int SC_Player_List_In_Grid::name_size() const {
-  return _internal_name_size();
+inline int SC_Player_List_In_Grid::playernamelist_size() const {
+  return _internal_playernamelist_size();
 }
-inline void SC_Player_List_In_Grid::clear_name() {
+inline void SC_Player_List_In_Grid::clear_playernamelist() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.name_.Clear();
+  _impl_.playernamelist_.Clear();
 }
-inline std::string* SC_Player_List_In_Grid::add_name() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+inline std::string* SC_Player_List_In_Grid::add_playernamelist() ABSL_ATTRIBUTE_LIFETIME_BOUND {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  std::string* _s = _internal_mutable_name()->Add();
-  // @@protoc_insertion_point(field_add_mutable:msgTest.SC_Player_List_In_Grid.name)
+  std::string* _s = _internal_mutable_playernamelist()->Add();
+  // @@protoc_insertion_point(field_add_mutable:msgTest.SC_Player_List_In_Grid.playerNameList)
   return _s;
 }
-inline const std::string& SC_Player_List_In_Grid::name(int index) const
+inline const std::string& SC_Player_List_In_Grid::playernamelist(int index) const
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:msgTest.SC_Player_List_In_Grid.name)
-  return _internal_name().Get(index);
+  // @@protoc_insertion_point(field_get:msgTest.SC_Player_List_In_Grid.playerNameList)
+  return _internal_playernamelist().Get(index);
 }
-inline std::string* SC_Player_List_In_Grid::mutable_name(int index)
+inline std::string* SC_Player_List_In_Grid::mutable_playernamelist(int index)
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_mutable:msgTest.SC_Player_List_In_Grid.name)
-  return _internal_mutable_name()->Mutable(index);
+  // @@protoc_insertion_point(field_mutable:msgTest.SC_Player_List_In_Grid.playerNameList)
+  return _internal_mutable_playernamelist()->Mutable(index);
 }
 template <typename Arg_, typename... Args_>
-inline void SC_Player_List_In_Grid::set_name(int index, Arg_&& value, Args_... args) {
+inline void SC_Player_List_In_Grid::set_playernamelist(int index, Arg_&& value, Args_... args) {
   ::google::protobuf::internal::AssignToString(
-      *_internal_mutable_name()->Mutable(index),
+      *_internal_mutable_playernamelist()->Mutable(index),
       std::forward<Arg_>(value), args... );
-  // @@protoc_insertion_point(field_set:msgTest.SC_Player_List_In_Grid.name)
+  // @@protoc_insertion_point(field_set:msgTest.SC_Player_List_In_Grid.playerNameList)
 }
 template <typename Arg_, typename... Args_>
-inline void SC_Player_List_In_Grid::add_name(Arg_&& value, Args_... args) {
+inline void SC_Player_List_In_Grid::add_playernamelist(Arg_&& value, Args_... args) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  ::google::protobuf::internal::AddToRepeatedPtrField(*_internal_mutable_name(),
+  ::google::protobuf::internal::AddToRepeatedPtrField(*_internal_mutable_playernamelist(),
                                std::forward<Arg_>(value),
                                args... );
-  // @@protoc_insertion_point(field_add:msgTest.SC_Player_List_In_Grid.name)
+  // @@protoc_insertion_point(field_add:msgTest.SC_Player_List_In_Grid.playerNameList)
 }
 inline const ::google::protobuf::RepeatedPtrField<std::string>&
-SC_Player_List_In_Grid::name() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_list:msgTest.SC_Player_List_In_Grid.name)
-  return _internal_name();
+SC_Player_List_In_Grid::playernamelist() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_list:msgTest.SC_Player_List_In_Grid.playerNameList)
+  return _internal_playernamelist();
 }
 inline ::google::protobuf::RepeatedPtrField<std::string>*
-SC_Player_List_In_Grid::mutable_name() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_mutable_list:msgTest.SC_Player_List_In_Grid.name)
+SC_Player_List_In_Grid::mutable_playernamelist() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable_list:msgTest.SC_Player_List_In_Grid.playerNameList)
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  return _internal_mutable_name();
+  return _internal_mutable_playernamelist();
 }
 inline const ::google::protobuf::RepeatedPtrField<std::string>&
-SC_Player_List_In_Grid::_internal_name() const {
+SC_Player_List_In_Grid::_internal_playernamelist() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.name_;
+  return _impl_.playernamelist_;
 }
 inline ::google::protobuf::RepeatedPtrField<std::string>*
-SC_Player_List_In_Grid::_internal_mutable_name() {
+SC_Player_List_In_Grid::_internal_mutable_playernamelist() {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return &_impl_.name_;
+  return &_impl_.playernamelist_;
 }
 
 #ifdef __GNUC__
