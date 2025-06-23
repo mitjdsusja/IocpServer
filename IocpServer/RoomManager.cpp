@@ -66,7 +66,7 @@ void Room::PushJobRegisterBroadcastPlayerInGrid(){
 	shared_ptr<Room> self = static_pointer_cast<Room>(shared_from_this());
 
 	shared_ptr<ScheduledTimedJob> scheduledTimedJob = make_shared<ScheduledTimedJob>();
-	scheduledTimedJob->_timedJobRef = make_unique<TimedJob>(1000, [self]() {
+	scheduledTimedJob->_timedJobRef = make_unique<TimedJob>(300, [self]() {
 
 		self->BroadcastPlayerInGrid();
 
