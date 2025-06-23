@@ -283,9 +283,9 @@ void Room::BroadcastPlayerInGrid(){
 
 		msgTest::SC_Player_List_In_Grid sendPlayerListInGridPacket;
 
-		for (auto& player : _players) {
+		for (auto& sessionId : sessionIdInGrid) {
 			string* name = sendPlayerListInGridPacket.add_playernamelist();
-			*name = boost::locale::conv::utf_to_utf<char>(player.second._gameState._name);
+			*name = boost::locale::conv::utf_to_utf<char>(_players[sessionId]._gameState._name);
 		}
 
 		shared_ptr<Buffer> sendBuffer = PacketHandler::MakeSendBuffer(sendPlayerListInGridPacket, PacketId::PKT_SC_PLAYER_LIST_IN_GRID);
@@ -514,6 +514,7 @@ int32 RoomManager::CreateAndPushRoom(const InitRoomInfo& initRoomInfo, const Roo
 	wcout << "[RoomManager::CreateAndPushRoom] EnterRoom roomId : " << roomId << " playerName : " << hostPlayerData._gameState._name << endl;
 
 	room->PushJobRegisterBroadcastPosition();
+	room->PushJobRegisterBroadcastPlayerInGrid();
 
 	return roomId;
 }
