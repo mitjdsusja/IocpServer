@@ -13,7 +13,8 @@ message MoveState{
     string playerName = 2;
     Vector position = 3; 
     Vector velocity = 4; 
-    int64 timestamp = 5; 
+    Vector rotation = 5;
+    int64 timestamp = 6; 
 }
 
 message Player{

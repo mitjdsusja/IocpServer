@@ -3565,7 +3565,8 @@ class MoveState final : public ::google::protobuf::Message
     kPlayerNameFieldNumber = 2,
     kPositionFieldNumber = 3,
     kVelocityFieldNumber = 4,
-    kTimestampFieldNumber = 5,
+    kRotationFieldNumber = 5,
+    kTimestampFieldNumber = 6,
     kRoomIdFieldNumber = 1,
   };
   // string playerName = 2;
@@ -3614,7 +3615,22 @@ class MoveState final : public ::google::protobuf::Message
   ::msgTest::Vector* _internal_mutable_velocity();
 
   public:
-  // int64 timestamp = 5;
+  // .msgTest.Vector rotation = 5;
+  bool has_rotation() const;
+  void clear_rotation() ;
+  const ::msgTest::Vector& rotation() const;
+  PROTOBUF_NODISCARD ::msgTest::Vector* release_rotation();
+  ::msgTest::Vector* mutable_rotation();
+  void set_allocated_rotation(::msgTest::Vector* value);
+  void unsafe_arena_set_allocated_rotation(::msgTest::Vector* value);
+  ::msgTest::Vector* unsafe_arena_release_rotation();
+
+  private:
+  const ::msgTest::Vector& _internal_rotation() const;
+  ::msgTest::Vector* _internal_mutable_rotation();
+
+  public:
+  // int64 timestamp = 6;
   void clear_timestamp() ;
   ::int64_t timestamp() const;
   void set_timestamp(::int64_t value);
@@ -3639,7 +3655,7 @@ class MoveState final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      3, 5, 2,
+      3, 6, 3,
       36, 2>
       _table_;
 
@@ -3662,6 +3678,7 @@ class MoveState final : public ::google::protobuf::Message
     ::google::protobuf::internal::ArenaStringPtr playername_;
     ::msgTest::Vector* position_;
     ::msgTest::Vector* velocity_;
+    ::msgTest::Vector* rotation_;
     ::int64_t timestamp_;
     ::int32_t roomid_;
     PROTOBUF_TSAN_DECLARE_MEMBER
@@ -5000,7 +5017,103 @@ inline void MoveState::set_allocated_velocity(::msgTest::Vector* value) {
   // @@protoc_insertion_point(field_set_allocated:msgTest.MoveState.velocity)
 }
 
-// int64 timestamp = 5;
+// .msgTest.Vector rotation = 5;
+inline bool MoveState::has_rotation() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.rotation_ != nullptr);
+  return value;
+}
+inline void MoveState::clear_rotation() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.rotation_ != nullptr) _impl_.rotation_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000004u;
+}
+inline const ::msgTest::Vector& MoveState::_internal_rotation() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::msgTest::Vector* p = _impl_.rotation_;
+  return p != nullptr ? *p : reinterpret_cast<const ::msgTest::Vector&>(::msgTest::_Vector_default_instance_);
+}
+inline const ::msgTest::Vector& MoveState::rotation() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:msgTest.MoveState.rotation)
+  return _internal_rotation();
+}
+inline void MoveState::unsafe_arena_set_allocated_rotation(::msgTest::Vector* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.rotation_);
+  }
+  _impl_.rotation_ = reinterpret_cast<::msgTest::Vector*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000004u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000004u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:msgTest.MoveState.rotation)
+}
+inline ::msgTest::Vector* MoveState::release_rotation() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000004u;
+  ::msgTest::Vector* released = _impl_.rotation_;
+  _impl_.rotation_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::msgTest::Vector* MoveState::unsafe_arena_release_rotation() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:msgTest.MoveState.rotation)
+
+  _impl_._has_bits_[0] &= ~0x00000004u;
+  ::msgTest::Vector* temp = _impl_.rotation_;
+  _impl_.rotation_ = nullptr;
+  return temp;
+}
+inline ::msgTest::Vector* MoveState::_internal_mutable_rotation() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.rotation_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::msgTest::Vector>(GetArena());
+    _impl_.rotation_ = reinterpret_cast<::msgTest::Vector*>(p);
+  }
+  return _impl_.rotation_;
+}
+inline ::msgTest::Vector* MoveState::mutable_rotation() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000004u;
+  ::msgTest::Vector* _msg = _internal_mutable_rotation();
+  // @@protoc_insertion_point(field_mutable:msgTest.MoveState.rotation)
+  return _msg;
+}
+inline void MoveState::set_allocated_rotation(::msgTest::Vector* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete (_impl_.rotation_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000004u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000004u;
+  }
+
+  _impl_.rotation_ = reinterpret_cast<::msgTest::Vector*>(value);
+  // @@protoc_insertion_point(field_set_allocated:msgTest.MoveState.rotation)
+}
+
+// int64 timestamp = 6;
 inline void MoveState::clear_timestamp() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.timestamp_ = ::int64_t{0};

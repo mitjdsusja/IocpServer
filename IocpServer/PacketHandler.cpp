@@ -317,6 +317,7 @@ void PacketHandler::Handle_CS_Player_Move_Request(shared_ptr<GameSession> sessio
 	roomPlayerData._gameState._name = boost::locale::conv::utf_to_utf<wchar_t>(moveState.playername());
 	roomPlayerData._gameState._position = { (int16)moveState.position().x(), (int16)moveState.position().y(), (int16)moveState.position().z() };
 	roomPlayerData._gameState._velocity = { (int16)moveState.velocity().x(), (int16)moveState.velocity().y(), (int16)moveState.velocity().z() };
+	roomPlayerData._gameState._rotation = { (int16)moveState.rotation().x(), (int16)moveState.rotation().y(), (int16)moveState.rotation().z() };
 	roomPlayerData._gameState._updatePosition = true;
 
 	GRoomManager->PushJobMovePlayer(moveState.roomid(), roomPlayerData);

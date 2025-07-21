@@ -25,6 +25,7 @@ public:
 		wstring _name;
 		Vector<int16> _position;
 		Vector<int16> _velocity;
+		vector<int16> _rotation;
 		uint64 _moveTimeStamp;
 		bool _updatePosition;
 	};
