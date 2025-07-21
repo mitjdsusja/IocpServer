@@ -231,6 +231,7 @@ void Room::BroadcastPlayerMovement() {
 		msgTest::MoveState moveState;
 		msgTest::Vector* position = moveState.mutable_position();
 		msgTest::Vector* velocity = moveState.mutable_velocity();
+		msgTest::Vector* rotation = moveState.mutable_rotation();
 
 		moveState.set_playername(boost::locale::conv::utf_to_utf<char>(playerData._gameState._name));
 		position->set_x(playerData._gameState._position._x);
@@ -239,6 +240,10 @@ void Room::BroadcastPlayerMovement() {
 		velocity->set_x(playerData._gameState._velocity._x);
 		velocity->set_y(playerData._gameState._velocity._y);
 		velocity->set_z(playerData._gameState._velocity._z);
+		rotation->set_x(playerData._gameState._rotation._x);
+		rotation->set_y(playerData._gameState._rotation._y);
+		rotation->set_z(playerData._gameState._rotation._z);
+		
 		moveState.set_timestamp(playerData._gameState._moveTimeStamp);
 
 		updatedMoveStates[p.first] = move(moveState);
