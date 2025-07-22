@@ -10,4 +10,4 @@
 
 ---
 
-./images/Slide4.jpg
+(./images/Slide4.jpg)
