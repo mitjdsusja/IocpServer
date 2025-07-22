@@ -21,6 +21,5 @@
 ![JobTimer2](./images/Slide13.jpg)
 ![문제 해결 및 개선](./images/Slide14.jpg)
 ![Grid 기반 위치 동기화1](./images/Slide15.jpg)
-![Grid 기반 위치 동기화1](./images/Slide16.jpg)
-![Grid 기반 위치 동기화2](./images/Slide17.jpg)
+![Grid 기반 위치 동기화2](./images/Slide16.jpg)
 
