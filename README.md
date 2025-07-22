@@ -10,4 +10,4 @@
 
 ---
 
-(./images/Slide4.jpg)
+![서버 주요 기능](./images/Slide4.jpg)
