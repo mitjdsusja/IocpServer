@@ -11,3 +11,14 @@
 ---
 
 ![서버 주요 기능](./images/Slide4.jpg)
+![서버 아키텍쳐](./images/Slide5.jpg)
+![패킷 처리 흐름](./images/Slide6.jpg)
+![BufferPool1](./images/Slide7.jpg)
+![BufferPool2](./images/Slide8.jpg)
+![JobQueue1](./images/Slide9.jpg)
+![JobQueue2](./images/Slide10.jpg)
+![JobTimer1](./images/Slide11.jpg)
+![JobTimer2](./images/Slide12.jpg)
+![문제 해결 및 개선](./images/Slide13.jpg)
+![Grid 기반 위치 동기화1](./images/Slide14.jpg)
+![Grid 기반 위치 동기화2](./images/Slide15.jpg)
