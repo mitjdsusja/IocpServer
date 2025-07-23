@@ -13,7 +13,7 @@
 ![서버 주요 기능](./images/Slide4.jpg)
 ![서버 아키텍쳐](./images/Slide5.jpg)
 ![패킷 처리 흐름](./images/Slide6.jpg)
-![패킷 처리 흐름 설명](./images/패킷처리흐름.jpg)
+![패킷 처리 흐름 설명](./images/패킷처리흐름.png)
 ![BufferPool1](./images/Slide8.jpg)
 ![BufferPool2](./images/Slide9.jpg)
 ![JobQueue1](./images/Slide10.jpg)
