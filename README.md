@@ -22,7 +22,8 @@
 ![패킷 처리 흐름 설명](./images/Slide7.jpg)
 ![BufferPool1](./images/Slide8.jpg)
 ![BufferPool2](./images/Slide9.jpg)
-BufferPool.h : https://github.com/mitjdsusja/IocpServer/blob/main/ServerLib/BufferPool.h
+[BufferPool.h](https://github.com/mitjdsusja/IocpServer/blob/main/ServerLib/BufferPool.h)
+[BufferPool 사용](https://github.com/mitjdsusja/IocpServer/blob/main/IocpServer/PacketHandler.cpp#L50-L65)
 ![JobQueue1](./images/Slide10.jpg)
 ![JobTimer1](./images/Slide12.jpg)
 ![JobTimer2](./images/Slide13.jpg)
