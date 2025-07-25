@@ -39,3 +39,14 @@ void JobQueueBase::ExecuteJob(){
 	}
 }
 
+void JobQueueBase::RecordJobRatency(int64 us) {
+
+	_totalLatency += us;
+	_processedJobCount++;
+}
+
+int64 JobQueueBase::GetAvgJobRatency(){
+
+	return _totalLatency / _processedJobCount;
+}
+
