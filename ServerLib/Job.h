@@ -3,9 +3,11 @@
 
 class Job{
 public:
+	using TimePoint = std::chrono::system_clock::time_point;
+public:
 	Job(function<void()>&& callback) :
 		_callback(move(callback)),
-		_createTime(chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch()).count())
+		_createTimePoint(std::chrono::system_clock::now())
 	{
 		
 	}
@@ -21,12 +23,12 @@ public:
 		}
 	}
 
-	uint64 GetCreateTime() {
-		return _createTime;
+	TimePoint GetCreateTimePoint() {
+		return _createTimePoint;
 	}
 
 private:
 	function<void()> _callback;
-	uint64 _createTime = 0;
+	TimePoint _createTimePoint;
 };
 
