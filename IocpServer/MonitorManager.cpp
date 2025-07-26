@@ -68,7 +68,7 @@ void MonitorManager::SendMsg(const wstring& sendMessage){
     bool result = WriteFile(
         hPipe,
         sendMessage.c_str(),
-        static_cast<DWORD>(sendMessage.size()),
+        static_cast<DWORD>(sendMessage.size() * sizeof(wchar_t)),
         &bytesWritten,
         nullptr
     );
