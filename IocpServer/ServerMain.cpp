@@ -15,6 +15,7 @@
 #include "Global.h"
 #include "GameSession.h"
 #include "RoomManager.h"
+#include "MonitorManager.h"
 
 #include <boost/locale.hpp>
 
@@ -36,6 +37,10 @@ int main() {
 	ServerService* serverService = new ServerService(NetAddress(L"192.168.0.14", 7777), 10, []() { return make_shared<GameSession>(nullptr); });
 	PacketHandler::RegisterPacketHandlers();
 
+	GMonitorManager->CreateMonitorProcess();
+	if (GMonitorManager->ConnectPipe() == false) {
+		this_thread::sleep_for(1s);
+	}
 
 	serverService->Start();
 	for (int32 i = 0; i < (int32)sysInfo.dwNumberOfProcessors; i++) {

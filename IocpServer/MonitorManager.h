@@ -1,10 +1,11 @@
 #pragma once
+#include "JobQueue.h"
 
-class MonitorManager{
+class MonitorManager : public JobQueueBase{
 public:
 	bool CreateMonitorProcess();
 	bool ConnectPipe();
-	bool SendMsg(const wstring& sendMessage);
+	bool PushJobSendMsg(const wstring& sendMessage);
 
 private:
 	HANDLE hPipe;

@@ -50,7 +50,8 @@ bool MonitorManager::ConnectPipe(){
     return true;
 }
 
-bool MonitorManager::SendMsg(const wstring& sendMessage){
+bool MonitorManager::PushJobSendMsg(const wstring& sendMessage){
+
 
     DWORD bytesWritten = 0;
 

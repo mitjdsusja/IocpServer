@@ -1,7 +1,6 @@
 #pragma once
 #include "LockQueue.h"
-
-class Job;
+#include "Job.h"
 
 class JobQueueBase : public enable_shared_from_this<JobQueueBase>{
 public:
@@ -10,9 +9,10 @@ public:
 	void PushJob(unique_ptr<Job> job);
 	void ExecuteJob();
 
+	int64 GetAvgJobRatency();
+
 private:
 	void RecordJobRatency(int64 us);
-	int64 GetAvgJobRatency();
 
 protected:
 	atomic<bool> _pendingJob = false;
