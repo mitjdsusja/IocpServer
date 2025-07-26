@@ -42,6 +42,7 @@
     <ClInclude Include="GridManager.h">
       <Filter>Content</Filter>
     </ClInclude>
+    <ClInclude Include="MonitorManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ServerMain.cpp">
@@ -74,5 +75,6 @@
     <ClCompile Include="GridManager.cpp">
       <Filter>Content</Filter>
     </ClCompile>
+    <ClCompile Include="MonitorManager.cpp" />
   </ItemGroup>
 </Project>

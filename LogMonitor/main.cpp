@@ -4,6 +4,9 @@
 
 using namespace std;
 
+void ClearConsole();
+void StartPipe();
+
 int main() {
 
 	StartPipe();

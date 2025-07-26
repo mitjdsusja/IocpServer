@@ -25,7 +25,6 @@ enum {
 };
 
 void DBInsertuser(wstring id, wstring pw, wstring name);
-void CreateProcess(wstring processName);
 
 int main() {
 	wcout.imbue(std::locale("kor"));
@@ -86,9 +85,4 @@ void DBInsertuser(wstring id, wstring pw, wstring name) {
 
 	wcout << query << endl;
 	LDBConnector->ExecuteQuery(query);
-}
-
-void CreateProcess(wstring processName){
-
-
 }
