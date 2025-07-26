@@ -6,14 +6,24 @@ using namespace std;
 
 int main() {
 
-
+	StartPipe();
 }
 
 void ClearConsole() {
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	DWORD consoleSize, charsWritten;
+
+	GetConsoleScreenBufferInfo(hConsole, &csbi);
+	consoleSize = csbi.dwSize.X * csbi.dwSize.Y;
+
+	FillConsoleOutputCharacter(hConsole, ' ', consoleSize, { 0, 0 }, &charsWritten);
+	FillConsoleOutputAttribute(hConsole, csbi.wAttributes, consoleSize, { 0, 0 }, &charsWritten);
+	SetConsoleCursorPosition(hConsole, { 0, 0 });
 }
 
-void StartPipeServer() {
+void StartPipe() {
 
 	HANDLE hPipe = CreateNamedPipeA(
 		R"(\\. \pipe\monitorPipe)",
