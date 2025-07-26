@@ -50,8 +50,9 @@ void StartPipe() {
 	DWORD bytesRead;
 
 	while (true) {
-		if (ReadFile(hPipe, buffer, sizeof(buffer) - 1, &bytesRead, nullptr) && bytesRead > 0) {
-			buffer[bytesRead] = '\0';
+		if (ReadFile(hPipe, buffer, sizeof(buffer) - sizeof(wchar_t), &bytesRead, nullptr)) {
+			size_t wcharCount = bytesRead / sizeof(wchar_t);
+			buffer[wcharCount] = L'\0';
 			ClearConsole();
 
 			wcout << buffer << endl;

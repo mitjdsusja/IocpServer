@@ -87,7 +87,7 @@ int main() {
 		});
 	}
 
-	GMonitorManager->PushJobSendMsg(L"Hello World Heeee");
+	GMonitorManager->PushJobSendMsg(L"Hello World \n  Heeee");
 
 	GThreadManager->Join();
 }
