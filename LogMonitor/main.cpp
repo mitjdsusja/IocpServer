@@ -29,7 +29,7 @@ void ClearConsole() {
 void StartPipe() {
 
 	HANDLE hPipe = CreateNamedPipeA(
-		R"(\\. \pipe\monitorPipe)",
+		R"(\\.\pipe\monitorPipe)",
 		PIPE_ACCESS_INBOUND,
 		PIPE_TYPE_MESSAGE | PIPE_READMODE_MESSAGE | PIPE_WAIT,
 		1, 4096, 4096, 0, nullptr
@@ -52,9 +52,9 @@ void StartPipe() {
 	while (true) {
 		if (ReadFile(hPipe, buffer, sizeof(buffer) - 1, &bytesRead, nullptr) && bytesRead > 0) {
 			buffer[bytesRead] = '\0';
-			cout << buffer << endl;
-
 			ClearConsole();
+
+			cout << buffer << endl;
 		}
 		else {
 			break;

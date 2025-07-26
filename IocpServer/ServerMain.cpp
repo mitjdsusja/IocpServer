@@ -37,9 +37,21 @@ int main() {
 	ServerService* serverService = new ServerService(NetAddress(L"192.168.0.14", 7777), 10, []() { return make_shared<GameSession>(nullptr); });
 	PacketHandler::RegisterPacketHandlers();
 
-	GMonitorManager->CreateMonitorProcess();
-	if (GMonitorManager->ConnectPipe() == false) {
-		this_thread::sleep_for(1s);
+	while (true) {
+		if (GMonitorManager->CreateMonitorProcess() == true) {
+			break;
+		}
+		else {
+			this_thread::sleep_for(1s);
+		}
+	}
+	while (true) {
+		if (GMonitorManager->ConnectPipe() == true) {
+			break;
+		}
+		else {
+			this_thread::sleep_for(1s);
+		}
 	}
 
 	serverService->Start();
