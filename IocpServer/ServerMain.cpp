@@ -24,9 +24,8 @@ enum {
 	GQCS_THREAD_COUNT = 5,
 };
 
-void ReserveLoopBroadcastUserInfo(Service* service);
-void ReserveJobCreate();
 void DBInsertuser(wstring id, wstring pw, wstring name);
+void CreateProcess(wstring processName);
 
 int main() {
 	wcout.imbue(std::locale("kor"));
@@ -89,22 +88,7 @@ void DBInsertuser(wstring id, wstring pw, wstring name) {
 	LDBConnector->ExecuteQuery(query);
 }
 
-void ReserveLoopBroadcastUserInfo(Service* service) {
-
-	/*GJobTimer->Reserve(100, [service]() {
-		ReserveLoopBroadcastUserInfo(service);
-	});*/
-}
+void CreateProcess(wstring processName){
 
 
-void ReserveJobCreate() {
-
-	//Job* job = new Job([]() {
-	//});
-
-	//GJobQueue->Push(job);
-
-	//GJobTimer->Reserve(100, []() {
-	//	ReserveJobCreate();
-	//});
 }
