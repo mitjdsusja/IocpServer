@@ -72,4 +72,8 @@ void MonitorManager::SendMsg(const wstring& sendMessage){
         &bytesWritten,
         nullptr
     );
+
+    if (result == false) {
+        wcout << "[MonitorManager::SendMsg] Send Fail : " << GetLastError() << endl;
+    }
 }
