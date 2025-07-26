@@ -5,7 +5,11 @@ class MonitorManager : public JobQueueBase{
 public:
 	bool CreateMonitorProcess();
 	bool ConnectPipe();
-	bool PushJobSendMsg(const wstring& sendMessage);
+
+	void PushJobSendMsg(const wstring& sendMessage);
+
+private:
+	void SendMsg(const wstring& sendMessage);
 
 private:
 	HANDLE hPipe;

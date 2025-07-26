@@ -87,10 +87,7 @@ int main() {
 		});
 	}
 
-	//GJobTimer->Reserve(1000, []() {
-	//	ReservePrintJobQueueInfo();
-	//});
-	
+	GMonitorManager->PushJobSendMsg(L"Hello World \n Heeee");
 
 	GThreadManager->Join();
 }

@@ -36,17 +36,17 @@ void StartPipe() {
 	);
 
 	if (hPipe == INVALID_HANDLE_VALUE) {
-		cout << "파이프 생성 실패 : " << GetLastError() << endl;
+		wcout << "파이프 생성 실패 : " << GetLastError() << endl;
 		return;
 	}
 
 	bool connected = ConnectNamedPipe(hPipe, nullptr);
 	if (connected == false) {
-		cout << "서버 연결 실패 :" << GetLastError() << endl;
+		wcout << "서버 연결 실패 :" << GetLastError() << endl;
 		return;
 	}
 
-	char buffer[4096];
+	wchar_t buffer[4096];
 	DWORD bytesRead;
 
 	while (true) {
@@ -54,7 +54,7 @@ void StartPipe() {
 			buffer[bytesRead] = '\0';
 			ClearConsole();
 
-			cout << buffer << endl;
+			wcout << buffer << endl;
 		}
 		else {
 			break;

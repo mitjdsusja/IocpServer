@@ -50,8 +50,18 @@ bool MonitorManager::ConnectPipe(){
     return true;
 }
 
-bool MonitorManager::PushJobSendMsg(const wstring& sendMessage){
+void MonitorManager::PushJobSendMsg(const wstring& sendMessage){
 
+    shared_ptr<MonitorManager> self = static_pointer_cast<MonitorManager>(shared_from_this());
+
+    unique_ptr<Job> job = make_unique<Job>([self, sendMessage]() {
+        self->SendMsg(sendMessage);
+    });
+
+    PushJob(move(job));
+}
+
+void MonitorManager::SendMsg(const wstring& sendMessage){
 
     DWORD bytesWritten = 0;
 
@@ -62,10 +72,4 @@ bool MonitorManager::PushJobSendMsg(const wstring& sendMessage){
         &bytesWritten,
         nullptr
     );
-
-    if (result == false) {
-        wcout << L"[MonitorManger::SendMsg] Send ½ÇÆÐ : " << GetLastError() << endl;
-    }
-
-    return result;
 }
