@@ -2,7 +2,8 @@
 
 class ActorManager{
 public:
-
+	void RegisterActor();
+	void UnRegisterActor();
 
 private:
 

@@ -22,7 +22,8 @@
 // Job Life Cycle => shared_ptr
 
 enum {
-	GQCS_THREAD_COUNT = 5,
+	GQCS_THREAD_COUNT = 2,
+	WORKER_THREAD_COUNT = 5,
 };
 
 void DBInsertuser(wstring id, wstring pw, wstring name);
@@ -55,7 +56,7 @@ int main() {
 	}
 
 	serverService->Start();
-	for (int32 i = 0; i < (int32)sysInfo.dwNumberOfProcessors; i++) {
+	for (int32 i = 0; i < (int32)GQCS_THREAD_COUNT; i++) {
 		cout << "GQCS Thread Start" << endl;
 
 		GThreadManager->Launch([=]() {
@@ -67,7 +68,7 @@ int main() {
 		});
 	}
 
-	for (int32 i = 0; i < (int32)3; i++) {
+	for (int32 i = 0; i < (int32)WORKER_THREAD_COUNT; i++) {
 		cout << "Job Thread Start" << endl;
 
 		GThreadManager->Launch([=]() {
@@ -87,7 +88,7 @@ int main() {
 		});
 	}
 
-	GMonitorManager->PushJobSendMsg(L"Hello World \n  Heeee");
+	GMonitorManager->PushJobSendMsg(L"Hello World \n d Heeee");
 
 	GThreadManager->Join();
 }
