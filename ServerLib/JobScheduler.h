@@ -2,13 +2,13 @@
 #include "LockQueue.h"
 #include "JobTimer.h"
 
-class JobQueueBase;
+class Actor;
 class TimedJob;
 
 struct ScheduledTimedJob {
 public:
 	unique_ptr<TimedJob> _timedJobRef;
-	shared_ptr<JobQueueBase> _jobQueueRef;
+	shared_ptr<Actor> _jobQueueRef;
 
 };
 
@@ -20,15 +20,15 @@ struct ScheduledTimedJobComparer {
 
 class JobScheduler{
 public:
-	void PushJobQueue(shared_ptr<JobQueueBase> JobQueue);
-	shared_ptr<JobQueueBase> PopJobQueue();
+	void PushJobQueue(shared_ptr<Actor> JobQueue);
+	shared_ptr<Actor> PopJobQueue();
 
 	void RegisterTimedJob(shared_ptr<ScheduledTimedJob> timedJob);
 	void CheckTimedJob();
 
 private:
 	mutex _jobQueueMutex;
-	LockQueue<shared_ptr<JobQueueBase>> _scheduledJobQueue;
+	LockQueue<shared_ptr<Actor>> _scheduledJobQueue;
 	condition_variable _cv;
 
 	mutex _timedJobQueue;

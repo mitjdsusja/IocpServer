@@ -16,6 +16,7 @@
 #include "GameSession.h"
 #include "RoomManager.h"
 #include "MonitorManager.h"
+#include "ActorManager.h"
 
 #include <boost/locale.hpp>
 
@@ -74,7 +75,7 @@ int main() {
 		GThreadManager->Launch([=]() {
 			while (true) {
 				try {
-					shared_ptr<JobQueueBase> jobQueue = GJobScheduler->PopJobQueue();
+					shared_ptr<Actor> jobQueue = GJobScheduler->PopJobQueue();
 					jobQueue->ExecuteJob();
 				}
 				catch (exception& e) {
@@ -87,6 +88,8 @@ int main() {
 			}
 		});
 	}
+
+	cout << "Actor Count : " << GActorManager->GetActorCount() << endl;
 
 	GMonitorManager->PushJobSendMsg(L"Hello World \n d Heeee");
 

@@ -25,7 +25,7 @@ struct PlayerInfo {
 	PlayerStats _stats;
 };
 
-class Player : public JobQueueBase{
+class Player : public Actor{
 public:
 	Player(shared_ptr<GameSession> owner);
 	~Player();
@@ -63,7 +63,7 @@ private:
 	PlayerInfo _info;
 };
 
-class PlayerManager : public JobQueueBase {
+class PlayerManager : public Actor {
 public:
 	PlayerManager();
 	~PlayerManager();

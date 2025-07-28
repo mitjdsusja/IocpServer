@@ -171,6 +171,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ActorManager.h" />
     <ClInclude Include="GameSession.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="GridManager.h" />
@@ -183,6 +184,7 @@
     <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ActorManager.cpp" />
     <ClCompile Include="GameSession.cpp" />
     <ClCompile Include="Global.cpp" />
     <ClCompile Include="GridManager.cpp" />

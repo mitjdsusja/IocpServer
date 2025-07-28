@@ -3,7 +3,7 @@
 #include "JobQueue.h"
 #include "JobScheduler.h"
 
-void JobQueueBase::PushJob(unique_ptr<Job> job){
+void Actor::PushJob(unique_ptr<Job> job){
 
 	_jobQueue.Push(move(job));
 
@@ -13,7 +13,7 @@ void JobQueueBase::PushJob(unique_ptr<Job> job){
 	}
 }
 
-void JobQueueBase::ExecuteJob(){
+void Actor::ExecuteJob(){
 
 	vector<unique_ptr<Job>> jobsToExecute;
 	_jobQueue.PopAll(jobsToExecute);
@@ -39,13 +39,18 @@ void JobQueueBase::ExecuteJob(){
 	}
 }
 
-void JobQueueBase::RecordJobRatency(int64 us) {
+void Actor::RecordJobRatency(int64 us) {
 
 	_totalLatency += us;
 	_processedJobCount++;
 }
 
-int64 JobQueueBase::GetAvgJobRatency(){
+void Actor::SetActorId(uint64 actorId) {
+
+	_actorId = actorId;
+}
+
+int64 Actor::GetAvgJobRatency(){
 
 	return _totalLatency / _processedJobCount;
 }

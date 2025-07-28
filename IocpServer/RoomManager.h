@@ -19,7 +19,7 @@ struct RoomInfo {
 	vector<uint64> _playersSessionId;
 };
 
-class Room : public JobQueueBase{
+class Room : public Actor{
 public:
 	struct GameStateData {
 		wstring _name;
@@ -66,7 +66,6 @@ public:
 	RoomInfo GetRoomInfo();
 	vector<Room::RoomPlayer> GetRoomPlayerList();
 
-
 private:
 	RoomInfo _roomInfo;
 
@@ -81,7 +80,7 @@ private:
 	RoomManager
 -------------------*/
 
-class RoomManager : public JobQueueBase {
+class RoomManager : public Actor {
 public:
 	RoomManager(int32 maxRoomCount = 100);
 

@@ -45,6 +45,9 @@
     <ClInclude Include="MonitorManager.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="ActorManager.h">
+      <Filter>Content</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ServerMain.cpp">
@@ -79,6 +82,9 @@
     </ClCompile>
     <ClCompile Include="MonitorManager.cpp">
       <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="ActorManager.cpp">
+      <Filter>Content</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

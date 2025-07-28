@@ -9,6 +9,7 @@
 #include "jobQueue.h"
 #include "GridManager.h"
 #include "PlayerManager.h"
+#include "ActorManager.h"
 
 #include <boost/locale.hpp>
 
@@ -514,6 +515,7 @@ int32 RoomManager::CreateAndPushRoom(const InitRoomInfo& initRoomInfo, const Roo
 	roomInfo._roomId = roomId;
 
 	shared_ptr<Room> room = MakeRoomPtr(roomInfo, hostPlayerData);
+	room->SetActorId(GActorManager->RegisterActor(room));
 	_rooms[roomId] = room;
 
 	wcout << "[RoomManager::CreateAndPushRoom] EnterRoom roomId : " << roomId << " playerName : " << hostPlayerData._gameState._name << endl;

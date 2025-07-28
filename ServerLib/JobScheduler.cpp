@@ -3,14 +3,14 @@
 #include "JobTimer.h"
 #include "JobQueue.h"
 
-void JobScheduler::PushJobQueue(shared_ptr<JobQueueBase> jobQueue){
+void JobScheduler::PushJobQueue(shared_ptr<Actor> jobQueue){
 
 	_scheduledJobQueue.Push(jobQueue);
 
 	_cv.notify_one();
 }
 
-shared_ptr<JobQueueBase> JobScheduler::PopJobQueue(){
+shared_ptr<Actor> JobScheduler::PopJobQueue(){
 
 	unique_lock<mutex> lock(_jobQueueMutex);
 	_cv.wait(lock, [this]() {
@@ -34,7 +34,7 @@ void JobScheduler::CheckTimedJob(){
 	}
 
 	vector<unique_ptr<TimedJob>> timedJobs;
-	vector<shared_ptr<JobQueueBase>> jobQueues;
+	vector<shared_ptr<Actor>> jobQueues;
 	{
 		lock_guard<mutex> lock(_timedJobQueue);
 

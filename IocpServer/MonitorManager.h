@@ -1,7 +1,7 @@
 #pragma once
 #include "JobQueue.h"
 
-class MonitorManager : public JobQueueBase{
+class MonitorManager : public Actor{
 public:
 	bool CreateMonitorProcess();
 	bool ConnectPipe();

@@ -4,6 +4,7 @@
 #include "PlayerManager.h"
 #include "GameSession.h"
 #include "RoomManager.h"
+#include "ActorManager.h"
 #include "JobQueue.h"
 #include "Job.h"
 
@@ -318,6 +319,7 @@ void PlayerManager::SendData(uint64 sessionId, const shared_ptr<Buffer>& sendBuf
 void PlayerManager::CreateAndPushPlayer(const shared_ptr<GameSession>& ownerSession, const PlayerBaseInfo& baseInfo, const PlayerPosition& position, const PlayerStats& stats){
 
 	shared_ptr<Player> player = make_shared<Player>(ownerSession);
+	player->SetActorId(GActorManager->RegisterActor(player));
 	player->InitPlayer(baseInfo, position, stats);
 
 	_players.insert({ baseInfo._sessionId, player });

@@ -1,15 +1,22 @@
 #pragma once
 
-class JobQueueBase;
+class Actor;
 
 class ActorManager{
 public:
-	void RegisterActor();
-	void UnRegisterActor();
+	uint64 RegisterActor(shared_ptr<Actor> actor);
+	void UnRegisterActor(uint64 actorId);
 
 	void RequestAllLatency();
 
+	uint64 GetActorCount();
+
 private:
-	unordered_map<uint64, shared_ptr<JobQueueBase>> _jobQueueMap;
+	uint64 GenerateId();
+
+private:
+	mutex _actorsMutex;
+	unordered_map<uint64, shared_ptr<Actor>> _actors;
+
 };
 
