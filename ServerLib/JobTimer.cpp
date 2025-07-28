@@ -1,13 +1,13 @@
 #include "pch.h"
 #include "JobTimer.h"
-#include "JobQueue.h"
+#include "Actor.h"
 
 void JobTimer::Reserve(uint64 delayTime, function<void()>&& callback){
 	uint64 executeTick = GetTickCount64() + delayTime;
 	TimedJob* timedJob = new TimedJob(executeTick, move(callback));
 
 	lock_guard<mutex> lock(_queueMutex);
-	_timedJobQueue.push(timedJob);
+	_timedActor.push(timedJob);
 }
 
 //void JobTimer::EnqueueReadyJobs(JobQueue& jobQueue){

@@ -20,22 +20,22 @@ struct ScheduledTimedJobComparer {
 
 class JobScheduler{
 public:
-	void PushJobQueue(shared_ptr<Actor> JobQueue);
-	shared_ptr<Actor> PopJobQueue();
+	void PushActor(shared_ptr<Actor> actor);
+	shared_ptr<Actor> PopActor();
 
 	void RegisterTimedJob(shared_ptr<ScheduledTimedJob> timedJob);
 	void CheckTimedJob();
 
 private:
-	mutex _jobQueueMutex;
-	LockQueue<shared_ptr<Actor>> _scheduledJobQueue;
+	mutex _actorMutex;
+	LockQueue<shared_ptr<Actor>> _scheduledActor;
 	condition_variable _cv;
 
-	mutex _timedJobQueue;
+	mutex _timedActor;
 	atomic<bool> _isEnqueuing = false;
 	priority_queue<
 		shared_ptr<ScheduledTimedJob>,
 		vector<shared_ptr<ScheduledTimedJob>>,
-		ScheduledTimedJobComparer> _scheduledTimedJobQueue;
+		ScheduledTimedJobComparer> _scheduledTimedActor;
 };
 

@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Job.h"
-#include "JobQueue.h"
+#include "Actor.h"
 #include "JobScheduler.h"
 
 void Actor::PushJob(unique_ptr<Job> job){
@@ -9,7 +9,7 @@ void Actor::PushJob(unique_ptr<Job> job){
 
 	bool expected = false;
 	if (_pendingJob.compare_exchange_strong(expected, true)) {
-		GJobScheduler->PushJobQueue(shared_from_this());
+		GJobScheduler->PushActor(shared_from_this());
 	}
 }
 
@@ -35,7 +35,7 @@ void Actor::ExecuteJob(){
 	}
 
 	if (scheduleNeeded == true) {
-		GJobScheduler->PushJobQueue(shared_from_this());
+		GJobScheduler->PushActor(shared_from_this());
 	}
 }
 
@@ -50,7 +50,7 @@ void Actor::SetActorId(uint64 actorId) {
 	_actorId = actorId;
 }
 
-int64 Actor::GetAvgJobRatency(){
+int64 Actor::GetAvgJobLatency(){
 
 	return _totalLatency / _processedJobCount;
 }

@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "ThreadManager.h"
 #include "BufferPool.h"
-#include "JobQueue.h"
+#include "Actor.h"
 #include "JobTimer.h"
 #include "JobScheduler.h"
 

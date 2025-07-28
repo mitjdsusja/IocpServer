@@ -6,7 +6,7 @@
 
 #include "Service.h"
 #include "PacketHandler.h"
-#include "JobQueue.h"
+#include "Actor.h"
 #include "JobTimer.h"
 #include "JobScheduler.h"
 
@@ -75,8 +75,8 @@ int main() {
 		GThreadManager->Launch([=]() {
 			while (true) {
 				try {
-					shared_ptr<Actor> jobQueue = GJobScheduler->PopJobQueue();
-					jobQueue->ExecuteJob();
+					shared_ptr<Actor> actor = GJobScheduler->PopActor();
+					actor->ExecuteJob();
 				}
 				catch (exception& e) {
 					cout << "job Thread Exception : " << e.what() << endl;
@@ -89,9 +89,13 @@ int main() {
 		});
 	}
 
-	cout << "Actor Count : " << GActorManager->GetActorCount() << endl;
+	while (true) {
 
-	GMonitorManager->PushJobSendMsg(L"Hello World \n d Heeee");
+		wstring msg = L"Actor Count : " + GActorManager->GetActorCount();
+		GMonitorManager->PushJobSendMsg(msg);
+
+		this_thread::sleep_for(1s);
+	}
 
 	GThreadManager->Join();
 }

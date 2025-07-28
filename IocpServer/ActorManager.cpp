@@ -1,6 +1,10 @@
 #include "pch.h"
 #include "ActorManager.h"
 
+#include "Job.h"
+#include "Actor.h"
+#include "MonitorManager.h"
+
 uint64 ActorManager::RegisterActor(shared_ptr<Actor> actor){
 
 	uint64 actorId = GenerateId();
@@ -18,7 +22,42 @@ void ActorManager::UnRegisterActor(uint64 actorId){
 
 void ActorManager::RequestAllLatency(){
 
+	shared_ptr<mutex> vectorMutexRef = make_shared<mutex>();
+	shared_ptr<vector<pair<uint64, uint64>>> latencyVector = make_shared< vector<pair<uint64, uint64>>>();
+	int64 actorCount = 0;
+	{
+		lock_guard<mutex> _lock(_actorsMutex);
+		actorCount = _actors.size();
+	}
 
+	for (auto& p : _actors) {
+		
+		shared_ptr<Actor>& actor = p.second;
+
+		unique_ptr<Job> job = make_unique<Job>([actor, vectorMutexRef, latencyVectorRef = latencyVector, actorCount]() {
+
+			uint64 actorId = actor->GetActorId();
+			uint64 latency = actor->GetAvgJobLatency();
+
+			lock_guard<mutex> _lock(*vectorMutexRef.get());
+			latencyVectorRef->push_back({ actorId, latency });
+
+			if (actorCount == latencyVectorRef->size()) {
+
+				wstring msg;
+				for (auto& p : *latencyVectorRef.get()) {
+
+					msg += to_wstring(p.first);
+					msg += L" : ";
+					msg += to_wstring(p.second);
+					msg += L"\n";
+				}
+				GMonitorManager->PushJobSendMsg(msg);
+			}
+		});
+
+		actor->PushJob(move(job));
+	}
 }
 
 uint64 ActorManager::GetActorCount(){

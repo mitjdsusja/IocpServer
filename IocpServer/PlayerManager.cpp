@@ -5,7 +5,7 @@
 #include "GameSession.h"
 #include "RoomManager.h"
 #include "ActorManager.h"
-#include "JobQueue.h"
+#include "Actor.h"
 #include "Job.h"
 
 

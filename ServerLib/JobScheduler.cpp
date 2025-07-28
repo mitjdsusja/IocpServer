@@ -1,30 +1,30 @@
 #include "pch.h"
 #include "JobScheduler.h"
 #include "JobTimer.h"
-#include "JobQueue.h"
+#include "Actor.h"
 
-void JobScheduler::PushJobQueue(shared_ptr<Actor> jobQueue){
+void JobScheduler::PushActor(shared_ptr<Actor> actor){
 
-	_scheduledJobQueue.Push(jobQueue);
+	_scheduledActor.Push(actor);
 
 	_cv.notify_one();
 }
 
-shared_ptr<Actor> JobScheduler::PopJobQueue(){
+shared_ptr<Actor> JobScheduler::PopActor(){
 
-	unique_lock<mutex> lock(_jobQueueMutex);
+	unique_lock<mutex> lock(_actorMutex);
 	_cv.wait(lock, [this]() {
-		return _scheduledJobQueue.Empty() == false;
+		return _scheduledActor.Empty() == false;
 	});
 
-	return _scheduledJobQueue.Pop();
+	return _scheduledActor.Pop();
 }
 
 void JobScheduler::RegisterTimedJob(shared_ptr<ScheduledTimedJob> scheduledTimedJob){
 
-	lock_guard<mutex> lock(_timedJobQueue);
+	lock_guard<mutex> lock(_timedActor);
 
-	_scheduledTimedJobQueue.push(scheduledTimedJob);
+	_scheduledTimedActor.push(scheduledTimedJob);
 }
 
 void JobScheduler::CheckTimedJob(){
@@ -36,17 +36,17 @@ void JobScheduler::CheckTimedJob(){
 	vector<unique_ptr<TimedJob>> timedJobs;
 	vector<shared_ptr<Actor>> jobQueues;
 	{
-		lock_guard<mutex> lock(_timedJobQueue);
+		lock_guard<mutex> lock(_timedActor);
 
-		while (_scheduledTimedJobQueue.empty() == false) {
-			shared_ptr<ScheduledTimedJob> _scheduledTimedJob = _scheduledTimedJobQueue.top();
+		while (_scheduledTimedActor.empty() == false) {
+			shared_ptr<ScheduledTimedJob> _scheduledTimedJob = _scheduledTimedActor.top();
 			if (GetTickCount64() < _scheduledTimedJob->_timedJobRef->_executeTick) {
 				break;
 			}
 
 			timedJobs.push_back(move(_scheduledTimedJob->_timedJobRef));
 			jobQueues.push_back(_scheduledTimedJob->_jobQueueRef);
-			_scheduledTimedJobQueue.pop();
+			_scheduledTimedActor.pop();
 		}
 	}
 

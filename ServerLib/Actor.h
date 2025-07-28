@@ -10,7 +10,7 @@ public:
 	void ExecuteJob();
 
 	uint64 GetActorId() { return _actorId; }
-	int64 GetAvgJobRatency();
+	int64 GetAvgJobLatency();
 
 	void SetActorId(uint64 actorId);
 

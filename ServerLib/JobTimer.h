@@ -30,7 +30,7 @@ public:
 	
 private:
 	mutex _queueMutex;
-	priority_queue<TimedJob*, vector<TimedJob*>, TimedJobComparer> _timedJobQueue;
+	priority_queue<TimedJob*, vector<TimedJob*>, TimedJobComparer> _timedActor;
 	atomic<bool> _isEnqueuing;
 };
 

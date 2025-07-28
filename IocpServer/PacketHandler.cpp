@@ -4,7 +4,7 @@
 #include <boost/locale.hpp>
 
 #include "Job.h"
-#include "JobQueue.h"
+#include "Actor.h"
 #include "BufferPool.h"
 #include "JobTimer.h"
 #include "Service.h"

@@ -81,7 +81,7 @@
     <ClCompile Include="LockFreeQueue.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
-    <ClCompile Include="JobQueue.cpp">
+    <ClCompile Include="Actor.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="JobTimer.cpp">
@@ -161,7 +161,7 @@
     <ClInclude Include="LockFreeQueue.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="JobQueue.h">
+    <ClInclude Include="Actor.h">
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="JobTimer.h">

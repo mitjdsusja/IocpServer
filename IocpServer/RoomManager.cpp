@@ -6,7 +6,7 @@
 #include "Job.h"
 #include "JobTimer.h"
 #include "JobScheduler.h"
-#include "jobQueue.h"
+#include "Actor.h"
 #include "GridManager.h"
 #include "PlayerManager.h"
 #include "ActorManager.h"

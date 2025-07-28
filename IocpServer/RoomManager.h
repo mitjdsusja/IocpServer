@@ -1,6 +1,6 @@
 #pragma once
 #include "Vector.h"
-#include "JobQueue.h"
+#include "Actor.h"
 
 class GridManager;
 class Job;
