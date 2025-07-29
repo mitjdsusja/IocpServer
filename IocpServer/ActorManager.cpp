@@ -39,13 +39,13 @@ void ActorManager::RequestAllLatency(){
 			uint64 actorId = actor->GetActorId();
 			uint64 latency = actor->GetAvgJobLatency();
 
-			lock_guard<mutex> _lock(*vectorMutexRef.get());
+			lock_guard<mutex> _lock(*vectorMutexRef);
 			latencyVectorRef->push_back({ actorId, latency });
 
 			if (actorCount == latencyVectorRef->size()) {
 
 				wstring msg;
-				for (auto& p : *latencyVectorRef.get()) {
+				for (auto& p : *latencyVectorRef) {
 
 					msg += to_wstring(p.first);
 					msg += L" : ";
