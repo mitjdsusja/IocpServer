@@ -5,6 +5,17 @@
 #include "Actor.h"
 #include "MonitorManager.h"
 
+wstring ActorManager::ToWstring(ActorType actorType){
+
+	switch (actorType) {
+	case ActorType::RoomManagerType: return L"RoomManager";
+	case ActorType::PlayerManagerType: return L"PlayerManager";
+	case ActorType::RoomType: return L"Room";
+	case ActorType::PlayerType: return L"Player";
+	default: return L"None";
+	}
+}
+
 uint64 ActorManager::RegisterActor(shared_ptr<Actor> actor){
 
 	uint64 actorId = GenerateId();
@@ -25,7 +36,8 @@ void ActorManager::UnRegisterActor(uint64 actorId){
 void ActorManager::RequestAllLatencyAndSendToMonitor(){
 
 	shared_ptr<mutex> vectorMutexRef = make_shared<mutex>();
-	shared_ptr<vector<pair<uint64, uint64>>> latencyVector = make_shared< vector<pair<uint64, uint64>>>();
+	shared_ptr<vector<pair<uint64, uint64>>> latencyVectorRef = make_shared< vector<pair<uint64, uint64>>>();
+	shared_ptr<wstring> msgRef = make_shared<wstring>();
 	int64 actorCount = 0;
 	{
 		lock_guard<mutex> lock(_actorsMutex);
@@ -36,27 +48,24 @@ void ActorManager::RequestAllLatencyAndSendToMonitor(){
 		
 		shared_ptr<Actor>& actor = p.second;
 
-		unique_ptr<Job> job = make_unique<Job>([actor, vectorMutexRef, latencyVectorRef = latencyVector, actorCount]() {
+		unique_ptr<Job> job = make_unique<Job>([actor, vectorMutexRef, msgRef, latencyVectorRef, actorCount]() {
 
 			uint64 actorId = actor->GetActorId();
 			uint64 latency = actor->GetAvgJobLatency();
+			ActorType actorType = actor->GetActorType();
 
 			lock_guard<mutex> _lock(*vectorMutexRef);
 			latencyVectorRef->push_back({ actorId, latency });
+			
+			*msgRef += ActorManager::ToWstring(actorType);
+			*msgRef += to_wstring(actorId);
+			*msgRef += L" : ";
+			*msgRef += to_wstring(latency);
+			*msgRef += L"us \n";
 
 			if (actorCount == latencyVectorRef->size()) {
 
-				wstring msg;
-				for (auto& p : *latencyVectorRef) {
-
-					msg += L"Actor";
-					msg += to_wstring(p.first);
-					msg += L" : ";
-					msg += to_wstring(p.second);
-					msg += L"us";
-					msg += L"\n";
-				}
-				GMonitorManager->PushJobSendMsg(msg);
+				GMonitorManager->PushJobSendMsg(*msgRef);
 			}
 		});
 

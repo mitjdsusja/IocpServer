@@ -49,7 +49,7 @@ void Actor::ExecuteJob() {
 
 ActorType Actor::GetActorType(){
 
-	return ActorType();
+	return _actorType;
 }
 
 void Actor::RecordJobRatency(int64 us) {

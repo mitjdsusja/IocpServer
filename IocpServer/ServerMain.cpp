@@ -91,7 +91,7 @@ int main() {
 
 	while (true) {
 
-		GActorManager->RequestAllLatency();
+		GActorManager->RequestAllLatencyAndSendToMonitor();
 
 		this_thread::sleep_for(3s);
 	}
