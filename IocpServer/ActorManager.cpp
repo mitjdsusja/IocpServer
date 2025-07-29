@@ -9,7 +9,7 @@ uint64 ActorManager::RegisterActor(shared_ptr<Actor> actor){
 
 	uint64 actorId = GenerateId();
 
-	lock_guard<mutex> _lock(_actorsMutex);
+	lock_guard<mutex> lock(_actorsMutex);
 	_actors.insert({ actorId, actor });
 
 	return actorId;
@@ -17,16 +17,18 @@ uint64 ActorManager::RegisterActor(shared_ptr<Actor> actor){
 
 void ActorManager::UnRegisterActor(uint64 actorId){
 
+	lock_guard<mutex> lock(_actorsMutex);
 
+	_actors.erase(actorId);
 }
 
-void ActorManager::RequestAllLatency(){
+void ActorManager::RequestAllLatencyAndSendToMonitor(){
 
 	shared_ptr<mutex> vectorMutexRef = make_shared<mutex>();
 	shared_ptr<vector<pair<uint64, uint64>>> latencyVector = make_shared< vector<pair<uint64, uint64>>>();
 	int64 actorCount = 0;
 	{
-		lock_guard<mutex> _lock(_actorsMutex);
+		lock_guard<mutex> lock(_actorsMutex);
 		actorCount = _actors.size();
 	}
 

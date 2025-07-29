@@ -19,7 +19,7 @@ public:
 	uint64 RegisterActor(shared_ptr<Actor> actor);
 	void UnRegisterActor(uint64 actorId);
 
-	void RequestAllLatency();
+	void RequestAllLatencyAndSendToMonitor();
 
 	uint64 GetActorCount();
 
