@@ -1,33 +1,33 @@
 #include "pch.h"
 #include "JobScheduler.h"
-#include "JobTimer.h"
+#include "TimedJob.h"
 #include "Actor.h"
 
-void JobScheduler::PushActor(shared_ptr<Actor> actor){
+void JobScheduler::PushActor(shared_ptr<Actor> actor) {
 
 	_scheduledActor.Push(actor);
 
 	_cv.notify_one();
 }
 
-shared_ptr<Actor> JobScheduler::PopActor(){
+shared_ptr<Actor> JobScheduler::PopActor() {
 
 	unique_lock<mutex> lock(_actorMutex);
 	_cv.wait(lock, [this]() {
 		return _scheduledActor.Empty() == false;
-	});
+		});
 
 	return _scheduledActor.Pop();
 }
 
-void JobScheduler::RegisterTimedJob(shared_ptr<ScheduledTimedJob> scheduledTimedJob){
+void JobScheduler::RegisterTimedJob(shared_ptr<ScheduledTimedJob> scheduledTimedJob) {
 
 	lock_guard<mutex> lock(_timedActor);
 
 	_scheduledTimedActor.push(scheduledTimedJob);
 }
 
-void JobScheduler::CheckTimedJob(){
+void JobScheduler::CheckTimedJob() {
 
 	if (_isEnqueuing.exchange(true) == true) {
 		return;

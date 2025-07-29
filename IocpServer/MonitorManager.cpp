@@ -1,7 +1,12 @@
 #include "pch.h"
 #include "MonitorManager.h"
+#include "ActorManager.h"
 
 #include <Windows.h>
+
+MonitorManager::MonitorManager() : Actor(ActorType::MonitorManagerType){
+
+}
 
 bool MonitorManager::CreateMonitorProcess(){
 

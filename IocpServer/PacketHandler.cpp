@@ -6,7 +6,7 @@
 #include "Job.h"
 #include "Actor.h"
 #include "BufferPool.h"
-#include "JobTimer.h"
+#include "TimedJob.h"
 #include "Service.h"
 
 #include "messageTest.pb.h"

@@ -1,6 +1,6 @@
 #pragma once
 #include "LockQueue.h"
-#include "JobTimer.h"
+#include "TimedJob.h"
 
 class Actor;
 class TimedJob;
@@ -18,7 +18,7 @@ struct ScheduledTimedJobComparer {
 	}
 };
 
-class JobScheduler{
+class JobScheduler {
 public:
 	void PushActor(shared_ptr<Actor> actor);
 	shared_ptr<Actor> PopActor();

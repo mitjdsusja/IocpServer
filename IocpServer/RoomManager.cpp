@@ -1,10 +1,11 @@
 #include "pch.h"
 #include "RoomManager.h"
+
 #include "GameSession.h"
 #include "messageTest.pb.h"
 #include "PacketHandler.h"
 #include "Job.h"
-#include "JobTimer.h"
+#include "TimedJob.h"
 #include "JobScheduler.h"
 #include "Actor.h"
 #include "GridManager.h"
@@ -14,7 +15,7 @@
 #include <boost/locale.hpp>
 
 Room::Room(const InitRoomInfo& initRoomInfo, const RoomPlayer& hostPlayerData)
-	: _gridManager(make_shared<GridManager>(10)), _roomInfo({initRoomInfo, 0, hostPlayerData._gameState._name, hostPlayerData._sessionId}) {
+	: _gridManager(make_shared<GridManager>(10)), _roomInfo({initRoomInfo, 0, hostPlayerData._gameState._name, hostPlayerData._sessionId}) , Actor(ActorType::RoomType){
 
 	EnterPlayer(hostPlayerData._sessionId, hostPlayerData);
 }
@@ -352,7 +353,7 @@ vector<Room::RoomPlayer> Room::GetRoomPlayerList() {
 	RoomManager
 -------------------*/
 
-RoomManager::RoomManager(int32 maxRoomCount) : _maxRoomCount(maxRoomCount){
+RoomManager::RoomManager(int32 maxRoomCount) : _maxRoomCount(maxRoomCount), Actor(ActorType::RoomManagerType){
 
 }
 

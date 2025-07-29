@@ -1,7 +1,7 @@
 #pragma once
 #include <functional>
 
-class Job{
+class Job {
 public:
 	using TimePoint = std::chrono::system_clock::time_point;
 public:
@@ -9,7 +9,7 @@ public:
 		_callback(move(callback)),
 		_createTimePoint(std::chrono::system_clock::now())
 	{
-		
+
 	}
 	virtual ~Job() = default;
 

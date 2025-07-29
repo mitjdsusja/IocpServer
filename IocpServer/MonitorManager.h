@@ -3,6 +3,8 @@
 
 class MonitorManager : public Actor{
 public:
+	MonitorManager();
+
 	bool CreateMonitorProcess();
 	bool ConnectPipe();
 

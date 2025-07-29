@@ -13,6 +13,9 @@
     <Filter Include="Utils">
       <UniqueIdentifier>{bbcb2233-4ea4-4853-bff1-a81ccaef4cb4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Job">
+      <UniqueIdentifier>{df539836-3954-444c-8e86-4578366bc4ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -47,6 +50,18 @@
     </ClInclude>
     <ClInclude Include="ActorManager.h">
       <Filter>Content</Filter>
+    </ClInclude>
+    <ClInclude Include="Job.h">
+      <Filter>Job</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor.h">
+      <Filter>Job</Filter>
+    </ClInclude>
+    <ClInclude Include="JobScheduler.h">
+      <Filter>Job</Filter>
+    </ClInclude>
+    <ClInclude Include="TimedJob.h">
+      <Filter>Job</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -85,6 +100,18 @@
     </ClCompile>
     <ClCompile Include="ActorManager.cpp">
       <Filter>Content</Filter>
+    </ClCompile>
+    <ClCompile Include="Job.cpp">
+      <Filter>Job</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor.cpp">
+      <Filter>Job</Filter>
+    </ClCompile>
+    <ClCompile Include="JobScheduler.cpp">
+      <Filter>Job</Filter>
+    </ClCompile>
+    <ClCompile Include="TimedJob.cpp">
+      <Filter>Job</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

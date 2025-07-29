@@ -7,7 +7,7 @@
 #include "Service.h"
 #include "PacketHandler.h"
 #include "Actor.h"
-#include "JobTimer.h"
+#include "TimedJob.h"
 #include "JobScheduler.h"
 
 #include "messageTest.pb.h"

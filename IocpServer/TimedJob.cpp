@@ -1,8 +1,8 @@
 #include "pch.h"
-#include "JobTimer.h"
+#include "TimedJob.h"
 #include "Actor.h"
 
-void JobTimer::Reserve(uint64 delayTime, function<void()>&& callback){
+void JobTimer::Reserve(uint64 delayTime, function<void()>&& callback) {
 	uint64 executeTick = GetTickCount64() + delayTime;
 	TimedJob* timedJob = new TimedJob(executeTick, move(callback));
 

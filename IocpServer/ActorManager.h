@@ -2,6 +2,18 @@
 
 class Actor;
 
+enum ActorType {
+
+	None = 0,
+
+	RoomManagerType = 1,
+	PlayerManagerType = 2,
+	MonitorManagerType = 3,
+
+	RoomType = 101,
+	PlayerType = 102,
+};
+
 class ActorManager{
 public:
 	uint64 RegisterActor(shared_ptr<Actor> actor);

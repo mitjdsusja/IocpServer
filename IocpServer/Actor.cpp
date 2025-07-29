@@ -1,9 +1,14 @@
 #include "pch.h"
 #include "Job.h"
 #include "Actor.h"
+#include "ActorManager.h"
 #include "JobScheduler.h"
 
-void Actor::PushJob(unique_ptr<Job> job){
+Actor::Actor(ActorType type = ActorType::None) : _actorType(type){
+
+}
+
+void Actor::PushJob(unique_ptr<Job> job) {
 
 	_jobQueue.Push(move(job));
 
@@ -13,7 +18,7 @@ void Actor::PushJob(unique_ptr<Job> job){
 	}
 }
 
-void Actor::ExecuteJob(){
+void Actor::ExecuteJob() {
 
 	vector<unique_ptr<Job>> jobsToExecute;
 	_jobQueue.PopAll(jobsToExecute);
@@ -42,6 +47,11 @@ void Actor::ExecuteJob(){
 	}
 }
 
+ActorType Actor::GetActorType(){
+
+	return ActorType();
+}
+
 void Actor::RecordJobRatency(int64 us) {
 
 	_latencyQueue.push(us);
@@ -59,7 +69,7 @@ void Actor::SetActorId(uint64 actorId) {
 	_actorId = actorId;
 }
 
-int64 Actor::GetAvgJobLatency(){
+int64 Actor::GetAvgJobLatency() {
 
 	if (_latencyQueue.empty()) return 0;
 	return _latencySum / _latencyQueue.size();
