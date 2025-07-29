@@ -24,6 +24,7 @@ protected:
 	LockQueue<unique_ptr<Job>> _jobQueue;
 
 private:
-	int64 _totalLatency = 0;
-	int64 _processedJobCount = 0;
+	queue<int64> _latencyQueue;
+	const int16 _maxLatencyQueueSize = 100;
+	int64 _latencySum = 0;
 };

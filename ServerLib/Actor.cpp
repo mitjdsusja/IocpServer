@@ -21,7 +21,7 @@ void Actor::ExecuteJob(){
 	for (unique_ptr<Job>& job : jobsToExecute) {
 		job->Execute();
 
-		uint64 latency = chrono::duration_cast<chrono::microseconds>(chrono::system_clock::now() - job->GetCreateTimePoint()).count();
+		int64 latency = chrono::duration_cast<chrono::microseconds>(chrono::system_clock::now() - job->GetCreateTimePoint()).count();
 		RecordJobRatency(latency);
 	}
 
@@ -44,8 +44,14 @@ void Actor::ExecuteJob(){
 
 void Actor::RecordJobRatency(int64 us) {
 
-	_totalLatency += us;
-	_processedJobCount++;
+	_latencyQueue.push(us);
+	_latencySum += us;
+
+	if (_latencyQueue.size() > _maxLatencyQueueSize) {
+
+		_latencySum -= _latencyQueue.front();
+		_latencyQueue.pop();
+	}
 }
 
 void Actor::SetActorId(uint64 actorId) {
@@ -55,7 +61,7 @@ void Actor::SetActorId(uint64 actorId) {
 
 int64 Actor::GetAvgJobLatency(){
 
-	if (_processedJobCount == 0) return 0;
-	return _totalLatency / _processedJobCount;
+	if (_latencyQueue.empty()) return 0;
+	return _latencySum / _latencyQueue.size();
 }
 
