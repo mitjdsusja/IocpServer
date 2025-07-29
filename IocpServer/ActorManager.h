@@ -16,7 +16,7 @@ enum ActorType {
 
 class ActorManager{
 public:
-	static wstring ToWstring(ActorType actorType);
+	static wstring TypeToWstring(ActorType actorType);
 
 	uint64 RegisterActor(shared_ptr<Actor> actor);
 	void UnRegisterActor(uint64 actorId);

@@ -5,7 +5,7 @@
 #include "Actor.h"
 #include "MonitorManager.h"
 
-wstring ActorManager::ToWstring(ActorType actorType){
+wstring ActorManager::TypeToWstring(ActorType actorType){
 
 	switch (actorType) {
 	case ActorType::RoomManagerType: return L"RoomManager";
@@ -57,7 +57,7 @@ void ActorManager::RequestAllLatencyAndSendToMonitor(){
 			lock_guard<mutex> _lock(*vectorMutexRef);
 			latencyVectorRef->push_back({ actorId, latency });
 			
-			*msgRef += ActorManager::ToWstring(actorType);
+			*msgRef += ActorManager::TypeToWstring(actorType);
 			*msgRef += to_wstring(actorId);
 			*msgRef += L" : ";
 			*msgRef += to_wstring(latency);
