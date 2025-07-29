@@ -91,10 +91,9 @@ int main() {
 
 	while (true) {
 
-		wstring msg = L"Actor Count : " + GActorManager->GetActorCount();
-		GMonitorManager->PushJobSendMsg(msg);
+		GActorManager->RequestAllLatency();
 
-		this_thread::sleep_for(1s);
+		this_thread::sleep_for(3s);
 	}
 
 	GThreadManager->Join();

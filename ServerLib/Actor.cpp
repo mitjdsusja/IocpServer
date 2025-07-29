@@ -20,6 +20,9 @@ void Actor::ExecuteJob(){
 
 	for (unique_ptr<Job>& job : jobsToExecute) {
 		job->Execute();
+
+		uint64 latency = chrono::duration_cast<chrono::microseconds>(chrono::system_clock::now() - job->GetCreateTimePoint()).count();
+		RecordJobRatency(latency);
 	}
 
 	// Execute중 작업이 queue에 추가 되있을 수 있음.
@@ -52,6 +55,7 @@ void Actor::SetActorId(uint64 actorId) {
 
 int64 Actor::GetAvgJobLatency(){
 
+	if (_processedJobCount == 0) return 0;
 	return _totalLatency / _processedJobCount;
 }
 

@@ -47,9 +47,11 @@ void ActorManager::RequestAllLatency(){
 				wstring msg;
 				for (auto& p : *latencyVectorRef) {
 
+					msg += L"Actor";
 					msg += to_wstring(p.first);
 					msg += L" : ";
 					msg += to_wstring(p.second);
+					msg += L"us";
 					msg += L"\n";
 				}
 				GMonitorManager->PushJobSendMsg(msg);
