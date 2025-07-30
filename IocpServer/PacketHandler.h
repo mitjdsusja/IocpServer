@@ -124,11 +124,12 @@ vector<shared_ptr<Buffer>> PacketHandler::MakeSendBuffer(const T& packet, Packet
 		const int32 maxPayloadSize = bufferCapacity - headerSize - frameSize;
 
 		int32 payloadSize = min(maxPayloadSize, totalDataSize - offset);
+		int32 packetSize = headerSize + frameSize + payloadSize;
 
 		PacketHeader* header = (PacketHeader*)sendBuffer->GetBuffer();
 		header->packetId = htonl(packetId);
-		header->packetSize = htonl(headerSize + frameSize + payloadSize);
-
+		header->packetSize = htonl(packetSize);
+		
 		PacketFrame* frame = (PacketFrame*)((BYTE*)header + sizeof(PacketHeader));
 		frame->packetId = htonl(packetId);
 		frame->frameIndex = htonl(frameIndex);
@@ -136,7 +137,7 @@ vector<shared_ptr<Buffer>> PacketHandler::MakeSendBuffer(const T& packet, Packet
 		BYTE* payloadPtr = (BYTE*)frame + sizeof(PacketFrame);
 		memcpy(payloadPtr, serializedData.data() + offset, payloadSize);
 
-		sendBuffer->Write(header->packetSize);
+		sendBuffer->Write(packetSize);
 		sendBuffers.push_back(sendBuffer);
 
 		offset += payloadSize;

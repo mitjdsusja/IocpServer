@@ -168,7 +168,7 @@ void PacketHandler::Handle_CS_Login_Request(shared_ptr<GameSession> session, sha
 		sendLoginResponsePacket.set_errormessage(errorMessage);
 	}
 	vector<shared_ptr<Buffer>> sendBuffer = PacketHandler::MakeSendBuffer(sendLoginResponsePacket, PacketId::PKT_SC_LOGIN_RESPONSE);
-
+	
 	GPlayerManager->PushJobSendData(session->GetSessionId(), sendBuffer);
 }
 
