@@ -44,6 +44,7 @@ public:
 	shared_ptr<GameSession>& GetOwnerSession() { return _owner; }
 
 public:
+	// 외부에서 절대 사용 금지
 	void SendData(const shared_ptr<Buffer>& sendBuffer);
 	void UpdatePosition(const PlayerPosition& newPosition);
 
@@ -69,6 +70,7 @@ public:
 	~PlayerManager();
 
 	void PushJobSendData(uint64 sessionId, const shared_ptr<Buffer>& sendBuffer);
+	void PushJobSendData(uint64 sessionId, const vector<shared_ptr<Buffer>>& sendBuffer);
 	void PushJobCreateAndPushPlayer(const shared_ptr<GameSession>& ownerSession, const PlayerBaseInfo& baseInfo, const PlayerPosition& position, const PlayerStats& stats);
 	void PushJobRemovePlayer(uint64 sessionId);
 
@@ -80,6 +82,7 @@ public:
 	void PushJobSetPosition(uint64 sessionId, PlayerPosition position);
 
 public:
+	// 외부에서 절대 사용 금지
 	void SendData(uint64 sessionId, const shared_ptr<Buffer>& sendBuffer);
 	void CreateAndPushPlayer(const shared_ptr<GameSession>& ownerSession, const PlayerBaseInfo& baseInfo, const PlayerPosition& position, const PlayerStats& stats);
 	void RemovePlayer(uint64 sessionId);

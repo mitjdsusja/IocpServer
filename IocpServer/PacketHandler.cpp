@@ -85,9 +85,11 @@ void PacketHandler::Handle_CS_Ping(shared_ptr<GameSession> session, shared_ptr<B
 	msgTest::SC_Pong sendPongPacket;
 	sendPongPacket.set_timestamp(recvPingPacket.timestamp());
 
-	shared_ptr<Buffer> sendBuffer = MakeSendBuffer<msgTest::SC_Pong>(sendPongPacket, PacketId::PKT_SC_PONG);
+	vector<shared_ptr<Buffer>> sendBuffer = MakeSendBuffer(sendPongPacket, PacketId::PKT_SC_PONG);
 	
-	session->Send(sendBuffer);
+	for (auto& buffer : sendBuffer) {
+		session->Send(buffer);
+	}
 	//GPlayerManager->PushJobSendData(session->GetSessionId(), sendBuffer);
 }
 
@@ -165,7 +167,7 @@ void PacketHandler::Handle_CS_Login_Request(shared_ptr<GameSession> session, sha
 		sendLoginResponsePacket.set_success(false);
 		sendLoginResponsePacket.set_errormessage(errorMessage);
 	}
-	shared_ptr<Buffer> sendBuffer = PacketHandler::MakeSendBuffer(sendLoginResponsePacket, PacketId::PKT_SC_LOGIN_RESPONSE);
+	vector<shared_ptr<Buffer>> sendBuffer = PacketHandler::MakeSendBuffer(sendLoginResponsePacket, PacketId::PKT_SC_LOGIN_RESPONSE);
 
 	GPlayerManager->PushJobSendData(session->GetSessionId(), sendBuffer);
 }
@@ -187,9 +189,9 @@ void PacketHandler::Handle_CS_Room_List_Request(shared_ptr<GameSession> session,
 			room->set_hostplayername(hostPlayerName);
 		}
 
-		shared_ptr<Buffer> sendBuffer = PacketHandler::MakeSendBuffer(roomListResponsePacket, PacketId::PKT_SC_ROOM_LIST_RESPONSE);
+		vector<shared_ptr<Buffer>> sendBuffer = PacketHandler::MakeSendBuffer(roomListResponsePacket, PacketId::PKT_SC_ROOM_LIST_RESPONSE);
 
-		GPlayerManager->SendData(session->GetSessionId(), sendBuffer);
+		GPlayerManager->PushJobSendData(session->GetSessionId(), sendBuffer);
 	});
 }
 
@@ -234,7 +236,7 @@ void PacketHandler::Handle_CS_Player_Info_Request(shared_ptr<GameSession> sessio
 	position->set_y(posY);
 	position->set_z(posZ);
 
-	shared_ptr<Buffer> sendBuffer = MakeSendBuffer(sendPlayerInfoResponsePacket, PacketId::PKT_SC_MY_PLAYER_INFO_RESPONSE);
+	vector<shared_ptr<Buffer>> sendBuffer = MakeSendBuffer(sendPlayerInfoResponsePacket, PacketId::PKT_SC_MY_PLAYER_INFO_RESPONSE);
 
 	GPlayerManager->PushJobSendData(session->GetSessionId(), sendBuffer);
 }
@@ -259,7 +261,7 @@ void PacketHandler::Handle_CS_Room_Player_List_Request(shared_ptr<GameSession> s
 			position->set_z(roomPlayer._gameState._position._z);
 		}
 
-		shared_ptr<Buffer> sendBuffer = MakeSendBuffer(sendRoomPlayerListResponsePacket, PacketId::PKT_SC_ROOM_PLAYER_LIST_RESPONSE);
+		vector<shared_ptr<Buffer>> sendBuffer = MakeSendBuffer(sendRoomPlayerListResponsePacket, PacketId::PKT_SC_ROOM_PLAYER_LIST_RESPONSE);
 
 		GPlayerManager->PushJobSendData(session->GetSessionId(), sendBuffer);
 	});

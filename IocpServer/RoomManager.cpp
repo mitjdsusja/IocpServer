@@ -109,7 +109,7 @@ void Room::PushJobEnterPlayer(uint64 enterPlayerSessionId, const RoomPlayer& ini
 			room->set_playercount(roomInfo._curPlayerCount);
 			room->set_hostplayername(boost::locale::conv::utf_to_utf<char>(roomInfo._hostPlayerName));
 
-			shared_ptr<Buffer> sendBuffer = PacketHandler::MakeSendBuffer(enterRoomResponsePacket, PacketId::PKT_SC_ENTER_ROOM_RESPONSE);
+			vector<shared_ptr<Buffer>> sendBuffer = PacketHandler::MakeSendBuffer(enterRoomResponsePacket, PacketId::PKT_SC_ENTER_ROOM_RESPONSE);
 
 			GPlayerManager->PushJobSendData(enterPlayerSessionId, sendBuffer);
 		}
@@ -126,7 +126,7 @@ void Room::PushJobEnterPlayer(uint64 enterPlayerSessionId, const RoomPlayer& ini
 			position->set_y(initialPlayerData._gameState._position._y);
 			position->set_z(initialPlayerData._gameState._position._z);
 
-			shared_ptr<Buffer> sendBuffer = PacketHandler::MakeSendBuffer(enterRoomNotiticationPacket, PacketId::PKT_SC_PLAYER_ENTER_ROOM_NOTIFICATION);
+			vector<shared_ptr<Buffer>> sendBuffer = PacketHandler::MakeSendBuffer(enterRoomNotiticationPacket, PacketId::PKT_SC_PLAYER_ENTER_ROOM_NOTIFICATION);
 
 			self->Broadcast(sendBuffer);
 		}
@@ -217,6 +217,16 @@ void Room::Broadcast(const shared_ptr<Buffer>& sendBuffer){
 	}
 }
 
+void Room::Broadcast(const vector<shared_ptr<Buffer>>& sendBuffer){
+
+	for (const auto& p : _players) {
+
+		uint64 sessionId = p.first;
+
+		GPlayerManager->PushJobSendData(sessionId, sendBuffer);
+	}
+}
+
 void Room::BroadcastPlayerMovement() {
 
 	unordered_map<uint64, msgTest::MoveState> updatedMoveStates;
@@ -295,7 +305,7 @@ void Room::BroadcastPlayerInGrid(){
 			*name = boost::locale::conv::utf_to_utf<char>(_players[sessionId]._gameState._name);
 		}
 
-		shared_ptr<Buffer> sendBuffer = PacketHandler::MakeSendBuffer(sendPlayerListInGridPacket, PacketId::PKT_SC_PLAYER_LIST_IN_GRID);
+		vector<shared_ptr<Buffer>> sendBuffer = PacketHandler::MakeSendBuffer(sendPlayerListInGridPacket, PacketId::PKT_SC_PLAYER_LIST_IN_GRID);
 
 		GPlayerManager->PushJobSendData(sessionId, sendBuffer);
 	}
@@ -386,7 +396,7 @@ void RoomManager::PushJobCreateAndPushRoom(const InitRoomInfo& initRoomInfo, con
 			createRoomResponsePacket.set_errormessage("FAIL ENTER ROOM");
 		}
 
-		shared_ptr<Buffer> sendBuffer = PacketHandler::MakeSendBuffer(createRoomResponsePacket, PacketId::PKT_SC_CREATE_ROOM_RESPONSE);
+		vector<shared_ptr<Buffer>> sendBuffer = PacketHandler::MakeSendBuffer(createRoomResponsePacket, PacketId::PKT_SC_CREATE_ROOM_RESPONSE);
 
 		GPlayerManager->PushJobSendData(hostPlayerData._sessionId, sendBuffer);
 	});

@@ -165,6 +165,21 @@ void PlayerManager::PushJobSendData(uint64 sessionId, const shared_ptr<Buffer>& 
 	PushJob(move(job));
 }
 
+void PlayerManager::PushJobSendData(uint64 sessionId, const vector<shared_ptr<Buffer>>& sendBuffer){
+
+	shared_ptr<PlayerManager> self = static_pointer_cast<PlayerManager>(shared_from_this());
+
+	unique_ptr<Job> job = make_unique<Job>([self, sessionId, sendBuffer]() {
+
+		for (auto& buffer : sendBuffer) {
+
+			self->SendData(sessionId, buffer);
+		}
+	});
+
+	PushJob(move(job));
+}
+
 void PlayerManager::PushJobCreateAndPushPlayer(const shared_ptr<GameSession>& ownerSession, const PlayerBaseInfo& baseInfo, const PlayerPosition& position, const PlayerStats& stats) {
 
 	shared_ptr<PlayerManager> self = static_pointer_cast<PlayerManager>(shared_from_this());

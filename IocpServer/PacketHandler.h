@@ -55,7 +55,7 @@ public:
 	static void HandlePacket(shared_ptr<GameSession> session, PacketHeader* dataBuffer, Service* service);
 
 	template<typename T>
-	static shared_ptr<Buffer> MakeSendBuffer(T& packet, PacketId packetId);
+	static vector<shared_ptr<Buffer>> MakeSendBuffer(const T& packet, PacketId packetId);
 
 private:
 	static void Handle_Invalid(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
@@ -84,19 +84,62 @@ private:
 	static void Handle_SC_Enter_Room_Response(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
 };
 
+//template<typename T>
+//shared_ptr<Buffer> PacketHandler::MakeSendBuffer(T& packet, PacketId packetId) {
+//	shared_ptr<Buffer> sendBuffer = shared_ptr<Buffer>(GSendBufferPool->Pop(), [](Buffer* buffer) { GSendBufferPool->Push(buffer); });
+//	PacketHeader* header = (PacketHeader*)sendBuffer->GetBuffer();
+//
+//	int32 dataSize = (int32)packet.ByteSizeLong();
+//	int32 packetSize = sizeof(PacketHeader) + dataSize;
+//
+//	header->packetId = htonl(packetId);
+//	header->packetSize = htonl(packetSize);
+//
+//	packet.SerializeToArray(((BYTE*)header + sizeof(PacketHeader)), dataSize);
+//
+//	sendBuffer->Write(packetSize);
+//	return sendBuffer;
+//}
+
 template<typename T>
-shared_ptr<Buffer> PacketHandler::MakeSendBuffer(T& packet, PacketId packetId) {
-	shared_ptr<Buffer> sendBuffer = shared_ptr<Buffer>(GSendBufferPool->Pop(), [](Buffer* buffer) { GSendBufferPool->Push(buffer); });
-	PacketHeader* header = (PacketHeader*)sendBuffer->GetBuffer();
+vector<shared_ptr<Buffer>> PacketHandler::MakeSendBuffer(const T& packet, PacketId packetId) {
 
-	int32 dataSize = (int32)packet.ByteSizeLong();
-	int32 packetSize = sizeof(PacketHeader) + dataSize;
+	vector<shared_ptr<Buffer>> sendBuffers;
 
-	header->packetId = htonl(packetId);
-	header->packetSize = htonl(packetSize);
+	string serializedData;
+	packet.SerializeToString(&serializedData);
 
-	packet.SerializeToArray(((BYTE*)header + sizeof(PacketHeader)), dataSize);
+	const int32 headerSize = sizeof(PacketHeader);
+	const int32 maxFramePayloadSize = 
+	
+	int32 totalDataSize = serializedData.size();
+	int32 offset = 0;
+	int32 frameCount = ()
 
-	sendBuffer->Write(packetSize);
-	return sendBuffer;
+	while (uint32 frameIndex = 0;  offset < totalDataSize; ++frameIndex) {
+
+		int32 payloadSize = min(bufferCapacity - headerSize, totalDataSize - offset);
+
+		msgTest::PacketFrame frame;
+		frame.set_messageid((int32)packetId);
+		frame.set_totalframecount()
+
+		shared_ptr<Buffer> sendBuffer = shared_ptr<Buffer>(GSendBufferPool->Pop(), [](Buffer* buffer) { GSendBufferPool->Push(buffer); });
+		PacketHeader* header = (PacketHeader*)sendBuffer->GetBuffer();
+
+		const int32 bufferCapacity = sendBuffer->Capacity();
+		const int32 maxPayloadSize = bufferCapacity - headerSize;
+
+		header->packetId = htonl(packetId);
+		header->packetSize = htonl(headerSize + payloadSize);
+
+		memcpy((BYTE*)header + sizeof(PacketHeader), serializedData.data() + offset, payloadSize);
+
+		sendBuffer->Write(header->packetSize);
+		sendBuffers.push_back(sendBuffer);
+
+		offset += payloadSize;
+	}
+
+	return sendBuffers;
 }

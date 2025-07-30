@@ -56,6 +56,7 @@ public:
 
 public:
 	void Broadcast(const shared_ptr<Buffer>& sendBuffer);
+	void Broadcast(const vector<shared_ptr<Buffer>>& sendBuffer);
 	void BroadcastPlayerMovement();
 	void BroadcastPlayerInGrid();
 
