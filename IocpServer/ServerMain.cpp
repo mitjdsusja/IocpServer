@@ -89,6 +89,10 @@ int main() {
 		});
 	}
 
+	for (int i = 101; i < 5000; i++) {
+		DBInsertuser(L"bot" + to_wstring(i), L"bot" + to_wstring(i), L"bot" + to_wstring(i));
+	}
+
 	while (true) {
 
 		GActorManager->RequestAllLatencyAndSendToMonitor();
@@ -101,8 +105,18 @@ int main() {
 
 void DBInsertuser(wstring id, wstring pw, wstring name) {
 
-	std::wstring query = L"INSERT INTO users (id, password_hash, name) VALUES (";
-	query += (L"'" + id + L"','" + pw + L"','" + name + L"');");
+	std::wstring query = L"INSERT INTO users (id, password_hash, level, name, pos_x, pos_y, pos_z) VALUES (";
+	query += L"'";
+
+	query += id + L"','";
+	query += pw + L"','";
+	query += to_wstring(1) + L",";
+	query += name + L",";
+	query += to_wstring(0) + L",";
+	query += to_wstring(100) + L",";
+	query += to_wstring(0);
+
+	query += L"');";
 
 	wcout << query << endl;
 	LDBConnector->ExecuteQuery(query);
