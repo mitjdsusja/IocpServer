@@ -5,7 +5,6 @@ struct PacketHeader {
 
 	int32 packetSize = 0;
 	int32 packetId = 0;
-	PacketFrame packetFrame;
 
 	int32 GetDataSize() {
 		return packetSize - sizeof(PacketHeader);

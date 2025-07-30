@@ -110,35 +110,42 @@ vector<shared_ptr<Buffer>> PacketHandler::MakeSendBuffer(const T& packet, Packet
 	packet.SerializeToString(&serializedData);
 
 	const int32 headerSize = sizeof(PacketHeader);
-	const int32 maxFramePayloadSize = 
+	const int32 frameSize = sizeof(PacketFrame);
 	
 	int32 totalDataSize = serializedData.size();
 	int32 offset = 0;
-	int32 frameCount = ()
+	int32 frameCount = 0;
 
-	while (uint32 frameIndex = 0;  offset < totalDataSize; ++frameIndex) {
-
-		int32 payloadSize = min(bufferCapacity - headerSize, totalDataSize - offset);
-
-		msgTest::PacketFrame frame;
-		frame.set_messageid((int32)packetId);
-		frame.set_totalframecount()
+	for(uint32 frameIndex = 0;  offset < totalDataSize; ++frameIndex) {
 
 		shared_ptr<Buffer> sendBuffer = shared_ptr<Buffer>(GSendBufferPool->Pop(), [](Buffer* buffer) { GSendBufferPool->Push(buffer); });
-		PacketHeader* header = (PacketHeader*)sendBuffer->GetBuffer();
 
 		const int32 bufferCapacity = sendBuffer->Capacity();
-		const int32 maxPayloadSize = bufferCapacity - headerSize;
+		const int32 maxPayloadSize = bufferCapacity - headerSize - frameSize;
 
+		int32 payloadSize = min(maxPayloadSize, totalDataSize - offset);
+
+		PacketHeader* header = (PacketHeader*)sendBuffer->GetBuffer();
 		header->packetId = htonl(packetId);
-		header->packetSize = htonl(headerSize + payloadSize);
+		header->packetSize = htonl(headerSize + frameSize + payloadSize);
 
-		memcpy((BYTE*)header + sizeof(PacketHeader), serializedData.data() + offset, payloadSize);
+		PacketFrame* frame = (PacketFrame*)((BYTE*)header + sizeof(PacketHeader));
+		frame->packetId = htonl(packetId);
+		frame->frameIndex = htonl(frameIndex);
+
+		BYTE* payloadPtr = (BYTE*)frame + sizeof(PacketFrame);
+		memcpy(payloadPtr, serializedData.data() + offset, payloadSize);
 
 		sendBuffer->Write(header->packetSize);
 		sendBuffers.push_back(sendBuffer);
 
 		offset += payloadSize;
+		frameCount++;
+	}
+
+	for (auto& buffer : sendBuffers) {
+		PacketFrame* frame = (PacketFrame*)(buffer->GetBuffer() + sizeof(PacketHeader));
+		frame->totalFrameCount = htonl(frameCount);
 	}
 
 	return sendBuffers;
