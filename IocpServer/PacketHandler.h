@@ -100,4 +100,3 @@ shared_ptr<Buffer> PacketHandler::MakeSendBuffer(T& packet, PacketId packetId) {
 	sendBuffer->Write(packetSize);
 	return sendBuffer;
 }
-
