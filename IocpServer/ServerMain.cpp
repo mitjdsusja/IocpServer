@@ -89,10 +89,6 @@ int main() {
 		});
 	}
 
-	for (int i = 101; i < 5000; i++) {
-		DBInsertuser(L"bot" + to_wstring(i), L"bot" + to_wstring(i), L"bot" + to_wstring(i));
-	}
-
 	while (true) {
 
 		GActorManager->RequestAllLatencyAndSendToMonitor();
@@ -109,14 +105,14 @@ void DBInsertuser(wstring id, wstring pw, wstring name) {
 	query += L"'";
 
 	query += id + L"','";
-	query += pw + L"','";
-	query += to_wstring(1) + L",";
-	query += name + L",";
+	query += pw + L"',";
+	query += to_wstring(1) + L",'";
+	query += name + L"',";
 	query += to_wstring(0) + L",";
 	query += to_wstring(100) + L",";
 	query += to_wstring(0);
 
-	query += L"');";
+	query += L");";
 
 	wcout << query << endl;
 	LDBConnector->ExecuteQuery(query);
