@@ -194,19 +194,71 @@ int32 Session::OnRecv(BYTE* recvBuffer, int32 recvBytes){
 		ASSERT_CRASH(false);
 	}
 
-	BYTE* buffer = recvBuffer;
 	int32 processLen = 0;
 
 	while (true) {
-		buffer = recvBuffer + processLen;
+
+		BYTE* buffer = recvBuffer + processLen;
+		// header∏∏≈≠ recvæ»µ .
+		if (recvBytes - processLen < sizeof(PacketHeader)) {
+			break;
+		}
+
 		PacketHeader* header = (PacketHeader*)buffer;
 		header->packetId = ntohl(header->packetId);
 		header->packetSize = ntohl(header->packetSize);
 
-		if (recvBytes < header->packetSize) {
+		// ¿¸√º packet¿Ã æ»ø».
+		if (recvBytes - processLen < header->packetSize) {
 			break;
 		}
-		OnRecvPacket((BYTE*)header, header->packetSize);
+
+		// Parse Frame
+		PacketFrame* frame = (PacketFrame*)((BYTE*)header + sizeof(PacketHeader));
+
+		int32 framePacketId = ntohl(frame->packetId);
+		int32 totalFrameCount = ntohl(frame->totalFrameCount);
+		int32 frameIndex = ntohl(frame->frameIndex);
+
+		if (frameIndex < 0 || frameIndex >= totalFrameCount) {
+
+			wcout << "INVALID FRAME  Frame: " << frameIndex << "/" << totalFrameCount << endl;
+			break;
+		}
+
+		BYTE* payload = (BYTE*)(frame + 1);
+		int32 payloadSize = header->packetSize - sizeof(PacketHeader) - sizeof(PacketFrame);
+
+		vector<BYTE> data(payload, payload + payloadSize);
+
+		if (_recvFrames.find(framePacketId) == _recvFrames.end()) {
+
+			_recvFrames[framePacketId] = vector<vector<BYTE>>(totalFrameCount);
+			_recvFrameCounts[framePacketId] = 0;
+		}
+
+		_recvFrames[framePacketId][frameIndex] = std::move(data);
+		_recvFrameCounts[framePacketId]++;
+
+		if (_recvFrameCounts[framePacketId] == totalFrameCount) {
+			
+			vector<BYTE> finalPacket(sizeof(PacketHeader));
+
+			PacketHeader* finalHeader = (PacketHeader*)finalPacket.data();
+			
+			finalHeader->packetId = header->packetId;
+			finalHeader->packetSize = header->packetSize;
+			
+			for (int32 i = 0; i < totalFrameCount; ++i) {
+
+				auto& part = _recvFrames[framePacketId][i];
+				finalPacket.insert(finalPacket.end(), part.begin(), part.end());
+			}
+			OnRecvPacket(finalPacket.data(), finalPacket.size());
+
+			_recvFrames.erase(framePacketId);
+			_recvFrameCounts.erase(framePacketId);
+		}
 
 		processLen += header->packetSize;
 		if (processLen >= recvBytes) {

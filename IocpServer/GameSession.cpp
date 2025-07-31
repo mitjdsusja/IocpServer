@@ -17,7 +17,7 @@ void GameSession::OnConnect(){
 }
 
 void GameSession::OnSend(int32 sendBytes){
-	//cout << "Send : " << endl;
+	// cout << "Send : " << sendBytes << endl;
 }
 
 void GameSession::OnRecvPacket(BYTE* recvBuffer, int32 recvBytes){

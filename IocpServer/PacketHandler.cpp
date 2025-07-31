@@ -90,7 +90,7 @@ void PacketHandler::Handle_CS_Ping(shared_ptr<GameSession> session, shared_ptr<B
 	for (auto& buffer : sendBuffer) {
 		session->Send(buffer);
 	}
-	//GPlayerManager->PushJobSendData(session->GetSessionId(), sendBuffer);
+	GPlayerManager->PushJobSendData(session->GetSessionId(), sendBuffer);
 }
 
 void PacketHandler::Handle_CS_Login_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
