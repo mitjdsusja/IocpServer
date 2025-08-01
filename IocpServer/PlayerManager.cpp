@@ -35,7 +35,7 @@ void Player::InitPlayer(const PlayerBaseInfo& baseInfo, const PlayerPosition& po
 void Player::PushJobSendData(const shared_ptr<Buffer>& sendBuffer){
 
 	shared_ptr<Player> self = static_pointer_cast<Player>(shared_from_this());
-
+	
 	unique_ptr<Job> job = make_unique<Job>([self, sendBuffer]() {
 		self->SendData(sendBuffer);
 	});

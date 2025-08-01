@@ -116,7 +116,7 @@ void ClientService::Start(){
 
 	for (int32 i = 0;i < _maxSessionCount;i++) {
 
-		shared_ptr<Session> session = make_shared<Session>(this);
+		shared_ptr<Session> session = CreateSession();
 		_completionPortHandler->RegisterHandle((HANDLE)session->GetSocket(), 0);
 
 		_sessions[session->GetSessionId()] = session;

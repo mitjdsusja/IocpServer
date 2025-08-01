@@ -4,7 +4,7 @@
 #include "ThreadManager.h"
 #include "BufferPool.h"
 #include "PacketHandler.h"
-#include "JobQueue.h"
+#include "Actor.h"
 #include "Job.h"
 
 #include "messageTest.pb.h"
@@ -13,19 +13,18 @@
 
 enum {
 	GQCS_THREAD_COUNT = 1,
-	JOB_QUEUE_THREAD = 1,
+	WORKER_THREAD_COUNT = 1,
 };
 
 int main() {
 	wcout.imbue(std::locale("kor"));
 
-	ClientService* clientService = new ClientService(NetAddress(L"127.0.0.1", 7777), 1, []() { return make_shared<GameSession>(nullptr); });
-	//ClientService* clientService = new ClientService(NetAddress(L"192.168.0.14", 7777), 1);
+	//ClientService* clientService = new ClientService(NetAddress(L"127.0.0.1", 7777), 1, []() { return make_shared<GameSession>(nullptr); });
+	ClientService* clientService = new ClientService(NetAddress(L"192.168.0.14", 7777), 1, []() { return make_shared<GameSession>(nullptr); });
+	PacketHandler::RegisterPacketHandlers();
 
 	this_thread::sleep_for(1s);
 	
-	PacketHandler::RegisterPacketHandlers();
-
 	clientService->Start();
 	// Create Thread GQCS
 	for (int32 i = 0; i < GQCS_THREAD_COUNT; i++) {
