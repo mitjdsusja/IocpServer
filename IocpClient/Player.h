@@ -4,6 +4,8 @@ class Player{
 public:
 	Player(shared_ptr<Session> owner);
 
+	void SendData(const vector<shared_ptr<Buffer>>& sendBuffer);
+
 	uint64 GetSessionId();
 
 private:
@@ -15,11 +17,14 @@ public:
 	void CreatePlayerAndAdd(const shared_ptr<Session>& playerOwner);
 	void LoginRequest();
 
+	uint32 GetPlayerCount() { return _playerCount; }
+
 private:
 	shared_ptr<Player> CreatePlayer(const shared_ptr<Session>& playerOwner);
 	void AddPlayer(shared_ptr<Player>& player);
 
 private:
+	atomic<uint32> _playerCount = 0;
 	map<uint64, shared_ptr<Player>> _players;
 };
 

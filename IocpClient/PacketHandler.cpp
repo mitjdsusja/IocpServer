@@ -111,7 +111,12 @@ void PacketHandler::Handle_SC_Login_Response(shared_ptr<GameSession> session, sh
 	msgTest::SC_Login_Response recvLoginResponsePacket;
 	recvLoginResponsePacket.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
 
-	GPlayerManager->CreatePlayerAndAdd(session);
+	if (recvLoginResponsePacket.success() == true) {
+
+	}
+	else {
+		wcout << L"[PacketHandler::Handle_SC_Login_Response] Login Fail " << endl;
+	}
 }
 
 void PacketHandler::Handle_SC_Room_List_Response(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {

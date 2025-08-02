@@ -40,7 +40,7 @@ int main() {
 	// wait all connect
 	while (true) {
 
-		if (CLIENT_COUNT <= clientService->GetCurSessionCount()) {
+		if (CLIENT_COUNT <= clientService->GetCurSessionCount() && CLIENT_COUNT <= GPlayerManager->GetPlayerCount()) {
 
 			break;
 		}
@@ -51,7 +51,11 @@ int main() {
 	// Login 
 	GPlayerManager->LoginRequest();
 
-	//
+	// Request Room List
+
+	// Enter Room
+
+	// broadcast Movement
 	
 	
 

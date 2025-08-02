@@ -15,6 +15,7 @@ GameSession::~GameSession() {
 
 void GameSession::OnConnect() {
 
+	GPlayerManager->CreatePlayerAndAdd(shared_from_this());
 }
 
 void GameSession::OnSend(int32 sendBytes) {
