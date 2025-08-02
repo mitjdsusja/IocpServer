@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "Global.h"
 
 #include "PacketHandler.h"
 #include "ServerGlobal.h"
@@ -10,6 +11,7 @@
 #include "messageTest.pb.h"
 
 #include "GameSession.h"
+#include "Player.h"
 
 void PacketHandler::RegisterPacketHandlers() {
 
@@ -106,20 +108,34 @@ void PacketHandler::Handle_SC_Pong(shared_ptr<GameSession> session, shared_ptr<B
 
 void PacketHandler::Handle_SC_Login_Response(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
-	msgTest::SC_Login_Response sendLoginResponsePacket;
-	sendLoginResponsePacket.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
+	msgTest::SC_Login_Response recvLoginResponsePacket;
+	recvLoginResponsePacket.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
 
-
+	GPlayerManager->CreatePlayerAndAdd(session);
 }
+
 void PacketHandler::Handle_SC_Room_List_Response(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
+	msgTest::SC_Room_List_Response recvRoomListResponse;
+	recvRoomListResponse.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
+
+	msgTest::Room room = recvRoomListResponse.roomlist(0);
+	int32 roomId = room.roomid();
+
+
 }
+
 void PacketHandler::Handle_SC_Player_Info_Response(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
-}
-void PacketHandler::Handle_SC_Player_List_Response(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
 }
+
+void PacketHandler::Handle_SC_Player_List_Response(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
+
+
+}
+
 void PacketHandler::Handle_SC_Enter_Room_Response(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
+
 
 }

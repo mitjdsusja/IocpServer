@@ -1,6 +1,9 @@
 #include "pch.h"
+#include "Global.h"
+
 #include "GameSession.h"
 #include "PacketHandler.h"
+#include "Player.h"
 
 GameSession::GameSession(Service* owner) : Session(owner) {
 
@@ -8,6 +11,10 @@ GameSession::GameSession(Service* owner) : Session(owner) {
 
 GameSession::~GameSession() {
 	cout << "~GameSession() " << endl;
+}
+
+void GameSession::OnConnect() {
+
 }
 
 void GameSession::OnSend(int32 sendBytes) {

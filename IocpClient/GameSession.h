@@ -6,6 +6,7 @@ public:
 	GameSession(Service* owner);
 	virtual ~GameSession();
 
+	virtual void OnConnect() override;
 	virtual void OnSend(int32 sendBytes) override;
 	virtual void OnRecvPacket(BYTE* recvBuffer, int32 recvBytes) override;
 

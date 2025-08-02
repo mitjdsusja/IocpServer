@@ -1,29 +1,31 @@
 #include "pch.h"
+#include "Global.h"
 
 #include "Service.h"
 #include "ThreadManager.h"
 #include "BufferPool.h"
 #include "PacketHandler.h"
-#include "Actor.h"
-#include "Job.h"
 
 #include "messageTest.pb.h"
 
 #include "GameSession.h"
+#include "Player.h"
 
 enum {
 	GQCS_THREAD_COUNT = 1,
 	WORKER_THREAD_COUNT = 1,
+	CLIENT_COUNT = 1,
 };
 
 int main() {
 	wcout.imbue(std::locale("kor"));
 
 	//ClientService* clientService = new ClientService(NetAddress(L"127.0.0.1", 7777), 1, []() { return make_shared<GameSession>(nullptr); });
-	ClientService* clientService = new ClientService(NetAddress(L"192.168.0.14", 7777), 1, []() { return make_shared<GameSession>(nullptr); });
+	ClientService* clientService = new ClientService(NetAddress(L"192.168.0.14", 7777), (int32)CLIENT_COUNT, []() { return make_shared<GameSession>(nullptr); });
 	PacketHandler::RegisterPacketHandlers();
+	LSendBufferPool = new BufferPool();
 
-	this_thread::sleep_for(1s);
+	//this_thread::sleep_for(1s);
 	
 	clientService->Start();
 	// Create Thread GQCS
@@ -35,21 +37,21 @@ int main() {
 		});
 	}
 
-	for (int32 i = 0; i < JOB_QUEUE_THREAD; i++) {
-		cout << "Job Thread Start" << endl;
+	// wait all connect
+	while (true) {
 
-		GThreadManager->Launch([=]() {
-			while (true) {
-				AsyncJob* job = GJobQueue->Pop();
-				job->Execute();
-				delete job;
-			}
-			});
+		if (CLIENT_COUNT <= clientService->GetCurSessionCount()) {
+
+			break;
+		}
+		this_thread::sleep_for(1s);
 	}
 
-	LSendBufferPool = new BufferPool();
 
-	this_thread::sleep_for(1s);
+	// Login 
+	GPlayerManager->LoginRequest();
+
+	//
 	
 	
 

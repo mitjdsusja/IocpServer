@@ -72,23 +72,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)Application\$(Configuration)\</OutDir>
-    <IncludePath>$(SolutionDir)Libraries\Protobuf\include\;$(SolutionDir)ServerLib\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDIr)Libraries\Protobuf\lib\;$(SolutionDir)Libraries\ServerLib\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)ServerLib\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Libraries\ServerLib\$(Configuration)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)Application\$(Configuration)\</OutDir>
-    <IncludePath>$(SolutionDir)Libraries\Protobuf\include\;$(SolutionDir)ServerLib\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDIr)Libraries\Protobuf\lib\;$(SolutionDir)Libraries\ServerLib\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)ServerLib\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Libraries\ServerLib\$(Configuration)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)Application\$(Configuration)\</OutDir>
-    <IncludePath>$(SolutionDir)Libraries\Protobuf\include\;$(SolutionDir)ServerLib\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDIr)Libraries\Protobuf\lib\;$(SolutionDir)Libraries\ServerLib\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)ServerLib\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Libraries\ServerLib\$(Configuration)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)Application\$(Configuration)\</OutDir>
-    <IncludePath>$(SolutionDir)Libraries\Protobuf\include\;$(SolutionDir)ServerLib\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDIr)Libraries\Protobuf\lib\;$(SolutionDir)Libraries\ServerLib\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)ServerLib\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Libraries\ServerLib\$(Configuration)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -98,6 +98,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <DisableSpecificWarnings>4251;4267;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -114,6 +115,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <DisableSpecificWarnings>4251;4267;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -130,6 +132,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <DisableSpecificWarnings>4251;4267;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -146,6 +149,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <DisableSpecificWarnings>4251;4267;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -157,6 +161,7 @@
   <ItemGroup>
     <ClCompile Include="ClientMain.cpp" />
     <ClCompile Include="GameSession.cpp" />
+    <ClCompile Include="Global.cpp" />
     <ClCompile Include="messageTest.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
@@ -170,12 +175,15 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameSession.h" />
+    <ClInclude Include="Global.h" />
     <ClInclude Include="messageTest.pb.h" />
     <ClInclude Include="PacketHandler.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
