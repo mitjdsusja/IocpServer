@@ -33,6 +33,9 @@
     <ClCompile Include="Global.cpp">
       <Filter>Main</Filter>
     </ClCompile>
+    <ClCompile Include="DummyClientService.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PacketHandler.h">
@@ -51,6 +54,9 @@
       <Filter>Content</Filter>
     </ClInclude>
     <ClInclude Include="Global.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="DummyClientService.h">
       <Filter>Main</Filter>
     </ClInclude>
   </ItemGroup>

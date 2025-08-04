@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Global.h"
 
-#include "Service.h"
+#include "DummyClientService.h"
 #include "ThreadManager.h"
 #include "BufferPool.h"
 #include "PacketHandler.h"
@@ -21,18 +21,18 @@ int main() {
 	wcout.imbue(std::locale("kor"));
 
 	//ClientService* clientService = new ClientService(NetAddress(L"127.0.0.1", 7777), 1, []() { return make_shared<GameSession>(nullptr); });
-	ClientService* clientService = new ClientService(NetAddress(L"192.168.0.14", 7777), (int32)CLIENT_COUNT, []() { return make_shared<GameSession>(nullptr); });
+	DummyClientService* dummyClientService = new DummyClientService(NetAddress(L"192.168.0.14", 7777), (int32)CLIENT_COUNT, []() { return make_shared<GameSession>(nullptr); });
 	PacketHandler::RegisterPacketHandlers();
 	LSendBufferPool = new BufferPool();
 
 	//this_thread::sleep_for(1s);
 	
-	clientService->Start();
+	dummyClientService->Start();
 	// Create Thread GQCS
 	for (int32 i = 0; i < GQCS_THREAD_COUNT; i++) {
 		GThreadManager->Launch([=]() {
 			while (true) {
-				clientService->CompletionEventThread();
+				dummyClientService->CompletionEventThread();
 			}
 		});
 	}
@@ -40,10 +40,9 @@ int main() {
 	// wait all connect
 	while (true) {
 
-		wcout << L"session Count : " << clientService->GetCurSessionCount() << endl;
-		wcout << L"player Count : " << GPlayerManager->GetPlayerCount() << endl;
+		wcout << L"ConnectedSession Count : " << dummyClientService->GetConnectedSessionCount() << endl;
 
-		if (CLIENT_COUNT <= clientService->GetCurSessionCount() && CLIENT_COUNT <= GPlayerManager->GetPlayerCount()) {
+		if (CLIENT_COUNT <= dummyClientService->GetConnectedSessionCount()) {
 			break;
 		}
 		this_thread::sleep_for(1s);
@@ -51,8 +50,18 @@ int main() {
 	wcout << L"Client All Connect" << endl;
 
 	// Login 
-	// session을 통해 send 후 handle후 sessionId를 받아서 Player객체 생성
-	//
+	//dummyClientService->LoginAllSession();
+
+	while (true) {
+
+		wcout << L"Player Count : " << GPlayerManager->GetPlayerCount() << endl;
+
+		if (CLIENT_COUNT <= GPlayerManager->GetPlayerCount()) {
+			break;
+		}
+		this_thread::sleep_for(1s);
+	}
+	wcout << L"Client All Login" << endl;
 
 	// Request Room List
 

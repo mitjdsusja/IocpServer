@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Global.h"
 
+#include "DummyClientService.h"
 #include "GameSession.h"
 #include "PacketHandler.h"
 #include "Player.h"
@@ -15,7 +16,8 @@ GameSession::~GameSession() {
 
 void GameSession::OnConnect() {
 
-	//GPlayerManager->CreatePlayerAndAdd(shared_from_this());
+	DummyClientService* dummyClientService = (DummyClientService*)GetOwner();
+	dummyClientService->AddConnectedSessionCount();
 }
 
 void GameSession::OnSend(int32 sendBytes) {

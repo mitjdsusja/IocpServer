@@ -133,7 +133,7 @@ void Session::RegisterRecv(){
 }
 
 void Session::ProcessConnect(OverlappedEvent* event, int32 processBytes){
-	cout << "[Connect] Connect Server" << endl;
+	cout << "[Connect] Connect Server : " << GetSessionId() << endl;
 
 	OnConnect();
 	RegisterRecv();

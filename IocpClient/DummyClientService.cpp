@@ -5,6 +5,11 @@
 
 #include "messageTest.pb.h"
 
+DummyClientService::DummyClientService(NetAddress address, int32 maxSessionCount, function<shared_ptr<Session>(void)> sessionCreateFunc)
+: ClientService(address, maxSessionCount, sessionCreateFunc){
+
+}
+
 void DummyClientService::LoginAllSession(){
 
 	msgTest::CS_Login_Request sendPacketLoginrequest;
@@ -28,4 +33,14 @@ void DummyClientService::LoginAllSession(){
 			session->Send(buffer);
 		}
 	}
+}
+
+void DummyClientService::AddConnectedSessionCount(){
+
+	_connectedSessionCount.fetch_add(1);
+}
+
+uint32 DummyClientService::GetConnectedSessionCount(){
+
+	return _connectedSessionCount;
 }

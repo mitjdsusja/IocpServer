@@ -160,6 +160,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ClientMain.cpp" />
+    <ClCompile Include="DummyClientService.cpp" />
     <ClCompile Include="GameSession.cpp" />
     <ClCompile Include="Global.cpp" />
     <ClCompile Include="messageTest.pb.cc">
@@ -178,6 +179,7 @@
     <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DummyClientService.h" />
     <ClInclude Include="GameSession.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="messageTest.pb.h" />

@@ -112,15 +112,14 @@ void ClientService::SendMsg(shared_ptr<Buffer> sendBuffer){
 
 void ClientService::Start(){
 
-	lock_guard<mutex> _lock(_sessionsMutex);
-
 	for (int32 i = 0;i < _maxSessionCount;i++) {
 
 		shared_ptr<Session> session = CreateSession();
+		session->SetSessionId(GenerateSessionId());
 		_completionPortHandler->RegisterHandle((HANDLE)session->GetSocket(), 0);
 
-		_sessions[session->GetSessionId()] = session;
-		_curSessionCount++;
+		AddSession(session);
+		session->SetOwner(this);
 
 		session->Connect(_address);
 	}
