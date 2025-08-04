@@ -113,6 +113,10 @@ void PacketHandler::Handle_SC_Login_Response(shared_ptr<GameSession> session, sh
 
 	if (recvLoginResponsePacket.success() == true) {
 
+		// session SetSessionId()
+		//
+		GPlayerManager->CreatePlayerAndAdd(session);
+		wcout << L"[PacketHandler::Handle_SC_Login_Response] Login Success " << endl;
 	}
 	else {
 		wcout << L"[PacketHandler::Handle_SC_Login_Response] Login Fail " << endl;

@@ -14,7 +14,7 @@
 enum {
 	GQCS_THREAD_COUNT = 1,
 	WORKER_THREAD_COUNT = 1,
-	CLIENT_COUNT = 1,
+	CLIENT_COUNT = 10,
 };
 
 int main() {
@@ -40,16 +40,19 @@ int main() {
 	// wait all connect
 	while (true) {
 
-		if (CLIENT_COUNT <= clientService->GetCurSessionCount() && CLIENT_COUNT <= GPlayerManager->GetPlayerCount()) {
+		wcout << L"session Count : " << clientService->GetCurSessionCount() << endl;
+		wcout << L"player Count : " << GPlayerManager->GetPlayerCount() << endl;
 
+		if (CLIENT_COUNT <= clientService->GetCurSessionCount() && CLIENT_COUNT <= GPlayerManager->GetPlayerCount()) {
 			break;
 		}
 		this_thread::sleep_for(1s);
 	}
-
+	wcout << L"Client All Connect" << endl;
 
 	// Login 
-	GPlayerManager->LoginRequest();
+	// session을 통해 send 후 handle후 sessionId를 받아서 Player객체 생성
+	//
 
 	// Request Room List
 

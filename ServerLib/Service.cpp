@@ -120,6 +120,7 @@ void ClientService::Start(){
 		_completionPortHandler->RegisterHandle((HANDLE)session->GetSocket(), 0);
 
 		_sessions[session->GetSessionId()] = session;
+		_curSessionCount++;
 
 		session->Connect(_address);
 	}
