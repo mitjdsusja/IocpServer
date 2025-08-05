@@ -12,7 +12,9 @@ bool SocketManager::SetEnv(){
 	WSADATA wsaData;
 	int err = WSAStartup(MAKEWORD(2, 2), &wsaData);
 	if (err != 0) {
-		ErrorHandler::HandleError(L"WSAStartup Error", err);
+
+		spdlog::info("WSAStartup Error : {}", err);
+		//ErrorHandler::HandleError(L"WSAStartup Error", err);
 
 		return false;
 	}
@@ -31,9 +33,10 @@ SOCKET SocketManager::CreateSocket(){
 
 	SOCKET socket = WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, WSA_FLAG_OVERLAPPED);
 	if (socket == INVALID_SOCKET) {
+
 		int32 err = WSAGetLastError();
-		ErrorHandler::HandleError(L"CreateSocket Error", err);
-		
+		spdlog::info("CreateSocket Error : {}", err);
+		//ErrorHandler::HandleError(L"CreateSocket Error", err);
 	}
 	return socket;
 }
@@ -41,8 +44,10 @@ SOCKET SocketManager::CreateSocket(){
 bool SocketManager::Bind(SOCKET socket, NetAddress address) {
 
 	if (SOCKET_ERROR == ::bind(socket, (SOCKADDR*)&address.GetSockAddr(), sizeof(SOCKADDR))) {
+		
 		int32 err = WSAGetLastError();
-		ErrorHandler::HandleError(L"Bind Error", err);
+		spdlog::info("Bind Error : {}", err);
+		//ErrorHandler::HandleError(L"Bind Error", err);
 
 		return false;
 	}
@@ -58,8 +63,10 @@ bool SocketManager::BindAnyAddress(SOCKET socket, uint16 port) {
 	address.sin_addr.s_addr = htonl(INADDR_ANY);
 
 	if (SOCKET_ERROR == ::bind(socket, (SOCKADDR*)&address, sizeof(SOCKADDR_IN))) {
+
 		int32 err = WSAGetLastError();
-		ErrorHandler::HandleError(L"BindAnyAddress Error", err);
+		spdlog::info("BindAnyAddress Error : {}", err);
+		//ErrorHandler::HandleError(L"BindAnyAddress Error", err);
 
 		return false;
 	}
@@ -70,8 +77,10 @@ bool SocketManager::BindAnyAddress(SOCKET socket, uint16 port) {
 bool SocketManager::Listen(SOCKET socket, int32 backlog) {
 
 	if (SOCKET_ERROR == listen(socket, backlog)) {
+
 		int32 err = WSAGetLastError();
-		ErrorHandler::HandleError(L"Listen Error", err);
+		spdlog::info("Listen Error : {}", err);
+		//ErrorHandler::HandleError(L"Listen Error", err);
 
 		return false;
 	}
@@ -82,7 +91,9 @@ bool SocketManager::Listen(SOCKET socket, int32 backlog) {
 bool SocketManager::Send(SOCKET targetSocket, Buffer* sendBufferArray, int32 bufCount, SendEvent* sendEvent){
 	
 	if (targetSocket == INVALID_SOCKET) {
-		ErrorHandler::HandleError(L"RECV INVALID SOCKET");
+
+		spdlog::info("RECV INVALID SOCKET");
+		//ErrorHandler::HandleError(L"RECV INVALID SOCKET");
 		return false;
 	}
 
@@ -102,7 +113,8 @@ bool SocketManager::Send(SOCKET targetSocket, Buffer* sendBufferArray, int32 buf
 		}
 		else {
 			// TODO : Error
-			ErrorHandler::HandleError(L"Recv Failed", err);
+			spdlog::info("Recv Failed : {}", err);
+			//ErrorHandler::HandleError(L"Recv Failed", err);
 			return false;
 		}
 	}
@@ -113,7 +125,9 @@ bool SocketManager::Send(SOCKET targetSocket, Buffer* sendBufferArray, int32 buf
 bool SocketManager::Recv(SOCKET targetSocket, RecvBuffer* recvBuffer, RecvEvent* recvEvent){
 
 	if (targetSocket == INVALID_SOCKET) {
-		ErrorHandler::HandleError(L"RECV INVALID SOCKET");
+
+		spdlog::info("RECV INVALID SOCKET");
+		//ErrorHandler::HandleError(L"RECV INVALID SOCKET");
 		return false;
 	}
 
@@ -134,7 +148,8 @@ bool SocketManager::Recv(SOCKET targetSocket, RecvBuffer* recvBuffer, RecvEvent*
 		}
 		else {
 			// TODO : Error
-			ErrorHandler::HandleError(L"Recv Failed", err);
+			spdlog::info("Recv Failed : {}", err);
+			//ErrorHandler::HandleError(L"Recv Failed", err);
 			return false;
 		}
 	}
@@ -152,7 +167,9 @@ bool SocketManager::Accept(SOCKET listenSocket, SOCKET AcceptSocket,BYTE* recvBu
 			return true;
 		}
 		else {
-			ErrorHandler::HandleError(L"AcceptEx Error", err);
+
+			spdlog::info("AcceptEx Error : {}", err);
+			//ErrorHandler::HandleError(L"AcceptEx Error", err);
 
 			return false;
 		}
@@ -170,7 +187,9 @@ bool SocketManager::Connect(SOCKET targetSocket, SOCKADDR* targetAddr, ConnectEv
 			return true;
 		}
 		else {
-			ErrorHandler::HandleError(L"Connect", err);
+
+			spdlog::info("Connect : " , err);
+			//ErrorHandler::HandleError(L"Connect", err);
 
 			return false;
 		}
@@ -183,8 +202,10 @@ bool SocketManager::BindWindowFunction(SOCKET dummySocket, GUID guid, LPVOID* fn
 
 	DWORD bytes = 0;
 	if (SOCKET_ERROR == ::WSAIoctl(dummySocket, SIO_GET_EXTENSION_FUNCTION_POINTER, &guid, sizeof(guid), fn, sizeof(*fn), &bytes, NULL, NULL)) {
+		
 		int32 err = WSAGetLastError();
-		ErrorHandler::HandleError(L"WSAStartup Error", err);
+		spdlog::info("WSAStartup Error : {}", err);
+		//ErrorHandler::HandleError(L"WSAStartup Error", err);
 
 		return false;
 	}

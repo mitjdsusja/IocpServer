@@ -13,6 +13,7 @@
 #include <cassert>
 #include <future>
 
+#include "boost/locale.hpp"
 #include "spdlog/spdlog.h"
 
 using namespace std;

@@ -72,7 +72,8 @@ void Session::Process(OverlappedEvent* event, int32 numOfBytes){
 		ProcessConnect(event, numOfBytes);
 		break;
 	case EventType::DISCONNECT:
-		cout << "[DISCONNECT] " << endl;
+		spdlog::info("[DISCONNECT]");
+		//cout << "[DISCONNECT] " << endl;
 		break;
 	case EventType::SEND:
 		ProcessSend(event, numOfBytes);
@@ -81,7 +82,8 @@ void Session::Process(OverlappedEvent* event, int32 numOfBytes){
 		ProcessRecv(event, numOfBytes);
 		break;
 	default:
-		cout << "[DEFAULT] " << endl;
+		spdlog::info("[DEFAULT]");
+		//cout << "[DEFAULT] " << endl;
 		break;
 	}
 }
@@ -133,7 +135,9 @@ void Session::RegisterRecv(){
 }
 
 void Session::ProcessConnect(OverlappedEvent* event, int32 processBytes){
-	cout << "[Connect] Connect Server : " << GetSessionId() << endl;
+
+	spdlog::info("[Connect] Connect Server : {}", GetSessionId());
+	//cout << "[Connect] Connect Server : " << GetSessionId() << endl;
 
 	OnConnect();
 	RegisterRecv();
@@ -147,7 +151,9 @@ void Session::ProcessDisconnect(OverlappedEvent* event, int32 ProcessBytes){
 void Session::ProcessSend(OverlappedEvent* event, int32 processBytes){
 
 	if (event->_eventType != EventType::SEND) {
-		ErrorHandler::HandleError(L"ProcessSend Error : INVALID EVENT TYPE");
+
+		spdlog::info("ProcessSend Error : INVALID EVENT TYPE");
+		//ErrorHandler::HandleError(L"ProcessSend Error : INVALID EVENT TYPE");
 	}
 
 	SendEvent* sendEvent = (SendEvent*)event;
@@ -170,7 +176,9 @@ void Session::ProcessSend(OverlappedEvent* event, int32 processBytes){
 void Session::ProcessRecv(OverlappedEvent* event, int32 recvBytes){
 	
 	if (event->_eventType != EventType::RECV) {
-		ErrorHandler::HandleError(L"ProcessRecv Error : INVALID EVENT TYPE");
+
+		spdlog::info("ProcessRecv Error : INVALID EVENT TYPE");
+		//ErrorHandler::HandleError(L"ProcessRecv Error : INVALID EVENT TYPE");
 		return;
 	}
 
@@ -223,7 +231,8 @@ int32 Session::OnRecv(BYTE* recvBuffer, int32 recvBytes){
 
 		if (frameIndex < 0 || frameIndex >= totalFrameCount) {
 
-			wcout << "INVALID FRAME  Frame: " << frameIndex << "/" << totalFrameCount << endl;
+			spdlog::info("INVALID FRAME  Frame: {} / ", frameIndex, totalFrameCount);
+			//wcout << "INVALID FRAME  Frame: " << frameIndex << "/" << totalFrameCount << endl;
 			break;
 		}
 

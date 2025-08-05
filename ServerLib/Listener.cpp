@@ -54,7 +54,8 @@ void Listener::ProcessAccept(AcceptEvent* acceptEvent) {
 	if (SOCKET_ERROR == setsockopt(socket, SOL_SOCKET, SO_UPDATE_ACCEPT_CONTEXT, (char*)&_listenSocket, sizeof(_listenSocket))) {
 
 		int32 err = WSAGetLastError();
-		ErrorHandler::HandleError(L"setsockopt Error : ", err);
+		spdlog::info("setsockopt Error : {}", err);
+		//ErrorHandler::HandleError(L"setsockopt Error : ", err);
 
 		RegisterAccept(acceptEvent);
 		return;
@@ -64,7 +65,8 @@ void Listener::ProcessAccept(AcceptEvent* acceptEvent) {
 	int32 addrLen = sizeof(sockAddr);
 	if (SOCKET_ERROR == getpeername(socket, (SOCKADDR*)&sockAddr, &addrLen)) {
 		int32 err = WSAGetLastError();
-		ErrorHandler::HandleError(L"setsockopt Error : ", err);
+		spdlog::info("setsockopt Error : {}", err);
+		//ErrorHandler::HandleError(L"setsockopt Error : ", err);
 
 		RegisterAccept(acceptEvent);
 		return;
@@ -86,7 +88,8 @@ void Listener::Process(OverlappedEvent* event, int32 numOfBytes){
 
 	if (event->_eventType != EventType::ACCEPT) {
 
-		ErrorHandler::HandleError(L"Listener Process EventType Error");
+		spdlog::info("Listener Process EventType Error");
+		//ErrorHandler::HandleError(L"Listener Process EventType Error");
 	}
 
 	AcceptEvent* acceptEvent = (AcceptEvent*)event;
@@ -110,7 +113,8 @@ void Listener::OnAccept(shared_ptr<Session> session) {
 
 	session->OnConnect();
 	NetAddress peerAddress = session->GetPeerAddressRef();
-	wcout << L"[Listener::OnAccept] " << "Address : " << peerAddress.GetIpAddress() << " Port : " << peerAddress.GetPort() << endl;
+	spdlog::info("[Listener::OnAccept] Address : {} Port : {}", boost::locale::conv::utf_to_utf<char>(peerAddress.GetIpAddress()), peerAddress.GetPort());
+	//wcout << L"[Listener::OnAccept] " << "Address : " << peerAddress.GetIpAddress() << " Port : " << peerAddress.GetPort() << endl;
 }
 
 void Listener::CleanResource(){

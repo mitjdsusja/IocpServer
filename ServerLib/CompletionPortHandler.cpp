@@ -35,7 +35,8 @@ void CompletionPortHandler::GetCompletionEvent(uint32 ms){
 			overlapped->_owner->CleanResource();
 		}
 		else {
-			ErrorHandler::HandleError(L"GetQueuedCompletionStatus", err);
+			spdlog::info("GetQueuedCompletionStatus : {}", err);
+			//ErrorHandler::HandleError(L"GetQueuedCompletionStatus", err);
 		}
 	}
 }

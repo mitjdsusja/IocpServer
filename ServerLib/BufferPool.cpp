@@ -69,7 +69,8 @@ Buffer* LockBufferPool::Pop(){
 
 	if (_buffers.empty() == true) {
 		_bufferCount++;
-		cout << "Total Buffer Count : " << _bufferCount << endl;
+		spdlog::info("Total Buffer Count : {}", _bufferCount);
+		//cout << "Total Buffer Count : " << _bufferCount << endl;
 		return new Buffer(buffer_size);
 	}
 	Buffer* Buffer = _buffers.back();

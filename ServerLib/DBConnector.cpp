@@ -26,10 +26,17 @@ void DBConnector::PrintError(SQLHANDLE henv, SQLHANDLE hdbc, SQLHANDLE hstmt) {
     ret = SQLErrorW(henv, hdbc, hstmt, wszSqlState, &pfNativeError, wszErrorMsg, sizeof(wszErrorMsg) / sizeof(SQLWCHAR), &pcchErrorMsg);
 
     if (SQL_SUCCEEDED(ret)) {
-        std::wcerr << L"SQL Error - State: " << wszSqlState << L", Error: " << wszErrorMsg << std::endl;
+
+        std::wstring ws_state(wszSqlState);
+        std::wstring ws_msg(wszErrorMsg);
+
+        spdlog::info("SQL Error - State: {}, Error: ", boost::locale::conv::utf_to_utf<char>(wszSqlState), boost::locale::conv::utf_to_utf<char>(wszErrorMsg));
+        //std::wcerr << L"SQL Error - State: " << wszSqlState << L", Error: " << wszErrorMsg << std::endl;
     }
     else {
-        std::wcerr << L"Error: Failed to retrieve diagnostic information!" << std::endl;
+
+        spdlog::info("Error: Failed to retrieve diagnostic information!");
+        //std::wcerr << L"Error: Failed to retrieve diagnostic information!" << std::endl;
     }
 }
 
@@ -37,21 +44,27 @@ void DBConnector::Init() {
     // ODBC 환경 핸들 초기화
     ret = SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &hEnv);
     if (ret != SQL_SUCCESS && ret != SQL_SUCCESS_WITH_INFO) {
-        std::cerr << "Failed to allocate environment handle!" << std::endl;
+
+        spdlog::info("Failed to allocate environment handle!");
+        //std::cerr << "Failed to allocate environment handle!" << std::endl;
         return;
     }
 
     // ODBC 환경 속성 설정 (ODBC 3.8 지원)
     ret = SQLSetEnvAttr(hEnv, SQL_ATTR_ODBC_VERSION, (SQLPOINTER)SQL_OV_ODBC3, 0);
     if (ret != SQL_SUCCESS && ret != SQL_SUCCESS_WITH_INFO) {
-        std::cerr << "Failed to set ODBC version!" << std::endl;
+
+        spdlog::info("Failed to set ODBC version!");
+        //std::cerr << "Failed to set ODBC version!" << std::endl;
         return;
     }
 
     // ODBC 연결 핸들 초기화
     ret = SQLAllocHandle(SQL_HANDLE_DBC, hEnv, &hDbc);
     if (ret != SQL_SUCCESS && ret != SQL_SUCCESS_WITH_INFO) {
-        std::cerr << "Failed to allocate connection handle!" << std::endl;
+
+        spdlog::info("Failed to allocate connection handle!");
+        //std::cerr << "Failed to allocate connection handle!" << std::endl;
         return;
     }
 
@@ -69,12 +82,15 @@ void DBConnector::Connect() {
         return;
     }
 
-    cout << "Connect DB" << endl;
+    spdlog::info("Connect DB");
+    //cout << "Connect DB" << endl;
 
     // SQL 문을 실행할 핸들 초기화
     ret = SQLAllocHandle(SQL_HANDLE_STMT, hDbc, &hStmt);
     if (ret != SQL_SUCCESS && ret != SQL_SUCCESS_WITH_INFO) {
-        std::cerr << "Failed to allocate statement handle!" << std::endl;
+
+        spdlog::info("Failed to allocate statement handle!");
+        //std::cerr << "Failed to allocate statement handle!" << std::endl;
         return;
     }
 }
@@ -105,7 +121,9 @@ vector<vector<wstring>> DBConnector::ExecuteSelectQuery(wstring query) {
     SQLNumResultCols(hStmt, &colCount);
 
     if (colCount <= 0) {
-        std::cerr << "No columns found in result set!" << std::endl;
+
+        spdlog::info("No columns found in result set!");
+        //std::cerr << "No columns found in result set!" << std::endl;
         return results;
     }
 
