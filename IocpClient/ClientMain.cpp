@@ -50,7 +50,7 @@ int main() {
 	wcout << L"Client All Connect" << endl;
 
 	// Login 
-	//dummyClientService->LoginAllSession();
+	dummyClientService->LoginAllSession();
 
 	while (true) {
 
@@ -64,6 +64,7 @@ int main() {
 	wcout << L"Client All Login" << endl;
 
 	// Request Room List
+
 
 	// Enter Room
 
