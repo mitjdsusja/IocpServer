@@ -131,7 +131,6 @@ void PacketHandler::Handle_SC_Room_List_Response(shared_ptr<GameSession> session
 	msgTest::Room room = recvRoomListResponse.roomlist(0);
 	int32 roomId = room.roomid();
 
-
 }
 
 void PacketHandler::Handle_SC_Player_Info_Response(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {

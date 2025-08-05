@@ -4,6 +4,8 @@
 #include "GameSession.h"
 #include "PacketHandler.h"
 
+#include "messageTest.pb.h"
+
 
 Player::Player(const shared_ptr<Session>& owner) : _owner(owner) {
 
@@ -31,6 +33,20 @@ void PlayerManager::CreatePlayerAndAdd(const shared_ptr<Session>& playerOwner, u
 
 void PlayerManager::RequestRoomList(){
 
+	msgTest::CS_Room_List_Request sendPacketRoomListRequest;
+
+	if (_players.size() == 0) {
+
+		wcout << L"Empty Players " << endl;
+		return;
+	}
+
+	const auto& iter = _players.begin();
+	auto& playerRef = iter->second;
+
+	vector<shared_ptr<Buffer>> buffer = PacketHandler::MakeSendBuffer(sendPacketRoomListRequest, PacketId::PKT_CS_ROOM_LIST_REQUEST);
+
+	playerRef->SendData(buffer);
 }
 
 shared_ptr<Player> PlayerManager::CreatePlayer(const shared_ptr<Session>& playerOwner){
