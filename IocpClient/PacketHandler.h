@@ -116,9 +116,8 @@ vector<shared_ptr<Buffer>> PacketHandler::MakeSendBuffer(const T& packet, Packet
 	int32 offset = 0;
 	int32 frameCount = 0;
 
-	for (uint32 frameIndex = 0; offset < totalDataSize; ++frameIndex) {
-
-		shared_ptr<Buffer> sendBuffer = shared_ptr<Buffer>(GSendBufferPool->Pop(), [](Buffer* buffer) { GSendBufferPool->Push(buffer); });
+	do {
+		shared_ptr<Buffer> sendBuffer = shared_ptr<Buffer>(GSendBufferPool->Pop(), [](Buffer* buffer) {GSendBufferPool->Push(buffer); });
 
 		const int32 bufferCapacity = sendBuffer->Capacity();
 		const int32 maxPayloadSize = bufferCapacity - headerSize - frameSize;
@@ -126,23 +125,24 @@ vector<shared_ptr<Buffer>> PacketHandler::MakeSendBuffer(const T& packet, Packet
 		int32 payloadSize = min(maxPayloadSize, totalDataSize - offset);
 		int32 packetSize = headerSize + frameSize + payloadSize;
 
-		PacketHeader* header = (PacketHeader*)sendBuffer->GetBuffer();
+		PacketHeader* header = reinterpret_cast<PacketHeader*>(sendBuffer->GetBuffer());
 		header->packetId = htonl(packetId);
 		header->packetSize = htonl(packetSize);
 
-		PacketFrame* frame = (PacketFrame*)((BYTE*)header + sizeof(PacketHeader));
+		PacketFrame* frame = reinterpret_cast<PacketFrame*>((BYTE*)header + headerSize);
 		frame->packetId = htonl(packetId);
-		frame->frameIndex = htonl(frameIndex);
+		frame->frameIndex = htonl(frameCount);
 
-		BYTE* payloadPtr = (BYTE*)frame + sizeof(PacketFrame);
-		memcpy(payloadPtr, serializedData.data() + offset, payloadSize);
+		BYTE* payloadPtr = reinterpret_cast<BYTE*>(frame) + frameSize;
+		if (payloadSize > 0)
+			memcpy(payloadPtr, serializedData.data() + offset, payloadSize);
 
 		sendBuffer->Write(packetSize);
 		sendBuffers.push_back(sendBuffer);
 
 		offset += payloadSize;
 		frameCount++;
-	}
+	} while (offset < totalDataSize || frameCount == 0);
 
 	for (auto& buffer : sendBuffers) {
 		PacketFrame* frame = (PacketFrame*)(buffer->GetBuffer() + sizeof(PacketHeader));
