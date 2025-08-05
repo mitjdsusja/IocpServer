@@ -35,12 +35,6 @@ void DummyClientService::LoginAllSession(){
 	}
 }
 
-void DummyClientService::RequestRoomInfoAndEnterRoom(){
-
-	msgTest::CS_Room_List_Request sendPacketRoomListRequest;
-	
-}
-
 void DummyClientService::AddConnectedSessionCount(){
 
 	_connectedSessionCount.fetch_add(1);
