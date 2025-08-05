@@ -29,6 +29,10 @@ void PlayerManager::CreatePlayerAndAdd(const shared_ptr<Session>& playerOwner, u
 	AddPlayer(player, userId);
 }
 
+void PlayerManager::RequestRoomList(){
+
+}
+
 shared_ptr<Player> PlayerManager::CreatePlayer(const shared_ptr<Session>& playerOwner){
 
 	return make_shared<Player>(playerOwner);
