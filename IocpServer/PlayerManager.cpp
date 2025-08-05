@@ -1,6 +1,4 @@
-#include "Player.h"
-#include "Player.h"
-#include "pch.h"
+ï»¿#include "pch.h"
 #include <string>
 #include "Vector.h"
 #include "PlayerManager.h"
@@ -10,6 +8,8 @@
 #include "Actor.h"
 #include "Job.h"
 
+#include "boost/locale.hpp"
+
 
 Player::Player(shared_ptr<GameSession> owner)
  : _owner(owner), Actor(ActorType::PlayerType){
@@ -18,7 +18,7 @@ Player::Player(shared_ptr<GameSession> owner)
 
 Player::~Player() {
 
-	wcout << L"[Player::~Player] name :" << _info._baseInfo._name << endl;
+	spdlog::info("[Player::~Player] name : {}", boost::locale::conv::utf_to_utf<char>(_info._baseInfo._name));
 	ClearResource();
 }
 
@@ -212,25 +212,25 @@ void PlayerManager::PushJobGetRoomPlayer(uint64 sessionId, function<void(PlayerB
 		auto iter = self->_players.find(sessionId);
 		if (iter == self->_players.end()){
 
-			cout << "[PlayerManager::PushJobGetRoomPlayer] Invalid sessionId : " << sessionId << endl;
+			spdlog::info("[PlayerManager::PushJobGetRoomPlayer] Invalid sessionId : {}", sessionId);
 			return;
 		}
 
 		const shared_ptr<Player>& player = iter->second;
 
-		// °á°ú ÀúÀå¿ë º¯¼ö
+		// ê²°ê³¼ ì €ì¥ìš© ë³€ìˆ˜
 		shared_ptr<PlayerBaseInfo> baseInfo = make_shared<PlayerBaseInfo>();
 		shared_ptr<PlayerPosition> position = make_shared<PlayerPosition>();
 		shared_ptr<atomic<int>> counter = make_shared<atomic<int>>(2);
 
-		// µÎ ÀÛ¾÷ÀÌ ¸ğµÎ ¿Ï·áµÇ¾úÀ» ¶§ callback È£Ãâ
+		// ë‘ ì‘ì—…ì´ ëª¨ë‘ ì™„ë£Œë˜ì—ˆì„ ë•Œ callback í˜¸ì¶œ
 		auto done = [baseInfo, position, counter, func]() {
 			if (counter->fetch_sub(1) == 1) {
 				func(*baseInfo, *position);
 			}
 		};
 
-		// Player¿¡°Ô ÀÛ¾÷ À§ÀÓ
+		// Playerì—ê²Œ ì‘ì—… ìœ„ì„
 		player->PushJobGetBaseInfo([baseInfo, done](const PlayerBaseInfo& info) {
 			*baseInfo = info;
 			done();
@@ -254,7 +254,7 @@ void PlayerManager::PushJobGetBaseInfo(uint64 sessionId, function<void(PlayerBas
 		auto iter = self->_players.find(sessionId);
 		if (iter == self->_players.end()) {
 
-			cout << "[PlayerManager::PushJobGetRoomPlayer] Invalid sessionId : " << sessionId << endl;
+			spdlog::info("[PlayerManager::PushJobGetRoomPlayer] Invalid sessionId : {}", sessionId);
 			return;
 		}
 
@@ -275,7 +275,8 @@ void PlayerManager::PushJobGetPosition(uint64 sessionId, function<void(PlayerPos
 		auto iter = self->_players.find(sessionId);
 		if (iter == self->_players.end()) {
 
-			cout << "[PlayerManager::PushJobGetPosition] Invalid sessionId : " << sessionId << endl;
+			spdlog::info("[PlayerManager::PushJobGetPosition] Invalid sessionId : {}", sessionId);
+			//cout << "[PlayerManager::PushJobGetPosition] Invalid sessionId : " << sessionId << endl;
 			return;
 		}
 
@@ -296,7 +297,8 @@ void PlayerManager::PushJobGetstats(uint64 sessionId, function<void(PlayerStats)
 		auto iter = self->_players.find(sessionId);
 		if (iter == self->_players.end()) {
 
-			cout << "[PlayerManager::PushJobGetPosition] Invalid sessionId : " << sessionId << endl;
+			spdlog::info("[PlayerManager::PushJobGetPosition] Invalid sessionId : {}", sessionId);
+			//cout << "[PlayerManager::PushJobGetPosition] Invalid sessionId : " << sessionId << endl;
 			return;
 		}
 
@@ -324,7 +326,9 @@ void PlayerManager::SendData(uint64 sessionId, const shared_ptr<Buffer>& sendBuf
 
 	const auto& p = _players.find(sessionId);
 	if (p == _players.end()) {
-		cout << "[PlayerManager::SendData] Invalid Player : " << sessionId << endl;
+
+		spdlog::info("[PlayerManager::SendData] Invalid Player : {}", sessionId);
+		//cout << "[PlayerManager::SendData] Invalid Player : " << sessionId << endl;
 		return;
 	}
 
@@ -341,21 +345,24 @@ void PlayerManager::CreateAndPushPlayer(const shared_ptr<GameSession>& ownerSess
 
 	_players.insert({ baseInfo._sessionId, player });
 
-	wcout << L"[PlayerManager::CreateAndPushPlayer] Create Player : " << baseInfo._name << endl;
+	spdlog::info("[PlayerManager::CreateAndPushPlayer] Create Player : {}", boost::locale::conv::utf_to_utf<char>(baseInfo._name));
+	//wcout << L"[PlayerManager::CreateAndPushPlayer] Create Player : " << baseInfo._name << endl;
 }
 
 void PlayerManager::RemovePlayer(uint64 sessionId) {
 
 	const auto& p = _players.find(sessionId);
 	if (_players.end() == p) {
-		cout << "[PlayerManager::RemovePlayer] Invalid SessionId : " << sessionId << endl;
+
+		spdlog::info("[PlayerManager::RemovePlayer] Invalid SessionId : {}", sessionId);
+		//cout << "[PlayerManager::RemovePlayer] Invalid SessionId : " << sessionId << endl;
 		return;
 	}
 
 	shared_ptr<Player> player = p->second;
 
-	// DB¿¡ PlayerData ÀúÀå
-	// Ãß°¡ ¿¹Á¤
+	// DBì— PlayerData ì €ì¥
+	// ì¶”ê°€ ì˜ˆì •
 
 	_players.erase(sessionId);
 }
@@ -365,7 +372,8 @@ void PlayerManager::SetPosition(uint64 sessionId, const PlayerPosition& position
 	const auto& p = _players.find(sessionId);
 	if (p == _players.end()) {
 
-		wcout << "[PlayerManager::SetPosition] Invalid sessionId : " << sessionId << endl;
+		spdlog::info("[PlayerManager::SetPosition] Invalid sessionId : {}", sessionId);
+		//wcout << "[PlayerManager::SetPosition] Invalid sessionId : " << sessionId << endl;
 		return;
 	}
 

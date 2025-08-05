@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "PacketHandler.h"
 #include "ServerGlobal.h"
 #include <boost/locale.hpp>
@@ -68,7 +68,7 @@ void PacketHandler::Handle_Invalid(shared_ptr<GameSession> session, shared_ptr<B
 
 	PacketHeader* header = (PacketHeader*)buffer->GetBuffer();
 
-	ErrorHandler::HandleError(L"INVALID PACKET ID", header->packetId);
+	spdlog::info("INVALID PACKET ID {}", header->packetId);
 }
 
 
@@ -118,7 +118,7 @@ void PacketHandler::Handle_CS_Login_Request(shared_ptr<GameSession> session, sha
 		vector<vector<wstring>> result = LDBConnector->ExecuteSelectQuery(query);
 
 		if (!result.empty() && !result[0].empty()) {
-			int32 count = stoi(result[0][0]); // ¹®ÀÚ¿­À» ¼ıÀÚ·Î º¯È¯
+			int32 count = stoi(result[0][0]); // ë¬¸ìì—´ì„ ìˆ«ìë¡œ ë³€í™˜
 			int32 userNum = stoi(result[0][1]);
 			int32 level = stoi(result[0][2]);
 			wstring name = result[0][3];
@@ -146,14 +146,14 @@ void PacketHandler::Handle_CS_Login_Request(shared_ptr<GameSession> session, sha
 			}
 			else {
 				errorMessage = "Invalid ID or password.";
-				wcout << L"[PacketHandler::Handle_CS_Login_Request] Invalid ID or password."  << wId << endl;
+				spdlog::info("[PacketHandler::Handle_CS_Login_Request] Invalid ID or password. {}", boost::locale::conv::utf_to_utf<char>(wId));
 			}
 
-			wcout << L"[PacketHandler::Handle_CS_Login_Request] Client Login : " << name << endl;
+			spdlog::info("[PacketHandler::Handle_CS_Login_Request] Client Login : {}", boost::locale::conv::utf_to_utf<char>(name));
 		}
 		else {
 			errorMessage = "Query returned no results.";
-			wcout << L"[PacketHandler::Handle_CS_Login_Request] Query returned no results." << endl;
+			spdlog::info("[PacketHandler::Handle_CS_Login_Request] Query returned no results.");
 		}
 	}
 
@@ -173,7 +173,7 @@ void PacketHandler::Handle_CS_Login_Request(shared_ptr<GameSession> session, sha
 }
 
 void PacketHandler::Handle_CS_Room_List_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
-
+	
 	GRoomManager->PushJobGetRoomInfoList([session](vector<RoomInfo> roomInfoList) {
 
 		msgTest::SC_Room_List_Response roomListResponsePacket;
@@ -202,7 +202,7 @@ void PacketHandler::Handle_CS_Player_Info_Request(shared_ptr<GameSession> sessio
 
 	uint64 sessionId = recvRequestPlayerInfoPacket.sessionid();
 	if (session->GetSessionId() != sessionId) {
-		cout << "Session ID missmatch" << endl;
+		spdlog::info("Session ID missmatch");
 		return;
 	}
 
@@ -222,7 +222,7 @@ void PacketHandler::Handle_CS_Player_Info_Request(shared_ptr<GameSession> sessio
 		posZ = stoi(result[0][4]);
 	}
 	else {
-		wcout << L"Query returned no results." << endl;
+		spdlog::info("Query returned no results.");
 		return;
 	}
 

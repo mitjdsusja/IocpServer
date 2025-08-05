@@ -23,7 +23,8 @@ void DummyClientService::LoginAllSession(){
 		auto& player = p.second;
 		sendPacketLoginrequest.set_id("bot" + to_string(count));
 		sendPacketLoginrequest.set_password("bot" + to_string(count));
-
+		
+		cout << "Request Login : " << "bot" + to_string(count) << endl;
 		++count;
 
 		const vector<shared_ptr<Buffer>> sendBuffer = PacketHandler::MakeSendBuffer(sendPacketLoginrequest, PacketId::PKT_CS_LOGIN_REQUEST);

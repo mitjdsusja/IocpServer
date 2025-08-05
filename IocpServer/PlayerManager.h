@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Vector.h"
 #include "Actor.h"
 #include "RoomManager.h"
@@ -44,7 +44,7 @@ public:
 	shared_ptr<GameSession>& GetOwnerSession() { return _owner; }
 
 public:
-	// ¿ÜºÎ¿¡¼­ Àı´ë »ç¿ë ±İÁö
+	// ì™¸ë¶€ì—ì„œ ì ˆëŒ€ ì‚¬ìš© ê¸ˆì§€
 	void SendData(const shared_ptr<Buffer>& sendBuffer);
 	void UpdatePosition(const PlayerPosition& newPosition);
 
@@ -82,7 +82,7 @@ public:
 	void PushJobSetPosition(uint64 sessionId, PlayerPosition position);
 
 public:
-	// ¿ÜºÎ¿¡¼­ Àı´ë »ç¿ë ±İÁö
+	// ì™¸ë¶€ì—ì„œ ì ˆëŒ€ ì‚¬ìš© ê¸ˆì§€
 	void SendData(uint64 sessionId, const shared_ptr<Buffer>& sendBuffer);
 	void CreateAndPushPlayer(const shared_ptr<GameSession>& ownerSession, const PlayerBaseInfo& baseInfo, const PlayerPosition& position, const PlayerStats& stats);
 	void RemovePlayer(uint64 sessionId);

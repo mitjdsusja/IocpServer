@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "Session.h"
 #include "PacketHeader.h"
 #include "Service.h"
@@ -200,7 +200,7 @@ int32 Session::OnRecv(BYTE* recvBuffer, int32 recvBytes){
 	while (true) {
 
 		BYTE* buffer = recvBuffer + processLen;
-		// header¸¸Å­ recv¾ÈµÊ.
+		// headerë§Œí¼ recvì•ˆë¨.
 		if (recvBytes - processLen < sizeof(PacketHeader)) {
 			break;
 		}
@@ -209,7 +209,7 @@ int32 Session::OnRecv(BYTE* recvBuffer, int32 recvBytes){
 		header->packetId = ntohl(header->packetId);
 		header->packetSize = ntohl(header->packetSize);
 
-		// ÀüÃ¼ packetÀÌ ¾È¿È.
+		// ì „ì²´ packetì´ ì•ˆì˜´.
 		if (recvBytes - processLen < header->packetSize) {
 			break;
 		}

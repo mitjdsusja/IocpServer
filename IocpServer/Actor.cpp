@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "Job.h"
 #include "Actor.h"
 #include "ActorManager.h"
@@ -30,10 +30,10 @@ void Actor::ExecuteJob() {
 		RecordJobRatency(latency);
 	}
 
-	// ExecuteÁß ÀÛ¾÷ÀÌ queue¿¡ Ãß°¡ µÇÀÖÀ» ¼ö ÀÖÀ½.
+	// Executeì¤‘ ì‘ì—…ì´ queueì— ì¶”ê°€ ë˜ìˆì„ ìˆ˜ ìˆìŒ.
 	bool scheduleNeeded = false;
 	{
-		// ExecuteÁß ÀÛ¾÷ÀÌ Ãß°¡µÈ °æ¿ì
+		// Executeì¤‘ ì‘ì—…ì´ ì¶”ê°€ëœ ê²½ìš°
 		if (_jobQueue.Empty() == false) {
 			scheduleNeeded = true;
 		}

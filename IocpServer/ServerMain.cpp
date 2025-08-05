@@ -58,7 +58,7 @@ int main() {
 
 	serverService->Start();
 	for (int32 i = 0; i < (int32)GQCS_THREAD_COUNT; i++) {
-		cout << "GQCS Thread Start" << endl;
+		spdlog::info("GQCS Thread Start");
 
 		GThreadManager->Launch([=]() {
 			while (true) {
@@ -70,7 +70,7 @@ int main() {
 	}
 
 	for (int32 i = 0; i < (int32)WORKER_THREAD_COUNT; i++) {
-		cout << "Job Thread Start" << endl;
+		spdlog::info("Job Thread Start");
 
 		GThreadManager->Launch([=]() {
 			while (true) {
@@ -79,10 +79,10 @@ int main() {
 					actor->ExecuteJob();
 				}
 				catch (exception& e) {
-					cout << "job Thread Exception : " << e.what() << endl;
+					spdlog::info("job Thread Exception : {}", e.what());
 				}
 				catch (...) {
-					cout << "Job Thread Unknown Exception" << endl;
+					spdlog::info("Job Thread Unknown Exception : {}");
 				}
 				
 			}

@@ -1,4 +1,4 @@
-#include "pch.h"
+Ôªø#include "pch.h"
 #include "DBConnector.h"
 
 DBConnector::DBConnector() {
@@ -8,7 +8,7 @@ DBConnector::DBConnector() {
 
 DBConnector::~DBConnector() {
 
-    // ¿⁄ø¯ «ÿ¡¶
+    // ÏûêÏõê Ìï¥Ï†ú
     SQLFreeHandle(SQL_HANDLE_STMT, hStmt);
     SQLDisconnect(hDbc);
     SQLFreeHandle(SQL_HANDLE_DBC, hDbc);
@@ -22,7 +22,7 @@ void DBConnector::PrintError(SQLHANDLE henv, SQLHANDLE hdbc, SQLHANDLE hstmt) {
     SQLSMALLINT pcchErrorMsg;
     SQLRETURN ret;
 
-    // SQLErrorW »£√‚
+    // SQLErrorW Ìò∏Ï∂ú
     ret = SQLErrorW(henv, hdbc, hstmt, wszSqlState, &pfNativeError, wszErrorMsg, sizeof(wszErrorMsg) / sizeof(SQLWCHAR), &pcchErrorMsg);
 
     if (SQL_SUCCEEDED(ret)) {
@@ -34,21 +34,21 @@ void DBConnector::PrintError(SQLHANDLE henv, SQLHANDLE hdbc, SQLHANDLE hstmt) {
 }
 
 void DBConnector::Init() {
-    // ODBC »Ø∞Ê «⁄µÈ √ ±‚»≠
+    // ODBC ÌôòÍ≤Ω Ìï∏Îì§ Ï¥àÍ∏∞Ìôî
     ret = SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &hEnv);
     if (ret != SQL_SUCCESS && ret != SQL_SUCCESS_WITH_INFO) {
         std::cerr << "Failed to allocate environment handle!" << std::endl;
         return;
     }
 
-    // ODBC »Ø∞Ê º”º∫ º≥¡§ (ODBC 3.8 ¡ˆø¯)
+    // ODBC ÌôòÍ≤Ω ÏÜçÏÑ± ÏÑ§Ï†ï (ODBC 3.8 ÏßÄÏõê)
     ret = SQLSetEnvAttr(hEnv, SQL_ATTR_ODBC_VERSION, (SQLPOINTER)SQL_OV_ODBC3, 0);
     if (ret != SQL_SUCCESS && ret != SQL_SUCCESS_WITH_INFO) {
         std::cerr << "Failed to set ODBC version!" << std::endl;
         return;
     }
 
-    // ODBC ø¨∞· «⁄µÈ √ ±‚»≠
+    // ODBC Ïó∞Í≤∞ Ìï∏Îì§ Ï¥àÍ∏∞Ìôî
     ret = SQLAllocHandle(SQL_HANDLE_DBC, hEnv, &hDbc);
     if (ret != SQL_SUCCESS && ret != SQL_SUCCESS_WITH_INFO) {
         std::cerr << "Failed to allocate connection handle!" << std::endl;
@@ -59,10 +59,10 @@ void DBConnector::Init() {
 
 void DBConnector::Connect() {
 
-    // MySQL ø¨∞· πÆ¿⁄ø≠ º≥¡§ (DSN æ¯¿Ã ¡˜¡¢ ø¨∞·)
+    // MySQL Ïó∞Í≤∞ Î¨∏ÏûêÏó¥ ÏÑ§Ï†ï (DSN ÏóÜÏù¥ ÏßÅÏ†ë Ïó∞Í≤∞)
     SQLWCHAR connStr[] = L"DRIVER={MySQL ODBC 8.0 Unicode Driver};SERVER=localhost;DATABASE=myserverdb;USER=root;PASSWORD=sungdls200o!;";
 
-    // SQLDriverConnect »£√‚∑Œ MySQLø° ø¨∞·
+    // SQLDriverConnect Ìò∏Ï∂úÎ°ú MySQLÏóê Ïó∞Í≤∞
     ret = SQLDriverConnectW(hDbc, NULL, connStr, SQL_NTS, NULL, 0, NULL, SQL_DRIVER_NOPROMPT);
     if (ret != SQL_SUCCESS && ret != SQL_SUCCESS_WITH_INFO) {
         PrintError(hEnv, hDbc, NULL);
@@ -71,7 +71,7 @@ void DBConnector::Connect() {
 
     cout << "Connect DB" << endl;
 
-    // SQL πÆ¿ª Ω««‡«“ «⁄µÈ √ ±‚»≠
+    // SQL Î¨∏ÏùÑ Ïã§ÌñâÌï† Ìï∏Îì§ Ï¥àÍ∏∞Ìôî
     ret = SQLAllocHandle(SQL_HANDLE_STMT, hDbc, &hStmt);
     if (ret != SQL_SUCCESS && ret != SQL_SUCCESS_WITH_INFO) {
         std::cerr << "Failed to allocate statement handle!" << std::endl;
@@ -81,7 +81,7 @@ void DBConnector::Connect() {
 
 bool DBConnector::ExecuteQuery(wstring query) {
 
-    // SQL ƒı∏Æ Ω««‡
+    // SQL ÏøºÎ¶¨ Ïã§Ìñâ
     ret = SQLExecDirect(hStmt, (SQLWCHAR*)query.c_str(), SQL_NTS);
     if (ret != SQL_SUCCESS && ret != SQL_SUCCESS_WITH_INFO) {
         PrintError(hEnv, hDbc, hStmt);
@@ -94,11 +94,11 @@ bool DBConnector::ExecuteQuery(wstring query) {
 vector<vector<wstring>> DBConnector::ExecuteSelectQuery(wstring query) {
     vector<vector<wstring>> results;
 
-    // SQL Ω««‡
+    // SQL Ïã§Ìñâ
     ret = SQLExecDirect(hStmt, (SQLWCHAR*)query.c_str(), SQL_NTS);
     if (ret != SQL_SUCCESS && ret != SQL_SUCCESS_WITH_INFO) {
         PrintError(hEnv, hDbc, hStmt);
-        return results; // ∫Û ∞·∞˙ π›»Ø
+        return results; // Îπà Í≤∞Í≥º Î∞òÌôò
     }
 
     SQLSMALLINT colCount = 0;
@@ -109,11 +109,11 @@ vector<vector<wstring>> DBConnector::ExecuteSelectQuery(wstring query) {
         return results;
     }
 
-    // ∞·∞˙∏¶ ¿˙¿Â«“ ∫Øºˆ
+    // Í≤∞Í≥ºÎ•º Ï†ÄÏû•Ìï† Î≥ÄÏàò
     vector<SQLWCHAR> buffer(256);
     SQLLEN indicator;
 
-    // µ•¿Ã≈Õ ∞°¡Æø¿±‚
+    // Îç∞Ïù¥ÌÑ∞ Í∞ÄÏ†∏Ïò§Í∏∞
     while (SQLFetch(hStmt) == SQL_SUCCESS) {
         vector<wstring> row;
         for (SQLSMALLINT i = 1; i <= colCount; ++i) {

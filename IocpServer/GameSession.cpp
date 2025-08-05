@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "GameSession.h"
 #include "PacketHandler.h"
 #include "RoomManager.h"
@@ -29,9 +29,10 @@ void GameSession::OnRecvPacket(BYTE* recvBuffer, int32 recvBytes){
 void GameSession::OnDisconnect(){
 
 	uint64 sessionId = GetSessionId();
-	cout << "[GameSession::OnDisconnect] SessionId : " << sessionId << endl;
+	spdlog::info("[GameSession::OnDisconnect] SessionId : {}", sessionId);
+	//cout << "[GameSession::OnDisconnect] SessionId : " << sessionId << endl;
 
-	// player data Á¤¸®
+	// player data ì •ë¦¬
 	GPlayerManager->PushJobGetPosition(sessionId, [sessionId](PlayerPosition position) {
 		
 		GRoomManager->PushJobLeaveRoom(position._roomId, sessionId);

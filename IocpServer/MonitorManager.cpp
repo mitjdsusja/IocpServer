@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "MonitorManager.h"
 #include "ActorManager.h"
 
@@ -26,7 +26,7 @@ bool MonitorManager::CreateMonitorProcess(){
     );
 
     if (success == false) {
-        wcout << "Monitor ½ÇÇà ½ÇÆÐ :" << GetLastError() << endl;
+        wcout << "Monitor ì‹¤í–‰ ì‹¤íŒ¨ :" << GetLastError() << endl;
     }
 
     CloseHandle(pi.hProcess);
@@ -48,7 +48,7 @@ bool MonitorManager::ConnectPipe(){
     );
 
     if (hPipe == INVALID_HANDLE_VALUE) {
-        wcout << L"ÆÄÀÌÇÁ ¿¬°á ½ÇÆÐ : " << GetLastError() << endl;
+        wcout << L"íŒŒì´í”„ ì—°ê²° ì‹¤íŒ¨ : " << GetLastError() << endl;
         return false;
     }
 

@@ -13,6 +13,8 @@
 #include <cassert>
 #include <future>
 
+#include "spdlog/spdlog.h"
+
 using namespace std;
 
 #include "WinSock2.h"

@@ -45,7 +45,7 @@ void PlayerManager::RequestRoomList(){
 	auto& playerRef = iter->second;
 
 	vector<shared_ptr<Buffer>> buffer = PacketHandler::MakeSendBuffer(sendPacketRoomListRequest, PacketId::PKT_CS_ROOM_LIST_REQUEST);
-	cout << "BUffer ize : " << buffer.size() << endl;
+	cout << "Buffer :" << buffer.size() << endl;
 	playerRef->SendData(buffer);
 }
 

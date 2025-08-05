@@ -28,7 +28,9 @@ void GridManager::RemovePlayer(uint64 sessionId){
 void GridManager::MovePosition(uint64 sessionId, Vector<int16> newPosition){
 
 	if (_players.count(sessionId) == false) {
-		cout << "GridManager MovePosition None Player" << endl;
+
+		spdlog::info("GridManager MovePosition None Player");
+		//cout << "GridManager MovePosition None Player" << endl;
 		return;
 	}
 
@@ -52,7 +54,9 @@ vector<uint64> GridManager::GetNearByPlayers(uint64 sessionId) {
 
 	vector<uint64> nearPlayers;
 	if (_players.count(sessionId) == false) {
-		cout << "GridManager GetNearByPlayers invalid sessionId" << endl;
+
+		spdlog::info("GridManager GetNearByPlayers invalid sessionId");
+		//cout << "GridManager GetNearByPlayers invalid sessionId" << endl;
 		return nearPlayers;
 	}
 

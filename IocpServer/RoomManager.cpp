@@ -14,6 +14,7 @@
 
 #include <boost/locale.hpp>
 
+
 Room::Room(const InitRoomInfo& initRoomInfo, const RoomPlayer& hostPlayerData)
 	: _gridManager(make_shared<GridManager>(10)), _roomInfo({initRoomInfo, 0, hostPlayerData._gameState._name, hostPlayerData._sessionId}) , Actor(ActorType::RoomType){
 
@@ -318,7 +319,8 @@ bool Room::EnterPlayer(uint64 sessionId, const RoomPlayer& playerData) {
 
 	_gridManager->AddPlayer(sessionId, playerData._gameState._position);
 
-	wcout << L"[Room::EnterPlayer] roomId : " << _roomInfo._initRoomInfo._roomId << " EnterPlayer : " << playerData._gameState._name << endl;
+	spdlog::info("[Room::EnterPlayer] roomId : {}", _roomInfo._initRoomInfo._roomId);
+	//wcout << L"[Room::EnterPlayer] roomId : " << _roomInfo._initRoomInfo._roomId << " EnterPlayer : " << playerData._gameState._name << endl;
 
 	return true;
 }
@@ -328,7 +330,8 @@ void Room::LeavePlayer(uint64 sessionId) {
 	_players.erase(sessionId);
 	_gridManager->RemovePlayer(sessionId);
 
-	wcout << L"[Room::LeavePlayer] RoomId : " << _roomInfo._initRoomInfo._roomId << " LeavePlayer : " << sessionId << " Remained Count : " << _players.size() << endl;
+	spdlog::info("[Room::LeavePlayer] RoomId : {}", _roomInfo._initRoomInfo._roomId);
+	//wcout << L"[Room::LeavePlayer] RoomId : " << _roomInfo._initRoomInfo._roomId << " LeavePlayer : " << sessionId << " Remained Count : " << _players.size() << endl;
 
 	if (_players.size() == 0) {
 		DestroyRoom();
@@ -489,7 +492,9 @@ void RoomManager::PushJobGetRoomPlayerList(int32 roomId, function<void(vector<Ro
 
 		const auto& p = self->_rooms.find(roomId);
 		if (p == self->_rooms.end()) {
-			cout << "[RoomManager::PushJobGetRoomPlayerList] Invalid RoomId : " << roomId << endl;
+
+			spdlog::info("[RoomManager::PushJobGetRoomPlayerList] Invalid RoomId : {}", roomId);
+			//cout << "[RoomManager::PushJobGetRoomPlayerList] Invalid RoomId : " << roomId << endl;
 			return;
 		}
 		const shared_ptr<Room>& room = p->second;
@@ -529,7 +534,8 @@ int32 RoomManager::CreateAndPushRoom(const InitRoomInfo& initRoomInfo, const Roo
 	room->SetActorId(GActorManager->RegisterActor(room));
 	_rooms[roomId] = room;
 
-	wcout << "[RoomManager::CreateAndPushRoom] EnterRoom roomId : " << roomId << " playerName : " << hostPlayerData._gameState._name << endl;
+	spdlog::info("[RoomManager::CreateAndPushRoom] EnterRoom roomId : {} playerName : {}", roomId, boost::locale::conv::utf_to_utf<char>(hostPlayerData._gameState._name));
+	//wcout << "[RoomManager::CreateAndPushRoom] EnterRoom roomId : " << roomId << " playerName : " << hostPlayerData._gameState._name << endl;
 
 	room->PushJobRegisterBroadcastPosition();
 	room->PushJobRegisterBroadcastPlayerInGrid();
@@ -553,7 +559,9 @@ void RoomManager::LeaveRoom(int32 roomId, uint64 sessionId) {
 
 	auto it = _rooms.find(roomId);
 	if (it == _rooms.end()) {
-		cout << "[RoomManager::LeaveRoom] Invalid Room : " << roomId << endl;
+
+		spdlog::info("[RoomManager::LeaveRoom] Invalid Room : {}", roomId);
+		//cout << "[RoomManager::LeaveRoom] Invalid Room : " << roomId << endl;
 		return;
 	}
 
@@ -565,11 +573,14 @@ void RoomManager::RemoveRoom(int32 roomId) {
 
 	auto it = _rooms.find(roomId);
 	if (it != _rooms.end()) {
+
 		_rooms.erase(it);
-		cout << "[RoomManager::RemoveRoom] RemoveRoom : " << roomId << endl;
+		spdlog::info("[RoomManager::RemoveRoom] RemoveRoom : {}", roomId);
+		//cout << "[RoomManager::RemoveRoom] RemoveRoom : " << roomId << endl;
 	}
 	else {
-		cout << "[RoomManager::RemoveRoom] Invalid Room : " << roomId << endl;
+		spdlog::info("[RoomManager::RemoveRoom] Invalid Room : {}", roomId);
+		//cout << "[RoomManager::RemoveRoom] Invalid Room : " << roomId << endl;
 	}
 }
 
@@ -577,7 +588,9 @@ void RoomManager::MovePlayer(int32 roomId, const Room::RoomPlayer& roomPlayerDat
 
 	const auto& iter = _rooms.find(roomId);
 	if (iter == _rooms.end()) {
-		cout << "[RoomManager::MovePlayer] Invalid Room : " << roomId << endl;
+
+		spdlog::info("[RoomManager::MovePlayer] Invalid Room : {}", roomId);
+		//cout << "[RoomManager::MovePlayer] Invalid Room : " << roomId << endl;
 		return;
 	}
 	shared_ptr<Room>& room = iter->second;

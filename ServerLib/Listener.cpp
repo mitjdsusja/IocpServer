@@ -1,4 +1,4 @@
-#include "pch.h"
+Ôªø#include "pch.h"
 #include "Listener.h"
 #include "Session.h"
 #include "Service.h"
@@ -115,7 +115,7 @@ void Listener::OnAccept(shared_ptr<Session> session) {
 
 void Listener::CleanResource(){
 	
-	// TOOD : _ownerø°º≠ this ptr ¡¶∞≈
+	// TOOD : _ownerÏóêÏÑú this ptr Ï†úÍ±∞
 	_owner = nullptr;
 	
 	for (AcceptEvent* event : _acceptEvents) {
