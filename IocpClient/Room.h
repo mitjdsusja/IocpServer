@@ -5,3 +5,4 @@ struct RoomInfo {
 
 	int32 _roomId = -1;
 };
+

@@ -11,6 +11,7 @@
 #include "messageTest.pb.h"
 
 #include "GameSession.h"
+#include "Room.h"
 #include "Player.h"
 
 void PacketHandler::RegisterPacketHandlers() {
@@ -128,9 +129,15 @@ void PacketHandler::Handle_SC_Room_List_Response(shared_ptr<GameSession> session
 	msgTest::SC_Room_List_Response recvRoomListResponse;
 	recvRoomListResponse.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
 
-	msgTest::Room room = recvRoomListResponse.roomlist(0);
-	int32 roomId = room.roomid();
+	vector<RoomInfo> roomList;
 
+	for (int i = 0; i < recvRoomListResponse.roomlist_size(); ++i) {
+
+		msgTest::Room room = recvRoomListResponse.roomlist(i);
+		roomList[i]._roomId = room.roomid();
+	}
+
+	GRoomInfo->_roomId = roomList[0]._roomId;
 }
 
 void PacketHandler::Handle_SC_Player_Info_Response(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {

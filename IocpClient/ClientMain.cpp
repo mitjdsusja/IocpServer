@@ -17,6 +17,7 @@ enum {
 	CLIENT_COUNT = 10,
 };
 
+
 int main() {
 	wcout.imbue(std::locale("kor"));
 
@@ -64,7 +65,7 @@ int main() {
 	wcout << L"Client All Login" << endl;
 
 	// Request Room List
-	//vector<RoomInfo> roomInfo = GPlayerManager->RequestRoomList();
+	GPlayerManager->RequestRoomList();
 
 	// Enter Room
 
