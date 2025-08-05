@@ -64,7 +64,7 @@ int main() {
 	wcout << L"Client All Login" << endl;
 
 	// Request Room List
-
+	//vector<RoomInfo> roomInfo = GPlayerManager->RequestRoomList();
 
 	// Enter Room
 

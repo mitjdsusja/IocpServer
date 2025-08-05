@@ -1,5 +1,7 @@
 #pragma once
 
+class RoomInfo;
+
 class Player{
 public:
 	Player(const shared_ptr<Session>& owner);
@@ -15,8 +17,7 @@ private:
 class PlayerManager {
 public:
 	void CreatePlayerAndAdd(const shared_ptr<Session>& playerOwner, uint64  userId);
-	void RequestRoomListAndEnterRoom();
-
+	void RequestRoomList();
 
 	uint32 GetPlayerCount() { return _playerCount; }
 
