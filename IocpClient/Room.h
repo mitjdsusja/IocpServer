@@ -1,8 +1,7 @@
 #pragma once
-#include "pch.h"
 
-struct RoomInfo {
-
+class RoomInfo {
+public:
 	int32 _roomId = -1;
 };
 

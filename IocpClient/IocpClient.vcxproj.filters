@@ -36,6 +36,12 @@
     <ClCompile Include="DummyClientService.cpp">
       <Filter>Main</Filter>
     </ClCompile>
+    <ClCompile Include="Room.cpp">
+      <Filter>Content</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>Content</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PacketHandler.h">
@@ -58,6 +64,12 @@
     </ClInclude>
     <ClInclude Include="DummyClientService.h">
       <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Room.h">
+      <Filter>Content</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>Content</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

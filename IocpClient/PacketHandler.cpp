@@ -13,6 +13,7 @@
 #include "GameSession.h"
 #include "Room.h"
 #include "Player.h"
+#include "GameManager.h"
 
 void PacketHandler::RegisterPacketHandlers() {
 
@@ -137,7 +138,7 @@ void PacketHandler::Handle_SC_Room_List_Response(shared_ptr<GameSession> session
 		roomList[i]._roomId = room.roomid();
 	}
 
-	GRoomInfo->_roomId = roomList[0]._roomId;
+	GGameManager->SetEnterableRoomList(roomList);
 }
 
 void PacketHandler::Handle_SC_Player_Info_Response(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
@@ -152,5 +153,8 @@ void PacketHandler::Handle_SC_Player_List_Response(shared_ptr<GameSession> sessi
 
 void PacketHandler::Handle_SC_Enter_Room_Response(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
+	msgTest::SC_Enter_Room_Response recvPacketEnterRoomResponse;
+	recvPacketEnterRoomResponse.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
 
+	GGameManager->AddEnterPlayerCount();
 }

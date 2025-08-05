@@ -10,6 +10,8 @@
 
 #include "GameSession.h"
 #include "Player.h"
+#include "Room.h"
+#include "GameManager.h"
 
 enum {
 	GQCS_THREAD_COUNT = 1,
@@ -65,10 +67,33 @@ int main() {
 	wcout << L"Client All Login" << endl;
 
 	// Request Room List
-	GPlayerManager->RequestRoomList();
+
+	vector<RoomInfo> roomList;
+	while (true) {
+		GPlayerManager->RequestRoomList();
+		this_thread::sleep_for(1s);
+
+		roomList = GGameManager->GetEnterableRoomList();
+		if (roomList.size() == 0) {
+			cout << "ROOM LIST EMPTY" << endl;
+		}
+		else {
+			break;
+		}
+	}
 
 	// Enter Room
+	GGameManager->RequestEnterRoomAllPlayer(roomList[0]._roomId);
+	while (true) {
 
+		wcout << L"Enter Room Count : " << GGameManager->GetEnteredPlayerCount() << endl;
+
+		if (CLIENT_COUNT <= GGameManager->GetEnteredPlayerCount()) {
+			break;
+		}
+		this_thread::sleep_for(1s);
+	}
+	wcout << L"Client All Enter Room" << endl;
 	// broadcast Movement
 	
 	
