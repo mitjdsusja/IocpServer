@@ -131,8 +131,8 @@ void PacketHandler::Handle_SC_Room_List_Response(shared_ptr<GameSession> session
 	msgTest::SC_Room_List_Response recvRoomListResponse;
 	recvRoomListResponse.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
 
-	vector<RoomInfo> roomList;
-	cout << "Recv Room LIst : " << recvRoomListResponse.roomlist_size() << endl;
+	vector<RoomInfo> roomList(recvRoomListResponse.roomlist_size());
+	cout << "Recv Room List : " << recvRoomListResponse.roomlist_size() << endl;
 	for (int i = 0; i < recvRoomListResponse.roomlist_size(); ++i) {
 
 		msgTest::Room room = recvRoomListResponse.roomlist(i);
