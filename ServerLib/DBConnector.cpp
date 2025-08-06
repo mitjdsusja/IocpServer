@@ -30,7 +30,7 @@ void DBConnector::PrintError(SQLHANDLE henv, SQLHANDLE hdbc, SQLHANDLE hstmt) {
         std::wstring ws_state(wszSqlState);
         std::wstring ws_msg(wszErrorMsg);
 
-        spdlog::info("SQL Error - State: {}, Error: ", boost::locale::conv::utf_to_utf<char>(wszSqlState), boost::locale::conv::utf_to_utf<char>(wszErrorMsg));
+        spdlog::info("SQL Error - State: {}, Error: {}", boost::locale::conv::utf_to_utf<char>(wszSqlState), boost::locale::conv::utf_to_utf<char>(wszErrorMsg));
         //std::wcerr << L"SQL Error - State: " << wszSqlState << L", Error: " << wszErrorMsg << std::endl;
     }
     else {
