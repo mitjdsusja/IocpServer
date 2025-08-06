@@ -115,6 +115,7 @@ void PacketHandler::Handle_CS_Login_Request(shared_ptr<GameSession> session, sha
 		wstring wPw(pw.begin(), pw.end());
 
 		std::wstring query = L"SELECT COUNT(*), usernum, level, name, pos_x, pos_y, pos_z FROM USERS WHERE id = '" + wId + L"' AND password_hash = '" + wPw + L"';";
+		spdlog::info("SELECT COUNT(*), usernum, level, name, pos_x, pos_y, pos_z FROM USERS WHERE id = '{}' AND password_hash = '{}';", boost::locale::conv::utf_to_utf<char>(wId), boost::locale::conv::utf_to_utf<char>(wPw));
 		vector<vector<wstring>> result = LDBConnector->ExecuteSelectQuery(query);
 
 		if (!result.empty() && !result[0].empty()) {
