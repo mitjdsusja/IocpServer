@@ -119,10 +119,11 @@ void PacketHandler::Handle_SC_Login_Response(shared_ptr<GameSession> session, sh
 		// session SetSessionId()
 		//
 		GPlayerManager->CreatePlayerAndAdd(session, recvLoginResponsePacket.sessionid());
-		wcout << L"[PacketHandler::Handle_SC_Login_Response] Login Success " << endl;
+		spdlog::info("[PacketHandler::Handle_SC_Login_Response] Login Success ");
 	}
 	else {
-		wcout << L"[PacketHandler::Handle_SC_Login_Response] Login Fail " << endl;
+
+		spdlog::info("[PacketHandler::Handle_SC_Login_Response] Login Fail ");
 	}
 }
 
@@ -132,7 +133,8 @@ void PacketHandler::Handle_SC_Room_List_Response(shared_ptr<GameSession> session
 	recvRoomListResponse.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
 
 	vector<RoomInfo> roomList(recvRoomListResponse.roomlist_size());
-	cout << "Recv Room List : " << recvRoomListResponse.roomlist_size() << endl;
+	spdlog::info("Recv Room List : {}", recvRoomListResponse.roomlist_size());
+
 	for (int i = 0; i < recvRoomListResponse.roomlist_size(); ++i) {
 
 		msgTest::Room room = recvRoomListResponse.roomlist(i);

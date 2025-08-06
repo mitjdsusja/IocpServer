@@ -43,28 +43,28 @@ int main() {
 	// wait all connect
 	while (true) {
 
-		wcout << L"ConnectedSession Count : " << dummyClientService->GetConnectedSessionCount() << endl;
+		spdlog::info("ConnectedSession Count : {}", dummyClientService->GetConnectedSessionCount());
 
 		if (CLIENT_COUNT <= dummyClientService->GetConnectedSessionCount()) {
 			break;
 		}
 		this_thread::sleep_for(1s);
 	}
-	wcout << L"Client All Connect" << endl;
+	spdlog::info("Client All Connect");
 
 	// Login 
 	dummyClientService->LoginAllSession();
 
 	while (true) {
 
-		wcout << L"Player Count : " << GPlayerManager->GetPlayerCount() << endl;
+		spdlog::info("Player Count : {}", GPlayerManager->GetPlayerCount());
 
 		if (CLIENT_COUNT <= GPlayerManager->GetPlayerCount()) {
 			break;
 		}
 		this_thread::sleep_for(1s);
 	}
-	wcout << L"Client All Login" << endl;
+	spdlog::info("Client All Login");
 
 	// Request Room List
 
@@ -75,7 +75,8 @@ int main() {
 
 		roomList = GGameManager->GetEnterableRoomList();
 		if (roomList.size() == 0) {
-			cout << "ROOM LIST EMPTY" << endl;
+
+			spdlog::info("ROOM LIST EMPTY");
 		}
 		else {
 			break;
@@ -86,14 +87,14 @@ int main() {
 	GGameManager->RequestEnterRoomAllPlayer(roomList[0]._roomId);
 	while (true) {
 
-		wcout << L"Enter Room Count : " << GGameManager->GetEnteredPlayerCount() << endl;
+		spdlog::info("Enter Room Count : {}", GGameManager->GetEnteredPlayerCount());
 
 		if (CLIENT_COUNT <= GGameManager->GetEnteredPlayerCount()) {
 			break;
 		}
 		this_thread::sleep_for(1s);
 	}
-	wcout << L"Client All Enter Room" << endl;
+	spdlog::info("Client All Enter Room");
 	// broadcast Movement
 	
 	
