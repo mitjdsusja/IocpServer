@@ -37,7 +37,7 @@ void PlayerManager::RequestRoomList(){
 
 	if (_players.size() == 0) {
 
-		wcout << L"Empty Players " << endl;
+		spdlog::info("Empty Players ");
 		return;
 	}
 
@@ -45,7 +45,7 @@ void PlayerManager::RequestRoomList(){
 	auto& playerRef = iter->second;
 
 	vector<shared_ptr<Buffer>> buffer = PacketHandler::MakeSendBuffer(sendPacketRoomListRequest, PacketId::PKT_CS_ROOM_LIST_REQUEST);
-	cout << "Buffer :" << buffer.size() << endl;
+	//spdlog::info("Buffer : {}", buffer.size());
 	playerRef->SendData(buffer);
 }
 
