@@ -41,9 +41,9 @@ void PacketHandler::RegisterPacketHandlers() {
 	-------------*/
 	packetHandleArray[PKT_SC_LOGIN_RESPONSE] = Handle_SC_Login_Response;
 	packetHandleArray[PKT_SC_ROOM_LIST_RESPONSE] = Handle_SC_Room_List_Response;
-	packetHandleArray[PKT_SC_MY_PLAYER_INFO_RESPONSE] = Handle_SC_Player_Info_Response;
-	packetHandleArray[PKT_SC_ROOM_PLAYER_LIST_RESPONSE] = Handle_SC_Player_List_Response;
-	packetHandleArray[PKT_SC_ENTER_ROOM_RESPONSE] = Handle_SC_Enter_Room_Response;
+	packetHandleArray[PKT_SC_MY_PLAYER_INFO_RESPONSE] = Handle_SC_Player_Enter_Room_Notification;
+	packetHandleArray[PKT_SC_ROOM_PLAYER_LIST_RESPONSE] = Handle_SC_Player_Move_Notification;
+	packetHandleArray[PKT_SC_ENTER_ROOM_RESPONSE] = Handle_SC_Player_List_In_Grid;
 
 }
 
@@ -348,5 +348,21 @@ void PacketHandler::Handle_SC_Player_List_Response(shared_ptr<GameSession> sessi
 
 }
 void PacketHandler::Handle_SC_Enter_Room_Response(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
+
+}
+
+void PacketHandler::Handle_SC_Create_Room_Response(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* serviec){
+
+}
+
+void PacketHandler::Handle_SC_Player_Enter_Room_Notification(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* serviec) {
+
+}
+
+void PacketHandler::Handle_SC_Player_Move_Notification(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* serviec) {
+
+}
+
+void PacketHandler::Handle_SC_Player_List_In_Grid(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* serviec) {
 
 }
