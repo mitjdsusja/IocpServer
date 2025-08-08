@@ -44,9 +44,9 @@ void PacketHandler::RegisterPacketHandlers() {
 	packetHandleArray[PKT_SC_ROOM_PLAYER_LIST_RESPONSE] = Handle_SC_Player_List_Response;
 	packetHandleArray[PKT_SC_ENTER_ROOM_RESPONSE] = Handle_SC_Enter_Room_Response;
 	packetHandleArray[PKT_SC_CREATE_ROOM_RESPONSE] = Handle_SC_Create_Room_Response;
-	packetHandleArray[PKT_SC_PLAYER_ENTER_ROOM_NOTIFICATION] = Handle_SC_Enter_Room_Response;
-	packetHandleArray[PKT_SC_PLAYER_MOVE_NOTIFICATION] = Handle_SC_Enter_Room_Response;
-	packetHandleArray[PKT_SC_PLAYER_LIST_IN_GRID] = Handle_SC_Enter_Room_Response;
+	packetHandleArray[PKT_SC_PLAYER_ENTER_ROOM_NOTIFICATION] = Handle_SC_Player_Enter_Room_Notification;
+	packetHandleArray[PKT_SC_PLAYER_MOVE_NOTIFICATION] = Handle_SC_Player_Move_Notification;
+	packetHandleArray[PKT_SC_PLAYER_LIST_IN_GRID] = Handle_SC_Player_List_In_Grid;
 
 }
 
@@ -167,6 +167,7 @@ void PacketHandler::Handle_SC_Enter_Room_Response(shared_ptr<GameSession> sessio
 	string roomName = room.roomname();
 
 	GGameManager->AddEnterPlayerCount();
+	spdlog::info("Cur Enter Player Count : {}", GGameManager->GetEnteredPlayerCount());
 }
 
 void PacketHandler::Handle_SC_Create_Room_Response(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* serviec) {
