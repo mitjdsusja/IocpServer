@@ -86,7 +86,7 @@ void PlayerManager::RequestRoomList(){
 	playerRef->SendData(buffer);
 }
 
-void PlayerManager::RequestEnterRoomAllPlayer(uint64 roomId){
+void PlayerManager::AllPlayerRequestEnterRoom(uint64 roomId){
 
 	msgTest::CS_Enter_Room_Request sendPacketEnterRoomReqeust;
 	sendPacketEnterRoomReqeust.set_roomid(roomId);
