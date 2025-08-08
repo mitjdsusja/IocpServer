@@ -292,9 +292,9 @@ void PacketHandler::Handle_CS_Enter_Room_Request(shared_ptr<GameSession> session
 	msgTest::CS_Enter_Room_Request recvEnterRoomRequestPacket;
 	recvEnterRoomRequestPacket.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
 
-	int32 enterRoomId = recvEnterRoomRequestPacket.roomid();
+	int32 _enterRoomId = recvEnterRoomRequestPacket.roomid();
 
-	GPlayerManager->PushJobGetRoomPlayer(session->GetSessionId(), [enterRoomId](PlayerBaseInfo baseInfo, PlayerPosition position) {
+	GPlayerManager->PushJobGetRoomPlayer(session->GetSessionId(), [_enterRoomId](PlayerBaseInfo baseInfo, PlayerPosition position) {
 		
 		Room::RoomPlayer roomPlayer;
 		roomPlayer._sessionId = baseInfo._sessionId;
@@ -304,7 +304,7 @@ void PacketHandler::Handle_CS_Enter_Room_Request(shared_ptr<GameSession> session
 		roomPlayer._gameState._updatePosition = true;
 		roomPlayer._gameState._velocity = position._velocity;
 
-		GRoomManager->PushJobEnterRoom(enterRoomId, roomPlayer);
+		GRoomManager->PushJobEnterRoom(_enterRoomId, roomPlayer);
 	});
 }
 

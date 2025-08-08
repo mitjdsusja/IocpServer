@@ -121,8 +121,6 @@ void PacketHandler::Handle_SC_Login_Response(shared_ptr<GameSession> session, sh
 
 	if (recvLoginResponsePacket.success() == true) {
 
-		// session SetSessionId()
-		//
 		GPlayerManager->CreatePlayerAndAdd(session, recvLoginResponsePacket.sessionid());
 		spdlog::info("[PacketHandler::Handle_SC_Login_Response] Login Success ");
 	}

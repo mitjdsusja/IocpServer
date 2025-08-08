@@ -4,15 +4,21 @@
 
 class RoomInfo;
 
+struct Acount {
+
+	string _id;
+	string _pw;
+};
+
 struct PlayerInfo {
 
 	using TimePoint = chrono::system_clock::time_point;
 
-	int32 enterRoomId = 0;
+	int32 _enterRoomId = 0;
 	int16 _moveSpeed = 10;
 	Vector<int16> _position;
 	Vector<int16> _velocity;
-	TimePoint lastCalculatedTimePoint;
+	TimePoint _lastCalculatedTimePoint;
 };
 
 class Player{
@@ -29,6 +35,7 @@ private:
 	shared_ptr<Session> _owner;
 
 	PlayerInfo _playerInfo;
+	Acount _acount;
 
 };
 

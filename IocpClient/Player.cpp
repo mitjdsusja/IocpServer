@@ -8,6 +8,10 @@
 
 #include "messageTest.pb.h"
 
+const float MAP_MIN_X = -20.0f;
+const float MAP_MAX_X = 20.0f;
+const float MAP_MIN_Z = -20.0f;
+const float MAP_MAX_Z = 20.0f;
 
 Player::Player(const shared_ptr<Session>& owner) : _owner(owner) {
 
@@ -17,37 +21,39 @@ Player::Player(const shared_ptr<Session>& owner) : _owner(owner) {
 
 void Player::RandomMove() {
 
-	auto now = chrono::system_clock::now();
+	using namespace std::chrono;
 
-	// 1. 시간 경과 계산
-	float deltaTime = chrono::duration_cast<chrono::duration<float>>(now - _playerInfo.lastCalculatedTimePoint).count();
+	static thread_local std::mt19937 rng(std::random_device{}());
+	static thread_local std::uniform_real_distribution<float> dirDist(-1.0f, 1.0f);
 
-	// 2. 이전 velocity에 따라 현재 위치 업데이트
-	_playerInfo._position._x += static_cast<int16>(round(_playerInfo._velocity._x * deltaTime));
-	_playerInfo._position._z += static_cast<int16>(round(_playerInfo._velocity._z * deltaTime));
+	float dirX = dirDist(rng);
+	float dirZ = dirDist(rng);
 
-	// 3. 랜덤 방향 설정
-	static random_device rd;
-	static mt19937 gen(rd());
-	uniform_real_distribution<float> dist(-1.0f, 1.0f);
-
-	float dirX = dist(gen);
-	float dirZ = dist(gen);
-
-	float length = sqrt(dirX * dirX + dirZ * dirZ);
+	float length = std::sqrt(dirX * dirX + dirZ * dirZ);
 	if (length == 0.0f)
-		return; // 제자리 방향이면 무시
+		return;
 
 	dirX /= length;
 	dirZ /= length;
 
-	// 4. 속도 계산
-	int16 speed = _playerInfo._moveSpeed; // 초당 이동거리
-	_playerInfo._velocity._x = static_cast<int16>(round(dirX * speed));
-	_playerInfo._velocity._z = static_cast<int16>(round(dirZ * speed));
+	int16 speed = _playerInfo._moveSpeed;
 
-	// 5. 마지막 시간 갱신
-	_playerInfo.lastCalculatedTimePoint = now;
+	// 이동 시간(프레임마다 호출된다고 가정, 0.1초 주기로)
+	float deltaTime = 0.1f;
+	int16 dx = dirX * speed * deltaTime;
+	int16 dz = dirZ * speed * deltaTime;
+
+	int16 newX = _playerInfo._position._x + dx;
+	int16 newZ = _playerInfo._position._z + dz;
+
+	// 맵 범위 확인 및 방향 반전
+	if (newX < MAP_MIN_X || newX > MAP_MAX_X)
+		dx = -dx;
+	if (newZ < MAP_MIN_Z || newZ > MAP_MAX_Z)
+		dz = -dz;
+
+	_playerInfo._position._x += dx;
+	_playerInfo._position._z += dz;
 }
 
 void Player::SendData(const vector<shared_ptr<Buffer>>& sendBuffer) {
@@ -131,7 +137,7 @@ void PlayerManager::AllPlayerSendMovePacket(){
 		PlayerInfo playerInfo = player->GetPlayerInfo();
 
 		moveState->set_roomid(GGameManager->GetEnterRoomId());
-		moveState->set_playername("bot");
+		moveState->set_playername("bot" + player->GetSessionId());
 		position->set_x(playerInfo._position._x);
 		position->set_y(playerInfo._position._y);
 		position->set_z(playerInfo._position._z);

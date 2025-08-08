@@ -14,18 +14,15 @@ void DummyClientService::LoginAllSession(){
 
 	msgTest::CS_Login_Request sendPacketLoginrequest;
 
-	int count = 1;
 	wcout << _sessions.size() << endl;
 	for (auto& p : _sessions) {
 
 		shared_ptr<Session>& session = p.second;
 
-		auto& player = p.second;
-		sendPacketLoginrequest.set_id("bot" + to_string(count));
-		sendPacketLoginrequest.set_password("bot" + to_string(count));
+		sendPacketLoginrequest.set_id("bot" + session->GetSessionId());
+		sendPacketLoginrequest.set_password("bot" + session->GetSessionId());
 		
-		cout << "Request Login : " << "bot" + to_string(count) << endl;
-		++count;
+		cout << "Request Login : " << "bot" + session->GetSessionId() << endl;
 
 		const vector<shared_ptr<Buffer>> sendBuffer = PacketHandler::MakeSendBuffer(sendPacketLoginrequest, PacketId::PKT_CS_LOGIN_REQUEST);
 
