@@ -137,7 +137,7 @@ void PlayerManager::AllPlayerSendMovePacket(){
 		PlayerInfo playerInfo = player->GetPlayerInfo();
 
 		moveState->set_roomid(GGameManager->GetEnterRoomId());
-		moveState->set_playername("bot" + player->GetSessionId());
+		moveState->set_playername("bot" + to_string(player->GetSessionId()));
 		position->set_x(playerInfo._position._x);
 		position->set_y(playerInfo._position._y);
 		position->set_z(playerInfo._position._z);
