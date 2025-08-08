@@ -8,10 +8,10 @@
 
 #include "messageTest.pb.h"
 
-const float MAP_MIN_X = -20.0f;
-const float MAP_MAX_X = 20.0f;
-const float MAP_MIN_Z = -20.0f;
-const float MAP_MAX_Z = 20.0f;
+const float MAP_MIN_X = -2000.0f;
+const float MAP_MAX_X = 2000.0f;
+const float MAP_MIN_Z = -2000.0f;
+const float MAP_MAX_Z = 2000.0f;
 
 Player::Player(const shared_ptr<Session>& owner) : _owner(owner) {
 
@@ -20,40 +20,50 @@ Player::Player(const shared_ptr<Session>& owner) : _owner(owner) {
 }
 
 void Player::RandomMove() {
-
 	using namespace std::chrono;
 
 	static thread_local std::mt19937 rng(std::random_device{}());
 	static thread_local std::uniform_real_distribution<float> dirDist(-1.0f, 1.0f);
+	static thread_local std::uniform_real_distribution<float> timeDist(1.0f, 3.0f); // 방향 유지 시간
 
-	float dirX = dirDist(rng);
-	float dirZ = dirDist(rng);
+	// 방향과 남은 유지 시간을 멤버로 둔다
+	if (_playerInfo._moveTimeRemaining <= 0.0f) {
+		float dirX = dirDist(rng);
+		float dirZ = dirDist(rng);
 
-	float length = std::sqrt(dirX * dirX + dirZ * dirZ);
-	if (length == 0.0f)
-		return;
+		float length = std::sqrt(dirX * dirX + dirZ * dirZ);
+		if (length != 0.0f) {
+			dirX /= length;
+			dirZ /= length;
+		}
 
-	dirX /= length;
-	dirZ /= length;
+		_playerInfo._velocity._x = dirX;
+		_playerInfo._velocity._z = dirZ;
+		_playerInfo._moveTimeRemaining = timeDist(rng);
+	}
 
-	int16 speed = _playerInfo._moveSpeed;
+	float deltaTime = 0.1f; // 프레임 간격
+	_playerInfo._moveTimeRemaining -= deltaTime;
 
-	// 이동 시간(프레임마다 호출된다고 가정, 0.1초 주기로)
-	float deltaTime = 0.1f;
-	int16 dx = dirX * speed * deltaTime;
-	int16 dz = dirZ * speed * deltaTime;
+	float speed = static_cast<float>(_playerInfo._moveSpeed);
+	float dx = _playerInfo._velocity._x * speed * deltaTime;
+	float dz = _playerInfo._velocity._z * speed * deltaTime;
 
-	int16 newX = _playerInfo._position._x + dx;
-	int16 newZ = _playerInfo._position._z + dz;
+	float newX = _playerInfo._position._x + dx;
+	float newZ = _playerInfo._position._z + dz;
 
-	// 맵 범위 확인 및 방향 반전
-	if (newX < MAP_MIN_X || newX > MAP_MAX_X)
+	// 경계 체크 후 반전
+	if (newX < MAP_MIN_X || newX > MAP_MAX_X) {
+		_playerInfo._velocity._x = -_playerInfo._velocity._x;
 		dx = -dx;
-	if (newZ < MAP_MIN_Z || newZ > MAP_MAX_Z)
+	}
+	if (newZ < MAP_MIN_Z || newZ > MAP_MAX_Z) {
+		_playerInfo._velocity._z= -_playerInfo._velocity._z;
 		dz = -dz;
+	}
 
-	_playerInfo._position._x += dx;
-	_playerInfo._position._z += dz;
+	_playerInfo._position._x += static_cast<int16>(dx);
+	_playerInfo._position._z += static_cast<int16>(dz);
 }
 
 void Player::SendData(const vector<shared_ptr<Buffer>>& sendBuffer) {

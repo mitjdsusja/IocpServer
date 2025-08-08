@@ -19,6 +19,7 @@ struct PlayerInfo {
 	Vector<int16> _position;
 	Vector<int16> _velocity;
 	TimePoint _lastCalculatedTimePoint;
+	float _moveTimeRemaining = 0.0f;
 };
 
 class Player{

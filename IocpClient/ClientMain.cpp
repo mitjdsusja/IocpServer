@@ -98,9 +98,14 @@ int main() {
 		this_thread::sleep_for(1s);
 	}
 	spdlog::info("Client All Enter Room");
-	spdlog::info("Enter Room Count : {}", GGameManager->GetEnteredPlayerCount());
 	// broadcast Movement
-	GGameManager->PlayerMovement();
+
+	while (true) {
+
+		GGameManager->PlayerMovement();
+		this_thread::sleep_for(100ms);
+	}
+	
 	
 	
 
