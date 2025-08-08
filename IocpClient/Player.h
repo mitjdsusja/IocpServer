@@ -16,8 +16,8 @@ struct PlayerInfo {
 
 	int32 _enterRoomId = 0;
 	int16 _moveSpeed = 10;
-	Vector<int16> _position;
-	Vector<int16> _velocity;
+	Vector<float> _position;
+	Vector<float> _velocity;
 	TimePoint _lastCalculatedTimePoint;
 	float _moveTimeRemaining = 0.0f;
 };

@@ -8,14 +8,14 @@
 
 #include "messageTest.pb.h"
 
-const float MAP_MIN_X = -2000.0f;
-const float MAP_MAX_X = 2000.0f;
-const float MAP_MIN_Z = -2000.0f;
-const float MAP_MAX_Z = 2000.0f;
+const float MAP_MIN_X = -20.0f;
+const float MAP_MAX_X = 20.0f;
+const float MAP_MIN_Z = -20.0f;
+const float MAP_MAX_Z = 20.0f;
 
 Player::Player(const shared_ptr<Session>& owner) : _owner(owner) {
 
-	_playerInfo._position = { 0, 100, 0 };
+	_playerInfo._position = { 0, 1, 0 };
 	_playerInfo._velocity = { 0, 0, 0 };
 }
 
@@ -62,8 +62,8 @@ void Player::RandomMove() {
 		dz = -dz;
 	}
 
-	_playerInfo._position._x += static_cast<int16>(dx);
-	_playerInfo._position._z += static_cast<int16>(dz);
+	_playerInfo._position._x += dx;
+	_playerInfo._position._z += dz;
 }
 
 void Player::SendData(const vector<shared_ptr<Buffer>>& sendBuffer) {
@@ -148,15 +148,16 @@ void PlayerManager::AllPlayerSendMovePacket(){
 
 		moveState->set_roomid(GGameManager->GetEnterRoomId());
 		moveState->set_playername("bot" + to_string(player->GetSessionId()));
-		position->set_x(playerInfo._position._x);
-		position->set_y(playerInfo._position._y);
-		position->set_z(playerInfo._position._z);
-		velocity->set_x(playerInfo._velocity._x);
-		velocity->set_y(playerInfo._velocity._y);
-		velocity->set_z(playerInfo._velocity._z);
+		position->set_x((int16)(playerInfo._position._x * 100));
+		position->set_y((int16)(playerInfo._position._y * 100));
+		position->set_z((int16)(playerInfo._position._z * 100));
+		velocity->set_x((int16)(playerInfo._velocity._x * 100));
+		velocity->set_y((int16)(playerInfo._velocity._y * 100));
+		velocity->set_z((int16)(playerInfo._velocity._z * 100));
 		rotation->set_x(0);
 		rotation->set_y(0);
 		rotation->set_z(0);
+		spdlog::info("Send Player Position ({},{},{})", playerInfo._position._x * 100, playerInfo._position._y * 100, playerInfo._position._z * 100);
 		moveState->set_timestamp(chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch()).count());
 
 		vector<shared_ptr<Buffer>> sendBuffers = PacketHandler::MakeSendBuffer(sendPacketPlayerMoveRequest, PacketId::PKT_CS_PLAYER_MOVE_REQUEST);
