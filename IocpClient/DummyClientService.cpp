@@ -19,10 +19,10 @@ void DummyClientService::LoginAllSession(){
 
 		shared_ptr<Session>& session = p.second;
 
-		sendPacketLoginrequest.set_id("bot" + session->GetSessionId());
-		sendPacketLoginrequest.set_password("bot" + session->GetSessionId());
+		sendPacketLoginrequest.set_id("bot" + to_string(session->GetSessionId()));
+		sendPacketLoginrequest.set_password("bot" + to_string(session->GetSessionId()));
 		
-		cout << "Request Login : " << "bot" + session->GetSessionId() << endl;
+		spdlog::info("Request Login : bot{}", to_string(session->GetSessionId()));
 
 		const vector<shared_ptr<Buffer>> sendBuffer = PacketHandler::MakeSendBuffer(sendPacketLoginrequest, PacketId::PKT_CS_LOGIN_REQUEST);
 
