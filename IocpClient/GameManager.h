@@ -5,6 +5,7 @@
 class GameManager{
 public:
 	void RequestEnterRoomAllPlayer(int32 roomId);
+	void PlayerMovement();
 
 	vector<RoomInfo> GetEnterableRoomList();
 	int32 GetEnteredPlayerCount();

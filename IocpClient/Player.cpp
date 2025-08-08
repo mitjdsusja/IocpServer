@@ -63,6 +63,16 @@ void PlayerManager::RequestEnterRoomAllPlayer(uint64 roomId){
 	}
 }
 
+void PlayerManager::AllPlayerRandomMove(){
+
+
+}
+
+void PlayerManager::AllPlayerSendMovePacket(){
+
+
+}
+
 void PlayerManager::SendMsg(uint64 userId, vector<shared_ptr<Buffer>> sendBuffers){
 
 	const auto& iter = _players.find(userId);

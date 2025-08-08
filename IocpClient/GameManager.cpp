@@ -9,6 +9,12 @@ void GameManager::RequestEnterRoomAllPlayer(int32 roomId){
     GPlayerManager->RequestEnterRoomAllPlayer(roomId);
 }
 
+void GameManager::PlayerMovement(){
+
+    GPlayerManager->AllPlayerRandomMove();
+    GPlayerManager->AllPlayerSendMovePacket();
+}
+
 vector<RoomInfo> GameManager::GetEnterableRoomList(){
 
     return _roomList;

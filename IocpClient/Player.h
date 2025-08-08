@@ -1,6 +1,13 @@
 #pragma once
+#include "Vector.h"
 
 class RoomInfo;
+
+struct PlayerInfo {
+
+	Vector<int16> _position;
+	Vector<int16> _velocity;
+};
 
 class Player{
 public:
@@ -12,6 +19,9 @@ public:
 
 private:
 	shared_ptr<Session> _owner;
+
+	PlayerInfo _playerInfo;
+
 };
 
 class PlayerManager {
@@ -19,6 +29,8 @@ public:
 	void CreatePlayerAndAdd(const shared_ptr<Session>& playerOwner, uint64  userId);
 	void RequestRoomList();
 	void RequestEnterRoomAllPlayer(uint64 roomId);
+	void AllPlayerRandomMove();
+	void AllPlayerSendMovePacket();
 	void SendMsg(uint64 userId, vector<shared_ptr<Buffer>> sendBuffers);
 
 	uint32 GetPlayerCount() { return _playerCount; }
