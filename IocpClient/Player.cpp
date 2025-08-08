@@ -102,7 +102,12 @@ void PlayerManager::AllPlayerRequestEnterRoom(uint64 roomId){
 
 void PlayerManager::AllPlayerRandomMove(){
 
+	for (auto& p : _players) {
 
+		auto& player = p.second;
+
+		player->RandomMove();
+	}
 }
 
 void PlayerManager::AllPlayerSendMovePacket(){
