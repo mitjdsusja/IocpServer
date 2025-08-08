@@ -13,6 +13,7 @@ class Player{
 public:
 	Player(const shared_ptr<Session>& owner);
 
+	void RandomMove();
 	void SendData(const vector<shared_ptr<Buffer>>& sendBuffer);
 
 	uint64 GetSessionId();

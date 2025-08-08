@@ -11,6 +11,10 @@ Player::Player(const shared_ptr<Session>& owner) : _owner(owner) {
 
 }
 
+void Player::RandomMove(){
+
+}
+
 void Player::SendData(const vector<shared_ptr<Buffer>>& sendBuffer) {
 
 	for (auto& buffer : sendBuffer) {
