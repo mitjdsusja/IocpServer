@@ -1,12 +1,17 @@
 #pragma once
 #include "Vector.h"
+#include <chrono>
 
 class RoomInfo;
 
 struct PlayerInfo {
 
+	using TimePoint = chrono::system_clock::time_point;
+
+	int16 _moveSpeed = 10;
 	Vector<int16> _position;
 	Vector<int16> _velocity;
+	TimePoint lastCalculatedTimePoint;
 };
 
 class Player{

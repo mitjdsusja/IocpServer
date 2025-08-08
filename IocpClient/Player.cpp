@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "Player.h"
 
 #include "GameSession.h"
@@ -9,10 +9,43 @@
 
 Player::Player(const shared_ptr<Session>& owner) : _owner(owner) {
 
+	_playerInfo._position = { 0, 100, 0 };
+	_playerInfo._velocity = { 0, 0, 0 };
 }
 
-void Player::RandomMove(){
+void Player::RandomMove() {
 
+	auto now = chrono::system_clock::now();
+
+	// 1. 시간 경과 계산
+	float deltaTime = chrono::duration_cast<chrono::duration<float>>(now - _playerInfo.lastCalculatedTimePoint).count();
+
+	// 2. 이전 velocity에 따라 현재 위치 업데이트
+	_playerInfo._position._x += static_cast<int16>(round(_playerInfo._velocity._x * deltaTime));
+	_playerInfo._position._z += static_cast<int16>(round(_playerInfo._velocity._z * deltaTime));
+
+	// 3. 랜덤 방향 설정
+	static random_device rd;
+	static mt19937 gen(rd());
+	uniform_real_distribution<float> dist(-1.0f, 1.0f);
+
+	float dirX = dist(gen);
+	float dirZ = dist(gen);
+
+	float length = sqrt(dirX * dirX + dirZ * dirZ);
+	if (length == 0.0f)
+		return; // 제자리 방향이면 무시
+
+	dirX /= length;
+	dirZ /= length;
+
+	// 4. 속도 계산
+	int16 speed = _playerInfo._moveSpeed; // 초당 이동거리
+	_playerInfo._velocity._x = static_cast<int16>(round(dirX * speed));
+	_playerInfo._velocity._z = static_cast<int16>(round(dirZ * speed));
+
+	// 5. 마지막 시간 갱신
+	_playerInfo.lastCalculatedTimePoint = now;
 }
 
 void Player::SendData(const vector<shared_ptr<Buffer>>& sendBuffer) {

@@ -10,6 +10,9 @@
     <Filter Include="Protobuf">
       <UniqueIdentifier>{0670434d-d52d-4a40-98bb-778a9e967907}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{824dfe2f-af43-4af4-8ae2-6a8133171434}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClientMain.cpp">
@@ -42,6 +45,9 @@
     <ClCompile Include="GameManager.cpp">
       <Filter>Content</Filter>
     </ClCompile>
+    <ClCompile Include="Vector.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PacketHandler.h">
@@ -70,6 +76,9 @@
     </ClInclude>
     <ClInclude Include="GameManager.h">
       <Filter>Content</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.h">
+      <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
