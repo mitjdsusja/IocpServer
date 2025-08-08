@@ -87,6 +87,7 @@ int main() {
 
 	// Enter Room
 	GGameManager->RequestEnterRoomAllPlayer(roomList[0]._roomId);
+	GGameManager->SetEnterRoomId(roomList[0]._roomId);
 	while (true) {
 
 		spdlog::info("Enter Room Count : {}", GGameManager->GetEnteredPlayerCount());

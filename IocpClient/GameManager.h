@@ -9,12 +9,15 @@ public:
 
 	vector<RoomInfo> GetEnterableRoomList();
 	int32 GetEnteredPlayerCount();
+	int32 GetEnterRoomId();
 
 	void SetEnterableRoomList(const vector<RoomInfo>& roomList);
 	void AddEnterPlayerCount();
+	void SetEnterRoomId(int32 RoomId);
 
 private:
 	vector<RoomInfo> _roomList;
+	int32 _enterRoomId = 0;
 	atomic<int32> _enteredPlayerCount = 0;
 };
 

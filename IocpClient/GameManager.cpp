@@ -6,7 +6,7 @@
 
 void GameManager::RequestEnterRoomAllPlayer(int32 roomId){
 
-    GPlayerManager->RequestEnterRoomAllPlayer(roomId);
+    GPlayerManager->AllPlayerRequestEnterRoom(roomId);
 }
 
 void GameManager::PlayerMovement(){
@@ -25,6 +25,11 @@ int32 GameManager::GetEnteredPlayerCount(){
     return _enteredPlayerCount;
 }
 
+int32 GameManager::GetEnterRoomId(){
+
+    return _enterRoomId;
+}
+
 void GameManager::SetEnterableRoomList(const vector<RoomInfo>& roomList){
 
     _roomList = roomList;
@@ -33,4 +38,9 @@ void GameManager::SetEnterableRoomList(const vector<RoomInfo>& roomList){
 void GameManager::AddEnterPlayerCount(){
 
     _enteredPlayerCount.fetch_add(1);
+}
+
+void GameManager::SetEnterRoomId(int32 roomId){
+
+    _enterRoomId = roomId;
 }

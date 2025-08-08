@@ -163,6 +163,10 @@ void PacketHandler::Handle_SC_Enter_Room_Response(shared_ptr<GameSession> sessio
 
 	msgTest::SC_Enter_Room_Response recvPacketEnterRoomResponse;
 	recvPacketEnterRoomResponse.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
+	
+	msgTest::Room room = recvPacketEnterRoomResponse.room();
+	int32 roomId = room.roomid();
+	string roomName = room.roomname();
 
 	GGameManager->AddEnterPlayerCount();
 }

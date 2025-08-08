@@ -1,8 +1,10 @@
 ﻿#include "pch.h"
 #include "Player.h"
+#include "Global.h"
 
 #include "GameSession.h"
 #include "PacketHandler.h"
+#include "GameManager.h"
 
 #include "messageTest.pb.h"
 
@@ -61,6 +63,11 @@ uint64 Player::GetSessionId() {
 	return _owner->GetSessionId();
 }
 
+PlayerInfo Player::GetPlayerInfo(){
+
+	return _playerInfo;
+}
+
 void PlayerManager::CreatePlayerAndAdd(const shared_ptr<Session>& playerOwner, uint64 userId){
 
 	shared_ptr<Player> player = CreatePlayer(playerOwner);
@@ -112,7 +119,34 @@ void PlayerManager::AllPlayerRandomMove(){
 
 void PlayerManager::AllPlayerSendMovePacket(){
 
+	msgTest::CS_Player_Move_Request sendPacketPlayerMoveRequest;
+	msgTest::MoveState* moveState = sendPacketPlayerMoveRequest.mutable_movestate();
+	msgTest::Vector* position = moveState->mutable_position();
+	msgTest::Vector* velocity = moveState->mutable_velocity();
+	msgTest::Vector* rotation = moveState->mutable_rotation();
 
+	for (auto& p : _players) {
+
+		auto& player = p.second;
+		PlayerInfo playerInfo = player->GetPlayerInfo();
+
+		moveState->set_roomid(GGameManager->GetEnterRoomId());
+		moveState->set_playername("bot");
+		position->set_x(playerInfo._position._x);
+		position->set_y(playerInfo._position._y);
+		position->set_z(playerInfo._position._z);
+		velocity->set_x(playerInfo._velocity._x);
+		velocity->set_y(playerInfo._velocity._y);
+		velocity->set_z(playerInfo._velocity._z);
+		rotation->set_x(0);
+		rotation->set_y(0);
+		rotation->set_z(0);
+		moveState->set_timestamp(chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch()).count());
+
+		vector<shared_ptr<Buffer>> sendBuffers = PacketHandler::MakeSendBuffer(sendPacketPlayerMoveRequest, PacketId::PKT_CS_PLAYER_MOVE_REQUEST);
+
+		player->SendData(sendBuffers);
+	}
 }
 
 void PlayerManager::SendMsg(uint64 userId, vector<shared_ptr<Buffer>> sendBuffers){

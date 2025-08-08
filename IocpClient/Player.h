@@ -8,6 +8,7 @@ struct PlayerInfo {
 
 	using TimePoint = chrono::system_clock::time_point;
 
+	int32 enterRoomId = 0;
 	int16 _moveSpeed = 10;
 	Vector<int16> _position;
 	Vector<int16> _velocity;
@@ -22,6 +23,7 @@ public:
 	void SendData(const vector<shared_ptr<Buffer>>& sendBuffer);
 
 	uint64 GetSessionId();
+	PlayerInfo GetPlayerInfo();
 
 private:
 	shared_ptr<Session> _owner;
