@@ -38,6 +38,7 @@ public:
 private:
 	shared_ptr<Player> CreatePlayer(const shared_ptr<Session>& playerOwner);
 	void AddPlayer(const shared_ptr<Player>& player, uint64 userId);
+	void PlayerRandomMove();
 
 private:
 	atomic<uint32> _playerCount = 0;

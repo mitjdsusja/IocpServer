@@ -91,3 +91,8 @@ void PlayerManager::AddPlayer(const shared_ptr<Player>& player, uint64 userId){
 	_playerCount.fetch_add(1);
 	_players[userId] = player;
 }
+
+void PlayerManager::PlayerRandomMove(){
+
+
+}
