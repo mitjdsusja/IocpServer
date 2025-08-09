@@ -56,6 +56,7 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
 inline constexpr SC_Pong::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : timestamp_{::int64_t{0}},
+        servertimestamp_{::int64_t{0}},
         _cached_size_{0} {}
 
 template <typename>
@@ -737,6 +738,7 @@ const ::uint32_t
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
         PROTOBUF_FIELD_OFFSET(::msgTest::SC_Pong, _impl_.timestamp_),
+        PROTOBUF_FIELD_OFFSET(::msgTest::SC_Pong, _impl_.servertimestamp_),
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::msgTest::CS_Login_Request, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -908,22 +910,22 @@ static const ::_pbi::MigrationSchema
         {57, -1, -1, sizeof(::msgTest::Room)},
         {70, -1, -1, sizeof(::msgTest::CS_Ping)},
         {79, -1, -1, sizeof(::msgTest::SC_Pong)},
-        {88, -1, -1, sizeof(::msgTest::CS_Login_Request)},
-        {98, -1, -1, sizeof(::msgTest::SC_Login_Response)},
-        {109, -1, -1, sizeof(::msgTest::CS_My_Player_Info_Request)},
-        {118, 127, -1, sizeof(::msgTest::SC_My_Player_Info_Response)},
-        {128, -1, -1, sizeof(::msgTest::CS_Room_Player_List_Request)},
-        {137, -1, -1, sizeof(::msgTest::SC_Room_Player_List_Response)},
-        {146, -1, -1, sizeof(::msgTest::CS_Create_Room_Request)},
-        {156, 167, -1, sizeof(::msgTest::SC_Create_Room_Response)},
-        {170, -1, -1, sizeof(::msgTest::CS_Room_List_Request)},
-        {178, -1, -1, sizeof(::msgTest::SC_Room_List_Response)},
-        {187, -1, -1, sizeof(::msgTest::CS_Enter_Room_Request)},
-        {196, 207, -1, sizeof(::msgTest::SC_Enter_Room_Response)},
-        {210, 219, -1, sizeof(::msgTest::SC_Player_Enter_Room_Notification)},
-        {220, 229, -1, sizeof(::msgTest::CS_Player_Move_Request)},
-        {230, -1, -1, sizeof(::msgTest::SC_Player_Move_Notification)},
-        {239, -1, -1, sizeof(::msgTest::SC_Player_List_In_Grid)},
+        {89, -1, -1, sizeof(::msgTest::CS_Login_Request)},
+        {99, -1, -1, sizeof(::msgTest::SC_Login_Response)},
+        {110, -1, -1, sizeof(::msgTest::CS_My_Player_Info_Request)},
+        {119, 128, -1, sizeof(::msgTest::SC_My_Player_Info_Response)},
+        {129, -1, -1, sizeof(::msgTest::CS_Room_Player_List_Request)},
+        {138, -1, -1, sizeof(::msgTest::SC_Room_Player_List_Response)},
+        {147, -1, -1, sizeof(::msgTest::CS_Create_Room_Request)},
+        {157, 168, -1, sizeof(::msgTest::SC_Create_Room_Response)},
+        {171, -1, -1, sizeof(::msgTest::CS_Room_List_Request)},
+        {179, -1, -1, sizeof(::msgTest::SC_Room_List_Response)},
+        {188, -1, -1, sizeof(::msgTest::CS_Enter_Room_Request)},
+        {197, 208, -1, sizeof(::msgTest::SC_Enter_Room_Response)},
+        {211, 220, -1, sizeof(::msgTest::SC_Player_Enter_Room_Notification)},
+        {221, 230, -1, sizeof(::msgTest::CS_Player_Move_Request)},
+        {231, -1, -1, sizeof(::msgTest::SC_Player_Move_Notification)},
+        {240, -1, -1, sizeof(::msgTest::SC_Player_List_In_Grid)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::msgTest::_PacketFrame_default_instance_._instance,
@@ -965,39 +967,40 @@ const char descriptor_table_protodef_messageTest_2eproto[] ABSL_ATTRIBUTE_SECTIO
     ".msgTest.Vector\"m\n\004Room\022\016\n\006roomId\030\001 \001(\005\022"
     "\020\n\010roomName\030\002 \001(\t\022\026\n\016maxPlayerCount\030\003 \001("
     "\005\022\023\n\013playerCount\030\004 \001(\005\022\026\n\016hostPlayerName"
-    "\030\005 \001(\t\"\034\n\007CS_Ping\022\021\n\ttimestamp\030\001 \001(\003\"\034\n\007"
-    "SC_Pong\022\021\n\ttimestamp\030\001 \001(\003\"0\n\020CS_Login_R"
-    "equest\022\n\n\002id\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\"M\n\021"
-    "SC_Login_Response\022\017\n\007success\030\001 \001(\010\022\024\n\014er"
-    "rorMessage\030\002 \001(\t\022\021\n\tsessionId\030\003 \001(\004\".\n\031C"
-    "S_My_Player_Info_Request\022\021\n\tsessionId\030\001 "
-    "\001(\004\"A\n\032SC_My_Player_Info_Response\022#\n\npla"
-    "yerInfo\030\001 \001(\0132\017.msgTest.Player\"-\n\033CS_Roo"
-    "m_Player_List_Request\022\016\n\006roomId\030\001 \001(\005\"C\n"
-    "\034SC_Room_Player_List_Response\022#\n\nplayerL"
-    "ist\030\001 \003(\0132\017.msgTest.Player\"<\n\026CS_Create_"
-    "Room_Request\022\020\n\010roomName\030\001 \001(\t\022\020\n\010hostNa"
-    "me\030\002 \001(\t\"]\n\027SC_Create_Room_Response\022\017\n\007s"
-    "uccess\030\001 \001(\010\022\024\n\014errorMessage\030\002 \001(\t\022\033\n\004ro"
-    "om\030\003 \001(\0132\r.msgTest.Room\"\026\n\024CS_Room_List_"
-    "Request\"8\n\025SC_Room_List_Response\022\037\n\010room"
-    "List\030\001 \003(\0132\r.msgTest.Room\"\'\n\025CS_Enter_Ro"
-    "om_Request\022\016\n\006roomId\030\001 \001(\005\"\\\n\026SC_Enter_R"
-    "oom_Response\022\017\n\007success\030\001 \001(\010\022\024\n\014errorMe"
-    "ssage\030\002 \001(\t\022\033\n\004room\030\003 \001(\0132\r.msgTest.Room"
-    "\"D\n!SC_Player_Enter_Room_Notification\022\037\n"
-    "\006player\030\001 \001(\0132\017.msgTest.Player\"\?\n\026CS_Pla"
-    "yer_Move_Request\022%\n\tmoveState\030\001 \001(\0132\022.ms"
-    "gTest.MoveState\"E\n\033SC_Player_Move_Notifi"
-    "cation\022&\n\nmoveStates\030\001 \003(\0132\022.msgTest.Mov"
-    "eState\"0\n\026SC_Player_List_In_Grid\022\026\n\016play"
-    "erNameList\030\001 \003(\tb\006proto3"
+    "\030\005 \001(\t\"\034\n\007CS_Ping\022\021\n\ttimestamp\030\001 \001(\003\"5\n\007"
+    "SC_Pong\022\021\n\ttimestamp\030\001 \001(\003\022\027\n\017serverTime"
+    "stamp\030\002 \001(\003\"0\n\020CS_Login_Request\022\n\n\002id\030\001 "
+    "\001(\t\022\020\n\010password\030\002 \001(\t\"M\n\021SC_Login_Respon"
+    "se\022\017\n\007success\030\001 \001(\010\022\024\n\014errorMessage\030\002 \001("
+    "\t\022\021\n\tsessionId\030\003 \001(\004\".\n\031CS_My_Player_Inf"
+    "o_Request\022\021\n\tsessionId\030\001 \001(\004\"A\n\032SC_My_Pl"
+    "ayer_Info_Response\022#\n\nplayerInfo\030\001 \001(\0132\017"
+    ".msgTest.Player\"-\n\033CS_Room_Player_List_R"
+    "equest\022\016\n\006roomId\030\001 \001(\005\"C\n\034SC_Room_Player"
+    "_List_Response\022#\n\nplayerList\030\001 \003(\0132\017.msg"
+    "Test.Player\"<\n\026CS_Create_Room_Request\022\020\n"
+    "\010roomName\030\001 \001(\t\022\020\n\010hostName\030\002 \001(\t\"]\n\027SC_"
+    "Create_Room_Response\022\017\n\007success\030\001 \001(\010\022\024\n"
+    "\014errorMessage\030\002 \001(\t\022\033\n\004room\030\003 \001(\0132\r.msgT"
+    "est.Room\"\026\n\024CS_Room_List_Request\"8\n\025SC_R"
+    "oom_List_Response\022\037\n\010roomList\030\001 \003(\0132\r.ms"
+    "gTest.Room\"\'\n\025CS_Enter_Room_Request\022\016\n\006r"
+    "oomId\030\001 \001(\005\"\\\n\026SC_Enter_Room_Response\022\017\n"
+    "\007success\030\001 \001(\010\022\024\n\014errorMessage\030\002 \001(\t\022\033\n\004"
+    "room\030\003 \001(\0132\r.msgTest.Room\"D\n!SC_Player_E"
+    "nter_Room_Notification\022\037\n\006player\030\001 \001(\0132\017"
+    ".msgTest.Player\"\?\n\026CS_Player_Move_Reques"
+    "t\022%\n\tmoveState\030\001 \001(\0132\022.msgTest.MoveState"
+    "\"E\n\033SC_Player_Move_Notification\022&\n\nmoveS"
+    "tates\030\001 \003(\0132\022.msgTest.MoveState\"0\n\026SC_Pl"
+    "ayer_List_In_Grid\022\026\n\016playerNameList\030\001 \003("
+    "\tb\006proto3"
 };
 static ::absl::once_flag descriptor_table_messageTest_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_messageTest_2eproto = {
     false,
     false,
-    1584,
+    1609,
     descriptor_table_protodef_messageTest_2eproto,
     "messageTest.proto",
     &descriptor_table_messageTest_2eproto_once,
@@ -2916,7 +2919,12 @@ inline PROTOBUF_NDEBUG_INLINE SC_Pong::Impl_::Impl_(
 
 inline void SC_Pong::SharedCtor(::_pb::Arena* arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
-  _impl_.timestamp_ = {};
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, timestamp_),
+           0,
+           offsetof(Impl_, servertimestamp_) -
+               offsetof(Impl_, timestamp_) +
+               sizeof(Impl_::servertimestamp_));
 }
 SC_Pong::~SC_Pong() {
   // @@protoc_insertion_point(destructor:msgTest.SC_Pong)
@@ -2965,15 +2973,15 @@ const ::google::protobuf::internal::ClassData* SC_Pong::GetClassData() const {
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 1, 0, 0, 2> SC_Pong::_table_ = {
+const ::_pbi::TcParseTable<1, 2, 0, 0, 2> SC_Pong::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    1, 0,  // max_field_number, fast_idx_mask
+    2, 8,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967294,  // skipmap
+    4294967292,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    1,  // num_field_entries
+    2,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
     _class_data_.base(),
@@ -2983,6 +2991,9 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> SC_Pong::_table_ = {
     ::_pbi::TcParser::GetTable<::msgTest::SC_Pong>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
+    // int64 serverTimestamp = 2;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(SC_Pong, _impl_.servertimestamp_), 63>(),
+     {16, 63, 0, PROTOBUF_FIELD_OFFSET(SC_Pong, _impl_.servertimestamp_)}},
     // int64 timestamp = 1;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(SC_Pong, _impl_.timestamp_), 63>(),
      {8, 63, 0, PROTOBUF_FIELD_OFFSET(SC_Pong, _impl_.timestamp_)}},
@@ -2991,6 +3002,9 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> SC_Pong::_table_ = {
   }}, {{
     // int64 timestamp = 1;
     {PROTOBUF_FIELD_OFFSET(SC_Pong, _impl_.timestamp_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kInt64)},
+    // int64 serverTimestamp = 2;
+    {PROTOBUF_FIELD_OFFSET(SC_Pong, _impl_.servertimestamp_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt64)},
   }},
   // no aux_entries
@@ -3005,7 +3019,9 @@ PROTOBUF_NOINLINE void SC_Pong::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.timestamp_ = ::int64_t{0};
+  ::memset(&_impl_.timestamp_, 0, static_cast<::size_t>(
+      reinterpret_cast<char*>(&_impl_.servertimestamp_) -
+      reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.servertimestamp_));
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
@@ -3031,6 +3047,13 @@ PROTOBUF_NOINLINE void SC_Pong::Clear() {
                     stream, this_._internal_timestamp(), target);
           }
 
+          // int64 serverTimestamp = 2;
+          if (this_._internal_servertimestamp() != 0) {
+            target = ::google::protobuf::internal::WireFormatLite::
+                WriteInt64ToArrayWithField<2>(
+                    stream, this_._internal_servertimestamp(), target);
+          }
+
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -3054,11 +3077,17 @@ PROTOBUF_NOINLINE void SC_Pong::Clear() {
           // Prevent compiler warnings about cached_has_bits being unused
           (void)cached_has_bits;
 
+          ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
             // int64 timestamp = 1;
             if (this_._internal_timestamp() != 0) {
               total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(
                   this_._internal_timestamp());
+            }
+            // int64 serverTimestamp = 2;
+            if (this_._internal_servertimestamp() != 0) {
+              total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(
+                  this_._internal_servertimestamp());
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -3076,6 +3105,9 @@ void SC_Pong::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google:
   if (from._internal_timestamp() != 0) {
     _this->_impl_.timestamp_ = from._impl_.timestamp_;
   }
+  if (from._internal_servertimestamp() != 0) {
+    _this->_impl_.servertimestamp_ = from._impl_.servertimestamp_;
+  }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -3090,7 +3122,12 @@ void SC_Pong::CopyFrom(const SC_Pong& from) {
 void SC_Pong::InternalSwap(SC_Pong* PROTOBUF_RESTRICT other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-        swap(_impl_.timestamp_, other->_impl_.timestamp_);
+  ::google::protobuf::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(SC_Pong, _impl_.servertimestamp_)
+      + sizeof(SC_Pong::_impl_.servertimestamp_)
+      - PROTOBUF_FIELD_OFFSET(SC_Pong, _impl_.timestamp_)>(
+          reinterpret_cast<char*>(&_impl_.timestamp_),
+          reinterpret_cast<char*>(&other->_impl_.timestamp_));
 }
 
 ::google::protobuf::Metadata SC_Pong::GetMetadata() const {

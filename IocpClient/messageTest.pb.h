@@ -496,6 +496,7 @@ class SC_Pong final : public ::google::protobuf::Message
   // accessors -------------------------------------------------------
   enum : int {
     kTimestampFieldNumber = 1,
+    kServerTimestampFieldNumber = 2,
   };
   // int64 timestamp = 1;
   void clear_timestamp() ;
@@ -507,12 +508,22 @@ class SC_Pong final : public ::google::protobuf::Message
   void _internal_set_timestamp(::int64_t value);
 
   public:
+  // int64 serverTimestamp = 2;
+  void clear_servertimestamp() ;
+  ::int64_t servertimestamp() const;
+  void set_servertimestamp(::int64_t value);
+
+  private:
+  ::int64_t _internal_servertimestamp() const;
+  void _internal_set_servertimestamp(::int64_t value);
+
+  public:
   // @@protoc_insertion_point(class_scope:msgTest.SC_Pong)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      0, 1, 0,
+      1, 2, 0,
       0, 2>
       _table_;
 
@@ -531,6 +542,7 @@ class SC_Pong final : public ::google::protobuf::Message
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const SC_Pong& from_msg);
     ::int64_t timestamp_;
+    ::int64_t servertimestamp_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -5874,6 +5886,28 @@ inline ::int64_t SC_Pong::_internal_timestamp() const {
 inline void SC_Pong::_internal_set_timestamp(::int64_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.timestamp_ = value;
+}
+
+// int64 serverTimestamp = 2;
+inline void SC_Pong::clear_servertimestamp() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.servertimestamp_ = ::int64_t{0};
+}
+inline ::int64_t SC_Pong::servertimestamp() const {
+  // @@protoc_insertion_point(field_get:msgTest.SC_Pong.serverTimestamp)
+  return _internal_servertimestamp();
+}
+inline void SC_Pong::set_servertimestamp(::int64_t value) {
+  _internal_set_servertimestamp(value);
+  // @@protoc_insertion_point(field_set:msgTest.SC_Pong.serverTimestamp)
+}
+inline ::int64_t SC_Pong::_internal_servertimestamp() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.servertimestamp_;
+}
+inline void SC_Pong::_internal_set_servertimestamp(::int64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.servertimestamp_ = value;
 }
 
 // -------------------------------------------------------------------
