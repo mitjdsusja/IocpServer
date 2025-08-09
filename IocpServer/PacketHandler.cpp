@@ -82,8 +82,11 @@ void PacketHandler::Handle_CS_Ping(shared_ptr<GameSession> session, shared_ptr<B
 	msgTest::CS_Ping recvPingPacket;
 	recvPingPacket.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
 
+	uint64 serverTimestamp = chrono::duration_cast<chrono::milliseconds>(chrono::steady_clock::now().time_since_epoch()).count();
+
 	msgTest::SC_Pong sendPongPacket;
 	sendPongPacket.set_timestamp(recvPingPacket.timestamp());
+	sendPongPacket.set_servertimestamp(serverTimestamp);
 
 	vector<shared_ptr<Buffer>> sendBuffer = MakeSendBuffer(sendPongPacket, PacketId::PKT_SC_PONG);
 	
