@@ -8,10 +8,10 @@
 
 #include "messageTest.pb.h"
 
-const float MAP_MIN_X = -20.0f;
-const float MAP_MAX_X = 20.0f;
-const float MAP_MIN_Z = -20.0f;
-const float MAP_MAX_Z = 20.0f;
+const float MAP_MIN_X = -10.0f;
+const float MAP_MAX_X = 10.0f;
+const float MAP_MIN_Z = -10.0f;
+const float MAP_MAX_Z = 10.0f;
 
 Player::Player(const shared_ptr<Session>& owner) : _owner(owner) {
 
@@ -52,18 +52,27 @@ void Player::RandomMove() {
 	float newX = _playerInfo._position._x + dx;
 	float newZ = _playerInfo._position._z + dz;
 
-	// 경계 체크 후 반전
-	if (newX < MAP_MIN_X || newX > MAP_MAX_X) {
+	// 경계 체크 후 반전 + 위치 클램프
+	if (newX < MAP_MIN_X) {
+		newX = MAP_MIN_X;
 		_playerInfo._velocity._x = -_playerInfo._velocity._x;
-		dx = -dx;
 	}
-	if (newZ < MAP_MIN_Z || newZ > MAP_MAX_Z) {
-		_playerInfo._velocity._z= -_playerInfo._velocity._z;
-		dz = -dz;
+	else if (newX > MAP_MAX_X) {
+		newX = MAP_MAX_X;
+		_playerInfo._velocity._x = -_playerInfo._velocity._x;
 	}
 
-	_playerInfo._position._x += dx;
-	_playerInfo._position._z += dz;
+	if (newZ < MAP_MIN_Z) {
+		newZ = MAP_MIN_Z;
+		_playerInfo._velocity._z = -_playerInfo._velocity._z;
+	}
+	else if (newZ > MAP_MAX_Z) {
+		newZ = MAP_MAX_Z;
+		_playerInfo._velocity._z = -_playerInfo._velocity._z;
+	}
+
+	_playerInfo._position._x = newX;
+	_playerInfo._position._z = newZ;
 }
 
 void Player::SendData(const vector<shared_ptr<Buffer>>& sendBuffer) {
@@ -157,8 +166,8 @@ void PlayerManager::AllPlayerSendMovePacket(){
 		rotation->set_x(0);
 		rotation->set_y(0);
 		rotation->set_z(0);
-		spdlog::info("Send Player Position ({},{},{})", playerInfo._position._x * 100, playerInfo._position._y * 100, playerInfo._position._z * 100);
-		moveState->set_timestamp(chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch()).count());
+		//spdlog::info("Send bot{} Position ({},{},{})", to_string(player->GetSessionId()), playerInfo._position._x, playerInfo._position._y, playerInfo._position._z);
+		moveState->set_timestamp((uint64)(chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch()).count()));
 
 		vector<shared_ptr<Buffer>> sendBuffers = PacketHandler::MakeSendBuffer(sendPacketPlayerMoveRequest, PacketId::PKT_CS_PLAYER_MOVE_REQUEST);
 
