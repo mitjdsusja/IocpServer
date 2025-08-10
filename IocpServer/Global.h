@@ -13,3 +13,5 @@ extern shared_ptr<ActorManager> GActorManager;
 
 extern shared_ptr<JobScheduler> GJobScheduler;
 extern shared_ptr<MonitorManager> GMonitorManager;
+
+extern chrono::steady_clock::time_point GServerStartTimePoint;

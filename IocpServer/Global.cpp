@@ -15,6 +15,8 @@ shared_ptr<ActorManager> GActorManager = nullptr;
 shared_ptr<JobScheduler> GJobScheduler = nullptr;
 shared_ptr<MonitorManager> GMonitorManager = nullptr;
 
+chrono::steady_clock::time_point GServerStartTimePoint;
+
 class Global {
 public :
 	Global() {
@@ -27,6 +29,8 @@ public :
 
 		GJobScheduler = make_shared<JobScheduler>();
 		GMonitorManager = make_shared<MonitorManager>();
+
+		GServerStartTimePoint = chrono::steady_clock::now();
 	}
 	~Global() {
 
