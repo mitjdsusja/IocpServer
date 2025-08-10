@@ -126,12 +126,11 @@ void PacketHandler::Handle_SC_Pong(shared_ptr<GameSession> session, shared_ptr<B
 		return;
 	}
 
-
 	int32 serverTimeOffsetMs = (serverTimestampMs + (rtt / 2)) - curClientTime;
 
-	spdlog::info("RTT : {}, SERVER TIME OFFSET: {}", rtt, serverTimeOffsetMs);
-
 	GGameManager->SetServerTimeOffsetMs(serverTimeOffsetMs);
+	
+	spdlog::info("RTT : {}, Cur ServerTime: {}", rtt, GGameManager->GetNowServerTimeMs());
 }
 
 void PacketHandler::Handle_SC_Login_Response(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
