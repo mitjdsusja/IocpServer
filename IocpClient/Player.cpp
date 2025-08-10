@@ -167,7 +167,7 @@ void PlayerManager::AllPlayerSendMovePacket(){
 		rotation->set_y(0);
 		rotation->set_z(0);
 		//spdlog::info("Send bot{} Position ({},{},{})", to_string(player->GetSessionId()), playerInfo._position._x, playerInfo._position._y, playerInfo._position._z);
-		moveState->set_timestamp((uint64)(chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch()).count()));
+		moveState->set_timestamp(GGameManager->GetNowServerTimeMs());
 
 		vector<shared_ptr<Buffer>> sendBuffers = PacketHandler::MakeSendBuffer(sendPacketPlayerMoveRequest, PacketId::PKT_CS_PLAYER_MOVE_REQUEST);
 

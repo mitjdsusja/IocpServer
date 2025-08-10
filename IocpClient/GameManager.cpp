@@ -35,6 +35,11 @@ int32 GameManager::GetEnterRoomId(){
     return _enterRoomId;
 }
 
+uint64 GameManager::GetNowServerTimeMs(){
+
+    return chrono::duration_cast<chrono::milliseconds>(chrono::steady_clock::now().time_since_epoch()).count() + _serverTimeOffsetMs;
+}
+
 void GameManager::SetEnterableRoomList(const vector<RoomInfo>& roomList){
 
     _roomList = roomList;

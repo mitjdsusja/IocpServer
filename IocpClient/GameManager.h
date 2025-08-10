@@ -11,6 +11,7 @@ public:
 	vector<RoomInfo> GetEnterableRoomList();
 	int32 GetEnteredPlayerCount();
 	int32 GetEnterRoomId();
+	uint64 GetNowServerTimeMs();
 
 	void SetEnterableRoomList(const vector<RoomInfo>& roomList);
 	void AddEnterPlayerCount();
