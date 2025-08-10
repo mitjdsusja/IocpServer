@@ -21,6 +21,6 @@ private:
 	int32 _enterRoomId = 0;
 	atomic<int32> _enteredPlayerCount = 0;
 
-	uint64 _serverTimeOffsetMs = 0;
+	atomic<uint64> _serverTimeOffsetMs = 0;
 };
 
