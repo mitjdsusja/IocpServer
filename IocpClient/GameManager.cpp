@@ -44,3 +44,7 @@ void GameManager::SetEnterRoomId(int32 roomId){
 
     _enterRoomId = roomId;
 }
+
+void GameManager::SetServerTimeOffsetMs(uint64 serverTimeOffsetMs){
+
+}

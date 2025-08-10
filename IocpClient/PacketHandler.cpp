@@ -112,6 +112,23 @@ void PacketHandler::Handle_CS_Player_Move_Request(shared_ptr<GameSession> sessio
 -------------*/
 void PacketHandler::Handle_SC_Pong(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
+	msgTest::SC_Pong recvPacketPong;
+	recvPacketPong.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
+
+	uint64 pingSendTime = recvPacketPong.timestamp();
+	uint64 serverTimestampMs = recvPacketPong.servertimestamp();
+	uint64 curClientTime = chrono::duration_cast<chrono::milliseconds>(chrono::steady_clock::now().time_since_epoch()).count();
+	uint64 rtt = curClientTime - pingSendTime;
+
+	if (pingSendTime > curClientTime) {
+		
+		spdlog::info("INVALID RTT : {}", rtt);
+		return;
+	}
+
+	uint64 serverTimeOffsetMs = (serverTimestampMs + (rtt / 2)) - curClientTime;
+
+	GGameManager->SetServerTimeOffsetMs(serverTimeOffsetMs);
 }
 
 void PacketHandler::Handle_SC_Login_Response(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
