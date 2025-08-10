@@ -47,6 +47,7 @@ public:
 	void AllPlayerRequestEnterRoom(uint64 roomId);
 	void AllPlayerRandomMove();
 	void AllPlayerSendMovePacket();
+	void SendPingPacketToFirstPlayer();
 	void SendMsg(uint64 userId, vector<shared_ptr<Buffer>> sendBuffers);
 
 	uint32 GetPlayerCount() { return _playerCount; }

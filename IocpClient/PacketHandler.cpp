@@ -118,7 +118,7 @@ void PacketHandler::Handle_SC_Pong(shared_ptr<GameSession> session, shared_ptr<B
 	uint64 pingSendTime = recvPacketPong.timestamp();
 	uint64 serverTimestampMs = recvPacketPong.servertimestamp();
 	uint64 curClientTime = chrono::duration_cast<chrono::milliseconds>(chrono::steady_clock::now().time_since_epoch()).count();
-	uint64 rtt = curClientTime - pingSendTime;
+	int32 rtt = curClientTime - pingSendTime;
 
 	if (pingSendTime > curClientTime) {
 		
@@ -126,7 +126,10 @@ void PacketHandler::Handle_SC_Pong(shared_ptr<GameSession> session, shared_ptr<B
 		return;
 	}
 
-	uint64 serverTimeOffsetMs = (serverTimestampMs + (rtt / 2)) - curClientTime;
+
+	int32 serverTimeOffsetMs = (serverTimestampMs + (rtt / 2)) - curClientTime;
+
+	spdlog::info("RTT : {}, SERVER TIME OFFSET: {}", rtt, serverTimeOffsetMs);
 
 	GGameManager->SetServerTimeOffsetMs(serverTimeOffsetMs);
 }

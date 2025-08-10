@@ -175,6 +175,25 @@ void PlayerManager::AllPlayerSendMovePacket(){
 	}
 }
 
+void PlayerManager::SendPingPacketToFirstPlayer() {
+
+	const auto& p = _players.begin();
+	if (p == _players.end()) {
+
+		spdlog::info("EMPTY PLAYERS");
+		return;
+	}
+
+	msgTest::CS_Ping sendPacketPing;
+
+	uint64 timestamp = chrono::duration_cast<chrono::milliseconds>(chrono::steady_clock::now().time_since_epoch()).count();
+	sendPacketPing.set_timestamp(timestamp);
+
+	vector<shared_ptr<Buffer>> sendBuffers = PacketHandler::MakeSendBuffer(sendPacketPing, PacketId::PKT_CS_PING);
+
+	SendMsg(p->first, sendBuffers);
+}
+
 void PlayerManager::SendMsg(uint64 userId, vector<shared_ptr<Buffer>> sendBuffers){
 
 	const auto& iter = _players.find(userId);

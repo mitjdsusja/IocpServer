@@ -68,6 +68,16 @@ int main() {
 	}
 	spdlog::info("Client All Login");
 
+	// Ping
+	GThreadManager->Launch([]() {
+
+		while (true) {
+			
+			GGameManager->SendPingPacket();
+			this_thread::sleep_for(3s);
+		}
+	});
+
 	// Request Room List
 
 	vector<RoomInfo> roomList;

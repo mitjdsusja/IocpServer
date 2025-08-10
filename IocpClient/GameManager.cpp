@@ -15,6 +15,11 @@ void GameManager::PlayerMovement(){
     GPlayerManager->AllPlayerSendMovePacket();
 }
 
+void GameManager::SendPingPacket(){
+
+    GPlayerManager->SendPingPacketToFirstPlayer();
+}
+
 vector<RoomInfo> GameManager::GetEnterableRoomList(){
 
     return _roomList;
