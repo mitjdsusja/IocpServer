@@ -12,6 +12,7 @@ public:
 	int32 GetEnteredPlayerCount();
 	int32 GetEnterRoomId();
 	uint64 GetNowServerTimeMs();
+	uint64 GetNowClientTimeMs();
 
 	void SetEnterableRoomList(const vector<RoomInfo>& roomList);
 	void AddEnterPlayerCount();

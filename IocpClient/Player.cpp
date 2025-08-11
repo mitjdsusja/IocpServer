@@ -166,7 +166,7 @@ void PlayerManager::AllPlayerSendMovePacket(){
 		rotation->set_x(0);
 		rotation->set_y(0);
 		rotation->set_z(0);
-		//spdlog::info("Send bot{} Position ({},{},{})", to_string(player->GetSessionId()), playerInfo._position._x, playerInfo._position._y, playerInfo._position._z);
+		//spdlog::info("Send bot{} Position ({},{},{}), MoveTime : {}", to_string(player->GetSessionId()), playerInfo._position._x, playerInfo._position._y, playerInfo._position._z, GGameManager->GetNowServerTimeMs());
 		moveState->set_timestamp(GGameManager->GetNowServerTimeMs());
 
 		vector<shared_ptr<Buffer>> sendBuffers = PacketHandler::MakeSendBuffer(sendPacketPlayerMoveRequest, PacketId::PKT_CS_PLAYER_MOVE_REQUEST);
@@ -186,7 +186,7 @@ void PlayerManager::SendPingPacketToFirstPlayer() {
 
 	msgTest::CS_Ping sendPacketPing;
 
-	uint64 timestamp = chrono::duration_cast<chrono::milliseconds>(chrono::steady_clock::now().time_since_epoch()).count();
+	uint64 timestamp = GGameManager->GetNowClientTimeMs();
 	sendPacketPing.set_timestamp(timestamp);
 
 	vector<shared_ptr<Buffer>> sendBuffers = PacketHandler::MakeSendBuffer(sendPacketPing, PacketId::PKT_CS_PING);

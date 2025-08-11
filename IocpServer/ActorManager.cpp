@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "ActorManager.h"
+#include "Global.h"
 
 #include "Job.h"
 #include "Actor.h"
@@ -43,6 +44,10 @@ void ActorManager::RequestAllLatencyAndSendToMonitor(){
 		lock_guard<mutex> lock(_actorsMutex);
 		actorCount = _actors.size();
 	}
+
+	*msgRef += L"Server Time : ";
+	*msgRef += to_wstring(chrono::duration_cast<chrono::milliseconds>(chrono::steady_clock::now() - GServerStartTimePoint).count());
+	*msgRef += L"\n";
 
 	for (auto& p : _actors) {
 		
