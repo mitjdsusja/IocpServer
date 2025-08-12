@@ -4,9 +4,26 @@
 #include "Player.h"
 #include "GameManager.h"
 
+void GameManager::ReqeustEnterRoomAllPlayer()
+{
+    uint32 playerCount = GPlayerManager->GetPlayerCount();
+    uint32 roomCount = _roomList.size();
+
+    for (uint32 i = roomCount; i < playerCount; ++i)
+    {
+        uint32 roomIndex = i % roomCount; 
+        GPlayerManager->RequestEnterRoom(i, _roomList[roomIndex]._roomId);
+    }
+}
+
 void GameManager::RequestEnterRoomAllPlayer(int32 roomId){
 
     GPlayerManager->AllPlayerRequestEnterRoom(roomId);
+}
+
+void GameManager::ReqeustCreateRoom(int32 createRoomCount){
+
+    GPlayerManager->RequestCreateRoom(createRoomCount);
 }
 
 void GameManager::PlayerMovement(){

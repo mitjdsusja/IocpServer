@@ -8,10 +8,10 @@
 
 #include "messageTest.pb.h"
 
-const float MAP_MIN_X = -10.0f;
-const float MAP_MAX_X = 10.0f;
-const float MAP_MIN_Z = -10.0f;
-const float MAP_MAX_Z = 10.0f;
+const float MAP_MIN_X = -20.0f;
+const float MAP_MAX_X = 20.0f;
+const float MAP_MIN_Z = -20.0f;
+const float MAP_MAX_Z = 20.0f;
 
 Player::Player(const shared_ptr<Session>& owner) : _owner(owner) {
 
@@ -93,9 +93,20 @@ PlayerInfo Player::GetPlayerInfo(){
 	return _playerInfo;
 }
 
+void Player::SetName(string name) {
+
+	_playerInfo._name = name;
+}
+
+void Player::SetEnterRoomId(int32 roomId) {
+
+	_playerInfo._enterRoomId = roomId;
+}
+
 void PlayerManager::CreatePlayerAndAdd(const shared_ptr<Session>& playerOwner, uint64 userId){
 
 	shared_ptr<Player> player = CreatePlayer(playerOwner);
+	player->SetName("bot" + to_string(userId));
 
 	AddPlayer(player, userId);
 }
@@ -116,6 +127,39 @@ void PlayerManager::RequestRoomList(){
 	vector<shared_ptr<Buffer>> buffer = PacketHandler::MakeSendBuffer(sendPacketRoomListRequest, PacketId::PKT_CS_ROOM_LIST_REQUEST);
 	//spdlog::info("Buffer : {}", buffer.size());
 	playerRef->SendData(buffer);
+}
+
+void PlayerManager::RequestEnterRoom(uint64 sessionId, uint32 roomId) {
+
+	msgTest::CS_Enter_Room_Request sendPacketEnterRoomRequest;
+	sendPacketEnterRoomRequest.set_roomid(roomId);
+
+	const auto& sendBuffer = PacketHandler::MakeSendBuffer(sendPacketEnterRoomRequest, PacketId::PKT_CS_ENTER_ROOM_REQUEST);
+
+	_players[sessionId]->SendData(sendBuffer);
+}
+
+void PlayerManager::RequestCreateRoom(int32 createRoomCount) {
+
+	msgTest::CS_Create_Room_Request sendPacketCreateRoomReqeust;
+	
+	int32 createCount = 0;
+	for (auto& p : _players) {
+
+		if (createCount == createRoomCount) break;
+
+		auto& player = p.second;
+		const PlayerInfo& playerInfo = player->GetPlayerInfo();
+
+		sendPacketCreateRoomReqeust.set_hostname(playerInfo._name);
+		sendPacketCreateRoomReqeust.set_roomname("Room" + playerInfo._name);
+
+		const auto& sendBuffer = PacketHandler::MakeSendBuffer(sendPacketCreateRoomReqeust, PacketId::PKT_CS_CREATE_ROOM_REQUEST);
+
+		player->SendData(sendBuffer);
+		
+		++createCount;
+	}
 }
 
 void PlayerManager::AllPlayerRequestEnterRoom(uint64 roomId){
@@ -155,7 +199,7 @@ void PlayerManager::AllPlayerSendMovePacket(){
 		auto& player = p.second;
 		PlayerInfo playerInfo = player->GetPlayerInfo();
 
-		moveState->set_roomid(GGameManager->GetEnterRoomId());
+		moveState->set_roomid(playerInfo._enterRoomId);
 		moveState->set_playername("bot" + to_string(player->GetSessionId()));
 		position->set_x((int16)(playerInfo._position._x * 100));
 		position->set_y((int16)(playerInfo._position._y * 100));
@@ -166,7 +210,7 @@ void PlayerManager::AllPlayerSendMovePacket(){
 		rotation->set_x(0);
 		rotation->set_y(0);
 		rotation->set_z(0);
-		//spdlog::info("Send bot{} Position ({},{},{}), MoveTime : {}", to_string(player->GetSessionId()), playerInfo._position._x, playerInfo._position._y, playerInfo._position._z, GGameManager->GetNowServerTimeMs());
+		//spdlog::info("Send bot{} roomId{} Position ({},{},{}), MoveTime : {}", to_string(player->GetSessionId()), playerInfo._enterRoomId, playerInfo._position._x, playerInfo._position._y, playerInfo._position._z, GGameManager->GetNowServerTimeMs());
 		moveState->set_timestamp(GGameManager->GetNowServerTimeMs());
 
 		vector<shared_ptr<Buffer>> sendBuffers = PacketHandler::MakeSendBuffer(sendPacketPlayerMoveRequest, PacketId::PKT_CS_PLAYER_MOVE_REQUEST);
@@ -202,6 +246,11 @@ void PlayerManager::SendMsg(uint64 userId, vector<shared_ptr<Buffer>> sendBuffer
 	player->SendData(sendBuffers);
 }
 
+void PlayerManager::SetEnterRoomId(uint64 userId, int32 roomId) {
+
+	_players[userId]->SetEnterRoomId(roomId);
+}
+
 shared_ptr<Player> PlayerManager::CreatePlayer(const shared_ptr<Session>& playerOwner){
 
 	return make_shared<Player>(playerOwner);
@@ -213,7 +262,4 @@ void PlayerManager::AddPlayer(const shared_ptr<Player>& player, uint64 userId){
 	_players[userId] = player;
 }
 
-void PlayerManager::PlayerRandomMove(){
 
-
-}

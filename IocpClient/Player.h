@@ -14,6 +14,8 @@ struct PlayerInfo {
 
 	using TimePoint = chrono::system_clock::time_point;
 
+	string _name;
+
 	int32 _enterRoomId = 0;
 	int16 _moveSpeed = 10;
 	Vector<float> _position;
@@ -32,6 +34,9 @@ public:
 	uint64 GetSessionId();
 	PlayerInfo GetPlayerInfo();
 
+	void SetName(string name);
+	void SetEnterRoomId(int32 roomId);
+
 private:
 	shared_ptr<Session> _owner;
 
@@ -44,6 +49,8 @@ class PlayerManager {
 public:
 	void CreatePlayerAndAdd(const shared_ptr<Session>& playerOwner, uint64  userId);
 	void RequestRoomList();
+	void RequestEnterRoom(uint64 sessionId, uint32 roomId);
+	void RequestCreateRoom(int32 createRoomCount);
 	void AllPlayerRequestEnterRoom(uint64 roomId);
 	void AllPlayerRandomMove();
 	void AllPlayerSendMovePacket();
@@ -51,6 +58,8 @@ public:
 	void SendMsg(uint64 userId, vector<shared_ptr<Buffer>> sendBuffers);
 
 	uint32 GetPlayerCount() { return _playerCount; }
+
+	void SetEnterRoomId(uint64 userId, int32 roomI);
 
 private:
 	shared_ptr<Player> CreatePlayer(const shared_ptr<Session>& playerOwner);

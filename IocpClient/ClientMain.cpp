@@ -16,22 +16,22 @@
 enum {
 	GQCS_THREAD_COUNT = 1,
 	WORKER_THREAD_COUNT = 1,
-	CLIENT_COUNT = 1,
+	CLIENT_COUNT = 100,
+	CREATE_ROOM_COUNT = 2,
 };
 
+void RoomStressTest();
+void ServerStressTest();
 
 int main() {
 	wcout.imbue(std::locale("kor"));
 
 	this_thread::sleep_for(1s);
 
-	//ClientService* clientService = new ClientService(NetAddress(L"127.0.0.1", 7777), 1, []() { return make_shared<GameSession>(nullptr); });
 	DummyClientService* dummyClientService = new DummyClientService(NetAddress(L"192.168.0.14", 7777), (int32)CLIENT_COUNT, []() { return make_shared<GameSession>(nullptr); });
 	PacketHandler::RegisterPacketHandlers();
 	LSendBufferPool = new BufferPool();
 
-	//this_thread::sleep_for(1s);
-	
 	dummyClientService->Start();
 	// Create Thread GQCS
 	for (int32 i = 0; i < GQCS_THREAD_COUNT; i++) {
@@ -78,8 +78,29 @@ int main() {
 		}
 	});
 
-	// Request Room List
+	/*------------------------------*/
 
+	ServerStressTest();
+	
+	// broadcast Movement
+
+	while (true) {
+
+		GGameManager->PlayerMovement();
+		this_thread::sleep_for(100ms);
+	}
+
+	while (true) {
+
+		this_thread::sleep_for(0.5s);
+	}
+	
+	GThreadManager->Join();
+}
+
+void RoomStressTest() {
+
+	// Request Room List
 	vector<RoomInfo> roomList;
 	while (true) {
 		GPlayerManager->RequestRoomList();
@@ -108,21 +129,52 @@ int main() {
 		this_thread::sleep_for(1s);
 	}
 	spdlog::info("Client All Enter Room");
-	// broadcast Movement
+}
+void ServerStressTest() {
 
+	// Create Room
+	GGameManager->ReqeustCreateRoom(CREATE_ROOM_COUNT);
 	while (true) {
 
-		GGameManager->PlayerMovement();
-		this_thread::sleep_for(100ms);
-	}
-	
-	
-	
+		if (GGameManager->_createRoomPlayerSessionId.size() == CREATE_ROOM_COUNT) {
 
+			spdlog::info("CREATE ALL ROOM");
+			break;
+		}
+		this_thread::sleep_for(1s);
+	}
+
+	// Request Room List
+	vector<RoomInfo> roomList;
+	while (true) {
+		GPlayerManager->RequestRoomList();
+		this_thread::sleep_for(1s);
+
+		roomList = GGameManager->GetEnterableRoomList();
+		if (roomList.size() == 0) {
+
+			spdlog::info("ROOM LIST EMPTY");
+		}
+		else {
+			break;
+		}
+	}
+
+	for (auto& room : roomList) {
+		spdlog::info("Room id : {}", room._roomId);
+	}
+
+	// Enter Room
+	GGameManager->ReqeustEnterRoomAllPlayer();
 	while (true) {
 
-		this_thread::sleep_for(0.5s);
+		spdlog::info("Enter Room Count : {}", GGameManager->GetEnteredPlayerCount());
+
+		if (CLIENT_COUNT <= GGameManager->GetEnteredPlayerCount()) {
+			break;
+		}
+		this_thread::sleep_for(1s);
 	}
-	
-	GThreadManager->Join();
+	spdlog::info("Client All Enter Room");
+
 }
