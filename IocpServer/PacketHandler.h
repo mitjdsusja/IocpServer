@@ -1,7 +1,8 @@
-#pragma once
+﻿#pragma once
 #include <functional>
 #include "PacketHeader.h"
 #include "GameSession.h"
+#include "spdlog/spdlog.h"
 
 enum PacketId {
 
@@ -111,23 +112,48 @@ vector<shared_ptr<Buffer>> PacketHandler::MakeSendBuffer(const T& packet, Packet
 	vector<shared_ptr<Buffer>> sendBuffers;
 
 	string serializedData;
-	packet.SerializeToString(&serializedData);
+	if (!packet.SerializeToString(&serializedData)) {
+		spdlog::error("Failed to serialize packetId: {}", (int32)packetId);
+		return sendBuffers; // 빈 벡터 반환
+	}
 
 	const int32 headerSize = sizeof(PacketHeader);
 	const int32 frameSize = sizeof(PacketFrame);
-	
-	int32 totalDataSize = serializedData.size();
+
+	int32 totalDataSize = static_cast<int32>(serializedData.size());
 	int32 offset = 0;
 	int32 frameCount = 0;
 
+	// 최소 한 프레임은 만들어야 하므로, totalDataSize == 0도 처리
 	do {
-		shared_ptr<Buffer> sendBuffer = shared_ptr<Buffer>(GSendBufferPool->Pop(), [](Buffer* buffer) {GSendBufferPool->Push(buffer);});
+		shared_ptr<Buffer> sendBuffer = shared_ptr<Buffer>(GSendBufferPool->Pop(), [](Buffer* buffer) {GSendBufferPool->Push(buffer); });
 
 		const int32 bufferCapacity = sendBuffer->Capacity();
+
+		// 버퍼 크기가 헤더+프레임 크기보다 작으면
+		if (bufferCapacity <= headerSize + frameSize) {
+			spdlog::error("Buffer capacity ({}) too small for headers", bufferCapacity);
+			break;
+		}
+
 		const int32 maxPayloadSize = bufferCapacity - headerSize - frameSize;
 
-		int32 payloadSize = min(maxPayloadSize, totalDataSize - offset);
+		// payloadSize는 남은 데이터 크기와 maxPayloadSize 중 작은 값
+		int32 payloadSize = std::min(maxPayloadSize, totalDataSize - offset);
+
+		// payloadSize가 음수면 종료
+		if (payloadSize < 0) {
+			spdlog::error("Negative payload size calculated: {}", payloadSize);
+			break;
+		}
+
 		int32 packetSize = headerSize + frameSize + payloadSize;
+
+		// packetSize가 버퍼 용량 초과하지 않는지 검사
+		if (packetSize > bufferCapacity) {
+			spdlog::error("Packet size ({}) exceeds buffer capacity ({})", packetSize, bufferCapacity);
+			break;
+		}
 
 		PacketHeader* header = reinterpret_cast<PacketHeader*>(sendBuffer->GetBuffer());
 		header->packetId = htonl(packetId);
@@ -146,10 +172,11 @@ vector<shared_ptr<Buffer>> PacketHandler::MakeSendBuffer(const T& packet, Packet
 
 		offset += payloadSize;
 		frameCount++;
+
 	} while (offset < totalDataSize || frameCount == 0);
 
 	for (auto& buffer : sendBuffers) {
-		PacketFrame* frame = (PacketFrame*)(buffer->GetBuffer() + sizeof(PacketHeader));
+		PacketFrame* frame = reinterpret_cast<PacketFrame*>(buffer->GetBuffer() + sizeof(PacketHeader));
 		frame->totalFrameCount = htonl(frameCount);
 	}
 
