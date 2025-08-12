@@ -236,8 +236,22 @@ int32 Session::OnRecv(BYTE* recvBuffer, int32 recvBytes){
 			break;
 		}
 
+		// packetSize 최소 길이 검증
+		if (header->packetSize < sizeof(PacketHeader) + sizeof(PacketFrame)) {
+
+			spdlog::error("Invalid packet size : {}", header->packetSize);
+			break;
+		}
+
 		BYTE* payload = (BYTE*)(frame + 1);
 		int32 payloadSize = header->packetSize - sizeof(PacketHeader) - sizeof(PacketFrame);
+
+		// payloadSize 음수, 너무 큼 방지
+		if (payloadSize < 0 || payloadSize >(recvBytes - processLen - sizeof(PacketHeader) - sizeof(PacketFrame))) {
+
+			spdlog::error("Packet : {} {} Invalid payload size : {}", header->packetId, header->packetSize, payloadSize);
+			break;
+		}
 
 		vector<BYTE> data(payload, payload + payloadSize);
 
