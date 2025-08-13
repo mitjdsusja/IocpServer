@@ -161,6 +161,9 @@ void Session::ProcessSend(OverlappedEvent* event, int32 processBytes){
 	SendEvent* sendEvent = (SendEvent*)event;
 	sendEvent->BufferClear();
 
+	uint64 eventTime = chrono::duration_cast<chrono::microseconds>(chrono::steady_clock::now() - sendEvent->_eventStartTimePoint).count();
+	spdlog::info("Event CompleteTime : {}", eventTime);
+
 	OnSend(processBytes);
 
 	{
