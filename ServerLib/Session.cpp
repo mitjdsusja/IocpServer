@@ -214,8 +214,8 @@ int32 Session::OnRecv(BYTE* recvBuffer, int32 recvBytes){
 		}
 
 		PacketHeader* header = (PacketHeader*)buffer;
-		header->packetId = ntohl(header->packetId);
-		header->packetSize = ntohl(header->packetSize);
+		int32 headerPacketId = ntohl(header->packetId);
+		int32 headerPacketSize = ntohl(header->packetSize);
 
 		// 전체 packet이 안옴.
 		if (recvBytes - processLen < header->packetSize) {
@@ -237,19 +237,19 @@ int32 Session::OnRecv(BYTE* recvBuffer, int32 recvBytes){
 		}
 
 		// packetSize 최소 길이 검증
-		if (header->packetSize < sizeof(PacketHeader) + sizeof(PacketFrame)) {
+		if (headerPacketSize < sizeof(PacketHeader) + sizeof(PacketFrame)) {
 
-			spdlog::error("Invalid packet size : {}", header->packetSize);
+			spdlog::error("Invalid packet size : {}", headerPacketSize);
 			break;
 		}
 
 		BYTE* payload = (BYTE*)(frame + 1);
-		int32 payloadSize = header->packetSize - sizeof(PacketHeader) - sizeof(PacketFrame);
+		int32 payloadSize = headerPacketSize - sizeof(PacketHeader) - sizeof(PacketFrame);
 
 		// payloadSize 음수, 너무 큼 방지
 		if (payloadSize < 0 || payloadSize >(recvBytes - processLen - sizeof(PacketHeader) - sizeof(PacketFrame))) {
 
-			spdlog::error("Packet : {} {} Invalid payload size : {}", header->packetId, header->packetSize, payloadSize);
+			spdlog::error("Packet : {} {} Invalid payload size : {}", headerPacketId, headerPacketSize, payloadSize);
 			break;
 		}
 
@@ -270,8 +270,8 @@ int32 Session::OnRecv(BYTE* recvBuffer, int32 recvBytes){
 
 			PacketHeader* finalHeader = (PacketHeader*)finalPacket.data();
 			
-			finalHeader->packetId = header->packetId;
-			finalHeader->packetSize = header->packetSize;
+			finalHeader->packetId = headerPacketId;
+			finalHeader->packetSize = headerPacketSize;
 			
 			for (int32 i = 0; i < totalFrameCount; ++i) {
 
@@ -284,7 +284,7 @@ int32 Session::OnRecv(BYTE* recvBuffer, int32 recvBytes){
 			_recvFrameCounts.erase(framePacketId);
 		}
 
-		processLen += header->packetSize;
+		processLen += headerPacketSize;
 		if (processLen >= recvBytes) {
 			break;
 		}
