@@ -388,6 +388,7 @@ void RoomManager::PushJobCreateAndPushRoom(const InitRoomInfo& initRoomInfo, con
 
 		if (roomId != 0) {
 			createRoomResponsePacket.set_success(true);
+			createRoomResponsePacket.set_errormessage("Create Room ");
 			room->set_roomid(roomId);
 			room->set_roomname(boost::locale::conv::utf_to_utf<char>(initRoomInfo._roomName));
 			room->set_playercount(1);

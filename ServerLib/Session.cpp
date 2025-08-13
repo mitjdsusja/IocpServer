@@ -218,7 +218,7 @@ int32 Session::OnRecv(BYTE* recvBuffer, int32 recvBytes){
 		int32 headerPacketSize = ntohl(header->packetSize);
 
 		// 전체 packet이 안옴.
-		if (recvBytes - processLen < header->packetSize) {
+		if (recvBytes - processLen < headerPacketSize) {
 			break;
 		}
 
