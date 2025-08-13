@@ -114,6 +114,8 @@ void Session::RegisterSend(){
 		}
 	}
 
+	_sendEvent._eventStartTimePoint = chrono::steady_clock::now();
+
 	DWORD bytes = 0;
 	if (false == SocketManager::Send(_peerSocket, sendBuffers[0].get(), bufferCount, &_sendEvent)) {
 		// TODO : failed send data Process 

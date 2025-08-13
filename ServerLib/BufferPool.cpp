@@ -77,6 +77,7 @@ Buffer* LockBufferPool::Pop(){
 	_buffers.pop_back();
 	_remainedCount--;
 
+	spdlog::info("Pop - Remained BUFFER Count : {}", _remainedCount);
 	//cout << this_thread::get_id() << "<POP> Remained Buffer : " << _remainedCount << endl;
 
 	return Buffer;
@@ -89,6 +90,7 @@ void LockBufferPool::Push(Buffer* buffer){
 	_buffers.push_back(buffer);
 	_remainedCount++;
 
+	spdlog::info("Push - Remained BUFFER Count : {}", _remainedCount);
 	//cout << "++REMAININF BUFFER : " << _remainedCount << endl;
 
 	//cout << this_thread::get_id() << "<PUSH> Remained Buffer : " << _remainedCount << endl;

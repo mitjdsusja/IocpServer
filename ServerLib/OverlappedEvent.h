@@ -20,6 +20,8 @@ public:
 public:
 	EventType _eventType;
 	shared_ptr<SocketEntity> _owner = nullptr;
+
+	chrono::steady_clock::time_point _eventStartTimePoint;
 };
 
 class AcceptEvent : public OverlappedEvent {
@@ -46,6 +48,7 @@ public:
 
 	void BufferClear() {
 		
+		spdlog::info("BufferClear : {}", _sendBuffers.size());
 		_sendBuffers.clear();
 	}
 

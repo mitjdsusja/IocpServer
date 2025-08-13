@@ -12,6 +12,7 @@
 #include <unordered_map>
 #include <cassert>
 #include <future>
+#include <chrono>
 
 #include "boost/locale.hpp"
 #include "spdlog/spdlog.h"
