@@ -61,6 +61,17 @@ void Listener::ProcessAccept(AcceptEvent* acceptEvent) {
 		return;
 	}
 
+	// Nagle Alg
+	int flag = 1;
+	if (SOCKET_ERROR == setsockopt(socket, IPPROTO_TCP, TCP_NODELAY, (char*)&flag, sizeof(flag))) {
+
+		int32 err = WSAGetLastError();
+		spdlog::info("Nagle Alg off Error : {} ", err);
+
+		RegisterAccept(acceptEvent);
+		return;
+	}
+
 	SOCKADDR_IN sockAddr;
 	int32 addrLen = sizeof(sockAddr);
 	if (SOCKET_ERROR == getpeername(socket, (SOCKADDR*)&sockAddr, &addrLen)) {
