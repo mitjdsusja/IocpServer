@@ -79,5 +79,5 @@ void GameManager::SetEnterRoomId(int32 roomId){
 
 void GameManager::SetServerTimeOffsetMs(uint64 serverTimeOffsetMs){
 
-    _serverTimeOffsetMs = serverTimeOffsetMs;
+    _serverTimeOffsetMs.exchange(serverTimeOffsetMs);
 }

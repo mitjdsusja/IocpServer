@@ -141,7 +141,7 @@ void PacketHandler::Handle_SC_Login_Response(shared_ptr<GameSession> session, sh
 	if (recvLoginResponsePacket.success() == true) {
 
 		GPlayerManager->CreatePlayerAndAdd(session, session->GetSessionId());
-		spdlog::info("[PacketHandler::Handle_SC_Login_Response] Login Success ");
+		//spdlog::info("[PacketHandler::Handle_SC_Login_Response] Login Success ");
 	}
 	else {
 
@@ -187,7 +187,7 @@ void PacketHandler::Handle_SC_Enter_Room_Response(shared_ptr<GameSession> sessio
 
 	GPlayerManager->SetEnterRoomId(session->GetSessionId(), roomId);
 	GGameManager->AddEnterPlayerCount();
-	spdlog::info("Cur Enter Player Count : {}", GGameManager->GetEnteredPlayerCount());
+	//spdlog::info("Cur Enter Player Count : {}", GGameManager->GetEnteredPlayerCount());
 }
 
 void PacketHandler::Handle_SC_Create_Room_Response(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* serviec) {
@@ -206,7 +206,7 @@ void PacketHandler::Handle_SC_Create_Room_Response(shared_ptr<GameSession> sessi
 
 	GPlayerManager->SetEnterRoomId(session->GetSessionId(), recvPacketCreateRoomResponse.room().roomid());
 	GGameManager->AddEnterPlayerCount();
-	GGameManager->_createRoomPlayerSessionId.push_back(session->GetSessionId());
+	GGameManager->_createRoomPlayerSessionCount.fetch_add(1);
 }
 
 void PacketHandler::Handle_SC_Player_Enter_Room_Notification(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* serviec) {

@@ -136,7 +136,7 @@ void ServerStressTest() {
 	GGameManager->ReqeustCreateRoom(CREATE_ROOM_COUNT);
 	while (true) {
 
-		if (GGameManager->_createRoomPlayerSessionId.size() == CREATE_ROOM_COUNT) {
+		if (GGameManager->_createRoomPlayerSessionCount.load() == CREATE_ROOM_COUNT) {
 
 			spdlog::info("CREATE ALL ROOM");
 			break;

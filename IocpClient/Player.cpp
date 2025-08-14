@@ -248,6 +248,7 @@ void PlayerManager::SendMsg(uint64 userId, vector<shared_ptr<Buffer>> sendBuffer
 
 void PlayerManager::SetEnterRoomId(uint64 userId, int32 roomId) {
 
+	lock_guard<mutex> lock(_playersMutex);
 	_players[userId]->SetEnterRoomId(roomId);
 }
 
@@ -259,6 +260,8 @@ shared_ptr<Player> PlayerManager::CreatePlayer(const shared_ptr<Session>& player
 void PlayerManager::AddPlayer(const shared_ptr<Player>& player, uint64 userId){
 
 	_playerCount.fetch_add(1);
+
+	lock_guard<mutex> _lock(_playersMutex);
 	_players[userId] = player;
 }
 

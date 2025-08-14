@@ -67,6 +67,7 @@ private:
 	void PlayerRandomMove();
 
 private:
+	mutex _playersMutex;
 	atomic<uint32> _playerCount = 0;
 	map<uint64, shared_ptr<Player>> _players;
 };
