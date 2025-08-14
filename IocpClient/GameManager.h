@@ -22,7 +22,7 @@ public:
 	void SetServerTimeOffsetMs(uint64 serverTimeOffsetMs);
 
 public:
-	atomic<int32> _createRoomPlayerSessionId;
+	atomic<int32> _createRoomPlayerSessionCount;
 
 private:
 	vector<RoomInfo> _roomList;
