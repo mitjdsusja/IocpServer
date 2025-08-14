@@ -166,7 +166,7 @@ void Session::ProcessSend(OverlappedEvent* event, int32 processBytes){
 	sendEvent->BufferClear();
 
 	eventTime = chrono::duration_cast<chrono::microseconds>(chrono::steady_clock::now() - sendEvent->_eventStartTimePoint).count();
-	spdlog::info("Buffer 반환 : {}", eventTime);
+	//spdlog::info("Buffer 반환 : {}", eventTime);
 
 	OnSend(processBytes);
 
