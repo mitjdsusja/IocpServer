@@ -52,7 +52,7 @@ void PacketHandler::RegisterPacketHandlers() {
 
 void PacketHandler::HandlePacket(shared_ptr<GameSession> session, PacketHeader* dataBuffer, Service* service) {
 
-	shared_ptr<Buffer> buffer = shared_ptr<Buffer>(GSendBufferPool->Pop(), [](Buffer* buffer) { GSendBufferPool->Push(buffer); });
+	shared_ptr<Buffer> buffer = shared_ptr<Buffer>(LSendBufferPool->Pop(), [](Buffer* buffer) { LSendBufferPool->Push(buffer); });
 
 	BYTE* data = ((BYTE*)dataBuffer) + sizeof(PacketHeader);
 	int32 dataSize = dataBuffer->GetDataSize();

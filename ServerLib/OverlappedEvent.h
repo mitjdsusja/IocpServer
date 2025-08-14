@@ -48,7 +48,7 @@ public:
 
 	void BufferClear() {
 		
-		spdlog::info("BufferClear : {}", _sendBuffers.size());
+		//spdlog::info("BufferClear : {}", _sendBuffers.size());
 		_sendBuffers.clear();
 	}
 

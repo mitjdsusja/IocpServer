@@ -31,6 +31,7 @@ Buffer* BufferPool::Pop(){
 	_buffers.pop_back();
 	_remainedCount--;
 
+	//spdlog::info("thread({})BufferPool::Pop() TotalBufferCount : {} , RemainedBufferCount : {}", hash<thread::id>{}(this_thread::get_id()), _bufferCount, _remainedCount);
 	//cout << this_thread::get_id() << "<POP> Remained Buffer : " << _remainedCount << endl;
 
 	return Buffer;
@@ -42,6 +43,7 @@ void BufferPool::Push(Buffer* buffer){
 	_buffers.push_back(buffer);
 	_remainedCount++;
 
+	//spdlog::info("thread({})BufferPool::Push() TotalBufferCount : {} , RemainedBufferCount : {}", hash<thread::id>{}(this_thread::get_id()), _bufferCount, _remainedCount);
 	//cout << this_thread::get_id() << "<PUSH> Remained Buffer : " << _remainedCount << endl;
 }
 
