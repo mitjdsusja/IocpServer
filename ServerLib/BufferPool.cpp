@@ -4,11 +4,15 @@
 
 BufferPool::BufferPool(){
 
-	for (int32 i = 0; i < buffer_count; i++) {
-		_buffers.push_back(new Buffer(buffer_size));
+	for (int32 i = 0; i < BUFFER_COUNT; i++) {
+		
+		Buffer* buffer = new Buffer(BUFFER_SIZE);
+		buffer->SetOwnerBufferPool(this);
+		_buffers.push_back(buffer);
 	}
-	_bufferCount = buffer_count;
-	_remainedCount = buffer_count;
+
+	_bufferCount = BUFFER_COUNT;
+	_remainedCount = BUFFER_COUNT;
 }
 
 BufferPool::~BufferPool(){
@@ -25,16 +29,16 @@ Buffer* BufferPool::Pop(){
 	if (_buffers.empty() == true) {
 		_bufferCount++;
 		cout << "Total Buffer Count : " << _bufferCount << endl;
-		return new Buffer(buffer_size);
+		return new Buffer(BUFFER_SIZE);
 	}
-	Buffer* Buffer = _buffers.back();
+	Buffer* buffer = _buffers.back();
 	_buffers.pop_back();
 	_remainedCount--;
 
 	//spdlog::info("thread({})BufferPool::Pop() TotalBufferCount : {} , RemainedBufferCount : {}", hash<thread::id>{}(this_thread::get_id()), _bufferCount, _remainedCount);
 	//cout << this_thread::get_id() << "<POP> Remained Buffer : " << _remainedCount << endl;
 
-	return Buffer;
+	return buffer;
 }
 
 void BufferPool::Push(Buffer* buffer){
@@ -49,11 +53,11 @@ void BufferPool::Push(Buffer* buffer){
 
 LockBufferPool::LockBufferPool(){
 
-	for (int32 i = 0; i < buffer_count; i++) {
-		_buffers.push_back(new Buffer(buffer_size));
+	for (int32 i = 0; i < BUFFER_COUNT; i++) {
+		_buffers.push_back(new Buffer(BUFFER_SIZE));
 	}
-	_bufferCount = buffer_count;
-	_remainedCount = buffer_count;
+	_bufferCount = BUFFER_COUNT;
+	_remainedCount = BUFFER_COUNT;
 }
 
 LockBufferPool::~LockBufferPool(){
@@ -67,26 +71,27 @@ LockBufferPool::~LockBufferPool(){
 
 Buffer* LockBufferPool::Pop(){
 
-	lock_guard<mutex> lock(_sendQueueMutex);
+	lock_guard<mutex> lock(_buffersMutex);
 
 	if (_buffers.empty() == true) {
 		_bufferCount++;
 		spdlog::info("Total Buffer Count : {}", _bufferCount);
 		//cout << "Total Buffer Count : " << _bufferCount << endl;
-		return new Buffer(buffer_size);
+		return new Buffer(BUFFER_SIZE);
 	}
-	Buffer* Buffer = _buffers.back();
+	Buffer* buffer = _buffers.back();
 	_buffers.pop_back();
 	_remainedCount--;
 
 	//spdlog::info("Pop - Remained BUFFER Count : {}", _remainedCount);
 	//cout << this_thread::get_id() << "<POP> Remained Buffer : " << _remainedCount << endl;
 
-	return Buffer;
+	return buffer;
 }
 
 void LockBufferPool::Push(Buffer* buffer){
-	lock_guard<mutex> lock(_sendQueueMutex);
+
+	lock_guard<mutex> lock(_buffersMutex);
 
 	buffer->Clear();
 	_buffers.push_back(buffer);
@@ -95,4 +100,52 @@ void LockBufferPool::Push(Buffer* buffer){
 	//spdlog::info("Push - Remained BUFFER Count : {}", _remainedCount);
 
 	//cout << this_thread::get_id() << "<PUSH> Remained Buffer : " << _remainedCount << endl;
+}
+
+PushLockBufferPool::PushLockBufferPool(){
+
+	for (int32 i = 0; i < BUFFER_COUNT; i++) {
+
+		Buffer* buffer = new Buffer(BUFFER_SIZE);
+		buffer->SetOwnerBufferPool(this);
+		_buffers.push_back(buffer);
+	}
+
+	_bufferCount = BUFFER_COUNT;
+	_remainedCount = BUFFER_COUNT;
+}
+
+PushLockBufferPool::~PushLockBufferPool(){
+
+	for (Buffer* buffer : _buffers) {
+		delete buffer;
+	}
+
+	_bufferCount = 0;
+}
+
+Buffer* PushLockBufferPool::Pop(){
+
+	if (_buffers.empty() == true) {
+		_bufferCount++;
+		cout << "Total Buffer Count : " << _bufferCount << endl;
+		return new Buffer(BUFFER_SIZE);
+	}
+	Buffer* buffer = _buffers.back();
+	_buffers.pop_back();
+	_remainedCount--;
+
+	//spdlog::info("thread({})BufferPool::Pop() TotalBufferCount : {} , RemainedBufferCount : {}", hash<thread::id>{}(this_thread::get_id()), _bufferCount, _remainedCount);
+	//cout << this_thread::get_id() << "<POP> Remained Buffer : " << _remainedCount << endl;
+
+	return buffer;
+}
+
+void PushLockBufferPool::Push(Buffer* buffer){
+
+	lock_guard<mutex> lock(_buffersMutex);
+
+	buffer->Clear();
+	_buffers.push_back(buffer);
+	_remainedCount++;
 }

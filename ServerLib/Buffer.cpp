@@ -28,3 +28,8 @@ void Buffer::Clear(){
 
 	_writePos = 0;
 }
+
+void Buffer::ReturnToOwner() {
+
+	_owner->Push(this);
+}

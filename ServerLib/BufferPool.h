@@ -2,8 +2,8 @@
 #include "Buffer.h"
 
 enum {
-	buffer_count = 10000,
-	buffer_size = 4096
+	BUFFER_COUNT = 10000,
+	BUFFER_SIZE = 4096
 };
 
 class IBufferPool {
@@ -29,6 +29,19 @@ public:
 	void Push(Buffer* buffer) override;
 
 };
+
+class PushLockBufferPool : public IBufferPool {
+public:
+	PushLockBufferPool();
+	~PushLockBufferPool();
+
+	Buffer* Pop() override;
+	void Push(Buffer* buffer) override;
+
+private:
+	mutex _buffersMutex;
+};
+
 class LockBufferPool : public IBufferPool{
 public:
 	LockBufferPool();
@@ -38,5 +51,5 @@ public:
 	void Push(Buffer* buffer) override;
 
 private:
-	mutex _sendQueueMutex;
+	mutex _buffersMutex;
 };

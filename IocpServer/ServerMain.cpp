@@ -23,8 +23,8 @@
 // Job Life Cycle => shared_ptr
 
 enum {
-	GQCS_THREAD_COUNT = 8,
-	WORKER_THREAD_COUNT = 4,
+	GQCS_THREAD_COUNT = 12,
+	WORKER_THREAD_COUNT = 2,
 };
 
 void DBInsertuser(wstring id, wstring pw, wstring name);
