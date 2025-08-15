@@ -204,7 +204,7 @@ void Session::ProcessRecv(OverlappedEvent* event, int32 recvBytes){
 	}
 
 	_recvBuffer->Write(recvBytes);
-	_recvBuffer->Read(OnRecv(_recvBuffer->ReadPos(), recvBytes));
+	_recvBuffer->Read(OnRecv(_recvBuffer->ReadPos(), _recvBuffer->DataSize()));
 
 	RegisterRecv();
 }
@@ -213,9 +213,9 @@ void Session::CleanResource(){
 	Disconnect();
 }
 
-int32 Session::OnRecv(BYTE* recvBuffer, int32 recvBytes){
+int32 Session::OnRecv(BYTE* recvBuffer, int32 dataSize){
 
-	if (recvBytes < sizeof(PacketHeader)) {
+	if (dataSize < sizeof(PacketHeader)) {
 		ASSERT_CRASH(false);
 	}
 
@@ -225,7 +225,7 @@ int32 Session::OnRecv(BYTE* recvBuffer, int32 recvBytes){
 
 		BYTE* buffer = recvBuffer + processLen;
 		// header만큼 recv안됨.
-		if (recvBytes - processLen < sizeof(PacketHeader)) {
+		if (dataSize - processLen < sizeof(PacketHeader)) {
 			break;
 		}
 
@@ -234,7 +234,7 @@ int32 Session::OnRecv(BYTE* recvBuffer, int32 recvBytes){
 		int32 headerPacketSize = ntohl(header->packetSize);
 
 		// 전체 packet이 안옴.
-		if (recvBytes - processLen < headerPacketSize) {
+		if (dataSize - processLen < headerPacketSize) {
 			break;
 		}
 
@@ -263,7 +263,7 @@ int32 Session::OnRecv(BYTE* recvBuffer, int32 recvBytes){
 		int32 payloadSize = headerPacketSize - sizeof(PacketHeader) - sizeof(PacketFrame);
 
 		// payloadSize 음수, 너무 큼 방지
-		if (payloadSize < 0 || payloadSize >(recvBytes - processLen - sizeof(PacketHeader) - sizeof(PacketFrame))) {
+		if (payloadSize < 0 || payloadSize >(dataSize - processLen - sizeof(PacketHeader) - sizeof(PacketFrame))) {
 
 			spdlog::error("Packet : {} {} Invalid payload size : {}", headerPacketId, headerPacketSize, payloadSize);
 			break;
@@ -301,7 +301,7 @@ int32 Session::OnRecv(BYTE* recvBuffer, int32 recvBytes){
 		}
 
 		processLen += headerPacketSize;
-		if (processLen >= recvBytes) {
+		if (processLen >= dataSize) {
 			break;
 		}
 	}

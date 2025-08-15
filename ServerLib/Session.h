@@ -31,7 +31,7 @@ public:
 	void Process(OverlappedEvent* event, int32 numOfBytes) override;
 	void CleanResource() override;
 
-	int32 OnRecv(BYTE* recvBuffer, int32 recvBytes);
+	int32 OnRecv(BYTE* recvBuffer, int32 dataSize);
 	virtual void OnConnect() {};
 	virtual void OnSend(int32 sendBytes) {}
 	virtual void OnRecvPacket(BYTE* recvBuffer, int32 recvBytes) { ErrorHandler::HandleError(L"Session OnRecvPacket()"); };
