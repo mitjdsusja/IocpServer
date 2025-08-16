@@ -128,9 +128,9 @@ void Session::RegisterSend(){
 		// TODO : failed send data Process 
 		//		  Push SendQueue - RESEND
 		for (int32 i = 0;i < bufferCount;i++) {
-			_sendEvent._sendBuffers.clear();
 			Send(sendBuffers[i]);
 		}
+		_sendEvent._sendBuffers.clear();
 	}
 }
 
