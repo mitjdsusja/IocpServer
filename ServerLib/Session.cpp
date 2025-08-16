@@ -115,11 +115,11 @@ void Session::RegisterSend(){
 	}
 
 	// Packet Header Check
-	//for (auto& buffer : sendBuffers) {
+	for (auto& buffer : sendBuffers) {
 
-	//	PacketHeader* header = (PacketHeader*)buffer->GetBuffer();
-	//	spdlog::info("Send Header ID {} size {} ", ntohl(header->packetId), ntohl(header->packetSize));
-	//}
+		PacketHeader* header = (PacketHeader*)buffer->GetBuffer();
+		spdlog::info("Send Header ID {} size {} ", ntohl(header->packetId), ntohl(header->packetSize));
+	}
 
 	_sendEvent._eventStartTimePoint = chrono::steady_clock::now();
 
