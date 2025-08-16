@@ -127,10 +127,11 @@ void Session::RegisterSend(){
 	if (false == SocketManager::Send(_peerSocket, sendBuffers[0].get(), bufferCount, &_sendEvent)) {
 		// TODO : failed send data Process 
 		//		  Push SendQueue - RESEND
+
+		_sendEvent._sendBuffers.clear();
 		for (int32 i = 0;i < bufferCount;i++) {
 			Send(sendBuffers[i]);
 		}
-		_sendEvent._sendBuffers.clear();
 	}
 }
 
