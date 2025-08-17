@@ -5,7 +5,7 @@
 
 class TimedJob : public Job {
 public:
-	TimedJob(uint64 executeTick, function<void()>&& callback) : Job(move(callback)), _executeTick(executeTick + chrono::duration_cast<chrono::milliseconds>(GServerStartTimePoint.time_since_epoch()).count()) {
+	TimedJob(uint64 executeTick, function<void()>&& callback) : Job(move(callback)), _executeTick(executeTick + chrono::duration_cast<chrono::milliseconds>(chrono::steady_clock::now() - GServerStartTimePoint).count()) {
 
 	}
 	~TimedJob() {

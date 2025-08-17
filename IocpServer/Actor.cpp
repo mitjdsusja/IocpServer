@@ -24,7 +24,9 @@ void Actor::ExecuteJob() {
 	_jobQueue.PopAll(jobsToExecute);
 
 	for (unique_ptr<Job>& job : jobsToExecute) {
+
 		job->Execute();
+		spdlog::info("[Actor::ExecuteJob] Job Execute - execute Server Time : {}", chrono::duration_cast<chrono::milliseconds>(chrono::steady_clock::now() - GServerStartTimePoint).count());
 
 		int64 latency = chrono::duration_cast<chrono::microseconds>(chrono::system_clock::now() - job->GetCreateTimePoint()).count();
 		RecordJobRatency(latency);

@@ -22,6 +22,7 @@ shared_ptr<Actor> JobScheduler::PopActor() {
 
 void JobScheduler::RegisterTimedJob(shared_ptr<ScheduledTimedJob> scheduledTimedJob) {
 
+	spdlog::info("[JobScheduler::RegisterTimedJob] TimedJob Register - Execute ServerTime : {}", scheduledTimedJob->_timedJobRef->_executeTick);
 	lock_guard<mutex> lock(_timedActor);
 
 	_scheduledTimedActor.push(scheduledTimedJob);
@@ -39,8 +40,10 @@ void JobScheduler::CheckTimedJob() {
 		lock_guard<mutex> lock(_timedActor);
 
 		while (_scheduledTimedActor.empty() == false) {
+
 			shared_ptr<ScheduledTimedJob> _scheduledTimedJob = _scheduledTimedActor.top();
-			if (GetTickCount64() < _scheduledTimedJob->_timedJobRef->_executeTick) {
+			uint64 nowServerTime = chrono::duration_cast<chrono::milliseconds>(chrono::steady_clock::now() - GServerStartTimePoint).count();
+			if (nowServerTime < _scheduledTimedJob->_timedJobRef->_executeTick) {
 				break;
 			}
 
@@ -50,6 +53,7 @@ void JobScheduler::CheckTimedJob() {
 		}
 	}
 
+	//spdlog::info("[JobScheduler::CheckTimedJob] TimedJob : {}", timedJobs.size());
 	//cout << "[JobScheduler::CheckTimedJob] TimedJob : " << timedJobs.size() << endl;
 	for (int16 index = 0; index < timedJobs.size(); index++) {
 
