@@ -22,7 +22,7 @@ shared_ptr<Actor> JobScheduler::PopActor() {
 
 void JobScheduler::RegisterTimedJob(shared_ptr<ScheduledTimedJob> scheduledTimedJob) {
 
-	spdlog::info("[JobScheduler::RegisterTimedJob] TimedJob Register - Execute ServerTime : {}", scheduledTimedJob->_timedJobRef->_executeTick);
+	//spdlog::info("[JobScheduler::RegisterTimedJob] TimedJob Register - Execute ServerTime : {}", scheduledTimedJob->_timedJobRef->_executeTick);
 	lock_guard<mutex> lock(_timedActor);
 
 	_scheduledTimedActor.push(scheduledTimedJob);
