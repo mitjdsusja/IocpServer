@@ -88,7 +88,7 @@ bool SocketManager::Listen(SOCKET socket, int32 backlog) {
 	return true;
 }
 
-bool SocketManager::Send(SOCKET targetSocket, Buffer* sendBufferArray, int32 bufCount, SendEvent* sendEvent){
+bool SocketManager::Send(SOCKET targetSocket, const vector<shared_ptr<Buffer>>& sendBuffers, SendEvent* sendEvent){
 	
 	if (targetSocket == INVALID_SOCKET) {
 
@@ -98,14 +98,15 @@ bool SocketManager::Send(SOCKET targetSocket, Buffer* sendBufferArray, int32 buf
 	}
 
 	vector<WSABUF> wsaBufs;
-	wsaBufs.resize(bufCount);
-	for (int32 i = 0;i < bufCount;i++) {
-		wsaBufs[i].buf = (char*)sendBufferArray[i].GetBuffer();
-		wsaBufs[i].len = sendBufferArray[i].WriteSize();
+	wsaBufs.resize(sendBuffers.size());
+	for (int32 i = 0; i < sendBuffers.size(); i++) {
+		
+		wsaBufs[i].buf = (char*)sendBuffers[i]->GetBuffer();
+		wsaBufs[i].len = sendBuffers[i]->WriteSize();
 	}
 
 	DWORD bytes = 0;
-	if (SOCKET_ERROR == ::WSASend(targetSocket, wsaBufs.data(), (DWORD)bufCount, &bytes, 0, sendEvent, nullptr)) {
+	if (SOCKET_ERROR == ::WSASend(targetSocket, wsaBufs.data(), (DWORD)sendBuffers.size(), &bytes, 0, sendEvent, nullptr)) {
 		int32 err = WSAGetLastError();
 		if (err == WSA_IO_PENDING) {
 			// TODO : PENDING
