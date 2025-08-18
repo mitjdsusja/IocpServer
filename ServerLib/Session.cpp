@@ -166,6 +166,8 @@ void Session::ProcessSend(OverlappedEvent* event, int32 processBytes){
 		//ErrorHandler::HandleError(L"ProcessSend Error : INVALID EVENT TYPE");
 	}
 
+	//spdlog::info("[Session::ProcessSend] Send Len : {}", processBytes);
+
 	SendEvent* sendEvent = (SendEvent*)event;
 
 	uint64 eventTime = chrono::duration_cast<chrono::microseconds>(chrono::steady_clock::now() - sendEvent->_eventStartTimePoint).count();

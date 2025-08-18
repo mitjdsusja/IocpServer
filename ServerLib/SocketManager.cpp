@@ -92,7 +92,7 @@ bool SocketManager::Send(SOCKET targetSocket, Buffer* sendBufferArray, int32 buf
 	
 	if (targetSocket == INVALID_SOCKET) {
 
-		spdlog::info("RECV INVALID SOCKET");
+		spdlog::info("SEND INVALID SOCKET");
 		//ErrorHandler::HandleError(L"RECV INVALID SOCKET");
 		return false;
 	}
@@ -100,8 +100,8 @@ bool SocketManager::Send(SOCKET targetSocket, Buffer* sendBufferArray, int32 buf
 	vector<WSABUF> wsaBufs;
 	wsaBufs.resize(bufCount);
 	for (int32 i = 0;i < bufCount;i++) {
-		wsaBufs[i].buf = (char*)sendBufferArray->GetBuffer();
-		wsaBufs[i].len = sendBufferArray->WriteSize();
+		wsaBufs[i].buf = (char*)sendBufferArray[i].GetBuffer();
+		wsaBufs[i].len = sendBufferArray[i].WriteSize();
 	}
 
 	DWORD bytes = 0;
@@ -113,7 +113,7 @@ bool SocketManager::Send(SOCKET targetSocket, Buffer* sendBufferArray, int32 buf
 		}
 		else {
 			// TODO : Error
-			spdlog::info("Recv Failed : {}", err);
+			spdlog::info("Send Failed : {}", err);
 			//ErrorHandler::HandleError(L"Recv Failed", err);
 			return false;
 		}
