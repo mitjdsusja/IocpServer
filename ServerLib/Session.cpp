@@ -118,7 +118,7 @@ void Session::RegisterSend(){
 	for (auto& buffer : sendBuffers) {
 
 		PacketHeader* header = (PacketHeader*)buffer->GetBuffer();
-		spdlog::info("Send Header ID {} size {} ", ntohl(header->packetId), ntohl(header->packetSize));
+		spdlog::info("Send to {} Header ID {} size {} ",GetSessionId(), ntohl(header->packetId), ntohl(header->packetSize));
 	}
 
 	_sendEvent._eventStartTimePoint = chrono::steady_clock::now();

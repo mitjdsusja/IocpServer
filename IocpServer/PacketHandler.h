@@ -173,6 +173,8 @@ vector<shared_ptr<Buffer>> PacketHandler::MakeSendBuffer(const T& packet, Packet
 		offset += payloadSize;
 		frameCount++;
 
+		spdlog::info("Make Buffer HeaderId {}, PacketSize {},  Size : {}",header->packetId, header->packetSize, sendBuffer->WriteSize());
+
 	} while (offset < totalDataSize || frameCount == 0);
 
 	for (auto& buffer : sendBuffers) {

@@ -31,5 +31,6 @@ void Buffer::Clear(){
 
 void Buffer::ReturnToOwner() {
 
+	Clear();
 	_owner->Push(this);
 }
