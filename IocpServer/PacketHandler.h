@@ -126,7 +126,8 @@ vector<shared_ptr<Buffer>> PacketHandler::MakeSendBuffer(const T& packet, Packet
 
 	// 최소 한 프레임은 만들어야 하므로, totalDataSize == 0도 처리
 	do {
-		shared_ptr<Buffer> sendBuffer = shared_ptr<Buffer>(LSendBufferPool->Pop(), [](Buffer* buffer) { buffer->ReturnToOwner(); });
+		Buffer* buffer = LSendBufferPool->Pop();
+		shared_ptr<Buffer> sendBuffer = shared_ptr<Buffer>(buffer, [](Buffer* buffer) { buffer->ReturnToOwner(); });
 
 		const int32 bufferCapacity = sendBuffer->Capacity();
 
@@ -168,12 +169,11 @@ vector<shared_ptr<Buffer>> PacketHandler::MakeSendBuffer(const T& packet, Packet
 			memcpy(payloadPtr, serializedData.data() + offset, payloadSize);
 
 		sendBuffer->Write(packetSize);
+		spdlog::info("Make Buffer HeaderId {}, PacketSize {},  Size : {}", ntohl(header->packetId), ntohl(header->packetSize), sendBuffer->WriteSize());
 		sendBuffers.push_back(move(sendBuffer));
 
 		offset += payloadSize;
 		frameCount++;
-
-		spdlog::info("Make Buffer HeaderId {}, PacketSize {},  Size : {}",header->packetId, header->packetSize, sendBuffer->WriteSize());
 
 	} while (offset < totalDataSize || frameCount == 0);
 

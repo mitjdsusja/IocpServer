@@ -2,7 +2,7 @@
 #include "Buffer.h"
 
 enum {
-	BUFFER_COUNT = 10000,
+	BUFFER_COUNT = 1000,
 	BUFFER_SIZE = 4096
 };
 

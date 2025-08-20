@@ -1,8 +1,10 @@
 ﻿#include "pch.h"
 #include "GameSession.h"
+
 #include "PacketHandler.h"
 #include "RoomManager.h"
 #include "PlayerManager.h"
+#include "ActorManager.h"
 
 GameSession::GameSession(Service* owner) : Session(owner){
 	
@@ -38,4 +40,5 @@ void GameSession::OnDisconnect(){
 		GRoomManager->PushJobLeaveRoom(position._roomId, sessionId);
 	});
 	GPlayerManager->PushJobRemovePlayer(GetSessionId());
+	GActorManager->UnRegisterActor(sessionId);
 }

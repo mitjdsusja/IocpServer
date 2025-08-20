@@ -250,7 +250,7 @@ int32 Session::OnRecv(BYTE* recvBuffer, int32 dataSize){
 
 		if (frameIndex < 0 || frameIndex >= totalFrameCount) {
 
-			spdlog::info("INVALID FRAME  Frame: {} / ", frameIndex, totalFrameCount);
+			spdlog::info("INVALID FRAME  Frame: {} / {}", frameIndex, totalFrameCount);
 			//wcout << "INVALID FRAME  Frame: " << frameIndex << "/" << totalFrameCount << endl;
 			break;
 		}

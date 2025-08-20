@@ -121,7 +121,7 @@ vector<shared_ptr<Buffer>> PacketHandler::MakeSendBuffer(const T& packet, Packet
 	int32 frameCount = 0;
 
 	do {
-		shared_ptr<Buffer> sendBuffer = shared_ptr<Buffer>(LSendBufferPool->Pop(), [](Buffer* buffer) {LSendBufferPool->Push(buffer); });
+		shared_ptr<Buffer> sendBuffer = shared_ptr<Buffer>(LSendBufferPool->Pop(), [](Buffer* buffer) { buffer->ReturnToOwner(); });
 
 		const int32 bufferCapacity = sendBuffer->Capacity();
 		const int32 maxPayloadSize = bufferCapacity - headerSize - frameSize;

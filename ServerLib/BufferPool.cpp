@@ -29,7 +29,11 @@ Buffer* BufferPool::Pop(){
 	if (_buffers.empty() == true) {
 		_bufferCount++;
 		cout << "Total Buffer Count : " << _bufferCount << endl;
-		return new Buffer(BUFFER_SIZE);
+		
+		Buffer* buffer = new Buffer(BUFFER_SIZE);
+		buffer->SetOwnerBufferPool(this);
+
+		return buffer;
 	}
 	Buffer* buffer = _buffers.back();
 	_buffers.pop_back();
@@ -54,7 +58,10 @@ void BufferPool::Push(Buffer* buffer){
 LockBufferPool::LockBufferPool(){
 
 	for (int32 i = 0; i < BUFFER_COUNT; i++) {
-		_buffers.push_back(new Buffer(BUFFER_SIZE));
+
+		Buffer* buffer = new Buffer(BUFFER_SIZE);
+		buffer->SetOwnerBufferPool(this);
+		_buffers.push_back(buffer);
 	}
 	_bufferCount = BUFFER_COUNT;
 	_remainedCount = BUFFER_COUNT;
@@ -77,7 +84,11 @@ Buffer* LockBufferPool::Pop(){
 		_bufferCount++;
 		spdlog::info("Total Buffer Count : {}", _bufferCount);
 		//cout << "Total Buffer Count : " << _bufferCount << endl;
-		return new Buffer(BUFFER_SIZE);
+		
+		Buffer* buffer = new Buffer(BUFFER_SIZE);
+		buffer->SetOwnerBufferPool(this);
+
+		return buffer;
 	}
 	Buffer* buffer = _buffers.back();
 	_buffers.pop_back();
@@ -129,7 +140,11 @@ Buffer* PushLockBufferPool::Pop(){
 	if (_buffers.empty() == true) {
 		_bufferCount++;
 		cout << "Total Buffer Count : " << _bufferCount << endl;
-		return new Buffer(BUFFER_SIZE);
+
+		Buffer* buffer = new Buffer(BUFFER_SIZE);
+		buffer->SetOwnerBufferPool(this);
+
+		return buffer;
 	}
 	Buffer* buffer = _buffers.back();
 	_buffers.pop_back();
