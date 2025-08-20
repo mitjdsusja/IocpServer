@@ -202,10 +202,11 @@ void Room::RegisterBroadcastMovement(uint32 reserveTime){
 	});*/
 }
 
-void Room::DestroyRoom(){
+void Room::DestroyRoom() {
 
 	_removeRoomFlag = true;
 	GRoomManager->PushJobRemoveRoom(_roomInfo._initRoomInfo._roomId);
+	GActorManager->UnRegisterActor(GetActorId());
 }
 
 void Room::Broadcast(const shared_ptr<Buffer>& sendBuffer){

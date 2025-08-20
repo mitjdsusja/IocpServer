@@ -365,6 +365,7 @@ void PlayerManager::RemovePlayer(uint64 sessionId) {
 	// 추가 예정
 
 	_players.erase(sessionId);
+	GActorManager->UnRegisterActor(player->GetActorId());
 }
 
 void PlayerManager::SetPosition(uint64 sessionId, const PlayerPosition& position){

@@ -40,5 +40,4 @@ void GameSession::OnDisconnect(){
 		GRoomManager->PushJobLeaveRoom(position._roomId, sessionId);
 	});
 	GPlayerManager->PushJobRemovePlayer(GetSessionId());
-	GActorManager->UnRegisterActor(sessionId);
 }
