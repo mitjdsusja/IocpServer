@@ -68,7 +68,7 @@ void PacketHandler::Handle_Invalid(shared_ptr<GameSession> session, shared_ptr<B
 
 	PacketHeader* header = (PacketHeader*)buffer->GetBuffer();
 
-	spdlog::info("INVALID PACKET ID {}", header->packetId);
+	spdlog::info("[PacketHandler::Handle_Invalid] INVALID PACKET ID {}", header->packetId);
 }
 
 

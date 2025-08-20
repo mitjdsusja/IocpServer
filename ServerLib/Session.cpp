@@ -118,7 +118,7 @@ void Session::RegisterSend(){
 	for (auto& buffer : sendBuffers) {
 
 		PacketHeader* header = (PacketHeader*)buffer->GetBuffer();
-		spdlog::info("Send to {} Header ID {} size {} ",GetSessionId(), ntohl(header->packetId), ntohl(header->packetSize));
+		spdlog::info("[Session::RegisterSend] Send to {} Header ID {} size {} ",GetSessionId(), ntohl(header->packetId), ntohl(header->packetSize));
 	}
 
 	_sendEvent._eventStartTimePoint = chrono::steady_clock::now();
@@ -146,7 +146,7 @@ void Session::RegisterRecv(){
 
 void Session::ProcessConnect(OverlappedEvent* event, int32 processBytes){
 
-	spdlog::info("[Connect] Connect Server : {}", GetSessionId());
+	spdlog::info("[Session::ProcessConnect] Connect Server : {}", GetSessionId());
 	//cout << "[Connect] Connect Server : " << GetSessionId() << endl;
 
 	OnConnect();
@@ -162,7 +162,7 @@ void Session::ProcessSend(OverlappedEvent* event, int32 processBytes){
 
 	if (event->_eventType != EventType::SEND) {
 
-		spdlog::info("ProcessSend Error : INVALID EVENT TYPE");
+		spdlog::info("[Session::ProcessSend] ProcessSend Error : INVALID EVENT TYPE");
 		//ErrorHandler::HandleError(L"ProcessSend Error : INVALID EVENT TYPE");
 	}
 
@@ -196,12 +196,14 @@ void Session::ProcessRecv(OverlappedEvent* event, int32 recvBytes){
 	
 	if (event->_eventType != EventType::RECV) {
 
-		spdlog::info("ProcessRecv Error : INVALID EVENT TYPE");
+		spdlog::info("[Session::ProcessRecv] ProcessRecv Error : INVALID EVENT TYPE");
 		//ErrorHandler::HandleError(L"ProcessRecv Error : INVALID EVENT TYPE");
 		return;
 	}
 
 	if (recvBytes == 0) {
+
+		spdlog::info("[Session::ProcessRecv] Recv 0 Bytes");
 		Disconnect();
 		return;
 	}
@@ -250,7 +252,7 @@ int32 Session::OnRecv(BYTE* recvBuffer, int32 dataSize){
 
 		if (frameIndex < 0 || frameIndex >= totalFrameCount) {
 
-			spdlog::info("INVALID FRAME  Frame: {} / {}", frameIndex, totalFrameCount);
+			spdlog::info("[Session:OnRecv] INVALID FRAME  Frame: {} / {}", frameIndex, totalFrameCount);
 			//wcout << "INVALID FRAME  Frame: " << frameIndex << "/" << totalFrameCount << endl;
 			break;
 		}
@@ -258,7 +260,7 @@ int32 Session::OnRecv(BYTE* recvBuffer, int32 dataSize){
 		// packetSize 최소 길이 검증
 		if (headerPacketSize < sizeof(PacketHeader) + sizeof(PacketFrame)) {
 
-			spdlog::error("Invalid packet size : {}", headerPacketSize);
+			spdlog::error("[Session:OnRecv] Invalid packet size : {}", headerPacketSize);
 			break;
 		}
 
@@ -268,7 +270,7 @@ int32 Session::OnRecv(BYTE* recvBuffer, int32 dataSize){
 		// payloadSize 음수, 너무 큼 방지
 		if (payloadSize < 0 || payloadSize >(dataSize - processLen - sizeof(PacketHeader) - sizeof(PacketFrame))) {
 
-			spdlog::error("Packet : {} {} Invalid payload size : {}", headerPacketId, headerPacketSize, payloadSize);
+			spdlog::error("[Session:OnRecv] Packet : {} {} Invalid payload size : {}", headerPacketId, headerPacketSize, payloadSize);
 			break;
 		}
 
