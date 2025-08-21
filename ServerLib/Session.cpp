@@ -166,7 +166,7 @@ void Session::ProcessSend(OverlappedEvent* event, int32 processBytes){
 		//ErrorHandler::HandleError(L"ProcessSend Error : INVALID EVENT TYPE");
 	}
 
-	//spdlog::info("[Session::ProcessSend] Send Len : {}", processBytes);
+	spdlog::info("[Session::ProcessSend] SessionId {}, Send Len : {}", GetSessionId(), processBytes);
 
 	SendEvent* sendEvent = (SendEvent*)event;
 
@@ -237,6 +237,13 @@ int32 Session::OnRecv(BYTE* recvBuffer, int32 dataSize){
 		PacketHeader* header = (PacketHeader*)buffer;
 		int32 headerPacketId = ntohl(header->packetId);
 		int32 headerPacketSize = ntohl(header->packetSize);
+
+		// headerId Error
+		if (headerPacketId < 0) {
+
+			spdlog::info("[Session::OnRecv] HeaderId Error : {}", headerPacketId);
+			break;
+		}
 
 		// 전체 packet이 안옴.
 		if (dataSize - processLen < headerPacketSize) {
