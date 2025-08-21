@@ -10,6 +10,8 @@
 
 #include "boost/locale.hpp"
 
+#include "PacketHeader.h"
+
 
 Player::Player(shared_ptr<GameSession> owner)
  : _owner(owner), Actor(ActorType::PlayerType){
@@ -39,6 +41,7 @@ void Player::PushJobSendData(const shared_ptr<Buffer>& sendBuffer){
 	shared_ptr<Player> self = static_pointer_cast<Player>(shared_from_this());
 	
 	unique_ptr<Job> job = make_unique<Job>([self, sendBuffer]() {
+	
 		self->SendData(sendBuffer);
 	});
 
@@ -170,7 +173,7 @@ void PlayerManager::PushJobSendData(uint64 sessionId, const shared_ptr<Buffer>& 
 void PlayerManager::PushJobSendData(uint64 sessionId, const vector<shared_ptr<Buffer>>& sendBuffer){
 
 	shared_ptr<PlayerManager> self = static_pointer_cast<PlayerManager>(shared_from_this());
-
+	
 	unique_ptr<Job> job = make_unique<Job>([self, sessionId, sendBuffer]() {
 
 		for (auto& buffer : sendBuffer) {

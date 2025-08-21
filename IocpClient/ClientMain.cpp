@@ -30,7 +30,7 @@ int main() {
 
 	DummyClientService* dummyClientService = new DummyClientService(NetAddress(L"192.168.0.14", 7777), (int32)CLIENT_COUNT, []() { return make_shared<GameSession>(nullptr); });
 	PacketHandler::RegisterPacketHandlers();
-	LSendBufferPool = new PushLockBufferPool();
+	LSendBufferPool = new ThreadLocalBufferPool();
 
 	dummyClientService->Start();
 	// Create Thread GQCS

@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "BufferPool.h"
 
 
@@ -32,6 +32,7 @@ Buffer* BufferPool::Pop(){
 		
 		Buffer* buffer = new Buffer(BUFFER_SIZE);
 		buffer->SetOwnerBufferPool(this);
+		buffer->Clear();
 
 		return buffer;
 	}
@@ -41,7 +42,7 @@ Buffer* BufferPool::Pop(){
 
 	//spdlog::info("thread({})BufferPool::Pop() TotalBufferCount : {} , RemainedBufferCount : {}", hash<thread::id>{}(this_thread::get_id()), _bufferCount, _remainedCount);
 	//cout << this_thread::get_id() << "<POP> Remained Buffer : " << _remainedCount << endl;
-
+	buffer->Clear();
 	return buffer;
 }
 
@@ -87,6 +88,7 @@ Buffer* LockBufferPool::Pop(){
 		
 		Buffer* buffer = new Buffer(BUFFER_SIZE);
 		buffer->SetOwnerBufferPool(this);
+		buffer->Clear();
 
 		return buffer;
 	}
@@ -96,7 +98,7 @@ Buffer* LockBufferPool::Pop(){
 
 	//spdlog::info("Pop - Remained BUFFER Count : {}", _remainedCount);
 	//cout << this_thread::get_id() << "<POP> Remained Buffer : " << _remainedCount << endl;
-
+	buffer->Clear();
 	return buffer;
 }
 
@@ -113,7 +115,7 @@ void LockBufferPool::Push(Buffer* buffer){
 	//cout << this_thread::get_id() << "<PUSH> Remained Buffer : " << _remainedCount << endl;
 }
 
-PushLockBufferPool::PushLockBufferPool(){
+ThreadLocalBufferPool::ThreadLocalBufferPool(){
 
 	for (int32 i = 0; i < BUFFER_COUNT; i++) {
 
@@ -126,7 +128,7 @@ PushLockBufferPool::PushLockBufferPool(){
 	_remainedCount = BUFFER_COUNT;
 }
 
-PushLockBufferPool::~PushLockBufferPool(){
+ThreadLocalBufferPool::~ThreadLocalBufferPool(){
 
 	for (Buffer* buffer : _buffers) {
 		delete buffer;
@@ -135,14 +137,23 @@ PushLockBufferPool::~PushLockBufferPool(){
 	_bufferCount = 0;
 }
 
-Buffer* PushLockBufferPool::Pop(){
+Buffer* ThreadLocalBufferPool::Pop(){
 
+	// 버퍼가 없으면 반환된 버퍼큐에서 먼저 흡수
 	if (_buffers.empty() == true) {
+	
+		_remainedCount += _bufferReturnQueue.PopAll(_buffers);
+	}
+
+	// 하나도 없으면 생성
+	if (_buffers.empty() == true) {
+
 		_bufferCount++;
 		cout << "Total Buffer Count : " << _bufferCount << endl;
 
 		Buffer* buffer = new Buffer(BUFFER_SIZE);
 		buffer->SetOwnerBufferPool(this);
+		buffer->Clear();
 
 		return buffer;
 	}
@@ -152,15 +163,11 @@ Buffer* PushLockBufferPool::Pop(){
 
 	//spdlog::info("thread({})BufferPool::Pop() TotalBufferCount : {} , RemainedBufferCount : {}", hash<thread::id>{}(this_thread::get_id()), _bufferCount, _remainedCount);
 	//cout << this_thread::get_id() << "<POP> Remained Buffer : " << _remainedCount << endl;
-
+	buffer->Clear();
 	return buffer;
 }
 
-void PushLockBufferPool::Push(Buffer* buffer){
+void ThreadLocalBufferPool::Push(Buffer* buffer){
 
-	lock_guard<mutex> lock(_buffersMutex);
-
-	buffer->Clear();
-	_buffers.push_back(buffer);
-	_remainedCount++;
+	_bufferReturnQueue.Push(buffer);
 }

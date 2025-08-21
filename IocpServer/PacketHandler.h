@@ -129,6 +129,10 @@ vector<shared_ptr<Buffer>> PacketHandler::MakeSendBuffer(const T& packet, Packet
 		Buffer* buffer = LSendBufferPool->Pop();
 		shared_ptr<Buffer> sendBuffer = shared_ptr<Buffer>(buffer, [](Buffer* buffer) { buffer->ReturnToOwner(); });
 
+		if (sendBuffer->WriteSize() != 0) {
+			spdlog::info("[PacketHandler::MakeSendBuffer] SendBuffer Write Size Not Zero - BufferWriteSize {}, ", sendBuffer->WriteSize());
+			__debugbreak();
+		}
 		const int32 bufferCapacity = sendBuffer->Capacity();
 
 		// 버퍼 크기가 헤더+프레임 크기보다 작으면
@@ -169,6 +173,11 @@ vector<shared_ptr<Buffer>> PacketHandler::MakeSendBuffer(const T& packet, Packet
 			memcpy(payloadPtr, serializedData.data() + offset, payloadSize);
 
 		sendBuffer->Write(packetSize);
+		if (sendBuffer->WriteSize() != packetSize) {
+
+			spdlog::info("[PacketHandler::MakeSendBuffer] INVALID PACKET - WriteSize {}, PacketSIze {} ", sendBuffer->WriteSize(), packetSize);
+			__debugbreak();
+		}
 		//spdlog::info("Make Buffer HeaderId {}, PacketSize {},  Size : {}", ntohl(header->packetId), ntohl(header->packetSize), sendBuffer->WriteSize());
 		sendBuffers.push_back(move(sendBuffer));
 

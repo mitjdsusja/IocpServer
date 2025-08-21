@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <functional>
 #include "PacketHeader.h"
 #include "GameSession.h"
@@ -113,7 +113,7 @@ vector<shared_ptr<Buffer>> PacketHandler::MakeSendBuffer(const T& packet, Packet
 	string serializedData;
 	if (!packet.SerializeToString(&serializedData)) {
 		spdlog::error("Failed to serialize packetId: {}", (int32)packetId);
-		return sendBuffers; // ºó º¤ÅÍ ¹İÈ¯
+		return sendBuffers; // ë¹ˆ ë²¡í„° ë°˜í™˜
 	}
 
 	const int32 headerSize = sizeof(PacketHeader);
@@ -123,14 +123,18 @@ vector<shared_ptr<Buffer>> PacketHandler::MakeSendBuffer(const T& packet, Packet
 	int32 offset = 0;
 	int32 frameCount = 0;
 
-	// ÃÖ¼Ò ÇÑ ÇÁ·¹ÀÓÀº ¸¸µé¾î¾ß ÇÏ¹Ç·Î, totalDataSize == 0µµ Ã³¸®
+	// ìµœì†Œ í•œ í”„ë ˆì„ì€ ë§Œë“¤ì–´ì•¼ í•˜ë¯€ë¡œ, totalDataSize == 0ë„ ì²˜ë¦¬
 	do {
 		Buffer* buffer = LSendBufferPool->Pop();
 		shared_ptr<Buffer> sendBuffer = shared_ptr<Buffer>(buffer, [](Buffer* buffer) { buffer->ReturnToOwner(); });
 
+		if (sendBuffer->WriteSize() != 0) {
+			spdlog::info("[PacketHandler::MakeSendBuffer] SendBuffer Write Size Not Zero - BufferWriteSize {}, ", sendBuffer->WriteSize());
+			ASSERT_CRASH(true);
+		}
 		const int32 bufferCapacity = sendBuffer->Capacity();
 
-		// ¹öÆÛ Å©±â°¡ Çì´õ+ÇÁ·¹ÀÓ Å©±âº¸´Ù ÀÛÀ¸¸é
+		// ë²„í¼ í¬ê¸°ê°€ í—¤ë”+í”„ë ˆì„ í¬ê¸°ë³´ë‹¤ ì‘ìœ¼ë©´
 		if (bufferCapacity <= headerSize + frameSize) {
 			spdlog::error("Buffer capacity ({}) too small for headers", bufferCapacity);
 			break;
@@ -138,10 +142,10 @@ vector<shared_ptr<Buffer>> PacketHandler::MakeSendBuffer(const T& packet, Packet
 
 		const int32 maxPayloadSize = bufferCapacity - headerSize - frameSize;
 
-		// payloadSize´Â ³²Àº µ¥ÀÌÅÍ Å©±â¿Í maxPayloadSize Áß ÀÛÀº °ª
+		// payloadSizeëŠ” ë‚¨ì€ ë°ì´í„° í¬ê¸°ì™€ maxPayloadSize ì¤‘ ì‘ì€ ê°’
 		int32 payloadSize = std::min(maxPayloadSize, totalDataSize - offset);
 
-		// payloadSize°¡ À½¼ö¸é Á¾·á
+		// payloadSizeê°€ ìŒìˆ˜ë©´ ì¢…ë£Œ
 		if (payloadSize < 0) {
 			spdlog::error("Negative payload size calculated: {}", payloadSize);
 			break;
@@ -149,7 +153,7 @@ vector<shared_ptr<Buffer>> PacketHandler::MakeSendBuffer(const T& packet, Packet
 
 		int32 packetSize = headerSize + frameSize + payloadSize;
 
-		// packetSize°¡ ¹öÆÛ ¿ë·® ÃÊ°úÇÏÁö ¾Ê´ÂÁö °Ë»ç
+		// packetSizeê°€ ë²„í¼ ìš©ëŸ‰ ì´ˆê³¼í•˜ì§€ ì•ŠëŠ”ì§€ ê²€ì‚¬
 		if (packetSize > bufferCapacity) {
 			spdlog::error("Packet size ({}) exceeds buffer capacity ({})", packetSize, bufferCapacity);
 			break;
@@ -168,6 +172,11 @@ vector<shared_ptr<Buffer>> PacketHandler::MakeSendBuffer(const T& packet, Packet
 			memcpy(payloadPtr, serializedData.data() + offset, payloadSize);
 
 		sendBuffer->Write(packetSize);
+		if (sendBuffer->WriteSize() != packetSize) {
+
+			spdlog::info("[PacketHandler::MakeSendBuffer] INVALID PACKET - WriteSize {}, PacketSIze {} ", sendBuffer->WriteSize(), packetSize);
+			__debugbreak();
+		}
 		//spdlog::info("Make Buffer HeaderId {}, PacketSize {},  Size : {}", ntohl(header->packetId), ntohl(header->packetSize), sendBuffer->WriteSize());
 		sendBuffers.push_back(move(sendBuffer));
 

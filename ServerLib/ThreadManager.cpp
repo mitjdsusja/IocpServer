@@ -15,7 +15,7 @@ void ThreadManager::Launch(function<void(void)> callback){
 	lock_guard<mutex> _lock(_threadsMutex);
 
 	_threads.push_back(thread([=]() {
-		LSendBufferPool = new PushLockBufferPool();
+		LSendBufferPool = new ThreadLocalBufferPool();
 		LDBConnector = new DBConnector();
 		callback();
 	}));

@@ -115,11 +115,11 @@ void Session::RegisterSend(){
 	}
 
 	// Packet Header Check
-	for (auto& buffer : sendBuffers) {
+	/*for (auto& buffer : sendBuffers) {
 
 		PacketHeader* header = (PacketHeader*)buffer->GetBuffer();
-		//spdlog::info("[Session::RegisterSend] Send to {} Header ID {} size {} ",GetSessionId(), ntohl(header->packetId), ntohl(header->packetSize));
-	}
+		spdlog::info("[Session::RegisterSend] Send to {} Header ID {} size {} ",GetSessionId(), ntohl(header->packetId), ntohl(header->packetSize));
+	}*/
 
 	_sendEvent._eventStartTimePoint = chrono::steady_clock::now();
 
@@ -166,7 +166,7 @@ void Session::ProcessSend(OverlappedEvent* event, int32 processBytes){
 		//ErrorHandler::HandleError(L"ProcessSend Error : INVALID EVENT TYPE");
 	}
 
-	spdlog::info("[Session::ProcessSend] SessionId {}, Send Len : {}", GetSessionId(), processBytes);
+	//spdlog::info("[Session::ProcessSend] SessionId {}, Send Len : {}", GetSessionId(), processBytes);
 
 	SendEvent* sendEvent = (SendEvent*)event;
 

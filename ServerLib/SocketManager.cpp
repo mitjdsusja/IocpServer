@@ -2,6 +2,8 @@
 #include "SocketManager.h"
 #include "SocketEntity.h"
 
+#include "PacketHeader.h"
+
 LPFN_CONNECTEX SocketManager::ConnectEx = nullptr;
 LPFN_DISCONNECTEX SocketManager::DisconnectEx = nullptr;
 LPFN_ACCEPTEX SocketManager::AcceptEx = nullptr;
@@ -103,7 +105,6 @@ bool SocketManager::Send(SOCKET targetSocket, const vector<shared_ptr<Buffer>>& 
 		
 		wsaBufs[i].buf = (char*)sendBuffers[i]->GetBuffer();
 		wsaBufs[i].len = sendBuffers[i]->WriteSize();
-		//spdlog::info("send Len : {}", sendBuffers[i]->WriteSize());
 	}
 
 

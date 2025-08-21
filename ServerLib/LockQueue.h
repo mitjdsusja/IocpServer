@@ -23,14 +23,18 @@ public:
 		return ret;
 	}
 
-	void PopAll(vector<T>& items) {
+	int32 PopAll(vector<T>& items) {
 
 		lock_guard<mutex> lock(_queueMutex);
 
+		int32 count = 0;
 		while (_items.empty() == false) {
+
 			items.push_back(move(_items.front()));
 			_items.pop();
+			count++;
 		}
+		return count;
 	}
 
 	bool Empty() {

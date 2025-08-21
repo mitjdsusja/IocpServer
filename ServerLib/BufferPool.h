@@ -1,5 +1,6 @@
 #pragma once
 #include "Buffer.h"
+#include "LockQueue.h"
 
 enum {
 	BUFFER_COUNT = 1000,
@@ -30,16 +31,18 @@ public:
 
 };
 
-class PushLockBufferPool : public IBufferPool {
+class ThreadLocalBufferPool : public IBufferPool {
 public:
-	PushLockBufferPool();
-	~PushLockBufferPool();
+	ThreadLocalBufferPool();
+	~ThreadLocalBufferPool();
 
 	Buffer* Pop() override;
 	void Push(Buffer* buffer) override;
 
 private:
 	mutex _buffersMutex;
+	LockQueue<Buffer*> _bufferReturnQueue;
+
 };
 
 class LockBufferPool : public IBufferPool{
