@@ -103,7 +103,7 @@ bool SocketManager::Send(SOCKET targetSocket, const vector<shared_ptr<Buffer>>& 
 		
 		wsaBufs[i].buf = (char*)sendBuffers[i]->GetBuffer();
 		wsaBufs[i].len = sendBuffers[i]->WriteSize();
-		spdlog::info("send Len : {}", sendBuffers[i]->WriteSize());
+		//spdlog::info("send Len : {}", sendBuffers[i]->WriteSize());
 	}
 
 

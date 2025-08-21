@@ -169,7 +169,7 @@ vector<shared_ptr<Buffer>> PacketHandler::MakeSendBuffer(const T& packet, Packet
 			memcpy(payloadPtr, serializedData.data() + offset, payloadSize);
 
 		sendBuffer->Write(packetSize);
-		spdlog::info("Make Buffer HeaderId {}, PacketSize {},  Size : {}", ntohl(header->packetId), ntohl(header->packetSize), sendBuffer->WriteSize());
+		//spdlog::info("Make Buffer HeaderId {}, PacketSize {},  Size : {}", ntohl(header->packetId), ntohl(header->packetSize), sendBuffer->WriteSize());
 		sendBuffers.push_back(move(sendBuffer));
 
 		offset += payloadSize;
