@@ -14,7 +14,7 @@
 
 
 Player::Player(shared_ptr<GameSession> owner)
- : _owner(owner), Actor(ActorType::PlayerType){
+ : _owner(owner), Actor(ActorType::PLAYER_TYPE){
 	
 }
 
@@ -151,7 +151,7 @@ void Player::SetPosition(const PlayerPosition& position){
 	PlayerManager
 ---------------------*/
 
-PlayerManager::PlayerManager() : Actor(ActorType::PlayerManagerType){
+PlayerManager::PlayerManager() : Actor(ActorType::PLAYER_MANAGER_TYPE){
 
 }
 

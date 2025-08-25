@@ -9,10 +9,10 @@
 wstring ActorManager::TypeToWstring(ActorType actorType){
 
 	switch (actorType) {
-	case ActorType::RoomManagerType: return L"RoomManager";
-	case ActorType::PlayerManagerType: return L"PlayerManager";
-	case ActorType::RoomType: return L"Room";
-	case ActorType::PlayerType: return L"Player";
+	case ActorType::ROOM_MANAGER_TYPE: return L"RoomManager";
+	case ActorType::PLAYER_MANAGER_TYPE: return L"PlayerManager";
+	case ActorType::ROOM_TYPE: return L"Room";
+	case ActorType::PLAYER_TYPE: return L"Player";
 	default: return L"None";
 	}
 }
@@ -37,38 +37,53 @@ void ActorManager::UnRegisterActor(uint64 actorId){
 void ActorManager::RequestAllLatencyAndSendToMonitor(){
 
 	shared_ptr<mutex> vectorMutexRef = make_shared<mutex>();
-	shared_ptr<vector<pair<uint64, uint64>>> latencyVectorRef = make_shared< vector<pair<uint64, uint64>>>();
+	shared_ptr<vector<ActorInfo>> actorInfoVectorRef = make_shared<vector<ActorInfo>>();
 	shared_ptr<wstring> msgRef = make_shared<wstring>();
-	int64 actorCount = 0;
-	{
-		lock_guard<mutex> lock(_actorsMutex);
-		actorCount = _actors.size();
-	}
-
+	atomic<int32> actorCount = 0;
+	
 	*msgRef += L"Server Time : ";
 	*msgRef += to_wstring(chrono::duration_cast<chrono::milliseconds>(chrono::steady_clock::now() - GServerStartTimePoint).count());
 	*msgRef += L"\n";
+	
+	// Get Actors
+	vector<shared_ptr<Actor>> actorList;
+	{
+		lock_guard<mutex> lock(_actorsMutex);
 
-	for (auto& p : _actors) {
-		
-		shared_ptr<Actor>& actor = p.second;
-
-		unique_ptr<Job> job = make_unique<Job>([actor, vectorMutexRef, msgRef, latencyVectorRef, actorCount]() {
-
-			uint64 actorId = actor->GetActorId();
-			uint64 latency = actor->GetAvgJobLatency();
-			ActorType actorType = actor->GetActorType();
-
-			lock_guard<mutex> _lock(*vectorMutexRef);
-			latencyVectorRef->push_back({ actorId, latency });
+		for (auto& p : _actors) {
 			
-			*msgRef += ActorManager::TypeToWstring(actorType);
-			*msgRef += to_wstring(actorId);
-			*msgRef += L" : ";
-			*msgRef += to_wstring(latency);
-			*msgRef += L"us \n";
+			actorList.push_back(p.second);
+		}
+	}
 
-			if (actorCount == latencyVectorRef->size()) {
+	const uint32 expectedActorCount = actorList.size();
+
+	for (auto& actor : actorList) {
+
+		unique_ptr<Job> job = make_unique<Job>([actor, vectorMutexRef, msgRef, actorInfoVectorRef, &actorCount, expectedActorCount]() {
+
+			ActorInfo actorInfo = { actor->GetActorId(), actor->GetAvgJobLatency(), actor->GetActorType() };
+
+			{
+				lock_guard<mutex> _lock(*vectorMutexRef);
+
+				actorInfoVectorRef->push_back(actorInfo);
+			}
+			
+			if (actorCount.fetch_add(1) + 1 == expectedActorCount) {
+
+				spdlog::info("COUNT : {}", actorCount.load());
+				int32 latencySum = 0;
+				for (auto& actorInfo : *actorInfoVectorRef) {
+
+					latencySum += actorInfo.latency;
+				}
+
+				*msgRef += L"Total Actor Count : ";
+				*msgRef += to_wstring(expectedActorCount);
+				*msgRef += L"\n";
+				*msgRef += L"latency avg : ";
+				*msgRef += to_wstring(latencySum / expectedActorCount);
 
 				GMonitorManager->PushJobSendMsg(*msgRef);
 			}

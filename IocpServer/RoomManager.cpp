@@ -16,7 +16,7 @@
 
 
 Room::Room(const InitRoomInfo& initRoomInfo, const RoomPlayer& hostPlayerData)
-	: _gridManager(make_shared<GridManager>(10)), _roomInfo({initRoomInfo, 0, hostPlayerData._gameState._name, hostPlayerData._sessionId}) , Actor(ActorType::RoomType){
+	: _gridManager(make_shared<GridManager>(10)), _roomInfo({initRoomInfo, 0, hostPlayerData._gameState._name, hostPlayerData._sessionId}) , Actor(ActorType::ROOM_TYPE){
 
 	EnterPlayer(hostPlayerData._sessionId, hostPlayerData);
 }
@@ -367,7 +367,7 @@ vector<Room::RoomPlayer> Room::GetRoomPlayerList() {
 	RoomManager
 -------------------*/
 
-RoomManager::RoomManager(int32 maxRoomCount) : _maxRoomCount(maxRoomCount), Actor(ActorType::RoomManagerType){
+RoomManager::RoomManager(int32 maxRoomCount) : _maxRoomCount(maxRoomCount), Actor(ActorType::ROOM_MANAGER_TYPE){
 
 }
 

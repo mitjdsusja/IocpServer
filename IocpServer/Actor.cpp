@@ -4,13 +4,13 @@
 #include "ActorManager.h"
 #include "JobScheduler.h"
 
-Actor::Actor(ActorType type = ActorType::None) : _actorType(type){
+Actor::Actor(ActorType type = ActorType::NONE) : _actorType(type){
 
 }
 
 void Actor::PushJob(unique_ptr<Job> job) {
 
-	job->SetEnqueueTimePoint();
+	job->RecordEnqueueTimePoint();
 	_jobQueue.Push(move(job));
 
 	bool expected = false;
@@ -29,7 +29,7 @@ void Actor::ExecuteJob() {
 		job->Execute();
 		//spdlog::info("[Actor::ExecuteJob] Job Execute - execute Server Time : {}", chrono::duration_cast<chrono::milliseconds>(chrono::steady_clock::now() - GServerStartTimePoint).count());
 
-		int64 latency = chrono::duration_cast<chrono::microseconds>(chrono::steady_clock::now() - job->GetCreateTimePoint()).count();
+		int64 latency = chrono::duration_cast<chrono::microseconds>(chrono::steady_clock::now() - job->GetEuqueueTimePoint()).count();
 		RecordJobRatency(latency);
 	}
 

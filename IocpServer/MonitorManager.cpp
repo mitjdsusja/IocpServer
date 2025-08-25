@@ -4,7 +4,7 @@
 
 #include <Windows.h>
 
-MonitorManager::MonitorManager() : Actor(ActorType::MonitorManagerType){
+MonitorManager::MonitorManager() : Actor(ActorType::MONITOR_MANAGER_TYPE){
 
 }
 

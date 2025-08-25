@@ -4,14 +4,21 @@ class Actor;
 
 enum ActorType {
 
-	None = 0,
+	NONE = 0,
 
-	RoomManagerType = 1,
-	PlayerManagerType = 2,
-	MonitorManagerType = 3,
+	ROOM_MANAGER_TYPE = 1,
+	PLAYER_MANAGER_TYPE = 2,
+	MONITOR_MANAGER_TYPE = 3,
 
-	RoomType = 101,
-	PlayerType = 102,
+	ROOM_TYPE = 101,
+	PLAYER_TYPE = 102,
+};
+
+struct ActorInfo {
+
+	uint64 actorId = 0;
+	uint64 latency = 0;
+	ActorType actorType = NONE;
 };
 
 class ActorManager{
