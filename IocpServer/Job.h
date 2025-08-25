@@ -23,7 +23,7 @@ public:
 		}
 	}
 
-	void SetEnqueueTimePoint() {
+	void RecordEnqueueTimePoint() {
 
 		_enqueueTimePoint = chrono::steady_clock::now();
 	}
