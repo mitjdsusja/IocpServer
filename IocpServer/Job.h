@@ -3,11 +3,11 @@
 
 class Job {
 public:
-	using TimePoint = std::chrono::system_clock::time_point;
+	using TimePoint = std::chrono::steady_clock::time_point;
 public:
 	Job(function<void()>&& callback) :
 		_callback(move(callback)),
-		_createTimePoint(std::chrono::system_clock::now())
+		_createTimePoint(std::chrono::steady_clock::now())
 	{
 
 	}
@@ -23,12 +23,24 @@ public:
 		}
 	}
 
+	void SetEnqueueTimePoint() {
+
+		_enqueueTimePoint = chrono::steady_clock::now();
+	}
+
 	TimePoint GetCreateTimePoint() {
+
 		return _createTimePoint;
+	}
+
+	TimePoint GetEuqueueTimePoint() {
+
+		return _enqueueTimePoint;
 	}
 
 private:
 	function<void()> _callback;
 	TimePoint _createTimePoint;
+	TimePoint _enqueueTimePoint;
 };
 
