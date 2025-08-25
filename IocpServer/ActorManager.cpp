@@ -39,7 +39,7 @@ void ActorManager::RequestAllLatencyAndSendToMonitor(){
 	shared_ptr<mutex> vectorMutexRef = make_shared<mutex>();
 	shared_ptr<vector<ActorInfo>> actorInfoVectorRef = make_shared<vector<ActorInfo>>();
 	shared_ptr<wstring> msgRef = make_shared<wstring>();
-	atomic<int32> actorCount = 0;
+	shared_ptr<atomic<int32>> actorCount = make_shared<atomic<int32>>();
 	
 	*msgRef += L"Server Time : ";
 	*msgRef += to_wstring(chrono::duration_cast<chrono::milliseconds>(chrono::steady_clock::now() - GServerStartTimePoint).count());
@@ -60,7 +60,7 @@ void ActorManager::RequestAllLatencyAndSendToMonitor(){
 
 	for (auto& actor : actorList) {
 
-		unique_ptr<Job> job = make_unique<Job>([actor, vectorMutexRef, msgRef, actorInfoVectorRef, &actorCount, expectedActorCount]() {
+		unique_ptr<Job> job = make_unique<Job>([actor, vectorMutexRef, msgRef, actorInfoVectorRef, actorCount, expectedActorCount]() {
 
 			ActorInfo actorInfo = { actor->GetActorId(), actor->GetAvgJobLatency(), actor->GetActorType() };
 
@@ -70,9 +70,8 @@ void ActorManager::RequestAllLatencyAndSendToMonitor(){
 				actorInfoVectorRef->push_back(actorInfo);
 			}
 			
-			if (actorCount.fetch_add(1) + 1 == expectedActorCount) {
+			if (actorCount->fetch_add(1) + 1 == expectedActorCount) {
 
-				spdlog::info("COUNT : {}", actorCount.load());
 				int32 latencySum = 0;
 				for (auto& actorInfo : *actorInfoVectorRef) {
 
