@@ -73,16 +73,30 @@ void ActorManager::RequestAllLatencyAndSendToMonitor(){
 			if (actorCount->fetch_add(1) + 1 == expectedActorCount) {
 
 				int32 latencySum = 0;
+				ActorInfo topLatencyActorInfo;
 				for (auto& actorInfo : *actorInfoVectorRef) {
 
 					latencySum += actorInfo.latency;
+					if (topLatencyActorInfo.latency < actorInfo.latency) {
+						topLatencyActorInfo = actorInfo;
+					}
 				}
 
 				*msgRef += L"Total Actor Count : ";
 				*msgRef += to_wstring(expectedActorCount);
 				*msgRef += L"\n";
+
 				*msgRef += L"latency avg : ";
 				*msgRef += to_wstring(latencySum / expectedActorCount);
+				*msgRef += L"ms";
+				*msgRef += L"\n";
+
+				*msgRef += L"Top Latency Actor : ";
+				*msgRef += ActorManager::TypeToWstring(topLatencyActorInfo.actorType);
+				*msgRef += L" ";
+				*msgRef += to_wstring(topLatencyActorInfo.latency);
+				*msgRef += L"ms";
+				*msgRef += L"\n";
 
 				GMonitorManager->PushJobSendMsg(*msgRef);
 			}
