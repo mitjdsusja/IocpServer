@@ -30,6 +30,6 @@ protected:
 
 private:
 	queue<int64> _latencyQueue;
-	const int16 _maxLatencyQueueSize = 100;
+	const int16 _maxLatencyQueueSize = 10;
 	int64 _latencySum = 0;
 };
