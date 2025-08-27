@@ -88,14 +88,14 @@ void ActorManager::RequestAllLatencyAndSendToMonitor(){
 
 				*msgRef += L"latency avg : ";
 				*msgRef += to_wstring(latencySum / expectedActorCount);
-				*msgRef += L"ms";
+				*msgRef += L"us";
 				*msgRef += L"\n";
 
 				*msgRef += L"Top Latency Actor : ";
 				*msgRef += ActorManager::TypeToWstring(topLatencyActorInfo.actorType);
 				*msgRef += L" ";
 				*msgRef += to_wstring(topLatencyActorInfo.latency);
-				*msgRef += L"ms";
+				*msgRef += L"us";
 				*msgRef += L"\n";
 
 				GMonitorManager->PushJobSendMsg(*msgRef);
