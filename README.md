@@ -1,6 +1,6 @@
 # 실시간 MMO 서버
 
-시연 영상 : https://youtu.be/cRJakGzdXnI
+시연 영상 : https://youtu.be/UtUiSn3o3l4
 
 ### 주요 내용
 - IOCP 기반 **비동기 네트워크 처리** 및 멀티스레드 서버 구조 설계
