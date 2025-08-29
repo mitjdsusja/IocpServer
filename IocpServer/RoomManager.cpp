@@ -265,7 +265,7 @@ void Room::BroadcastPlayerMovement() {
 
 	for (auto& p : _players) {
 
-		auto& player = p.second;
+		auto& playerData = p.second;
 
 		vector<uint64> nearPlayerSessionIdList = _gridManager->GetNearByPlayers(p.first);
 
@@ -286,7 +286,7 @@ void Room::BroadcastPlayerMovement() {
 
 		auto sendBuffer = PacketHandler::MakeSendBuffer(sendPlayerMoveNotificationPacket, PacketId::PKT_SC_PLAYER_MOVE_NOTIFICATION);
 
-		GPlayerManager->PushJobSendData(player._sessionId, sendBuffer);
+		GPlayerManager->PushJobSendData(playerData._sessionId, sendBuffer);
 	}
 }
 
