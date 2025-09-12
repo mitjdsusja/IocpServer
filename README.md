@@ -1,7 +1,7 @@
 # 실시간 MMO 서버
 
-시연 영상 : https://youtu.be/UtUiSn3o3l4
-주요 코드 설명 : https://www.notion.so/MMO-26a1e89d067180c493f1c9343960055f?source=copy_link
+시연 영상 : https://youtu.be/UtUiSn3o3l4 <br>
+주요 코드 설명 : https://www.notion.so/MMO-26a1e89d067180c493f1c9343960055f?source=copy_link <br>
 
 ### 주요 내용
 - IOCP 기반 **비동기 네트워크 처리** 및 멀티스레드 서버 구조 설계
