@@ -27,7 +27,7 @@ enum {
 	WORKER_THREAD_COUNT = 8,
 };
 
-void DBInsertuser(wstring id, wstring pw, wstring name);
+void DBInsertuser(wstring id, wstring pw);
 
 int main() {
 	wcout.imbue(std::locale("kor"));
@@ -99,18 +99,13 @@ int main() {
 	GThreadManager->Join();
 }
 
-void DBInsertuser(wstring id, wstring pw, wstring name) {
+void DBInsertuser(wstring id, wstring pw) {
 
-	std::wstring query = L"INSERT INTO users (id, password_hash, level, name, pos_x, pos_y, pos_z) VALUES (";
+	std::wstring query = L"INSERT INTO accounts (id, password_hash, level, name, pos_x, pos_y, pos_z) VALUES (";
 	query += L"'";
 
 	query += id + L"','";
-	query += pw + L"',";
-	query += to_wstring(1) + L",'";
-	query += name + L"',";
-	query += to_wstring(0) + L",";
-	query += to_wstring(100) + L",";
-	query += to_wstring(0);
+	query += pw + L"'";
 
 	query += L");";
 
