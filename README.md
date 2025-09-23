@@ -22,13 +22,12 @@
 ![서버 아키텍쳐](./images/Slide5.jpg)
 ![패킷 처리 흐름](./images/패킷처리흐름.png)
 ![패킷 처리 흐름 설명](./images/Slide7.jpg)
-![BufferPool1](./images/Slide8.jpg)
-[BufferPool 정의 (Header)](https://github.com/mitjdsusja/IocpServer/blob/main/ServerLib/BufferPool.h)<br>
-[BufferPool 사용 예시 (PacketHandler.cpp: L50–L65)](https://github.com/mitjdsusja/IocpServer/blob/main/IocpServer/PacketHandler.cpp#L50-L65)
-![JobQueue1](./images/Slide10.jpg)
-[Job 사용 예시 (RoomManager.cpp: L136-145)](https://github.com/mitjdsusja/IocpServer/blob/main/IocpServer/RoomManager.cpp#L136-145)
+![Actor모델 1](./images/Actor모델1.jpg)
+![JobQueue 1](./images/JobQueue1.jpg)
 ![JobTimer1](./images/Slide12.jpg)
 ![JobTimer2](./images/Slide13.jpg)
+![TLS BufferPool 1](./images/TLS1.jpg)
 ![Grid 기반 위치 동기화1](./images/Slide15.jpg)
 ![Grid 기반 위치 동기화2](./images/Slide16.jpg)
+![패킷 분할 전송](./images/패킷분할전송1.jpg)
 
