@@ -254,7 +254,7 @@ void PacketHandler::Handle_CS_Room_Player_List_Request(shared_ptr<GameSession> s
 
 	int32 roomId = recvRoomPlayerListRequestPacket.roomid();
 	
-	GRoomManager->PushJobGetRoomPlayerList(roomId, [session](vector<Room::RoomPlayer> roomPlayerList) {
+	GRoomManager->PushJobGetRoomPlayerList(roomId, [session](vector<RoomPlayerData> roomPlayerList) {
 
 		msgTest::SC_Room_Player_List_Response sendRoomPlayerListResponsePacket;
 		for (const auto& roomPlayer : roomPlayerList) {
@@ -285,7 +285,7 @@ void PacketHandler::Handle_CS_Create_Room_Request(shared_ptr<GameSession> sessio
 	initRoomInfo._roomName = roomName;
 	initRoomInfo._maxPlayerCount = 100;
 
-	Room::RoomPlayer hostPlayerData;
+	RoomPlayerData hostPlayerData;
 	hostPlayerData._sessionId = session->GetSessionId();
 	hostPlayerData._gameState._name = hostName;
 
@@ -301,7 +301,7 @@ void PacketHandler::Handle_CS_Enter_Room_Request(shared_ptr<GameSession> session
 
 	GPlayerManager->PushJobGetRoomPlayer(session->GetSessionId(), [_enterRoomId](PlayerBaseInfo baseInfo, PlayerPosition position) {
 		
-		Room::RoomPlayer roomPlayer;
+		RoomPlayerData roomPlayer;
 		roomPlayer._sessionId = baseInfo._sessionId;
 		roomPlayer._gameState._moveTimeStamp = position._moveTimestamp;
 		roomPlayer._gameState._name = baseInfo._name;
@@ -319,7 +319,7 @@ void PacketHandler::Handle_CS_Player_Move_Request(shared_ptr<GameSession> sessio
 	recvPlayerMoveReqeustPacket.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
 
 	msgTest::MoveState moveState = recvPlayerMoveReqeustPacket.movestate();
-	Room::RoomPlayer roomPlayerData;
+	RoomPlayerData roomPlayerData;
 	roomPlayerData._sessionId = session->GetSessionId();
 	roomPlayerData._gameState._moveTimeStamp = moveState.timestamp();
 	roomPlayerData._gameState._name = boost::locale::conv::utf_to_utf<wchar_t>(moveState.playername());

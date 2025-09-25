@@ -63,6 +63,15 @@
     <ClInclude Include="TimedJob.h">
       <Filter>Job</Filter>
     </ClInclude>
+    <ClInclude Include="RoomManagerResult.h">
+      <Filter>Content</Filter>
+    </ClInclude>
+    <ClInclude Include="RoomInfo.h">
+      <Filter>Content</Filter>
+    </ClInclude>
+    <ClInclude Include="RoomPlayerData.h">
+      <Filter>Content</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ServerMain.cpp">

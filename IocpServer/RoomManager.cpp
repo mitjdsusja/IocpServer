@@ -15,10 +15,10 @@
 #include <boost/locale.hpp>
 
 
-Room::Room(const InitRoomInfo& initRoomInfo, const RoomPlayer& hostPlayerData)
+Room::Room(const InitRoomInfo& initRoomInfo, const RoomPlayerData& hostPlayerData)
 	: _gridManager(make_shared<GridManager>(10)), _roomInfo({initRoomInfo, 0, hostPlayerData._gameState._name, hostPlayerData._sessionId}) , Actor(ActorType::ROOM_TYPE){
 
-	EnterPlayer(hostPlayerData._sessionId, hostPlayerData);
+	EnterPlayer(hostPlayerData);
 }
 
 Room::~Room() {
@@ -84,53 +84,28 @@ void Room::PushJobRegisterBroadcastPlayerInGrid(){
 	GJobScheduler->RegisterTimedJob(scheduledTimedJob);
 }
 
-void Room::PushJobEnterPlayer(uint64 enterPlayerSessionId, const RoomPlayer& initialPlayerData){
+void Room::PushJobEnterPlayer(const RoomPlayerData& enterPlayerData){
 
 	shared_ptr<Room> self = static_pointer_cast<Room>(shared_from_this());
 
-	unique_ptr<Job> job = make_unique<Job>([self, enterPlayerSessionId, initialPlayerData]() {
+	unique_ptr<Job> job = make_unique<Job>([self, enterPlayerData]() {
 
-		bool enterRoomflag = self->EnterPlayer(enterPlayerSessionId, initialPlayerData);
+		bool enterRoomflag = self->EnterPlayer(enterPlayerData);
 
 		RoomInfo roomInfo = self->GetRoomInfo();
 
 		PlayerPosition position;
 		position._roomId = roomInfo._initRoomInfo._roomId;
-		GPlayerManager->PushJobSetPosition(initialPlayerData._sessionId, position);
+		GPlayerManager->PushJobSetPosition(enterPlayerData._sessionId, position);
 
-		// Enter Result Send
-		{
-			msgTest::SC_Enter_Room_Response enterRoomResponsePacket;
-			msgTest::Room* room = enterRoomResponsePacket.mutable_room();
+		RoomManagerResult::EnterRoomResult enterRoomResult;
+		enterRoomResult._success = enterRoomflag;
+		enterRoomResult._failReason = RoomManagerResult::EnterRoomResult::FailReason::UNKNOWN;
+		enterRoomResult._roomInfo = roomInfo;
+		enterRoomResult._enterPlayerInfo = enterPlayerData;
+		enterRoomResult._enterSessionId = enterPlayerData._sessionId;
 
-			enterRoomResponsePacket.set_success(true);
-			room->set_roomid(roomInfo._initRoomInfo._roomId);
-			room->set_roomname(boost::locale::conv::utf_to_utf<char>(roomInfo._initRoomInfo._roomName));
-			room->set_maxplayercount(roomInfo._initRoomInfo._maxPlayerCount);
-			room->set_playercount(roomInfo._curPlayerCount);
-			room->set_hostplayername(boost::locale::conv::utf_to_utf<char>(roomInfo._hostPlayerName));
-
-			vector<shared_ptr<Buffer>> sendBuffer = PacketHandler::MakeSendBuffer(enterRoomResponsePacket, PacketId::PKT_SC_ENTER_ROOM_RESPONSE);
-
-			GPlayerManager->PushJobSendData(enterPlayerSessionId, sendBuffer);
-		}
-
-		// Notify All
-		{
-			msgTest::SC_Player_Enter_Room_Notification enterRoomNotiticationPacket;
-			msgTest::Player* player = enterRoomNotiticationPacket.mutable_player();
-			msgTest::Vector* position = player->mutable_position();
-
-			player->set_name(boost::locale::conv::utf_to_utf<char>(initialPlayerData._gameState._name));
-			player->set_level(0);
-			position->set_x(initialPlayerData._gameState._position._x);
-			position->set_y(initialPlayerData._gameState._position._y);
-			position->set_z(initialPlayerData._gameState._position._z);
-
-			vector<shared_ptr<Buffer>> sendBuffer = PacketHandler::MakeSendBuffer(enterRoomNotiticationPacket, PacketId::PKT_SC_PLAYER_ENTER_ROOM_NOTIFICATION);
-
-			self->Broadcast(sendBuffer);
-		}
+		GRoomManager->PushJobEnterRoomResult(enterRoomResult);
 	});
 
 	PushJob(move(job));
@@ -147,7 +122,7 @@ void Room::PushJobLeavePlayer(uint64 leavePlayerSessionId){
 	PushJob(move(job));
 }
 
-void Room::PushJobMovePlayer(uint64 movePlayerSessionId, const Room::RoomPlayer& roomPlayerData){
+void Room::PushJobMovePlayer(uint64 movePlayerSessionId, const RoomPlayerData& roomPlayerData){
 
 	shared_ptr<Room> self = static_pointer_cast<Room>(shared_from_this());
 
@@ -171,13 +146,13 @@ void Room::PushJobGetRoomInfo(function<void(RoomInfo& roomInfo)> func){
 	PushJob(move(job));
 }
 
-void Room::PushJobGetRoomPlayerList(function<void(vector<Room::RoomPlayer>)> func){
+void Room::PushJobGetRoomPlayerList(function<void(vector<RoomPlayerData>)> func){
 
 	shared_ptr<Room> self = static_pointer_cast<Room>(shared_from_this());
 
 	unique_ptr<Job> job = make_unique<Job>([self, func]() {
 
-		vector<RoomPlayer> roomPlayerList = self->GetRoomPlayerList();
+		vector<RoomPlayerData> roomPlayerList = self->GetRoomPlayerList();
 		func(roomPlayerList);
 	});
 
@@ -295,7 +270,7 @@ void Room::BroadcastPlayerInGrid(){
 	for (auto& p : _players) {
 
 		uint64 sessionId = p.first;
-		RoomPlayer& curPlayer = p.second;
+		RoomPlayerData& curPlayer = p.second;
 		vector<uint64> sessionIdInGrid;
 
 		sessionIdInGrid = _gridManager->GetNearByPlayers(sessionId);
@@ -313,12 +288,12 @@ void Room::BroadcastPlayerInGrid(){
 	}
 }
 
-bool Room::EnterPlayer(uint64 sessionId, const RoomPlayer& playerData) {
+bool Room::EnterPlayer(const RoomPlayerData& playerData) {
 
-	_players[sessionId] = playerData;
+	_players[playerData._sessionId] = playerData;
 	_roomInfo._curPlayerCount++;
 
-	_gridManager->AddPlayer(sessionId, playerData._gameState._position);
+	_gridManager->AddPlayer(playerData._sessionId, playerData._gameState._position);
 
 	spdlog::info("[Room::EnterPlayer] roomId : {}", _roomInfo._initRoomInfo._roomId);
 	//wcout << L"[Room::EnterPlayer] roomId : " << _roomInfo._initRoomInfo._roomId << " EnterPlayer : " << playerData._gameState._name << endl;
@@ -339,7 +314,7 @@ void Room::LeavePlayer(uint64 sessionId) {
 	}
 }
 
-void Room::MovePlayer(uint64 sessionId, const Room::RoomPlayer& roomPlayerData) {
+void Room::MovePlayer(uint64 sessionId, const RoomPlayerData& roomPlayerData) {
 
 	_players[sessionId]._gameState = roomPlayerData._gameState;
 
@@ -351,12 +326,12 @@ RoomInfo Room::GetRoomInfo() {
 	return _roomInfo;
 }
 
-vector<Room::RoomPlayer> Room::GetRoomPlayerList() {
+vector<RoomPlayerData> Room::GetRoomPlayerList() {
 
-	vector<Room::RoomPlayer> roomPlayerList;
+	vector<RoomPlayerData> roomPlayerList;
 	for (const auto& p : _players) {
 
-		const RoomPlayer& roomPlayer = p.second;
+		const RoomPlayerData& roomPlayer = p.second;
 		roomPlayerList.push_back(roomPlayer);
 	}
 
@@ -371,7 +346,7 @@ RoomManager::RoomManager(int32 maxRoomCount) : _maxRoomCount(maxRoomCount), Acto
 
 }
 
-void RoomManager::PushJobCreateAndPushRoom(const InitRoomInfo& initRoomInfo, const Room::RoomPlayer& hostPlayerData){
+void RoomManager::PushJobCreateAndPushRoom(const InitRoomInfo& initRoomInfo, const RoomPlayerData& hostPlayerData){
 
 	shared_ptr<RoomManager> self = static_pointer_cast<RoomManager>(shared_from_this());
 
@@ -409,7 +384,7 @@ void RoomManager::PushJobCreateAndPushRoom(const InitRoomInfo& initRoomInfo, con
 	PushJob(move(job));
 }
 
-void RoomManager::PushJobEnterRoom(int32 roomId, const Room::RoomPlayer& enterPlayerData){
+void RoomManager::PushJobEnterRoom(int32 roomId, const RoomPlayerData& enterPlayerData){
 
 	shared_ptr<RoomManager> self = static_pointer_cast<RoomManager>(shared_from_this());
 
@@ -442,7 +417,7 @@ void RoomManager::PushJobRemoveRoom(int32 roomId){
 	PushJob(move(job));
 }
 
-void RoomManager::PushJobMovePlayer(int32 roomId, const Room::RoomPlayer& roomPlayerData){
+void RoomManager::PushJobMovePlayer(int32 roomId, const RoomPlayerData& roomPlayerData){
 
 	shared_ptr<RoomManager> self = static_pointer_cast<RoomManager>(shared_from_this());
 
@@ -452,6 +427,11 @@ void RoomManager::PushJobMovePlayer(int32 roomId, const Room::RoomPlayer& roomPl
 	});
 
 	PushJob(move(job));
+}
+
+void RoomManager::PushJobSkillUse(){
+
+
 }
 
 void RoomManager::PushJobGetRoomInfoList(function<void(vector<RoomInfo>)> func){
@@ -486,7 +466,7 @@ void RoomManager::PushJobGetRoomInfoList(function<void(vector<RoomInfo>)> func){
 	this->PushJob(move(job));
 }
 
-void RoomManager::PushJobGetRoomPlayerList(int32 roomId, function<void(vector<Room::RoomPlayer>)> func){
+void RoomManager::PushJobGetRoomPlayerList(int32 roomId, function<void(vector<RoomPlayerData>)> func){
 
 	shared_ptr<RoomManager> self = static_pointer_cast<RoomManager>(shared_from_this());
 
@@ -501,6 +481,18 @@ void RoomManager::PushJobGetRoomPlayerList(int32 roomId, function<void(vector<Ro
 		}
 		const shared_ptr<Room>& room = p->second;
 		room->PushJobGetRoomPlayerList(func);
+	});
+
+	this->PushJob(move(job));
+}
+
+void RoomManager::PushJobEnterRoomResult(RoomManagerResult::EnterRoomResult enterRoomResult){
+
+	shared_ptr<RoomManager> self = static_pointer_cast<RoomManager>(shared_from_this());
+
+	unique_ptr<Job> job = make_unique<Job>([self, enterRoomResult]() {
+
+		self->EnterRoomResult(enterRoomResult);
 	});
 
 	this->PushJob(move(job));
@@ -521,7 +513,7 @@ void RoomManager::BroadcastToRoom(int32 roomId, shared_ptr<Buffer> sendBuffer){
 	room->Broadcast(sendBuffer);
 }
 
-int32 RoomManager::CreateAndPushRoom(const InitRoomInfo& initRoomInfo, const Room::RoomPlayer& hostPlayerData){
+int32 RoomManager::CreateAndPushRoom(const InitRoomInfo& initRoomInfo, const RoomPlayerData& hostPlayerData){
 	
 	// maximum room check
 	if (_maxRoomCount <= _rooms.size()) {
@@ -545,14 +537,14 @@ int32 RoomManager::CreateAndPushRoom(const InitRoomInfo& initRoomInfo, const Roo
 	return roomId;
 }
 
-bool RoomManager::EnterRoom(int32 roomId, const Room::RoomPlayer& enterPlayerData){
+bool RoomManager::EnterRoom(int32 roomId, const RoomPlayerData& enterPlayerData){
 
 	shared_ptr<Room>& room = _rooms[roomId];
 	if (room == nullptr) {
 		return false;
 	}
 
-	room->PushJobEnterPlayer(enterPlayerData._sessionId, enterPlayerData);
+	room->PushJobEnterPlayer(enterPlayerData);
 
 	return true;
 }
@@ -586,7 +578,7 @@ void RoomManager::RemoveRoom(int32 roomId) {
 	}
 }
 
-void RoomManager::MovePlayer(int32 roomId, const Room::RoomPlayer& roomPlayerData){
+void RoomManager::MovePlayer(int32 roomId, const RoomPlayerData& roomPlayerData){
 
 	const auto& iter = _rooms.find(roomId);
 	if (iter == _rooms.end()) {
@@ -600,8 +592,28 @@ void RoomManager::MovePlayer(int32 roomId, const Room::RoomPlayer& roomPlayerDat
 	room->PushJobMovePlayer(roomPlayerData._sessionId, roomPlayerData);
 }
 
-shared_ptr<Room> RoomManager::MakeRoomPtr(const InitRoomInfo& initRoomInfo, const Room::RoomPlayer& hostPlayerData) {
+void RoomManager::EnterRoomResult(RoomManagerResult::EnterRoomResult enterRoomResult){
+
+	msgTest::SC_Enter_Room_Response sendPacketEnterRoomResponse;
+	msgTest::Room* room = sendPacketEnterRoomResponse.mutable_room();
+
+	sendPacketEnterRoomResponse.set_success(enterRoomResult._success);
+	sendPacketEnterRoomResponse.set_errormessage("");
+	room->set_roomid(enterRoomResult._roomInfo._initRoomInfo._roomId);
+	room->set_roomname(boost::locale::conv::utf_to_utf<char>(enterRoomResult._roomInfo._initRoomInfo._roomName));
+	room->set_maxplayercount(enterRoomResult._roomInfo._initRoomInfo._maxPlayerCount);
+	room->set_playercount(enterRoomResult._roomInfo._curPlayerCount);
+	room->set_hostplayername(boost::locale::conv::utf_to_utf<char>(enterRoomResult._roomInfo._hostPlayerName));
+
+	vector<shared_ptr<Buffer>> sendBuffer = PacketHandler::MakeSendBuffer(sendPacketEnterRoomResponse, PacketId::PKT_SC_ENTER_ROOM_RESPONSE);
+
+	GPlayerManager->PushJobSendData(enterRoomResult._enterPlayerInfo._sessionId, sendBuffer);
+}
+
+shared_ptr<Room> RoomManager::MakeRoomPtr(const InitRoomInfo& initRoomInfo, const RoomPlayerData& hostPlayerData) {
 
 	return make_shared<Room>(initRoomInfo, hostPlayerData);
 }
+
+
 
