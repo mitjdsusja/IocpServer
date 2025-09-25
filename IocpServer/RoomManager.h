@@ -112,6 +112,6 @@ private:
 	int32 _maxRoomCount;
 	atomic<int32> _nextRoomId = 1;
 	map<int32, shared_ptr<Room>> _rooms;
-
+	unordered_map<int64, int32> _sessionToRoomMap;
 };
 

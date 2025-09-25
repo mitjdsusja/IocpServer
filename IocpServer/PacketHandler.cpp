@@ -333,7 +333,10 @@ void PacketHandler::Handle_CS_Player_Move_Request(shared_ptr<GameSession> sessio
 
 void PacketHandler::Handle_CS_Skill_Use(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service){
 
-	
+	msgTest::CS_Skill_Use recvPacketSkillUse;
+	recvPacketSkillUse.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
+
+	GRoomManager->PushJobSkillUse();
 }
 
 
