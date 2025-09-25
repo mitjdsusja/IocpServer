@@ -25,13 +25,13 @@ message MoveState{
 }
 
 enum SkillType{
-    UNKNOWN = 0;
-    PROJECTILE = 1;
-    AOE = 2;
-    TARGET = 3;
+    SKILL_TYPE_UNKNOWN = 0;
+    SKILL_TYPE_PROJECTILE = 1;
+    SKILL_TYPE_AOE = 2;
+    SKILL_TYPE_TARGET = 3;
 }
 enum SkillFailType{
-
+    SKILL_FAIL_TYPE_UNKNOWN = 0;
 }
 
 message Player{
@@ -125,7 +125,7 @@ message SC_Player_List_In_Grid{
 message CS_Skill_Use{
     int32 skillId = 1;
     SkillType skillType = 2;
-    Vector direction = 2;
+    Vector direction = 3;
     Vector targetPos = 4;
     int32 targetId = 5;
 }
