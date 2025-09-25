@@ -79,6 +79,7 @@ private:
 	static void Handle_CS_Create_Room_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
 	static void Handle_CS_Enter_Room_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
 	static void Handle_CS_Player_Move_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_CS_Skill_Use(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
 
 	/*------------
 		S -> C
@@ -93,6 +94,8 @@ private:
 	static void Handle_SC_Player_Enter_Room_Notification(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* serviec);
 	static void Handle_SC_Player_Move_Notification(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* serviec);
 	static void Handle_SC_Player_List_In_Grid(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* serviec);
+	static void Handle_SC_Skill_Result(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* serviec);
+	static void Handle_SC_Skill_Cast(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* serviec);
 };
 
 //template<typename T>

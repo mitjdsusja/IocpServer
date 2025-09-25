@@ -34,6 +34,7 @@ void PacketHandler::RegisterPacketHandlers() {
 	packetHandleArray[PKT_CS_CREATE_ROOM_REQUEST] = Handle_CS_Create_Room_Request;
 	packetHandleArray[PKT_CS_PLAYER_MOVE_REQUEST] = Handle_CS_Player_Move_Request;
 	packetHandleArray[PKT_CS_PING] = Handle_CS_Ping;
+	packetHandleArray[PKT_CS_SKILL_USE] = Handle_CS_Skill_Use;
 
 
 	/*------------
@@ -44,7 +45,8 @@ void PacketHandler::RegisterPacketHandlers() {
 	packetHandleArray[PKT_SC_MY_PLAYER_INFO_RESPONSE] = Handle_SC_Player_Enter_Room_Notification;
 	packetHandleArray[PKT_SC_ROOM_PLAYER_LIST_RESPONSE] = Handle_SC_Player_Move_Notification;
 	packetHandleArray[PKT_SC_ENTER_ROOM_RESPONSE] = Handle_SC_Player_List_In_Grid;
-
+	packetHandleArray[PKT_SC_SKILL_RESULT] = Handle_SC_Skill_Result;
+	packetHandleArray[PKT_SC_SKILL_CAST] = Handle_SC_Skill_Cast;
 }
 
 void PacketHandler::HandlePacket(shared_ptr<GameSession> session, PacketHeader* dataBuffer, Service* service) {
@@ -329,6 +331,13 @@ void PacketHandler::Handle_CS_Player_Move_Request(shared_ptr<GameSession> sessio
 	GRoomManager->PushJobMovePlayer(moveState.roomid(), roomPlayerData);
 }
 
+void PacketHandler::Handle_CS_Skill_Use(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service){
+
+	
+}
+
+
+
 
 
 /*------------
@@ -367,5 +376,15 @@ void PacketHandler::Handle_SC_Player_Move_Notification(shared_ptr<GameSession> s
 }
 
 void PacketHandler::Handle_SC_Player_List_In_Grid(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* serviec) {
+
+}
+
+void PacketHandler::Handle_SC_Skill_Result(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
+
+
+}
+
+void PacketHandler::Handle_SC_Skill_Cast(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
+
 
 }
