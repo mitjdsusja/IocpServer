@@ -24,6 +24,16 @@ message MoveState{
     int64 timestamp = 6; 
 }
 
+enum SkillType{
+    UNKNOWN = 0;
+    PROJECTILE = 1;
+    AOE = 2;
+    TARGET = 3;
+}
+enum SkillFailType{
+
+}
+
 message Player{
     string name = 1;
     int32 level = 2;
@@ -110,4 +120,33 @@ message SC_Player_Move_Notification{
 
 message SC_Player_List_In_Grid{
     repeated string playerNameList = 1;
+}
+
+message CS_Skill_Use{
+    int32 skillId = 1;
+    SkillType skillType = 2;
+    Vector direction = 2;
+    Vector targetPos = 4;
+    int32 targetId = 5;
+}
+
+message SC_Skill_Result{
+    bool success = 1;
+    SkillFailType skillFailType = 2;
+    int32 skillId = 3;
+    Vector direction = 4;
+    Vector targetPos = 5;
+    int32 targetId = 6;
+    int64 timestamp = 7;
+}
+
+message SC_Skill_Cast{
+    int32 casterId = 1;
+    int32 skillId = 2;
+    SkillType skillType = 3;
+    Vector startPos = 4;
+    Vector direction = 5;
+    Vector targetPos = 6;
+    int32 targetId = 7;
+    int64 timestamp = 8;
 }
