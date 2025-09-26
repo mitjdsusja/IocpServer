@@ -296,6 +296,11 @@ void Room::BroadcastPlayerInGrid(){
 		RoomPlayerData& curPlayer = p.second;
 		vector<uint64> sessionIdInGrid;
 
+		if (curPlayer._enterRoomComplete == false) {
+
+			continue;
+		}
+
 		sessionIdInGrid = _gridManager->GetNearByPlayers(sessionId);
 
 		msgTest::SC_Player_List_In_Grid sendPlayerListInGridPacket;
