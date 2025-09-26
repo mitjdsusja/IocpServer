@@ -501,6 +501,10 @@ void RoomManager::PushJobGetRoomInfoList(function<void(vector<RoomInfo>)> func){
 		shared_ptr<vector<RoomInfo>> roomInfoListRef = make_shared<vector<RoomInfo>>();
 		shared_ptr<mutex> roomInfoListMutexRef = make_shared<mutex>();
 
+		if (self->_rooms.size() == 0) {
+			func(*roomInfoListRef);
+		}
+
 		for (const auto& p : self->_rooms) {
 
 			shared_ptr<Room> room = p.second;
