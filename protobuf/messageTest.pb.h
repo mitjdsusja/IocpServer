@@ -4857,30 +4857,12 @@ class Room final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
-    kPlayerListFieldNumber = 6,
     kRoomNameFieldNumber = 2,
     kHostPlayerFieldNumber = 5,
     kRoomIdFieldNumber = 1,
     kMaxPlayerCountFieldNumber = 3,
     kPlayerCountFieldNumber = 4,
   };
-  // repeated .msgTest.Player playerList = 6;
-  int playerlist_size() const;
-  private:
-  int _internal_playerlist_size() const;
-
-  public:
-  void clear_playerlist() ;
-  ::msgTest::Player* mutable_playerlist(int index);
-  ::google::protobuf::RepeatedPtrField<::msgTest::Player>* mutable_playerlist();
-
-  private:
-  const ::google::protobuf::RepeatedPtrField<::msgTest::Player>& _internal_playerlist() const;
-  ::google::protobuf::RepeatedPtrField<::msgTest::Player>* _internal_mutable_playerlist();
-  public:
-  const ::msgTest::Player& playerlist(int index) const;
-  ::msgTest::Player* add_playerlist();
-  const ::google::protobuf::RepeatedPtrField<::msgTest::Player>& playerlist() const;
   // string roomName = 2;
   void clear_roomname() ;
   const std::string& roomname() const;
@@ -4947,7 +4929,7 @@ class Room final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      3, 6, 2,
+      3, 5, 1,
       29, 2>
       _table_;
 
@@ -4967,7 +4949,6 @@ class Room final : public ::google::protobuf::Message
                           const Room& from_msg);
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
-    ::google::protobuf::RepeatedPtrField< ::msgTest::Player > playerlist_;
     ::google::protobuf::internal::ArenaStringPtr roomname_;
     ::msgTest::Player* hostplayer_;
     ::int32_t roomid_;
@@ -5519,10 +5500,28 @@ class SC_Enter_Room_Response final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
+    kPlayerListInGridFieldNumber = 4,
     kErrorMessageFieldNumber = 2,
     kRoomFieldNumber = 3,
     kSuccessFieldNumber = 1,
   };
+  // repeated .msgTest.Player playerListInGrid = 4;
+  int playerlistingrid_size() const;
+  private:
+  int _internal_playerlistingrid_size() const;
+
+  public:
+  void clear_playerlistingrid() ;
+  ::msgTest::Player* mutable_playerlistingrid(int index);
+  ::google::protobuf::RepeatedPtrField<::msgTest::Player>* mutable_playerlistingrid();
+
+  private:
+  const ::google::protobuf::RepeatedPtrField<::msgTest::Player>& _internal_playerlistingrid() const;
+  ::google::protobuf::RepeatedPtrField<::msgTest::Player>* _internal_mutable_playerlistingrid();
+  public:
+  const ::msgTest::Player& playerlistingrid(int index) const;
+  ::msgTest::Player* add_playerlistingrid();
+  const ::google::protobuf::RepeatedPtrField<::msgTest::Player>& playerlistingrid() const;
   // string errorMessage = 2;
   void clear_errormessage() ;
   const std::string& errormessage() const;
@@ -5569,7 +5568,7 @@ class SC_Enter_Room_Response final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      2, 3, 1,
+      2, 4, 2,
       51, 2>
       _table_;
 
@@ -5589,6 +5588,7 @@ class SC_Enter_Room_Response final : public ::google::protobuf::Message
                           const SC_Enter_Room_Response& from_msg);
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
+    ::google::protobuf::RepeatedPtrField< ::msgTest::Player > playerlistingrid_;
     ::google::protobuf::internal::ArenaStringPtr errormessage_;
     ::msgTest::Room* room_;
     bool success_;
@@ -6792,55 +6792,6 @@ inline void Room::set_allocated_hostplayer(::msgTest::Player* value) {
   // @@protoc_insertion_point(field_set_allocated:msgTest.Room.hostPlayer)
 }
 
-// repeated .msgTest.Player playerList = 6;
-inline int Room::_internal_playerlist_size() const {
-  return _internal_playerlist().size();
-}
-inline int Room::playerlist_size() const {
-  return _internal_playerlist_size();
-}
-inline void Room::clear_playerlist() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.playerlist_.Clear();
-}
-inline ::msgTest::Player* Room::mutable_playerlist(int index)
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_mutable:msgTest.Room.playerList)
-  return _internal_mutable_playerlist()->Mutable(index);
-}
-inline ::google::protobuf::RepeatedPtrField<::msgTest::Player>* Room::mutable_playerlist()
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_mutable_list:msgTest.Room.playerList)
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  return _internal_mutable_playerlist();
-}
-inline const ::msgTest::Player& Room::playerlist(int index) const
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:msgTest.Room.playerList)
-  return _internal_playerlist().Get(index);
-}
-inline ::msgTest::Player* Room::add_playerlist() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  ::msgTest::Player* _add = _internal_mutable_playerlist()->Add();
-  // @@protoc_insertion_point(field_add:msgTest.Room.playerList)
-  return _add;
-}
-inline const ::google::protobuf::RepeatedPtrField<::msgTest::Player>& Room::playerlist() const
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_list:msgTest.Room.playerList)
-  return _internal_playerlist();
-}
-inline const ::google::protobuf::RepeatedPtrField<::msgTest::Player>&
-Room::_internal_playerlist() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.playerlist_;
-}
-inline ::google::protobuf::RepeatedPtrField<::msgTest::Player>*
-Room::_internal_mutable_playerlist() {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return &_impl_.playerlist_;
-}
-
 // -------------------------------------------------------------------
 
 // CS_Ping
@@ -7837,6 +7788,55 @@ inline void SC_Enter_Room_Response::set_allocated_room(::msgTest::Room* value) {
 
   _impl_.room_ = reinterpret_cast<::msgTest::Room*>(value);
   // @@protoc_insertion_point(field_set_allocated:msgTest.SC_Enter_Room_Response.room)
+}
+
+// repeated .msgTest.Player playerListInGrid = 4;
+inline int SC_Enter_Room_Response::_internal_playerlistingrid_size() const {
+  return _internal_playerlistingrid().size();
+}
+inline int SC_Enter_Room_Response::playerlistingrid_size() const {
+  return _internal_playerlistingrid_size();
+}
+inline void SC_Enter_Room_Response::clear_playerlistingrid() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.playerlistingrid_.Clear();
+}
+inline ::msgTest::Player* SC_Enter_Room_Response::mutable_playerlistingrid(int index)
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable:msgTest.SC_Enter_Room_Response.playerListInGrid)
+  return _internal_mutable_playerlistingrid()->Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField<::msgTest::Player>* SC_Enter_Room_Response::mutable_playerlistingrid()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable_list:msgTest.SC_Enter_Room_Response.playerListInGrid)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _internal_mutable_playerlistingrid();
+}
+inline const ::msgTest::Player& SC_Enter_Room_Response::playerlistingrid(int index) const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:msgTest.SC_Enter_Room_Response.playerListInGrid)
+  return _internal_playerlistingrid().Get(index);
+}
+inline ::msgTest::Player* SC_Enter_Room_Response::add_playerlistingrid() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::msgTest::Player* _add = _internal_mutable_playerlistingrid()->Add();
+  // @@protoc_insertion_point(field_add:msgTest.SC_Enter_Room_Response.playerListInGrid)
+  return _add;
+}
+inline const ::google::protobuf::RepeatedPtrField<::msgTest::Player>& SC_Enter_Room_Response::playerlistingrid() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_list:msgTest.SC_Enter_Room_Response.playerListInGrid)
+  return _internal_playerlistingrid();
+}
+inline const ::google::protobuf::RepeatedPtrField<::msgTest::Player>&
+SC_Enter_Room_Response::_internal_playerlistingrid() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.playerlistingrid_;
+}
+inline ::google::protobuf::RepeatedPtrField<::msgTest::Player>*
+SC_Enter_Room_Response::_internal_mutable_playerlistingrid() {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return &_impl_.playerlistingrid_;
 }
 
 // -------------------------------------------------------------------
