@@ -105,6 +105,13 @@ void Room::PushJobEnterPlayer(const RoomPlayerData& enterPlayerData, function<vo
 		enterRoomResult._enterPlayerInfo = enterPlayerData;
 		enterRoomResult._enterSessionId = enterPlayerData._sessionId;
 
+		const vector<uint64>& nearPlayerList = self->_gridManager->GetNearByPlayers(enterPlayerData._sessionId);
+		for (uint64 nearPlayerId : nearPlayerList) {
+
+			const RoomPlayerData& roomPlayerData = self->GetRoomPlayerData(nearPlayerId);
+			enterRoomResult._playerListInGrid.push_back(roomPlayerData);
+		}
+
 		callback(enterRoomResult);
 	});
 
@@ -324,6 +331,11 @@ void Room::MovePlayer(uint64 sessionId, const RoomPlayerData& roomPlayerData) {
 RoomInfo Room::GetRoomInfo() {
 
 	return _roomInfo;
+}
+
+RoomPlayerData Room::GetRoomPlayerData(uint64 sessionId){
+
+	return _players[sessionId];
 }
 
 vector<RoomPlayerData> Room::GetRoomPlayerList() {
@@ -593,7 +605,7 @@ void RoomManager::MovePlayer(int32 roomId, const RoomPlayerData& roomPlayerData)
 	room->PushJobMovePlayer(roomPlayerData._sessionId, roomPlayerData);
 }
 
-void RoomManager::EnterRoomResult(RoomResult::EnterRoomResult enterRoomResult){
+void RoomManager::EnterRoomResult(const RoomResult::EnterRoomResult& enterRoomResult){
 
 	msgTest::SC_Enter_Room_Response sendPacketEnterRoomResponse;
 	msgTest::Room* room = sendPacketEnterRoomResponse.mutable_room();
@@ -606,6 +618,17 @@ void RoomManager::EnterRoomResult(RoomResult::EnterRoomResult enterRoomResult){
 	room->set_playercount(enterRoomResult._roomInfo._curPlayerCount);
 	room->set_hostname(boost::locale::conv::utf_to_utf<char>(enterRoomResult._roomInfo._hostPlayerName));
 	// 그리드 내부 플레이어 정보 추가 
+	for (const RoomPlayerData& playerData : enterRoomResult._playerListInGrid) {
+		
+		msgTest::Player* player = sendPacketEnterRoomResponse.add_playerlistingrid();
+		msgTest::Vector* position = player->mutable_position();
+
+		player->set_name(boost::locale::conv::utf_to_utf<char>(playerData._gameState._name));
+		player->set_level(playerData._gameState._level);
+		position->set_x(playerData._gameState._position._x);
+		position->set_y(playerData._gameState._position._y);
+		position->set_z(playerData._gameState._position._z);
+	}
 
 	vector<shared_ptr<Buffer>> sendBuffer = PacketHandler::MakeSendBuffer(sendPacketEnterRoomResponse, PacketId::PKT_SC_ENTER_ROOM_RESPONSE);
 

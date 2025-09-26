@@ -17,5 +17,6 @@ namespace RoomResult {
 		RoomInfo _roomInfo;
 		RoomPlayerData _enterPlayerInfo;
 		int32 _enterSessionId;
+		vector<RoomPlayerData> _playerListInGrid;
 	};
 }

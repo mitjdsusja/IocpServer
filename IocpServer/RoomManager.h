@@ -41,6 +41,7 @@ public:
 	void MovePlayer(uint64 sessionId, const RoomPlayerData& roomPlayerData);
 
 	RoomInfo GetRoomInfo();
+	RoomPlayerData GetRoomPlayerData(uint64 sessionId);
 	vector<RoomPlayerData> GetRoomPlayerList();
 
 private:
@@ -85,7 +86,7 @@ public:
 	void LeaveRoom(int32 roomid, uint64 sessionId);
 	void MovePlayer(int32 roomId, const RoomPlayerData& roomPlayerData);
 
-	void EnterRoomResult(const RoomResult::EnterRoomResult enterRoomResult);
+	void EnterRoomResult(const RoomResult::EnterRoomResult& enterRoomResult);
 
 private:
 	static shared_ptr<Room> MakeRoomPtr(const InitRoomInfo& initRoomInfo, const RoomPlayerData& hostPlayerData);

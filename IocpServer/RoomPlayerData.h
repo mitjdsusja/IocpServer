@@ -9,6 +9,8 @@ struct GameStateData {
 	Vector<int16> _rotation;
 	uint64 _moveTimeStamp;
 	bool _updatePosition;
+
+	int32 _level;
 };
 struct RoomPlayerData {
 	uint64 _sessionId;
