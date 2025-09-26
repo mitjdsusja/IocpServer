@@ -118,6 +118,17 @@ void Room::PushJobEnterPlayer(const RoomPlayerData& enterPlayerData, function<vo
 	PushJob(move(job));
 }
 
+void Room::PushJobEnterRoomComplete(uint64 sessionId){
+
+	shared_ptr<Room> self = static_pointer_cast<Room>(shared_from_this());
+
+	unique_ptr<Job> job = make_unique<Job>([self, sessionId]() {
+		self->EnterRoomComplete(sessionId);
+	});
+
+	PushJob(move(job));
+}
+
 void Room::PushJobLeavePlayer(uint64 leavePlayerSessionId){
 
 	shared_ptr<Room> self = static_pointer_cast<Room>(shared_from_this());
@@ -308,6 +319,20 @@ bool Room::EnterPlayer(const RoomPlayerData& playerData) {
 	return true;
 }
 
+void Room::EnterRoomComplete(uint64 sessionId){
+
+	const auto& roomPlayerDataIter = _players.find(sessionId);
+	if (roomPlayerDataIter == _players.end()) {
+
+		spdlog::info("[Room::EnterRoomComplete] INVALID SESSION ID : " + to_string(sessionId));
+		return;
+	}
+
+	auto& roomPlayerData = roomPlayerDataIter->second;
+
+	roomPlayerData.enterRoomComplete = true;
+}
+
 void Room::LeavePlayer(uint64 sessionId) {
 
 	_players.erase(sessionId);
@@ -401,6 +426,17 @@ void RoomManager::PushJobEnterRoom(int32 roomId, const RoomPlayerData& enterPlay
 
 	unique_ptr<Job> job = make_unique<Job>([self, roomId, enterPlayerData]() {
 		self->EnterRoom(roomId, enterPlayerData);
+	});
+
+	PushJob(move(job));
+}
+
+void RoomManager::PushJobEnterRoomComplete(uint64 sessionId){
+
+	shared_ptr<RoomManager> self = static_pointer_cast<RoomManager>(shared_from_this());
+
+	unique_ptr<Job> job = make_unique<Job>([self, sessionId]() {
+		self->EnterRoomComplete(sessionId);
 	});
 
 	PushJob(move(job));
@@ -507,6 +543,25 @@ void RoomManager::PushJobEnterRoomResult(RoomResult::EnterRoomResult enterRoomRe
 	});
 
 	this->PushJob(move(job));
+}
+
+void RoomManager::EnterRoomComplete(uint64 sessionId){
+
+	const auto& roomIdIter = _sessionToRoomMap.find(sessionId);
+	if (roomIdIter == _sessionToRoomMap.end()) {
+
+		spdlog::info("[RoomManager::EnterRoomComplete] INVALID SESSION ID : " + to_string(sessionId));
+		return;
+	}
+
+	const auto& roomIter =  _rooms.find(roomIdIter->second);
+	if (roomIter == _rooms.end()) {
+
+		spdlog::info("[RoomManager::EnterRoomComplete] INVALID ROOM ID : " + to_string(roomIdIter->second));
+		return;
+	}
+
+	roomIter->second->PushJobEnterRoomComplete(sessionId);
 }
 
 void RoomManager::BroadcastToRoom(int32 roomId, shared_ptr<Buffer> sendBuffer){

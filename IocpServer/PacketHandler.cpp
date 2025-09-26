@@ -331,6 +331,11 @@ void PacketHandler::Handle_CS_Player_Move_Request(shared_ptr<GameSession> sessio
 	GRoomManager->PushJobMovePlayer(moveState.roomid(), roomPlayerData);
 }
 
+void PacketHandler::Handle_CS_Enter_Room_Complete(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service){
+
+	GRoomManager->PushJobEnterRoomComplete(session->GetSessionId());
+}
+
 void PacketHandler::Handle_CS_Skill_Use(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service){
 
 	msgTest::CS_Skill_Use recvPacketSkillUse;

@@ -19,6 +19,7 @@ public:
 	void PushJobRegisterBroadcastPlayerInGrid();
 
 	void PushJobEnterPlayer(const RoomPlayerData& initialPlayerData, function<void(const RoomResult::EnterRoomResult&)> callback);
+	void PushJobEnterRoomComplete(uint64 sessionId);
 	void PushJobLeavePlayer(uint64 leavePlayerSessionId);
 	void PushJobMovePlayer(uint64 movePlayerSessionId, const RoomPlayerData& roomPlayerData);
 
@@ -37,6 +38,7 @@ public:
 	void BroadcastPlayerInGrid();
 
 	bool EnterPlayer(const RoomPlayerData& initialPlayerData);
+	void EnterRoomComplete(uint64 sessionId);
 	void LeavePlayer(uint64 sessionId);
 	void MovePlayer(uint64 sessionId, const RoomPlayerData& roomPlayerData);
 
@@ -66,6 +68,7 @@ public:
 
 	void PushJobCreateAndPushRoom(const InitRoomInfo& initRoomInfo, const RoomPlayerData& hostPlayerData);
 	void PushJobEnterRoom(int32 roomid, const RoomPlayerData& enterPlayerData);
+	void PushJobEnterRoomComplete(uint64 sessionId);
 	void PushJobLeaveRoom(int32 roomId, uint64 sessionId);
 	void PushJobRemoveRoom(int32 roomId);
 	void PushJobMovePlayer(int32 roomId, const RoomPlayerData& roomPlayerData);
@@ -82,6 +85,7 @@ public:
 public:
 	int32 CreateAndPushRoom(const InitRoomInfo& initRoomInfo, const RoomPlayerData& hostPlayerData);
 	bool EnterRoom(int32 roomId, const RoomPlayerData& enterPlayerData);
+	void EnterRoomComplete(uint64 sessionId);
 	void RemoveRoom(int32 roomId);
 	void LeaveRoom(int32 roomid, uint64 sessionId);
 	void MovePlayer(int32 roomId, const RoomPlayerData& roomPlayerData);

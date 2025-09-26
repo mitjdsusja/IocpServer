@@ -14,5 +14,6 @@ struct GameStateData {
 };
 struct RoomPlayerData {
 	uint64 _sessionId;
+	bool enterRoomComplete = false;
 	GameStateData _gameState;
 };

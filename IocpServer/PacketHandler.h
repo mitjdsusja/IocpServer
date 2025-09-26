@@ -24,6 +24,7 @@ enum PacketId {
 	PKT_CS_ENTER_ROOM_REQUEST = 1201,
 	PKT_CS_CREATE_ROOM_REQUEST = 1202,
 	PKT_CS_PLAYER_MOVE_REQUEST = 1203,
+	PKT_CS_ENTER_ROOM_COMPLETE = 1204,
 
 	PKT_CS_SKILL_USE = 1300,
 
@@ -79,6 +80,7 @@ private:
 	static void Handle_CS_Create_Room_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
 	static void Handle_CS_Enter_Room_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
 	static void Handle_CS_Player_Move_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_CS_Enter_Room_Complete(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
 	static void Handle_CS_Skill_Use(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
 
 	/*------------
