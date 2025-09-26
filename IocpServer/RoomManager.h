@@ -2,7 +2,7 @@
 #include "Vector.h"
 #include "Actor.h"
 #include "RoomInfo.h"
-#include "RoomManagerResult.h"
+#include "RoomResult.h"
 #include "RoomPlayerData.h"
 
 class GridManager;
@@ -18,7 +18,7 @@ public:
 	void PushJobRegisterBroadcastPosition();
 	void PushJobRegisterBroadcastPlayerInGrid();
 
-	void PushJobEnterPlayer(const RoomPlayerData& initialPlayerData);
+	void PushJobEnterPlayer(const RoomPlayerData& initialPlayerData, function<void(const RoomResult::EnterRoomResult&)> callback);
 	void PushJobLeavePlayer(uint64 leavePlayerSessionId);
 	void PushJobMovePlayer(uint64 movePlayerSessionId, const RoomPlayerData& roomPlayerData);
 
@@ -74,7 +74,7 @@ public:
 	void PushJobGetRoomPlayerList(int32 roomId, function<void(vector<RoomPlayerData>)> func);
 
 	// Result
-	void PushJobEnterRoomResult(const RoomManagerResult::EnterRoomResult enterRoomResult);
+	void PushJobEnterRoomResult(const RoomResult::EnterRoomResult enterRoomResult);
 
 	void BroadcastToRoom(int32 roomId, shared_ptr<Buffer> sendBuffer);
 
@@ -85,7 +85,7 @@ public:
 	void LeaveRoom(int32 roomid, uint64 sessionId);
 	void MovePlayer(int32 roomId, const RoomPlayerData& roomPlayerData);
 
-	void EnterRoomResult(const RoomManagerResult::EnterRoomResult enterRoomResult);
+	void EnterRoomResult(const RoomResult::EnterRoomResult enterRoomResult);
 
 private:
 	static shared_ptr<Room> MakeRoomPtr(const InitRoomInfo& initRoomInfo, const RoomPlayerData& hostPlayerData);

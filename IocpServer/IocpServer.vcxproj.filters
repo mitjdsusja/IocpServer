@@ -63,7 +63,7 @@
     <ClInclude Include="TimedJob.h">
       <Filter>Job</Filter>
     </ClInclude>
-    <ClInclude Include="RoomManagerResult.h">
+    <ClInclude Include="RoomResult.h">
       <Filter>Content</Filter>
     </ClInclude>
     <ClInclude Include="RoomInfo.h">

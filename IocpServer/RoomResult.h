@@ -3,7 +3,7 @@
 #include "RoomInfo.h"
 #include "RoomPlayerData.h"
 
-namespace RoomManagerResult {
+namespace RoomResult {
 
 	struct EnterRoomResult {
 

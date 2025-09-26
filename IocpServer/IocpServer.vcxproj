@@ -192,7 +192,7 @@
     <ClInclude Include="RoomPlayerData.h" />
     <ClInclude Include="TimedJob.h" />
     <ClInclude Include="Vector.h" />
-    <ClInclude Include="RoomManagerResult.h" />
+    <ClInclude Include="RoomResult.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />

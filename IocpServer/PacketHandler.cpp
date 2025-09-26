@@ -192,7 +192,6 @@ void PacketHandler::Handle_CS_Room_List_Request(shared_ptr<GameSession> session,
 			room->set_roomname(roomName);
 			room->set_maxplayercount(roomInfo._initRoomInfo._maxPlayerCount);
 			room->set_playercount(roomInfo._curPlayerCount);
-			room->set_hostplayername(hostPlayerName);
 		}
 
 		vector<shared_ptr<Buffer>> sendBuffer = PacketHandler::MakeSendBuffer(roomListResponsePacket, PacketId::PKT_SC_ROOM_LIST_RESPONSE);
