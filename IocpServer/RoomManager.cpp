@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "RoomManager.h"
 
 #include "GameSession.h"
@@ -260,6 +260,11 @@ void Room::BroadcastPlayerMovement() {
 
 		auto& playerData = p.second;
 
+		// ì¤€ë¹„ì•ˆëœ ìœ ì € ê±´ë„ˆë›°ê¸°
+		if (playerData._enterRoomComplete == false) {
+			continue;
+		}
+
 		vector<uint64> nearPlayerSessionIdList = _gridManager->GetNearByPlayers(p.first);
 
 		msgTest::SC_Player_Move_Notification sendPlayerMoveNotificationPacket;
@@ -330,7 +335,7 @@ void Room::EnterRoomComplete(uint64 sessionId){
 
 	auto& roomPlayerData = roomPlayerDataIter->second;
 
-	roomPlayerData.enterRoomComplete = true;
+	roomPlayerData._enterRoomComplete = true;
 }
 
 void Room::LeavePlayer(uint64 sessionId) {
@@ -672,7 +677,7 @@ void RoomManager::EnterRoomResult(const RoomResult::EnterRoomResult& enterRoomRe
 	room->set_maxplayercount(enterRoomResult._roomInfo._initRoomInfo._maxPlayerCount);
 	room->set_playercount(enterRoomResult._roomInfo._curPlayerCount);
 	room->set_hostname(boost::locale::conv::utf_to_utf<char>(enterRoomResult._roomInfo._hostPlayerName));
-	// ±×¸®µå ³»ºÎ ÇÃ·¹ÀÌ¾î Á¤º¸ Ãß°¡ 
+	// ê·¸ë¦¬ë“œ ë‚´ë¶€ í”Œë ˆì´ì–´ ì •ë³´ ì¶”ê°€ 
 	for (const RoomPlayerData& playerData : enterRoomResult._playerListInGrid) {
 		
 		msgTest::Player* player = sendPacketEnterRoomResponse.add_playerlistingrid();
