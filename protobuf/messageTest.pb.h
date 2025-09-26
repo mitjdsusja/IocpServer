@@ -1050,6 +1050,256 @@ class SC_Login_Response final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
+class Room final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:msgTest.Room) */ {
+ public:
+  inline Room() : Room(nullptr) {}
+  ~Room() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(Room* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(Room));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR Room(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline Room(const Room& from) : Room(nullptr, from) {}
+  inline Room(Room&& from) noexcept
+      : Room(nullptr, std::move(from)) {}
+  inline Room& operator=(const Room& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline Room& operator=(Room&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const Room& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const Room* internal_default_instance() {
+    return reinterpret_cast<const Room*>(
+        &_Room_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 4;
+  friend void swap(Room& a, Room& b) { a.Swap(&b); }
+  inline void Swap(Room* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(Room* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  Room* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<Room>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const Room& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const Room& from) { Room::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(Room* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "msgTest.Room"; }
+
+ protected:
+  explicit Room(::google::protobuf::Arena* arena);
+  Room(::google::protobuf::Arena* arena, const Room& from);
+  Room(::google::protobuf::Arena* arena, Room&& from) noexcept
+      : Room(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kRoomNameFieldNumber = 2,
+    kHostNameFieldNumber = 5,
+    kRoomIdFieldNumber = 1,
+    kMaxPlayerCountFieldNumber = 3,
+    kPlayerCountFieldNumber = 4,
+  };
+  // string roomName = 2;
+  void clear_roomname() ;
+  const std::string& roomname() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_roomname(Arg_&& arg, Args_... args);
+  std::string* mutable_roomname();
+  PROTOBUF_NODISCARD std::string* release_roomname();
+  void set_allocated_roomname(std::string* value);
+
+  private:
+  const std::string& _internal_roomname() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_roomname(
+      const std::string& value);
+  std::string* _internal_mutable_roomname();
+
+  public:
+  // string hostName = 5;
+  void clear_hostname() ;
+  const std::string& hostname() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_hostname(Arg_&& arg, Args_... args);
+  std::string* mutable_hostname();
+  PROTOBUF_NODISCARD std::string* release_hostname();
+  void set_allocated_hostname(std::string* value);
+
+  private:
+  const std::string& _internal_hostname() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_hostname(
+      const std::string& value);
+  std::string* _internal_mutable_hostname();
+
+  public:
+  // int32 roomId = 1;
+  void clear_roomid() ;
+  ::int32_t roomid() const;
+  void set_roomid(::int32_t value);
+
+  private:
+  ::int32_t _internal_roomid() const;
+  void _internal_set_roomid(::int32_t value);
+
+  public:
+  // int32 maxPlayerCount = 3;
+  void clear_maxplayercount() ;
+  ::int32_t maxplayercount() const;
+  void set_maxplayercount(::int32_t value);
+
+  private:
+  ::int32_t _internal_maxplayercount() const;
+  void _internal_set_maxplayercount(::int32_t value);
+
+  public:
+  // int32 playerCount = 4;
+  void clear_playercount() ;
+  ::int32_t playercount() const;
+  void set_playercount(::int32_t value);
+
+  private:
+  ::int32_t _internal_playercount() const;
+  void _internal_set_playercount(::int32_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:msgTest.Room)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      3, 5, 0,
+      37, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const Room& from_msg);
+    ::google::protobuf::internal::ArenaStringPtr roomname_;
+    ::google::protobuf::internal::ArenaStringPtr hostname_;
+    ::int32_t roomid_;
+    ::int32_t maxplayercount_;
+    ::int32_t playercount_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_messageTest_2eproto;
+};
+// -------------------------------------------------------------------
+
 class PacketFrame final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:msgTest.PacketFrame) */ {
  public:
@@ -3178,6 +3428,429 @@ class SC_Skill_Cast final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
+class SC_Room_List_Response final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:msgTest.SC_Room_List_Response) */ {
+ public:
+  inline SC_Room_List_Response() : SC_Room_List_Response(nullptr) {}
+  ~SC_Room_List_Response() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(SC_Room_List_Response* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(SC_Room_List_Response));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR SC_Room_List_Response(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline SC_Room_List_Response(const SC_Room_List_Response& from) : SC_Room_List_Response(nullptr, from) {}
+  inline SC_Room_List_Response(SC_Room_List_Response&& from) noexcept
+      : SC_Room_List_Response(nullptr, std::move(from)) {}
+  inline SC_Room_List_Response& operator=(const SC_Room_List_Response& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SC_Room_List_Response& operator=(SC_Room_List_Response&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const SC_Room_List_Response& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const SC_Room_List_Response* internal_default_instance() {
+    return reinterpret_cast<const SC_Room_List_Response*>(
+        &_SC_Room_List_Response_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 16;
+  friend void swap(SC_Room_List_Response& a, SC_Room_List_Response& b) { a.Swap(&b); }
+  inline void Swap(SC_Room_List_Response* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(SC_Room_List_Response* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  SC_Room_List_Response* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<SC_Room_List_Response>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const SC_Room_List_Response& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const SC_Room_List_Response& from) { SC_Room_List_Response::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(SC_Room_List_Response* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "msgTest.SC_Room_List_Response"; }
+
+ protected:
+  explicit SC_Room_List_Response(::google::protobuf::Arena* arena);
+  SC_Room_List_Response(::google::protobuf::Arena* arena, const SC_Room_List_Response& from);
+  SC_Room_List_Response(::google::protobuf::Arena* arena, SC_Room_List_Response&& from) noexcept
+      : SC_Room_List_Response(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kRoomListFieldNumber = 1,
+  };
+  // repeated .msgTest.Room roomList = 1;
+  int roomlist_size() const;
+  private:
+  int _internal_roomlist_size() const;
+
+  public:
+  void clear_roomlist() ;
+  ::msgTest::Room* mutable_roomlist(int index);
+  ::google::protobuf::RepeatedPtrField<::msgTest::Room>* mutable_roomlist();
+
+  private:
+  const ::google::protobuf::RepeatedPtrField<::msgTest::Room>& _internal_roomlist() const;
+  ::google::protobuf::RepeatedPtrField<::msgTest::Room>* _internal_mutable_roomlist();
+  public:
+  const ::msgTest::Room& roomlist(int index) const;
+  ::msgTest::Room* add_roomlist();
+  const ::google::protobuf::RepeatedPtrField<::msgTest::Room>& roomlist() const;
+  // @@protoc_insertion_point(class_scope:msgTest.SC_Room_List_Response)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 1, 1,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const SC_Room_List_Response& from_msg);
+    ::google::protobuf::RepeatedPtrField< ::msgTest::Room > roomlist_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_messageTest_2eproto;
+};
+// -------------------------------------------------------------------
+
+class SC_Create_Room_Response final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:msgTest.SC_Create_Room_Response) */ {
+ public:
+  inline SC_Create_Room_Response() : SC_Create_Room_Response(nullptr) {}
+  ~SC_Create_Room_Response() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(SC_Create_Room_Response* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(SC_Create_Room_Response));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR SC_Create_Room_Response(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline SC_Create_Room_Response(const SC_Create_Room_Response& from) : SC_Create_Room_Response(nullptr, from) {}
+  inline SC_Create_Room_Response(SC_Create_Room_Response&& from) noexcept
+      : SC_Create_Room_Response(nullptr, std::move(from)) {}
+  inline SC_Create_Room_Response& operator=(const SC_Create_Room_Response& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SC_Create_Room_Response& operator=(SC_Create_Room_Response&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const SC_Create_Room_Response& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const SC_Create_Room_Response* internal_default_instance() {
+    return reinterpret_cast<const SC_Create_Room_Response*>(
+        &_SC_Create_Room_Response_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 14;
+  friend void swap(SC_Create_Room_Response& a, SC_Create_Room_Response& b) { a.Swap(&b); }
+  inline void Swap(SC_Create_Room_Response* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(SC_Create_Room_Response* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  SC_Create_Room_Response* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<SC_Create_Room_Response>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const SC_Create_Room_Response& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const SC_Create_Room_Response& from) { SC_Create_Room_Response::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(SC_Create_Room_Response* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "msgTest.SC_Create_Room_Response"; }
+
+ protected:
+  explicit SC_Create_Room_Response(::google::protobuf::Arena* arena);
+  SC_Create_Room_Response(::google::protobuf::Arena* arena, const SC_Create_Room_Response& from);
+  SC_Create_Room_Response(::google::protobuf::Arena* arena, SC_Create_Room_Response&& from) noexcept
+      : SC_Create_Room_Response(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kErrorMessageFieldNumber = 2,
+    kRoomFieldNumber = 3,
+    kSuccessFieldNumber = 1,
+  };
+  // string errorMessage = 2;
+  void clear_errormessage() ;
+  const std::string& errormessage() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_errormessage(Arg_&& arg, Args_... args);
+  std::string* mutable_errormessage();
+  PROTOBUF_NODISCARD std::string* release_errormessage();
+  void set_allocated_errormessage(std::string* value);
+
+  private:
+  const std::string& _internal_errormessage() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_errormessage(
+      const std::string& value);
+  std::string* _internal_mutable_errormessage();
+
+  public:
+  // .msgTest.Room room = 3;
+  bool has_room() const;
+  void clear_room() ;
+  const ::msgTest::Room& room() const;
+  PROTOBUF_NODISCARD ::msgTest::Room* release_room();
+  ::msgTest::Room* mutable_room();
+  void set_allocated_room(::msgTest::Room* value);
+  void unsafe_arena_set_allocated_room(::msgTest::Room* value);
+  ::msgTest::Room* unsafe_arena_release_room();
+
+  private:
+  const ::msgTest::Room& _internal_room() const;
+  ::msgTest::Room* _internal_mutable_room();
+
+  public:
+  // bool success = 1;
+  void clear_success() ;
+  bool success() const;
+  void set_success(bool value);
+
+  private:
+  bool _internal_success() const;
+  void _internal_set_success(bool value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:msgTest.SC_Create_Room_Response)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      2, 3, 1,
+      52, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const SC_Create_Room_Response& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    ::google::protobuf::internal::ArenaStringPtr errormessage_;
+    ::msgTest::Room* room_;
+    bool success_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_messageTest_2eproto;
+};
+// -------------------------------------------------------------------
+
 class Player final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:msgTest.Player) */ {
  public:
@@ -4711,649 +5384,6 @@ class SC_My_Player_Info_Response final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
-class Room final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:msgTest.Room) */ {
- public:
-  inline Room() : Room(nullptr) {}
-  ~Room() PROTOBUF_FINAL;
-
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-  void operator delete(Room* msg, std::destroying_delete_t) {
-    SharedDtor(*msg);
-    ::google::protobuf::internal::SizedDelete(msg, sizeof(Room));
-  }
-#endif
-
-  template <typename = void>
-  explicit PROTOBUF_CONSTEXPR Room(
-      ::google::protobuf::internal::ConstantInitialized);
-
-  inline Room(const Room& from) : Room(nullptr, from) {}
-  inline Room(Room&& from) noexcept
-      : Room(nullptr, std::move(from)) {}
-  inline Room& operator=(const Room& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline Room& operator=(Room&& from) noexcept {
-    if (this == &from) return *this;
-    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::google::protobuf::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::google::protobuf::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const Room& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const Room* internal_default_instance() {
-    return reinterpret_cast<const Room*>(
-        &_Room_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages = 4;
-  friend void swap(Room& a, Room& b) { a.Swap(&b); }
-  inline void Swap(Room* other) {
-    if (other == this) return;
-    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
-      InternalSwap(other);
-    } else {
-      ::google::protobuf::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(Room* other) {
-    if (other == this) return;
-    ABSL_DCHECK(GetArena() == other->GetArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  Room* New(::google::protobuf::Arena* arena = nullptr) const {
-    return ::google::protobuf::Message::DefaultConstruct<Room>(arena);
-  }
-  using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const Room& from);
-  using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const Room& from) { Room::MergeImpl(*this, from); }
-
-  private:
-  static void MergeImpl(
-      ::google::protobuf::MessageLite& to_msg,
-      const ::google::protobuf::MessageLite& from_msg);
-
-  public:
-  bool IsInitialized() const {
-    return true;
-  }
-  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
-  #if defined(PROTOBUF_CUSTOM_VTABLE)
-  private:
-  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
-  static ::uint8_t* _InternalSerialize(
-      const MessageLite& msg, ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream);
-
-  public:
-  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
-    return _InternalSerialize(*this, target, stream);
-  }
-  #else   // PROTOBUF_CUSTOM_VTABLE
-  ::size_t ByteSizeLong() const final;
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
-  #endif  // PROTOBUF_CUSTOM_VTABLE
-  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::google::protobuf::Arena* arena);
-  static void SharedDtor(MessageLite& self);
-  void InternalSwap(Room* other);
- private:
-  template <typename T>
-  friend ::absl::string_view(
-      ::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "msgTest.Room"; }
-
- protected:
-  explicit Room(::google::protobuf::Arena* arena);
-  Room(::google::protobuf::Arena* arena, const Room& from);
-  Room(::google::protobuf::Arena* arena, Room&& from) noexcept
-      : Room(arena) {
-    *this = ::std::move(from);
-  }
-  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
-  static void* PlacementNew_(const void*, void* mem,
-                             ::google::protobuf::Arena* arena);
-  static constexpr auto InternalNewImpl_();
-  static const ::google::protobuf::internal::ClassDataFull _class_data_;
-
- public:
-  ::google::protobuf::Metadata GetMetadata() const;
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-  enum : int {
-    kRoomNameFieldNumber = 2,
-    kHostPlayerFieldNumber = 5,
-    kRoomIdFieldNumber = 1,
-    kMaxPlayerCountFieldNumber = 3,
-    kPlayerCountFieldNumber = 4,
-  };
-  // string roomName = 2;
-  void clear_roomname() ;
-  const std::string& roomname() const;
-  template <typename Arg_ = const std::string&, typename... Args_>
-  void set_roomname(Arg_&& arg, Args_... args);
-  std::string* mutable_roomname();
-  PROTOBUF_NODISCARD std::string* release_roomname();
-  void set_allocated_roomname(std::string* value);
-
-  private:
-  const std::string& _internal_roomname() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_roomname(
-      const std::string& value);
-  std::string* _internal_mutable_roomname();
-
-  public:
-  // .msgTest.Player hostPlayer = 5;
-  bool has_hostplayer() const;
-  void clear_hostplayer() ;
-  const ::msgTest::Player& hostplayer() const;
-  PROTOBUF_NODISCARD ::msgTest::Player* release_hostplayer();
-  ::msgTest::Player* mutable_hostplayer();
-  void set_allocated_hostplayer(::msgTest::Player* value);
-  void unsafe_arena_set_allocated_hostplayer(::msgTest::Player* value);
-  ::msgTest::Player* unsafe_arena_release_hostplayer();
-
-  private:
-  const ::msgTest::Player& _internal_hostplayer() const;
-  ::msgTest::Player* _internal_mutable_hostplayer();
-
-  public:
-  // int32 roomId = 1;
-  void clear_roomid() ;
-  ::int32_t roomid() const;
-  void set_roomid(::int32_t value);
-
-  private:
-  ::int32_t _internal_roomid() const;
-  void _internal_set_roomid(::int32_t value);
-
-  public:
-  // int32 maxPlayerCount = 3;
-  void clear_maxplayercount() ;
-  ::int32_t maxplayercount() const;
-  void set_maxplayercount(::int32_t value);
-
-  private:
-  ::int32_t _internal_maxplayercount() const;
-  void _internal_set_maxplayercount(::int32_t value);
-
-  public:
-  // int32 playerCount = 4;
-  void clear_playercount() ;
-  ::int32_t playercount() const;
-  void set_playercount(::int32_t value);
-
-  private:
-  ::int32_t _internal_playercount() const;
-  void _internal_set_playercount(::int32_t value);
-
-  public:
-  // @@protoc_insertion_point(class_scope:msgTest.Room)
- private:
-  class _Internal;
-  friend class ::google::protobuf::internal::TcParser;
-  static const ::google::protobuf::internal::TcParseTable<
-      3, 5, 1,
-      29, 2>
-      _table_;
-
-  friend class ::google::protobuf::MessageLite;
-  friend class ::google::protobuf::Arena;
-  template <typename T>
-  friend class ::google::protobuf::Arena::InternalHelper;
-  using InternalArenaConstructable_ = void;
-  using DestructorSkippable_ = void;
-  struct Impl_ {
-    inline explicit constexpr Impl_(
-        ::google::protobuf::internal::ConstantInitialized) noexcept;
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena);
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena, const Impl_& from,
-                          const Room& from_msg);
-    ::google::protobuf::internal::HasBits<1> _has_bits_;
-    ::google::protobuf::internal::CachedSize _cached_size_;
-    ::google::protobuf::internal::ArenaStringPtr roomname_;
-    ::msgTest::Player* hostplayer_;
-    ::int32_t roomid_;
-    ::int32_t maxplayercount_;
-    ::int32_t playercount_;
-    PROTOBUF_TSAN_DECLARE_MEMBER
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_messageTest_2eproto;
-};
-// -------------------------------------------------------------------
-
-class CS_Player_Move_Request final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:msgTest.CS_Player_Move_Request) */ {
- public:
-  inline CS_Player_Move_Request() : CS_Player_Move_Request(nullptr) {}
-  ~CS_Player_Move_Request() PROTOBUF_FINAL;
-
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-  void operator delete(CS_Player_Move_Request* msg, std::destroying_delete_t) {
-    SharedDtor(*msg);
-    ::google::protobuf::internal::SizedDelete(msg, sizeof(CS_Player_Move_Request));
-  }
-#endif
-
-  template <typename = void>
-  explicit PROTOBUF_CONSTEXPR CS_Player_Move_Request(
-      ::google::protobuf::internal::ConstantInitialized);
-
-  inline CS_Player_Move_Request(const CS_Player_Move_Request& from) : CS_Player_Move_Request(nullptr, from) {}
-  inline CS_Player_Move_Request(CS_Player_Move_Request&& from) noexcept
-      : CS_Player_Move_Request(nullptr, std::move(from)) {}
-  inline CS_Player_Move_Request& operator=(const CS_Player_Move_Request& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline CS_Player_Move_Request& operator=(CS_Player_Move_Request&& from) noexcept {
-    if (this == &from) return *this;
-    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::google::protobuf::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::google::protobuf::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const CS_Player_Move_Request& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const CS_Player_Move_Request* internal_default_instance() {
-    return reinterpret_cast<const CS_Player_Move_Request*>(
-        &_CS_Player_Move_Request_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages = 20;
-  friend void swap(CS_Player_Move_Request& a, CS_Player_Move_Request& b) { a.Swap(&b); }
-  inline void Swap(CS_Player_Move_Request* other) {
-    if (other == this) return;
-    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
-      InternalSwap(other);
-    } else {
-      ::google::protobuf::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(CS_Player_Move_Request* other) {
-    if (other == this) return;
-    ABSL_DCHECK(GetArena() == other->GetArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  CS_Player_Move_Request* New(::google::protobuf::Arena* arena = nullptr) const {
-    return ::google::protobuf::Message::DefaultConstruct<CS_Player_Move_Request>(arena);
-  }
-  using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const CS_Player_Move_Request& from);
-  using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const CS_Player_Move_Request& from) { CS_Player_Move_Request::MergeImpl(*this, from); }
-
-  private:
-  static void MergeImpl(
-      ::google::protobuf::MessageLite& to_msg,
-      const ::google::protobuf::MessageLite& from_msg);
-
-  public:
-  bool IsInitialized() const {
-    return true;
-  }
-  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
-  #if defined(PROTOBUF_CUSTOM_VTABLE)
-  private:
-  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
-  static ::uint8_t* _InternalSerialize(
-      const MessageLite& msg, ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream);
-
-  public:
-  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
-    return _InternalSerialize(*this, target, stream);
-  }
-  #else   // PROTOBUF_CUSTOM_VTABLE
-  ::size_t ByteSizeLong() const final;
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
-  #endif  // PROTOBUF_CUSTOM_VTABLE
-  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::google::protobuf::Arena* arena);
-  static void SharedDtor(MessageLite& self);
-  void InternalSwap(CS_Player_Move_Request* other);
- private:
-  template <typename T>
-  friend ::absl::string_view(
-      ::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "msgTest.CS_Player_Move_Request"; }
-
- protected:
-  explicit CS_Player_Move_Request(::google::protobuf::Arena* arena);
-  CS_Player_Move_Request(::google::protobuf::Arena* arena, const CS_Player_Move_Request& from);
-  CS_Player_Move_Request(::google::protobuf::Arena* arena, CS_Player_Move_Request&& from) noexcept
-      : CS_Player_Move_Request(arena) {
-    *this = ::std::move(from);
-  }
-  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
-  static void* PlacementNew_(const void*, void* mem,
-                             ::google::protobuf::Arena* arena);
-  static constexpr auto InternalNewImpl_();
-  static const ::google::protobuf::internal::ClassDataFull _class_data_;
-
- public:
-  ::google::protobuf::Metadata GetMetadata() const;
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-  enum : int {
-    kMoveStateFieldNumber = 1,
-  };
-  // .msgTest.MoveState moveState = 1;
-  bool has_movestate() const;
-  void clear_movestate() ;
-  const ::msgTest::MoveState& movestate() const;
-  PROTOBUF_NODISCARD ::msgTest::MoveState* release_movestate();
-  ::msgTest::MoveState* mutable_movestate();
-  void set_allocated_movestate(::msgTest::MoveState* value);
-  void unsafe_arena_set_allocated_movestate(::msgTest::MoveState* value);
-  ::msgTest::MoveState* unsafe_arena_release_movestate();
-
-  private:
-  const ::msgTest::MoveState& _internal_movestate() const;
-  ::msgTest::MoveState* _internal_mutable_movestate();
-
-  public:
-  // @@protoc_insertion_point(class_scope:msgTest.CS_Player_Move_Request)
- private:
-  class _Internal;
-  friend class ::google::protobuf::internal::TcParser;
-  static const ::google::protobuf::internal::TcParseTable<
-      0, 1, 1,
-      0, 2>
-      _table_;
-
-  friend class ::google::protobuf::MessageLite;
-  friend class ::google::protobuf::Arena;
-  template <typename T>
-  friend class ::google::protobuf::Arena::InternalHelper;
-  using InternalArenaConstructable_ = void;
-  using DestructorSkippable_ = void;
-  struct Impl_ {
-    inline explicit constexpr Impl_(
-        ::google::protobuf::internal::ConstantInitialized) noexcept;
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena);
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena, const Impl_& from,
-                          const CS_Player_Move_Request& from_msg);
-    ::google::protobuf::internal::HasBits<1> _has_bits_;
-    ::google::protobuf::internal::CachedSize _cached_size_;
-    ::msgTest::MoveState* movestate_;
-    PROTOBUF_TSAN_DECLARE_MEMBER
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_messageTest_2eproto;
-};
-// -------------------------------------------------------------------
-
-class SC_Room_List_Response final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:msgTest.SC_Room_List_Response) */ {
- public:
-  inline SC_Room_List_Response() : SC_Room_List_Response(nullptr) {}
-  ~SC_Room_List_Response() PROTOBUF_FINAL;
-
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-  void operator delete(SC_Room_List_Response* msg, std::destroying_delete_t) {
-    SharedDtor(*msg);
-    ::google::protobuf::internal::SizedDelete(msg, sizeof(SC_Room_List_Response));
-  }
-#endif
-
-  template <typename = void>
-  explicit PROTOBUF_CONSTEXPR SC_Room_List_Response(
-      ::google::protobuf::internal::ConstantInitialized);
-
-  inline SC_Room_List_Response(const SC_Room_List_Response& from) : SC_Room_List_Response(nullptr, from) {}
-  inline SC_Room_List_Response(SC_Room_List_Response&& from) noexcept
-      : SC_Room_List_Response(nullptr, std::move(from)) {}
-  inline SC_Room_List_Response& operator=(const SC_Room_List_Response& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline SC_Room_List_Response& operator=(SC_Room_List_Response&& from) noexcept {
-    if (this == &from) return *this;
-    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::google::protobuf::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::google::protobuf::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const SC_Room_List_Response& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const SC_Room_List_Response* internal_default_instance() {
-    return reinterpret_cast<const SC_Room_List_Response*>(
-        &_SC_Room_List_Response_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages = 16;
-  friend void swap(SC_Room_List_Response& a, SC_Room_List_Response& b) { a.Swap(&b); }
-  inline void Swap(SC_Room_List_Response* other) {
-    if (other == this) return;
-    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
-      InternalSwap(other);
-    } else {
-      ::google::protobuf::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(SC_Room_List_Response* other) {
-    if (other == this) return;
-    ABSL_DCHECK(GetArena() == other->GetArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  SC_Room_List_Response* New(::google::protobuf::Arena* arena = nullptr) const {
-    return ::google::protobuf::Message::DefaultConstruct<SC_Room_List_Response>(arena);
-  }
-  using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const SC_Room_List_Response& from);
-  using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const SC_Room_List_Response& from) { SC_Room_List_Response::MergeImpl(*this, from); }
-
-  private:
-  static void MergeImpl(
-      ::google::protobuf::MessageLite& to_msg,
-      const ::google::protobuf::MessageLite& from_msg);
-
-  public:
-  bool IsInitialized() const {
-    return true;
-  }
-  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
-  #if defined(PROTOBUF_CUSTOM_VTABLE)
-  private:
-  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
-  static ::uint8_t* _InternalSerialize(
-      const MessageLite& msg, ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream);
-
-  public:
-  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
-    return _InternalSerialize(*this, target, stream);
-  }
-  #else   // PROTOBUF_CUSTOM_VTABLE
-  ::size_t ByteSizeLong() const final;
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
-  #endif  // PROTOBUF_CUSTOM_VTABLE
-  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::google::protobuf::Arena* arena);
-  static void SharedDtor(MessageLite& self);
-  void InternalSwap(SC_Room_List_Response* other);
- private:
-  template <typename T>
-  friend ::absl::string_view(
-      ::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "msgTest.SC_Room_List_Response"; }
-
- protected:
-  explicit SC_Room_List_Response(::google::protobuf::Arena* arena);
-  SC_Room_List_Response(::google::protobuf::Arena* arena, const SC_Room_List_Response& from);
-  SC_Room_List_Response(::google::protobuf::Arena* arena, SC_Room_List_Response&& from) noexcept
-      : SC_Room_List_Response(arena) {
-    *this = ::std::move(from);
-  }
-  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
-  static void* PlacementNew_(const void*, void* mem,
-                             ::google::protobuf::Arena* arena);
-  static constexpr auto InternalNewImpl_();
-  static const ::google::protobuf::internal::ClassDataFull _class_data_;
-
- public:
-  ::google::protobuf::Metadata GetMetadata() const;
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-  enum : int {
-    kRoomListFieldNumber = 1,
-  };
-  // repeated .msgTest.Room roomList = 1;
-  int roomlist_size() const;
-  private:
-  int _internal_roomlist_size() const;
-
-  public:
-  void clear_roomlist() ;
-  ::msgTest::Room* mutable_roomlist(int index);
-  ::google::protobuf::RepeatedPtrField<::msgTest::Room>* mutable_roomlist();
-
-  private:
-  const ::google::protobuf::RepeatedPtrField<::msgTest::Room>& _internal_roomlist() const;
-  ::google::protobuf::RepeatedPtrField<::msgTest::Room>* _internal_mutable_roomlist();
-  public:
-  const ::msgTest::Room& roomlist(int index) const;
-  ::msgTest::Room* add_roomlist();
-  const ::google::protobuf::RepeatedPtrField<::msgTest::Room>& roomlist() const;
-  // @@protoc_insertion_point(class_scope:msgTest.SC_Room_List_Response)
- private:
-  class _Internal;
-  friend class ::google::protobuf::internal::TcParser;
-  static const ::google::protobuf::internal::TcParseTable<
-      0, 1, 1,
-      0, 2>
-      _table_;
-
-  friend class ::google::protobuf::MessageLite;
-  friend class ::google::protobuf::Arena;
-  template <typename T>
-  friend class ::google::protobuf::Arena::InternalHelper;
-  using InternalArenaConstructable_ = void;
-  using DestructorSkippable_ = void;
-  struct Impl_ {
-    inline explicit constexpr Impl_(
-        ::google::protobuf::internal::ConstantInitialized) noexcept;
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena);
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena, const Impl_& from,
-                          const SC_Room_List_Response& from_msg);
-    ::google::protobuf::RepeatedPtrField< ::msgTest::Room > roomlist_;
-    ::google::protobuf::internal::CachedSize _cached_size_;
-    PROTOBUF_TSAN_DECLARE_MEMBER
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_messageTest_2eproto;
-};
-// -------------------------------------------------------------------
-
 class SC_Enter_Room_Response final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:msgTest.SC_Enter_Room_Response) */ {
  public:
@@ -5599,31 +5629,31 @@ class SC_Enter_Room_Response final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
-class SC_Create_Room_Response final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:msgTest.SC_Create_Room_Response) */ {
+class CS_Player_Move_Request final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:msgTest.CS_Player_Move_Request) */ {
  public:
-  inline SC_Create_Room_Response() : SC_Create_Room_Response(nullptr) {}
-  ~SC_Create_Room_Response() PROTOBUF_FINAL;
+  inline CS_Player_Move_Request() : CS_Player_Move_Request(nullptr) {}
+  ~CS_Player_Move_Request() PROTOBUF_FINAL;
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-  void operator delete(SC_Create_Room_Response* msg, std::destroying_delete_t) {
+  void operator delete(CS_Player_Move_Request* msg, std::destroying_delete_t) {
     SharedDtor(*msg);
-    ::google::protobuf::internal::SizedDelete(msg, sizeof(SC_Create_Room_Response));
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(CS_Player_Move_Request));
   }
 #endif
 
   template <typename = void>
-  explicit PROTOBUF_CONSTEXPR SC_Create_Room_Response(
+  explicit PROTOBUF_CONSTEXPR CS_Player_Move_Request(
       ::google::protobuf::internal::ConstantInitialized);
 
-  inline SC_Create_Room_Response(const SC_Create_Room_Response& from) : SC_Create_Room_Response(nullptr, from) {}
-  inline SC_Create_Room_Response(SC_Create_Room_Response&& from) noexcept
-      : SC_Create_Room_Response(nullptr, std::move(from)) {}
-  inline SC_Create_Room_Response& operator=(const SC_Create_Room_Response& from) {
+  inline CS_Player_Move_Request(const CS_Player_Move_Request& from) : CS_Player_Move_Request(nullptr, from) {}
+  inline CS_Player_Move_Request(CS_Player_Move_Request&& from) noexcept
+      : CS_Player_Move_Request(nullptr, std::move(from)) {}
+  inline CS_Player_Move_Request& operator=(const CS_Player_Move_Request& from) {
     CopyFrom(from);
     return *this;
   }
-  inline SC_Create_Room_Response& operator=(SC_Create_Room_Response&& from) noexcept {
+  inline CS_Player_Move_Request& operator=(CS_Player_Move_Request&& from) noexcept {
     if (this == &from) return *this;
     if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
       InternalSwap(&from);
@@ -5651,16 +5681,16 @@ class SC_Create_Room_Response final : public ::google::protobuf::Message
   static const ::google::protobuf::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const SC_Create_Room_Response& default_instance() {
+  static const CS_Player_Move_Request& default_instance() {
     return *internal_default_instance();
   }
-  static inline const SC_Create_Room_Response* internal_default_instance() {
-    return reinterpret_cast<const SC_Create_Room_Response*>(
-        &_SC_Create_Room_Response_default_instance_);
+  static inline const CS_Player_Move_Request* internal_default_instance() {
+    return reinterpret_cast<const CS_Player_Move_Request*>(
+        &_CS_Player_Move_Request_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 14;
-  friend void swap(SC_Create_Room_Response& a, SC_Create_Room_Response& b) { a.Swap(&b); }
-  inline void Swap(SC_Create_Room_Response* other) {
+  static constexpr int kIndexInFileMessages = 20;
+  friend void swap(CS_Player_Move_Request& a, CS_Player_Move_Request& b) { a.Swap(&b); }
+  inline void Swap(CS_Player_Move_Request* other) {
     if (other == this) return;
     if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
       InternalSwap(other);
@@ -5668,7 +5698,7 @@ class SC_Create_Room_Response final : public ::google::protobuf::Message
       ::google::protobuf::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(SC_Create_Room_Response* other) {
+  void UnsafeArenaSwap(CS_Player_Move_Request* other) {
     if (other == this) return;
     ABSL_DCHECK(GetArena() == other->GetArena());
     InternalSwap(other);
@@ -5676,13 +5706,13 @@ class SC_Create_Room_Response final : public ::google::protobuf::Message
 
   // implements Message ----------------------------------------------
 
-  SC_Create_Room_Response* New(::google::protobuf::Arena* arena = nullptr) const {
-    return ::google::protobuf::Message::DefaultConstruct<SC_Create_Room_Response>(arena);
+  CS_Player_Move_Request* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<CS_Player_Move_Request>(arena);
   }
   using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const SC_Create_Room_Response& from);
+  void CopyFrom(const CS_Player_Move_Request& from);
   using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const SC_Create_Room_Response& from) { SC_Create_Room_Response::MergeImpl(*this, from); }
+  void MergeFrom(const CS_Player_Move_Request& from) { CS_Player_Move_Request::MergeImpl(*this, from); }
 
   private:
   static void MergeImpl(
@@ -5719,18 +5749,18 @@ class SC_Create_Room_Response final : public ::google::protobuf::Message
   private:
   void SharedCtor(::google::protobuf::Arena* arena);
   static void SharedDtor(MessageLite& self);
-  void InternalSwap(SC_Create_Room_Response* other);
+  void InternalSwap(CS_Player_Move_Request* other);
  private:
   template <typename T>
   friend ::absl::string_view(
       ::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "msgTest.SC_Create_Room_Response"; }
+  static ::absl::string_view FullMessageName() { return "msgTest.CS_Player_Move_Request"; }
 
  protected:
-  explicit SC_Create_Room_Response(::google::protobuf::Arena* arena);
-  SC_Create_Room_Response(::google::protobuf::Arena* arena, const SC_Create_Room_Response& from);
-  SC_Create_Room_Response(::google::protobuf::Arena* arena, SC_Create_Room_Response&& from) noexcept
-      : SC_Create_Room_Response(arena) {
+  explicit CS_Player_Move_Request(::google::protobuf::Arena* arena);
+  CS_Player_Move_Request(::google::protobuf::Arena* arena, const CS_Player_Move_Request& from);
+  CS_Player_Move_Request(::google::protobuf::Arena* arena, CS_Player_Move_Request&& from) noexcept
+      : CS_Player_Move_Request(arena) {
     *this = ::std::move(from);
   }
   const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
@@ -5745,58 +5775,30 @@ class SC_Create_Room_Response final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
-    kErrorMessageFieldNumber = 2,
-    kRoomFieldNumber = 3,
-    kSuccessFieldNumber = 1,
+    kMoveStateFieldNumber = 1,
   };
-  // string errorMessage = 2;
-  void clear_errormessage() ;
-  const std::string& errormessage() const;
-  template <typename Arg_ = const std::string&, typename... Args_>
-  void set_errormessage(Arg_&& arg, Args_... args);
-  std::string* mutable_errormessage();
-  PROTOBUF_NODISCARD std::string* release_errormessage();
-  void set_allocated_errormessage(std::string* value);
+  // .msgTest.MoveState moveState = 1;
+  bool has_movestate() const;
+  void clear_movestate() ;
+  const ::msgTest::MoveState& movestate() const;
+  PROTOBUF_NODISCARD ::msgTest::MoveState* release_movestate();
+  ::msgTest::MoveState* mutable_movestate();
+  void set_allocated_movestate(::msgTest::MoveState* value);
+  void unsafe_arena_set_allocated_movestate(::msgTest::MoveState* value);
+  ::msgTest::MoveState* unsafe_arena_release_movestate();
 
   private:
-  const std::string& _internal_errormessage() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_errormessage(
-      const std::string& value);
-  std::string* _internal_mutable_errormessage();
+  const ::msgTest::MoveState& _internal_movestate() const;
+  ::msgTest::MoveState* _internal_mutable_movestate();
 
   public:
-  // .msgTest.Room room = 3;
-  bool has_room() const;
-  void clear_room() ;
-  const ::msgTest::Room& room() const;
-  PROTOBUF_NODISCARD ::msgTest::Room* release_room();
-  ::msgTest::Room* mutable_room();
-  void set_allocated_room(::msgTest::Room* value);
-  void unsafe_arena_set_allocated_room(::msgTest::Room* value);
-  ::msgTest::Room* unsafe_arena_release_room();
-
-  private:
-  const ::msgTest::Room& _internal_room() const;
-  ::msgTest::Room* _internal_mutable_room();
-
-  public:
-  // bool success = 1;
-  void clear_success() ;
-  bool success() const;
-  void set_success(bool value);
-
-  private:
-  bool _internal_success() const;
-  void _internal_set_success(bool value);
-
-  public:
-  // @@protoc_insertion_point(class_scope:msgTest.SC_Create_Room_Response)
+  // @@protoc_insertion_point(class_scope:msgTest.CS_Player_Move_Request)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      2, 3, 1,
-      52, 2>
+      0, 1, 1,
+      0, 2>
       _table_;
 
   friend class ::google::protobuf::MessageLite;
@@ -5812,12 +5814,10 @@ class SC_Create_Room_Response final : public ::google::protobuf::Message
                           ::google::protobuf::Arena* arena);
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
-                          const SC_Create_Room_Response& from_msg);
+                          const CS_Player_Move_Request& from_msg);
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
-    ::google::protobuf::internal::ArenaStringPtr errormessage_;
-    ::msgTest::Room* room_;
-    bool success_;
+    ::msgTest::MoveState* movestate_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -6696,100 +6696,52 @@ inline void Room::_internal_set_playercount(::int32_t value) {
   _impl_.playercount_ = value;
 }
 
-// .msgTest.Player hostPlayer = 5;
-inline bool Room::has_hostplayer() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
-  PROTOBUF_ASSUME(!value || _impl_.hostplayer_ != nullptr);
-  return value;
-}
-inline void Room::clear_hostplayer() {
+// string hostName = 5;
+inline void Room::clear_hostname() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (_impl_.hostplayer_ != nullptr) _impl_.hostplayer_->Clear();
-  _impl_._has_bits_[0] &= ~0x00000001u;
+  _impl_.hostname_.ClearToEmpty();
 }
-inline const ::msgTest::Player& Room::_internal_hostplayer() const {
+inline const std::string& Room::hostname() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:msgTest.Room.hostName)
+  return _internal_hostname();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void Room::set_hostname(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.hostname_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:msgTest.Room.hostName)
+}
+inline std::string* Room::mutable_hostname() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_hostname();
+  // @@protoc_insertion_point(field_mutable:msgTest.Room.hostName)
+  return _s;
+}
+inline const std::string& Room::_internal_hostname() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  const ::msgTest::Player* p = _impl_.hostplayer_;
-  return p != nullptr ? *p : reinterpret_cast<const ::msgTest::Player&>(::msgTest::_Player_default_instance_);
+  return _impl_.hostname_.Get();
 }
-inline const ::msgTest::Player& Room::hostplayer() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:msgTest.Room.hostPlayer)
-  return _internal_hostplayer();
-}
-inline void Room::unsafe_arena_set_allocated_hostplayer(::msgTest::Player* value) {
+inline void Room::_internal_set_hostname(const std::string& value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (GetArena() == nullptr) {
-    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.hostplayer_);
-  }
-  _impl_.hostplayer_ = reinterpret_cast<::msgTest::Player*>(value);
-  if (value != nullptr) {
-    _impl_._has_bits_[0] |= 0x00000001u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000001u;
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:msgTest.Room.hostPlayer)
+  _impl_.hostname_.Set(value, GetArena());
 }
-inline ::msgTest::Player* Room::release_hostplayer() {
+inline std::string* Room::_internal_mutable_hostname() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-
-  _impl_._has_bits_[0] &= ~0x00000001u;
-  ::msgTest::Player* released = _impl_.hostplayer_;
-  _impl_.hostplayer_ = nullptr;
-  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
-    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
-    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
-    if (GetArena() == nullptr) {
-      delete old;
-    }
-  } else {
-    if (GetArena() != nullptr) {
-      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
-    }
-  }
-  return released;
+  return _impl_.hostname_.Mutable( GetArena());
 }
-inline ::msgTest::Player* Room::unsafe_arena_release_hostplayer() {
+inline std::string* Room::release_hostname() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:msgTest.Room.hostPlayer)
-
-  _impl_._has_bits_[0] &= ~0x00000001u;
-  ::msgTest::Player* temp = _impl_.hostplayer_;
-  _impl_.hostplayer_ = nullptr;
-  return temp;
+  // @@protoc_insertion_point(field_release:msgTest.Room.hostName)
+  return _impl_.hostname_.Release();
 }
-inline ::msgTest::Player* Room::_internal_mutable_hostplayer() {
+inline void Room::set_allocated_hostname(std::string* value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (_impl_.hostplayer_ == nullptr) {
-    auto* p = ::google::protobuf::Message::DefaultConstruct<::msgTest::Player>(GetArena());
-    _impl_.hostplayer_ = reinterpret_cast<::msgTest::Player*>(p);
+  _impl_.hostname_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.hostname_.IsDefault()) {
+    _impl_.hostname_.Set("", GetArena());
   }
-  return _impl_.hostplayer_;
-}
-inline ::msgTest::Player* Room::mutable_hostplayer() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  _impl_._has_bits_[0] |= 0x00000001u;
-  ::msgTest::Player* _msg = _internal_mutable_hostplayer();
-  // @@protoc_insertion_point(field_mutable:msgTest.Room.hostPlayer)
-  return _msg;
-}
-inline void Room::set_allocated_hostplayer(::msgTest::Player* value) {
-  ::google::protobuf::Arena* message_arena = GetArena();
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (message_arena == nullptr) {
-    delete (_impl_.hostplayer_);
-  }
-
-  if (value != nullptr) {
-    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
-    if (message_arena != submessage_arena) {
-      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
-    }
-    _impl_._has_bits_[0] |= 0x00000001u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000001u;
-  }
-
-  _impl_.hostplayer_ = reinterpret_cast<::msgTest::Player*>(value);
-  // @@protoc_insertion_point(field_set_allocated:msgTest.Room.hostPlayer)
+  // @@protoc_insertion_point(field_set_allocated:msgTest.Room.hostName)
 }
 
 // -------------------------------------------------------------------

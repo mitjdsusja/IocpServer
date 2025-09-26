@@ -45,7 +45,7 @@ message Room{
     string roomName = 2;  
     int32 maxPlayerCount = 3;
     int32 playerCount = 4;
-    Player hostPlayer = 5;
+    string hostName = 5;
 }
 
 message CS_Ping{

@@ -604,6 +604,8 @@ void RoomManager::EnterRoomResult(RoomResult::EnterRoomResult enterRoomResult){
 	room->set_roomname(boost::locale::conv::utf_to_utf<char>(enterRoomResult._roomInfo._initRoomInfo._roomName));
 	room->set_maxplayercount(enterRoomResult._roomInfo._initRoomInfo._maxPlayerCount);
 	room->set_playercount(enterRoomResult._roomInfo._curPlayerCount);
+	room->set_hostname(boost::locale::conv::utf_to_utf<char>(enterRoomResult._roomInfo._hostPlayerName));
+	// 그리드 내부 플레이어 정보 추가 
 
 	vector<shared_ptr<Buffer>> sendBuffer = PacketHandler::MakeSendBuffer(sendPacketEnterRoomResponse, PacketId::PKT_SC_ENTER_ROOM_RESPONSE);
 
