@@ -106,6 +106,9 @@ message SC_Enter_Room_Response{
     Room room = 3;
     repeated Player playerListInGrid = 4;
 }
+message CS_Enter_Room_Complete{
+    
+}
 
 message SC_Player_Enter_Room_Notification{
     Player player = 1;

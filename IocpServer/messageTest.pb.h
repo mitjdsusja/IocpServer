@@ -57,6 +57,9 @@ namespace msgTest {
 class CS_Create_Room_Request;
 struct CS_Create_Room_RequestDefaultTypeInternal;
 extern CS_Create_Room_RequestDefaultTypeInternal _CS_Create_Room_Request_default_instance_;
+class CS_Enter_Room_Complete;
+struct CS_Enter_Room_CompleteDefaultTypeInternal;
+extern CS_Enter_Room_CompleteDefaultTypeInternal _CS_Enter_Room_Complete_default_instance_;
 class CS_Enter_Room_Request;
 struct CS_Enter_Room_RequestDefaultTypeInternal;
 extern CS_Enter_Room_RequestDefaultTypeInternal _CS_Enter_Room_Request_default_instance_;
@@ -687,7 +690,7 @@ class SC_Player_List_In_Grid final : public ::google::protobuf::Message
     return reinterpret_cast<const SC_Player_List_In_Grid*>(
         &_SC_Player_List_In_Grid_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 22;
+  static constexpr int kIndexInFileMessages = 23;
   friend void swap(SC_Player_List_In_Grid& a, SC_Player_List_In_Grid& b) { a.Swap(&b); }
   inline void Swap(SC_Player_List_In_Grid* other) {
     if (other == this) return;
@@ -2651,6 +2654,151 @@ class CS_Enter_Room_Request final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
+class CS_Enter_Room_Complete final : public ::google::protobuf::internal::ZeroFieldsBase
+/* @@protoc_insertion_point(class_definition:msgTest.CS_Enter_Room_Complete) */ {
+ public:
+  inline CS_Enter_Room_Complete() : CS_Enter_Room_Complete(nullptr) {}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(CS_Enter_Room_Complete* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(CS_Enter_Room_Complete));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR CS_Enter_Room_Complete(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline CS_Enter_Room_Complete(const CS_Enter_Room_Complete& from) : CS_Enter_Room_Complete(nullptr, from) {}
+  inline CS_Enter_Room_Complete(CS_Enter_Room_Complete&& from) noexcept
+      : CS_Enter_Room_Complete(nullptr, std::move(from)) {}
+  inline CS_Enter_Room_Complete& operator=(const CS_Enter_Room_Complete& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline CS_Enter_Room_Complete& operator=(CS_Enter_Room_Complete&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const CS_Enter_Room_Complete& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const CS_Enter_Room_Complete* internal_default_instance() {
+    return reinterpret_cast<const CS_Enter_Room_Complete*>(
+        &_CS_Enter_Room_Complete_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 19;
+  friend void swap(CS_Enter_Room_Complete& a, CS_Enter_Room_Complete& b) { a.Swap(&b); }
+  inline void Swap(CS_Enter_Room_Complete* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(CS_Enter_Room_Complete* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  CS_Enter_Room_Complete* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::internal::ZeroFieldsBase::DefaultConstruct<CS_Enter_Room_Complete>(arena);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const CS_Enter_Room_Complete& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const CS_Enter_Room_Complete& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "msgTest.CS_Enter_Room_Complete"; }
+
+ protected:
+  explicit CS_Enter_Room_Complete(::google::protobuf::Arena* arena);
+  CS_Enter_Room_Complete(::google::protobuf::Arena* arena, const CS_Enter_Room_Complete& from);
+  CS_Enter_Room_Complete(::google::protobuf::Arena* arena, CS_Enter_Room_Complete&& from) noexcept
+      : CS_Enter_Room_Complete(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  // @@protoc_insertion_point(class_scope:msgTest.CS_Enter_Room_Complete)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 0, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const CS_Enter_Room_Complete& from_msg);
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  friend struct ::TableStruct_messageTest_2eproto;
+};
+// -------------------------------------------------------------------
+
 class CS_Create_Room_Request final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:msgTest.CS_Create_Room_Request) */ {
  public:
@@ -2924,7 +3072,7 @@ class SC_Skill_Result final : public ::google::protobuf::Message
     return reinterpret_cast<const SC_Skill_Result*>(
         &_SC_Skill_Result_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 24;
+  static constexpr int kIndexInFileMessages = 25;
   friend void swap(SC_Skill_Result& a, SC_Skill_Result& b) { a.Swap(&b); }
   inline void Swap(SC_Skill_Result* other) {
     if (other == this) return;
@@ -3197,7 +3345,7 @@ class SC_Skill_Cast final : public ::google::protobuf::Message
     return reinterpret_cast<const SC_Skill_Cast*>(
         &_SC_Skill_Cast_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 25;
+  static constexpr int kIndexInFileMessages = 26;
   friend void swap(SC_Skill_Cast& a, SC_Skill_Cast& b) { a.Swap(&b); }
   inline void Swap(SC_Skill_Cast* other) {
     if (other == this) return;
@@ -4408,7 +4556,7 @@ class CS_Skill_Use final : public ::google::protobuf::Message
     return reinterpret_cast<const CS_Skill_Use*>(
         &_CS_Skill_Use_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 23;
+  static constexpr int kIndexInFileMessages = 24;
   friend void swap(CS_Skill_Use& a, CS_Skill_Use& b) { a.Swap(&b); }
   inline void Swap(CS_Skill_Use* other) {
     if (other == this) return;
@@ -4854,7 +5002,7 @@ class SC_Player_Move_Notification final : public ::google::protobuf::Message
     return reinterpret_cast<const SC_Player_Move_Notification*>(
         &_SC_Player_Move_Notification_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 21;
+  static constexpr int kIndexInFileMessages = 22;
   friend void swap(SC_Player_Move_Notification& a, SC_Player_Move_Notification& b) { a.Swap(&b); }
   inline void Swap(SC_Player_Move_Notification* other) {
     if (other == this) return;
@@ -5051,7 +5199,7 @@ class SC_Player_Enter_Room_Notification final : public ::google::protobuf::Messa
     return reinterpret_cast<const SC_Player_Enter_Room_Notification*>(
         &_SC_Player_Enter_Room_Notification_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 19;
+  static constexpr int kIndexInFileMessages = 20;
   friend void swap(SC_Player_Enter_Room_Notification& a, SC_Player_Enter_Room_Notification& b) { a.Swap(&b); }
   inline void Swap(SC_Player_Enter_Room_Notification* other) {
     if (other == this) return;
@@ -5688,7 +5836,7 @@ class CS_Player_Move_Request final : public ::google::protobuf::Message
     return reinterpret_cast<const CS_Player_Move_Request*>(
         &_CS_Player_Move_Request_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 20;
+  static constexpr int kIndexInFileMessages = 21;
   friend void swap(CS_Player_Move_Request& a, CS_Player_Move_Request& b) { a.Swap(&b); }
   inline void Swap(CS_Player_Move_Request* other) {
     if (other == this) return;
@@ -7790,6 +7938,10 @@ SC_Enter_Room_Response::_internal_mutable_playerlistingrid() {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return &_impl_.playerlistingrid_;
 }
+
+// -------------------------------------------------------------------
+
+// CS_Enter_Room_Complete
 
 // -------------------------------------------------------------------
 
