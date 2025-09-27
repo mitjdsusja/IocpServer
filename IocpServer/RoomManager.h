@@ -14,6 +14,7 @@ public:
 	~Room();
 
 	void PushJobBroadcast(shared_ptr<Buffer> sendBuffer);
+	void PushJobBroadcast(const vector<shared_ptr<Buffer>>& sendBuffer);
 	void PushJobBroadcastPosition();
 	void PushJobRegisterBroadcastPosition();
 	void PushJobRegisterBroadcastPlayerInGrid();
