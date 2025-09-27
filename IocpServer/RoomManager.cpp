@@ -401,6 +401,7 @@ void RoomManager::PushJobCreateAndPushRoom(const InitRoomInfo& initRoomInfo, con
 		int32 roomId = self->CreateAndPushRoom(initRoomInfo, hostPlayerData);
 
 		if (roomId != 0) {
+
 			PlayerPosition position;
 			position._roomId = roomId;
 			GPlayerManager->PushJobSetPosition(hostPlayerData._sessionId, position);
@@ -550,7 +551,7 @@ void RoomManager::PushJobGetRoomPlayerList(int32 roomId, function<void(vector<Ro
 void RoomManager::PushJobEnterRoomResult(RoomResult::EnterRoomResult enterRoomResult){
 
 	shared_ptr<RoomManager> self = static_pointer_cast<RoomManager>(shared_from_this());
-
+	
 	unique_ptr<Job> job = make_unique<Job>([self, enterRoomResult]() {
 
 		self->EnterRoomResult(enterRoomResult);
@@ -588,6 +589,7 @@ int32 RoomManager::CreateAndPushRoom(const InitRoomInfo& initRoomInfo, const Roo
 	shared_ptr<Room> room = MakeRoomPtr(roomInfo, hostPlayerData);
 	room->SetActorId(GActorManager->RegisterActor(room));
 	_rooms[roomId] = room;
+	_sessionToRoomMap[hostPlayerData._sessionId] = roomId;
 
 	spdlog::info("[RoomManager::CreateAndPushRoom] EnterRoom roomId : {} playerName : {}", roomId, boost::locale::conv::utf_to_utf<char>(hostPlayerData._gameState._name));
 	//wcout << "[RoomManager::CreateAndPushRoom] EnterRoom roomId : " << roomId << " playerName : " << hostPlayerData._gameState._name << endl;
@@ -680,9 +682,11 @@ void RoomManager::EnterRoomResult(const RoomResult::EnterRoomResult& enterRoomRe
 	msgTest::Room* room = sendPacketEnterRoomResponse.mutable_room();
 
 	sendPacketEnterRoomResponse.set_success(enterRoomResult._success);
+
 	if (enterRoomResult._success == true) {
 
 		_sessionToRoomMap[enterRoomResult._enterSessionId] = enterRoomResult._roomInfo._initRoomInfo._roomId;
+
 		sendPacketEnterRoomResponse.set_errormessage("");
 		room->set_roomid(enterRoomResult._roomInfo._initRoomInfo._roomId);
 		room->set_roomname(boost::locale::conv::utf_to_utf<char>(enterRoomResult._roomInfo._initRoomInfo._roomName));
