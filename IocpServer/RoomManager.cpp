@@ -559,25 +559,6 @@ void RoomManager::PushJobEnterRoomResult(RoomResult::EnterRoomResult enterRoomRe
 	this->PushJob(move(job));
 }
 
-void RoomManager::EnterRoomComplete(uint64 sessionId){
-
-	const auto& roomIdIter = _sessionToRoomMap.find(sessionId);
-	if (roomIdIter == _sessionToRoomMap.end()) {
-
-		spdlog::info("[RoomManager::EnterRoomComplete] INVALID SESSION ID : " + to_string(sessionId));
-		return;
-	}
-
-	const auto& roomIter =  _rooms.find(roomIdIter->second);
-	if (roomIter == _rooms.end()) {
-
-		spdlog::info("[RoomManager::EnterRoomComplete] INVALID ROOM ID : " + to_string(roomIdIter->second));
-		return;
-	}
-
-	roomIter->second->PushJobEnterRoomComplete(sessionId);
-}
-
 void RoomManager::BroadcastToRoom(int32 roomId, shared_ptr<Buffer> sendBuffer){
 
 	shared_ptr<Room> room;
@@ -631,6 +612,25 @@ bool RoomManager::EnterRoom(int32 roomId, const RoomPlayerData& enterPlayerData)
 	return true;
 }
 
+void RoomManager::EnterRoomComplete(uint64 sessionId){
+
+	const auto& roomIdIter = _sessionToRoomMap.find(sessionId);
+	if (roomIdIter == _sessionToRoomMap.end()) {
+
+		spdlog::info("[RoomManager::EnterRoomComplete] INVALID SESSION ID : " + to_string(sessionId));
+		return;
+	}
+
+	const auto& roomIter =  _rooms.find(roomIdIter->second);
+	if (roomIter == _rooms.end()) {
+
+		spdlog::info("[RoomManager::EnterRoomComplete] INVALID ROOM ID : " + to_string(roomIdIter->second));
+		return;
+	}
+
+	roomIter->second->PushJobEnterRoomComplete(sessionId);
+}
+
 void RoomManager::LeaveRoom(int32 roomId, uint64 sessionId) {
 
 	auto it = _rooms.find(roomId);
@@ -680,25 +680,32 @@ void RoomManager::EnterRoomResult(const RoomResult::EnterRoomResult& enterRoomRe
 	msgTest::Room* room = sendPacketEnterRoomResponse.mutable_room();
 
 	sendPacketEnterRoomResponse.set_success(enterRoomResult._success);
-	sendPacketEnterRoomResponse.set_errormessage("");
-	room->set_roomid(enterRoomResult._roomInfo._initRoomInfo._roomId);
-	room->set_roomname(boost::locale::conv::utf_to_utf<char>(enterRoomResult._roomInfo._initRoomInfo._roomName));
-	room->set_maxplayercount(enterRoomResult._roomInfo._initRoomInfo._maxPlayerCount);
-	room->set_playercount(enterRoomResult._roomInfo._curPlayerCount);
-	room->set_hostname(boost::locale::conv::utf_to_utf<char>(enterRoomResult._roomInfo._hostPlayerName));
-	// 그리드 내부 플레이어 정보 추가 
-	for (const RoomPlayerData& playerData : enterRoomResult._playerListInGrid) {
-		
-		msgTest::Player* player = sendPacketEnterRoomResponse.add_playerlistingrid();
-		msgTest::Vector* position = player->mutable_position();
+	if (enterRoomResult._success == true) {
 
-		player->set_name(boost::locale::conv::utf_to_utf<char>(playerData._gameState._name));
-		player->set_level(playerData._gameState._level);
-		position->set_x(playerData._gameState._position._x);
-		position->set_y(playerData._gameState._position._y);
-		position->set_z(playerData._gameState._position._z);
+		_sessionToRoomMap[enterRoomResult._enterSessionId] = enterRoomResult._roomInfo._initRoomInfo._roomId;
+		sendPacketEnterRoomResponse.set_errormessage("");
+		room->set_roomid(enterRoomResult._roomInfo._initRoomInfo._roomId);
+		room->set_roomname(boost::locale::conv::utf_to_utf<char>(enterRoomResult._roomInfo._initRoomInfo._roomName));
+		room->set_maxplayercount(enterRoomResult._roomInfo._initRoomInfo._maxPlayerCount);
+		room->set_playercount(enterRoomResult._roomInfo._curPlayerCount);
+		room->set_hostname(boost::locale::conv::utf_to_utf<char>(enterRoomResult._roomInfo._hostPlayerName));
+		// 그리드 내부 플레이어 정보 추가 
+		for (const RoomPlayerData& playerData : enterRoomResult._playerListInGrid) {
+
+			msgTest::Player* player = sendPacketEnterRoomResponse.add_playerlistingrid();
+			msgTest::Vector* position = player->mutable_position();
+
+			player->set_name(boost::locale::conv::utf_to_utf<char>(playerData._gameState._name));
+			player->set_level(playerData._gameState._level);
+			position->set_x(playerData._gameState._position._x);
+			position->set_y(playerData._gameState._position._y);
+			position->set_z(playerData._gameState._position._z);
+		}
 	}
-
+	else {
+		sendPacketEnterRoomResponse.set_errormessage("ENTER ROOM FAIL");
+	}
+	
 	vector<shared_ptr<Buffer>> sendBuffer = PacketHandler::MakeSendBuffer(sendPacketEnterRoomResponse, PacketId::PKT_SC_ENTER_ROOM_RESPONSE);
 
 	GPlayerManager->PushJobSendData(enterRoomResult._enterPlayerInfo._sessionId, sendBuffer);
