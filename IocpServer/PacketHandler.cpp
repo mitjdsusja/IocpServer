@@ -31,6 +31,7 @@ void PacketHandler::RegisterPacketHandlers() {
 	packetHandleArray[PKT_CS_MY_PLAYER_INFO_REQUEST] = Handle_CS_Player_Info_Request;
 	packetHandleArray[PKT_CS_ROOM_PLAYER_LIST_REQUEST] = Handle_CS_Room_Player_List_Request;
 	packetHandleArray[PKT_CS_ENTER_ROOM_REQUEST] = Handle_CS_Enter_Room_Request;
+	packetHandleArray[PKT_CS_ENTER_ROOM_COMPLETE] = Handle_CS_Enter_Room_Complete;
 	packetHandleArray[PKT_CS_CREATE_ROOM_REQUEST] = Handle_CS_Create_Room_Request;
 	packetHandleArray[PKT_CS_PLAYER_MOVE_REQUEST] = Handle_CS_Player_Move_Request;
 	packetHandleArray[PKT_CS_PING] = Handle_CS_Ping;
@@ -70,7 +71,7 @@ void PacketHandler::Handle_Invalid(shared_ptr<GameSession> session, shared_ptr<B
 
 	PacketHeader* header = (PacketHeader*)buffer->GetBuffer();
 
-	spdlog::info("[PacketHandler::Handle_Invalid] INVALID PACKET ID {}", header->packetId);
+	spdlog::info("[PacketHandler::Handle_Invalid] INVALID PACKET");
 }
 
 
