@@ -302,7 +302,7 @@ void Room::BroadcastPlayerMovement() {
 		msgTest::Vector* velocity = moveState.mutable_velocity();
 		msgTest::Vector* rotation = moveState.mutable_rotation();
 
-		moveState.set_playername(boost::locale::conv::utf_to_utf<char>(playerData._gameState._name));
+		moveState.set_playerid(p.first);
 		position->set_x(playerData._gameState._position._x);
 		position->set_y(playerData._gameState._position._y);
 		position->set_z(playerData._gameState._position._z);
@@ -368,8 +368,6 @@ void Room::BroadcastPlayerInGrid(){
 		msgTest::SC_Player_List_In_Grid sendPlayerListInGridPacket;
 
 		for (auto& sessionId : sessionIdInGrid) {
-			string* name = sendPlayerListInGridPacket.add_playernamelist();
-			*name = boost::locale::conv::utf_to_utf<char>(_players[sessionId]._gameState._name);
 		}
 
 		vector<shared_ptr<Buffer>> sendBuffer = PacketHandler::MakeSendBuffer(sendPlayerListInGridPacket, PacketId::PKT_SC_PLAYER_LIST_IN_GRID);

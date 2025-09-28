@@ -2,13 +2,6 @@ syntax = "proto3";  // proto2 -> proto3·Î º¯°æ
 
 package msgTest;
 
-message PacketFrame{
-    int32 messageId = 1;
-    int32 totalFrameCount = 2;
-    int32 frameIndex = 3;
-    bytes payload = 4;
-}
-
 message Vector {  
     sint32 x = 1;  
     sint32 y = 2;  

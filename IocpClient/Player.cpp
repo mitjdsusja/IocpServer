@@ -200,7 +200,7 @@ void PlayerManager::AllPlayerSendMovePacket(){
 		PlayerInfo playerInfo = player->GetPlayerInfo();
 
 		moveState->set_roomid(playerInfo._enterRoomId);
-		moveState->set_playername("bot" + to_string(player->GetSessionId()));
+		moveState->set_playerid(player->GetSessionId());
 		position->set_x((int16)(playerInfo._position._x * 100));
 		position->set_y((int16)(playerInfo._position._y * 100));
 		position->set_z((int16)(playerInfo._position._z * 100));
