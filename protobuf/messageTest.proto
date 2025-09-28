@@ -35,9 +35,10 @@ enum SkillFailType{
 }
 
 message Player{
-    string name = 1;
-    int32 level = 2;
-    Vector position = 3;
+    uint64 playerId = 1;
+    string name = 2;
+    int32 level = 3;
+    Vector position = 4;
 }
 
 message Room{
@@ -124,6 +125,13 @@ message SC_Player_Move_Notification{
 
 message SC_Player_List_In_Grid{
     repeated string playerNameList = 1;
+}
+
+message SC_Player_Leave_Grid_Notification{
+    uint64 leavePlayerId = 1;
+}
+message SC_Player_Enter_Grid_Notification{
+    Player enterPlayer = 1;
 }
 
 message CS_Skill_Use{

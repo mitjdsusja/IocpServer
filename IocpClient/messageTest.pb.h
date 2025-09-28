@@ -108,9 +108,15 @@ extern SC_Login_ResponseDefaultTypeInternal _SC_Login_Response_default_instance_
 class SC_My_Player_Info_Response;
 struct SC_My_Player_Info_ResponseDefaultTypeInternal;
 extern SC_My_Player_Info_ResponseDefaultTypeInternal _SC_My_Player_Info_Response_default_instance_;
+class SC_Player_Enter_Grid_Notification;
+struct SC_Player_Enter_Grid_NotificationDefaultTypeInternal;
+extern SC_Player_Enter_Grid_NotificationDefaultTypeInternal _SC_Player_Enter_Grid_Notification_default_instance_;
 class SC_Player_Enter_Room_Notification;
 struct SC_Player_Enter_Room_NotificationDefaultTypeInternal;
 extern SC_Player_Enter_Room_NotificationDefaultTypeInternal _SC_Player_Enter_Room_Notification_default_instance_;
+class SC_Player_Leave_Grid_Notification;
+struct SC_Player_Leave_Grid_NotificationDefaultTypeInternal;
+extern SC_Player_Leave_Grid_NotificationDefaultTypeInternal _SC_Player_Leave_Grid_Notification_default_instance_;
 class SC_Player_List_In_Grid;
 struct SC_Player_List_In_GridDefaultTypeInternal;
 extern SC_Player_List_In_GridDefaultTypeInternal _SC_Player_List_In_Grid_default_instance_;
@@ -825,6 +831,196 @@ class SC_Player_List_In_Grid final : public ::google::protobuf::Message
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const SC_Player_List_In_Grid& from_msg);
     ::google::protobuf::RepeatedPtrField<std::string> playernamelist_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_messageTest_2eproto;
+};
+// -------------------------------------------------------------------
+
+class SC_Player_Leave_Grid_Notification final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:msgTest.SC_Player_Leave_Grid_Notification) */ {
+ public:
+  inline SC_Player_Leave_Grid_Notification() : SC_Player_Leave_Grid_Notification(nullptr) {}
+  ~SC_Player_Leave_Grid_Notification() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(SC_Player_Leave_Grid_Notification* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(SC_Player_Leave_Grid_Notification));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR SC_Player_Leave_Grid_Notification(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline SC_Player_Leave_Grid_Notification(const SC_Player_Leave_Grid_Notification& from) : SC_Player_Leave_Grid_Notification(nullptr, from) {}
+  inline SC_Player_Leave_Grid_Notification(SC_Player_Leave_Grid_Notification&& from) noexcept
+      : SC_Player_Leave_Grid_Notification(nullptr, std::move(from)) {}
+  inline SC_Player_Leave_Grid_Notification& operator=(const SC_Player_Leave_Grid_Notification& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SC_Player_Leave_Grid_Notification& operator=(SC_Player_Leave_Grid_Notification&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const SC_Player_Leave_Grid_Notification& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const SC_Player_Leave_Grid_Notification* internal_default_instance() {
+    return reinterpret_cast<const SC_Player_Leave_Grid_Notification*>(
+        &_SC_Player_Leave_Grid_Notification_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 24;
+  friend void swap(SC_Player_Leave_Grid_Notification& a, SC_Player_Leave_Grid_Notification& b) { a.Swap(&b); }
+  inline void Swap(SC_Player_Leave_Grid_Notification* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(SC_Player_Leave_Grid_Notification* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  SC_Player_Leave_Grid_Notification* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<SC_Player_Leave_Grid_Notification>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const SC_Player_Leave_Grid_Notification& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const SC_Player_Leave_Grid_Notification& from) { SC_Player_Leave_Grid_Notification::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(SC_Player_Leave_Grid_Notification* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "msgTest.SC_Player_Leave_Grid_Notification"; }
+
+ protected:
+  explicit SC_Player_Leave_Grid_Notification(::google::protobuf::Arena* arena);
+  SC_Player_Leave_Grid_Notification(::google::protobuf::Arena* arena, const SC_Player_Leave_Grid_Notification& from);
+  SC_Player_Leave_Grid_Notification(::google::protobuf::Arena* arena, SC_Player_Leave_Grid_Notification&& from) noexcept
+      : SC_Player_Leave_Grid_Notification(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kLeavePlayerIdFieldNumber = 1,
+  };
+  // uint64 leavePlayerId = 1;
+  void clear_leaveplayerid() ;
+  ::uint64_t leaveplayerid() const;
+  void set_leaveplayerid(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_leaveplayerid() const;
+  void _internal_set_leaveplayerid(::uint64_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:msgTest.SC_Player_Leave_Grid_Notification)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 1, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const SC_Player_Leave_Grid_Notification& from_msg);
+    ::uint64_t leaveplayerid_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -3072,7 +3268,7 @@ class SC_Skill_Result final : public ::google::protobuf::Message
     return reinterpret_cast<const SC_Skill_Result*>(
         &_SC_Skill_Result_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 25;
+  static constexpr int kIndexInFileMessages = 27;
   friend void swap(SC_Skill_Result& a, SC_Skill_Result& b) { a.Swap(&b); }
   inline void Swap(SC_Skill_Result* other) {
     if (other == this) return;
@@ -3345,7 +3541,7 @@ class SC_Skill_Cast final : public ::google::protobuf::Message
     return reinterpret_cast<const SC_Skill_Cast*>(
         &_SC_Skill_Cast_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 26;
+  static constexpr int kIndexInFileMessages = 28;
   friend void swap(SC_Skill_Cast& a, SC_Skill_Cast& b) { a.Swap(&b); }
   inline void Swap(SC_Skill_Cast* other) {
     if (other == this) return;
@@ -4145,11 +4341,12 @@ class Player final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
-    kNameFieldNumber = 1,
-    kPositionFieldNumber = 3,
-    kLevelFieldNumber = 2,
+    kNameFieldNumber = 2,
+    kPositionFieldNumber = 4,
+    kPlayerIdFieldNumber = 1,
+    kLevelFieldNumber = 3,
   };
-  // string name = 1;
+  // string name = 2;
   void clear_name() ;
   const std::string& name() const;
   template <typename Arg_ = const std::string&, typename... Args_>
@@ -4165,7 +4362,7 @@ class Player final : public ::google::protobuf::Message
   std::string* _internal_mutable_name();
 
   public:
-  // .msgTest.Vector position = 3;
+  // .msgTest.Vector position = 4;
   bool has_position() const;
   void clear_position() ;
   const ::msgTest::Vector& position() const;
@@ -4180,7 +4377,17 @@ class Player final : public ::google::protobuf::Message
   ::msgTest::Vector* _internal_mutable_position();
 
   public:
-  // int32 level = 2;
+  // uint64 playerId = 1;
+  void clear_playerid() ;
+  ::uint64_t playerid() const;
+  void set_playerid(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_playerid() const;
+  void _internal_set_playerid(::uint64_t value);
+
+  public:
+  // int32 level = 3;
   void clear_level() ;
   ::int32_t level() const;
   void set_level(::int32_t value);
@@ -4195,7 +4402,7 @@ class Player final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      2, 3, 1,
+      2, 4, 1,
       27, 2>
       _table_;
 
@@ -4217,6 +4424,7 @@ class Player final : public ::google::protobuf::Message
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::google::protobuf::internal::ArenaStringPtr name_;
     ::msgTest::Vector* position_;
+    ::uint64_t playerid_;
     ::int32_t level_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -4556,7 +4764,7 @@ class CS_Skill_Use final : public ::google::protobuf::Message
     return reinterpret_cast<const CS_Skill_Use*>(
         &_CS_Skill_Use_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 24;
+  static constexpr int kIndexInFileMessages = 26;
   friend void swap(CS_Skill_Use& a, CS_Skill_Use& b) { a.Swap(&b); }
   inline void Swap(CS_Skill_Use* other) {
     if (other == this) return;
@@ -5329,6 +5537,202 @@ class SC_Player_Enter_Room_Notification final : public ::google::protobuf::Messa
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::msgTest::Player* player_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_messageTest_2eproto;
+};
+// -------------------------------------------------------------------
+
+class SC_Player_Enter_Grid_Notification final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:msgTest.SC_Player_Enter_Grid_Notification) */ {
+ public:
+  inline SC_Player_Enter_Grid_Notification() : SC_Player_Enter_Grid_Notification(nullptr) {}
+  ~SC_Player_Enter_Grid_Notification() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(SC_Player_Enter_Grid_Notification* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(SC_Player_Enter_Grid_Notification));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR SC_Player_Enter_Grid_Notification(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline SC_Player_Enter_Grid_Notification(const SC_Player_Enter_Grid_Notification& from) : SC_Player_Enter_Grid_Notification(nullptr, from) {}
+  inline SC_Player_Enter_Grid_Notification(SC_Player_Enter_Grid_Notification&& from) noexcept
+      : SC_Player_Enter_Grid_Notification(nullptr, std::move(from)) {}
+  inline SC_Player_Enter_Grid_Notification& operator=(const SC_Player_Enter_Grid_Notification& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SC_Player_Enter_Grid_Notification& operator=(SC_Player_Enter_Grid_Notification&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const SC_Player_Enter_Grid_Notification& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const SC_Player_Enter_Grid_Notification* internal_default_instance() {
+    return reinterpret_cast<const SC_Player_Enter_Grid_Notification*>(
+        &_SC_Player_Enter_Grid_Notification_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 25;
+  friend void swap(SC_Player_Enter_Grid_Notification& a, SC_Player_Enter_Grid_Notification& b) { a.Swap(&b); }
+  inline void Swap(SC_Player_Enter_Grid_Notification* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(SC_Player_Enter_Grid_Notification* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  SC_Player_Enter_Grid_Notification* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<SC_Player_Enter_Grid_Notification>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const SC_Player_Enter_Grid_Notification& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const SC_Player_Enter_Grid_Notification& from) { SC_Player_Enter_Grid_Notification::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(SC_Player_Enter_Grid_Notification* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "msgTest.SC_Player_Enter_Grid_Notification"; }
+
+ protected:
+  explicit SC_Player_Enter_Grid_Notification(::google::protobuf::Arena* arena);
+  SC_Player_Enter_Grid_Notification(::google::protobuf::Arena* arena, const SC_Player_Enter_Grid_Notification& from);
+  SC_Player_Enter_Grid_Notification(::google::protobuf::Arena* arena, SC_Player_Enter_Grid_Notification&& from) noexcept
+      : SC_Player_Enter_Grid_Notification(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kEnterPlayerFieldNumber = 1,
+  };
+  // .msgTest.Player enterPlayer = 1;
+  bool has_enterplayer() const;
+  void clear_enterplayer() ;
+  const ::msgTest::Player& enterplayer() const;
+  PROTOBUF_NODISCARD ::msgTest::Player* release_enterplayer();
+  ::msgTest::Player* mutable_enterplayer();
+  void set_allocated_enterplayer(::msgTest::Player* value);
+  void unsafe_arena_set_allocated_enterplayer(::msgTest::Player* value);
+  ::msgTest::Player* unsafe_arena_release_enterplayer();
+
+  private:
+  const ::msgTest::Player& _internal_enterplayer() const;
+  ::msgTest::Player* _internal_mutable_enterplayer();
+
+  public:
+  // @@protoc_insertion_point(class_scope:msgTest.SC_Player_Enter_Grid_Notification)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 1, 1,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const SC_Player_Enter_Grid_Notification& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    ::msgTest::Player* enterplayer_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -6560,7 +6964,29 @@ inline void MoveState::_internal_set_timestamp(::int64_t value) {
 
 // Player
 
-// string name = 1;
+// uint64 playerId = 1;
+inline void Player::clear_playerid() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.playerid_ = ::uint64_t{0u};
+}
+inline ::uint64_t Player::playerid() const {
+  // @@protoc_insertion_point(field_get:msgTest.Player.playerId)
+  return _internal_playerid();
+}
+inline void Player::set_playerid(::uint64_t value) {
+  _internal_set_playerid(value);
+  // @@protoc_insertion_point(field_set:msgTest.Player.playerId)
+}
+inline ::uint64_t Player::_internal_playerid() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.playerid_;
+}
+inline void Player::_internal_set_playerid(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.playerid_ = value;
+}
+
+// string name = 2;
 inline void Player::clear_name() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.name_.ClearToEmpty();
@@ -6608,7 +7034,7 @@ inline void Player::set_allocated_name(std::string* value) {
   // @@protoc_insertion_point(field_set_allocated:msgTest.Player.name)
 }
 
-// int32 level = 2;
+// int32 level = 3;
 inline void Player::clear_level() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.level_ = 0;
@@ -6630,7 +7056,7 @@ inline void Player::_internal_set_level(::int32_t value) {
   _impl_.level_ = value;
 }
 
-// .msgTest.Vector position = 3;
+// .msgTest.Vector position = 4;
 inline bool Player::has_position() const {
   bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.position_ != nullptr);
@@ -8262,6 +8688,132 @@ inline ::google::protobuf::RepeatedPtrField<std::string>*
 SC_Player_List_In_Grid::_internal_mutable_playernamelist() {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return &_impl_.playernamelist_;
+}
+
+// -------------------------------------------------------------------
+
+// SC_Player_Leave_Grid_Notification
+
+// uint64 leavePlayerId = 1;
+inline void SC_Player_Leave_Grid_Notification::clear_leaveplayerid() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.leaveplayerid_ = ::uint64_t{0u};
+}
+inline ::uint64_t SC_Player_Leave_Grid_Notification::leaveplayerid() const {
+  // @@protoc_insertion_point(field_get:msgTest.SC_Player_Leave_Grid_Notification.leavePlayerId)
+  return _internal_leaveplayerid();
+}
+inline void SC_Player_Leave_Grid_Notification::set_leaveplayerid(::uint64_t value) {
+  _internal_set_leaveplayerid(value);
+  // @@protoc_insertion_point(field_set:msgTest.SC_Player_Leave_Grid_Notification.leavePlayerId)
+}
+inline ::uint64_t SC_Player_Leave_Grid_Notification::_internal_leaveplayerid() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.leaveplayerid_;
+}
+inline void SC_Player_Leave_Grid_Notification::_internal_set_leaveplayerid(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.leaveplayerid_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// SC_Player_Enter_Grid_Notification
+
+// .msgTest.Player enterPlayer = 1;
+inline bool SC_Player_Enter_Grid_Notification::has_enterplayer() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.enterplayer_ != nullptr);
+  return value;
+}
+inline void SC_Player_Enter_Grid_Notification::clear_enterplayer() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.enterplayer_ != nullptr) _impl_.enterplayer_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const ::msgTest::Player& SC_Player_Enter_Grid_Notification::_internal_enterplayer() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::msgTest::Player* p = _impl_.enterplayer_;
+  return p != nullptr ? *p : reinterpret_cast<const ::msgTest::Player&>(::msgTest::_Player_default_instance_);
+}
+inline const ::msgTest::Player& SC_Player_Enter_Grid_Notification::enterplayer() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:msgTest.SC_Player_Enter_Grid_Notification.enterPlayer)
+  return _internal_enterplayer();
+}
+inline void SC_Player_Enter_Grid_Notification::unsafe_arena_set_allocated_enterplayer(::msgTest::Player* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.enterplayer_);
+  }
+  _impl_.enterplayer_ = reinterpret_cast<::msgTest::Player*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:msgTest.SC_Player_Enter_Grid_Notification.enterPlayer)
+}
+inline ::msgTest::Player* SC_Player_Enter_Grid_Notification::release_enterplayer() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::msgTest::Player* released = _impl_.enterplayer_;
+  _impl_.enterplayer_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::msgTest::Player* SC_Player_Enter_Grid_Notification::unsafe_arena_release_enterplayer() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:msgTest.SC_Player_Enter_Grid_Notification.enterPlayer)
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::msgTest::Player* temp = _impl_.enterplayer_;
+  _impl_.enterplayer_ = nullptr;
+  return temp;
+}
+inline ::msgTest::Player* SC_Player_Enter_Grid_Notification::_internal_mutable_enterplayer() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.enterplayer_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::msgTest::Player>(GetArena());
+    _impl_.enterplayer_ = reinterpret_cast<::msgTest::Player*>(p);
+  }
+  return _impl_.enterplayer_;
+}
+inline ::msgTest::Player* SC_Player_Enter_Grid_Notification::mutable_enterplayer() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  ::msgTest::Player* _msg = _internal_mutable_enterplayer();
+  // @@protoc_insertion_point(field_mutable:msgTest.SC_Player_Enter_Grid_Notification.enterPlayer)
+  return _msg;
+}
+inline void SC_Player_Enter_Grid_Notification::set_allocated_enterplayer(::msgTest::Player* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete (_impl_.enterplayer_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+
+  _impl_.enterplayer_ = reinterpret_cast<::msgTest::Player*>(value);
+  // @@protoc_insertion_point(field_set_allocated:msgTest.SC_Player_Enter_Grid_Notification.enterPlayer)
 }
 
 // -------------------------------------------------------------------

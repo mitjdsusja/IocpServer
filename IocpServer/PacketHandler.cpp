@@ -237,6 +237,8 @@ void PacketHandler::Handle_CS_Player_Info_Request(shared_ptr<GameSession> sessio
 	msgTest::SC_My_Player_Info_Response sendPlayerInfoResponsePacket;
 	msgTest::Player* playerInfo = sendPlayerInfoResponsePacket.mutable_playerinfo();
 	msgTest::Vector* position = playerInfo->mutable_position();
+	
+	playerInfo->set_playerid(sessionId);
 	playerInfo->set_level(level);
 	playerInfo->set_name(name);
 	position->set_x(posX);
@@ -262,7 +264,10 @@ void PacketHandler::Handle_CS_Room_Player_List_Request(shared_ptr<GameSession> s
 			msgTest::Player* player = sendRoomPlayerListResponsePacket.add_playerlist();
 			msgTest::Vector* position = player->mutable_position();
 			string name = boost::locale::conv::utf_to_utf<char>(roomPlayer._gameState._name);
+			
+			player->set_playerid(roomPlayer._sessionId);
 			player->set_name(name);
+			player->set_level(roomPlayer._gameState._level);
 			position->set_x(roomPlayer._gameState._position._x);
 			position->set_y(roomPlayer._gameState._position._y);
 			position->set_z(roomPlayer._gameState._position._z);
