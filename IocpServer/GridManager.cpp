@@ -25,13 +25,15 @@ void GridManager::RemovePlayer(uint64 sessionId){
 	}
 }
 
-void GridManager::MovePosition(uint64 sessionId, Vector<int16> newPosition){
+GridMoveResult GridManager::MovePosition(uint64 sessionId, Vector<int16> newPosition){
+
+	GridMoveResult result;
 
 	if (_players.count(sessionId) == false) {
 
 		spdlog::info("GridManager MovePosition None Player");
 		//cout << "GridManager MovePosition None Player" << endl;
-		return;
+		return result;
 	}
 
 	//cout << "new Position : " << newPosition._x/100 << " " << newPosition._z/100 << endl;
@@ -44,10 +46,17 @@ void GridManager::MovePosition(uint64 sessionId, Vector<int16> newPosition){
 		//cout << sessionId << " new Cell : " << newCell._x << " " << newCell._y << endl;
 		_grid[{p._cell._x, p._cell._y}].erase(sessionId);
 		_grid[{newCell._x, newCell._y}].insert(sessionId);
+
+		result._cellChanged = true;
+		result._oldCell = p._cell;
+		result._newCell = newCell;
+
 		p._cell._x = newCell._x;
 		p._cell._y = newCell._y;
 	}
 	p._position = newPosition;
+
+	return result;
 }
 
 vector<uint64> GridManager::GetNearByPlayers(uint64 sessionId) {

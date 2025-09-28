@@ -8,13 +8,20 @@ struct GridPlayer {
 	Vector<int16> _cell;
 };
 
+struct GridMoveResult {
+
+	bool _cellChanged = false;
+	Vector<int16> _oldCell;
+	Vector<int16> _newCell;
+};
+
 class GridManager{
 public:
 	GridManager(int32 cellSize) : _cellSize(cellSize) {}
 	
 	void AddPlayer(uint64 sessionId, Vector<int16> position);
 	void RemovePlayer(uint64 sessionId);
-	void MovePosition(uint64 sessionId, Vector<int16> newPosition);
+	GridMoveResult MovePosition(uint64 sessionId, Vector<int16> newPosition);
 	vector<uint64> GetNearByPlayers(uint64 sessionId);
 
 private:

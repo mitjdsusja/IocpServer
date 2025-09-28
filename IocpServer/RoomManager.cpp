@@ -234,6 +234,16 @@ void Room::Broadcast(const vector<shared_ptr<Buffer>>& sendBuffer){
 	}
 }
 
+void Room::BroadcastPlayerLeaveGrid(uint64 sessionId, Vector<int16> oldCell){
+
+	
+}
+
+void Room::BroadcastPlayerEnterGrid(uint64 sessionId, Vector<int16> newCell){
+
+
+}
+
 void Room::BroadcastPlayerMovement() {
 
 	unordered_map<uint64, msgTest::MoveState> updatedMoveStates;
@@ -372,7 +382,11 @@ void Room::MovePlayer(uint64 sessionId, const RoomPlayerData& roomPlayerData) {
 
 	_players[sessionId]._gameState = roomPlayerData._gameState;
 
-	_gridManager->MovePosition(sessionId, roomPlayerData._gameState._position);
+	GridMoveResult result =  _gridManager->MovePosition(sessionId, roomPlayerData._gameState._position);
+
+	if (result._cellChanged == true) {
+		
+	}
 }
 
 RoomInfo Room::GetRoomInfo() {
@@ -600,6 +614,7 @@ int32 RoomManager::CreateAndPushRoom(const InitRoomInfo& initRoomInfo, const Roo
 
 	shared_ptr<Room> room = MakeRoomPtr(roomInfo, hostPlayerData);
 	room->SetActorId(GActorManager->RegisterActor(room));
+
 	_rooms[roomId] = room;
 	_sessionToRoomMap[hostPlayerData._sessionId] = roomId;
 
