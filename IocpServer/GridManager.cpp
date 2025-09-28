@@ -99,4 +99,19 @@ vector<uint64> GridManager::GetNearByPlayers(uint64 sessionId) {
 	return nearPlayers;
 }
 
+vector<uint64> GridManager::GetPlayersInCell(Vector<int16> cell){
+
+	vector<uint64> playersInCell;
+
+	const auto& it = _grid.find({ cell._x, cell._y });
+	if(it == _grid.end()) {
+
+		return playersInCell;
+	}
+	
+	playersInCell.assign(it->second.begin(), it->second.end());
+
+	return playersInCell;
+}
+
 
