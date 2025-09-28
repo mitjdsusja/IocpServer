@@ -662,7 +662,7 @@ int32 RoomManager::CreateAndPushRoom(const InitRoomInfo& initRoomInfo, const Roo
 	//wcout << "[RoomManager::CreateAndPushRoom] EnterRoom roomId : " << roomId << " playerName : " << hostPlayerData._gameState._name << endl;
 
 	room->PushJobRegisterBroadcastPosition();
-	room->PushJobRegisterBroadcastPlayerInGrid();
+	//room->PushJobRegisterBroadcastPlayerInGrid();
 
 	return roomId;
 }
