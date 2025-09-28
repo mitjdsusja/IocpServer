@@ -79,31 +79,6 @@ struct SC_PongDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SC_PongDefaultTypeInternal _SC_Pong_default_instance_;
 
-inline constexpr SC_Player_List_In_Grid::Impl_::Impl_(
-    ::_pbi::ConstantInitialized) noexcept
-      : playernamelist_{},
-        _cached_size_{0} {}
-
-template <typename>
-PROTOBUF_CONSTEXPR SC_Player_List_In_Grid::SC_Player_List_In_Grid(::_pbi::ConstantInitialized)
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(_class_data_.base()),
-#else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::Message(),
-#endif  // PROTOBUF_CUSTOM_VTABLE
-      _impl_(::_pbi::ConstantInitialized()) {
-}
-struct SC_Player_List_In_GridDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR SC_Player_List_In_GridDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~SC_Player_List_In_GridDefaultTypeInternal() {}
-  union {
-    SC_Player_List_In_Grid _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SC_Player_List_In_GridDefaultTypeInternal _SC_Player_List_In_Grid_default_instance_;
-
 inline constexpr SC_Player_Leave_Grid_Notification::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : leaveplayerid_{::uint64_t{0u}},
@@ -567,12 +542,10 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
 inline constexpr MoveState::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
-        playername_(
-            &::google::protobuf::internal::fixed_address_empty_string,
-            ::_pbi::ConstantInitialized()),
         position_{nullptr},
         velocity_{nullptr},
         rotation_{nullptr},
+        playerid_{::uint64_t{0u}},
         timestamp_{::int64_t{0}},
         roomid_{0} {}
 
@@ -674,6 +647,31 @@ struct SC_Player_Move_NotificationDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SC_Player_Move_NotificationDefaultTypeInternal _SC_Player_Move_Notification_default_instance_;
+
+inline constexpr SC_Player_List_In_Grid::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : playerlist_{},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR SC_Player_List_In_Grid::SC_Player_List_In_Grid(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct SC_Player_List_In_GridDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR SC_Player_List_In_GridDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~SC_Player_List_In_GridDefaultTypeInternal() {}
+  union {
+    SC_Player_List_In_Grid _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SC_Player_List_In_GridDefaultTypeInternal _SC_Player_List_In_Grid_default_instance_;
 
 inline constexpr SC_Player_Enter_Room_Notification::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
@@ -843,7 +841,7 @@ const ::uint32_t
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
         PROTOBUF_FIELD_OFFSET(::msgTest::MoveState, _impl_.roomid_),
-        PROTOBUF_FIELD_OFFSET(::msgTest::MoveState, _impl_.playername_),
+        PROTOBUF_FIELD_OFFSET(::msgTest::MoveState, _impl_.playerid_),
         PROTOBUF_FIELD_OFFSET(::msgTest::MoveState, _impl_.position_),
         PROTOBUF_FIELD_OFFSET(::msgTest::MoveState, _impl_.velocity_),
         PROTOBUF_FIELD_OFFSET(::msgTest::MoveState, _impl_.rotation_),
@@ -1071,7 +1069,7 @@ const ::uint32_t
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
-        PROTOBUF_FIELD_OFFSET(::msgTest::SC_Player_List_In_Grid, _impl_.playernamelist_),
+        PROTOBUF_FIELD_OFFSET(::msgTest::SC_Player_List_In_Grid, _impl_.playerlist_),
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::msgTest::SC_Player_Leave_Grid_Notification, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -1226,73 +1224,73 @@ const char descriptor_table_protodef_messageTest_2eproto[] ABSL_ATTRIBUTE_SECTIO
     "ame\022\021\n\tmessageId\030\001 \001(\005\022\027\n\017totalFrameCoun"
     "t\030\002 \001(\005\022\022\n\nframeIndex\030\003 \001(\005\022\017\n\007payload\030\004"
     " \001(\014\")\n\006Vector\022\t\n\001x\030\001 \001(\021\022\t\n\001y\030\002 \001(\021\022\t\n\001"
-    "z\030\003 \001(\021\"\253\001\n\tMoveState\022\016\n\006roomId\030\001 \001(\005\022\022\n"
-    "\nplayerName\030\002 \001(\t\022!\n\010position\030\003 \001(\0132\017.ms"
-    "gTest.Vector\022!\n\010velocity\030\004 \001(\0132\017.msgTest"
-    ".Vector\022!\n\010rotation\030\005 \001(\0132\017.msgTest.Vect"
-    "or\022\021\n\ttimestamp\030\006 \001(\003\"Z\n\006Player\022\020\n\010playe"
-    "rId\030\001 \001(\004\022\014\n\004name\030\002 \001(\t\022\r\n\005level\030\003 \001(\005\022!"
-    "\n\010position\030\004 \001(\0132\017.msgTest.Vector\"g\n\004Roo"
-    "m\022\016\n\006roomId\030\001 \001(\005\022\020\n\010roomName\030\002 \001(\t\022\026\n\016m"
-    "axPlayerCount\030\003 \001(\005\022\023\n\013playerCount\030\004 \001(\005"
-    "\022\020\n\010hostName\030\005 \001(\t\"\034\n\007CS_Ping\022\021\n\ttimesta"
-    "mp\030\001 \001(\003\"5\n\007SC_Pong\022\021\n\ttimestamp\030\001 \001(\003\022\027"
-    "\n\017serverTimestamp\030\002 \001(\003\"0\n\020CS_Login_Requ"
-    "est\022\n\n\002id\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\"M\n\021SC_"
-    "Login_Response\022\017\n\007success\030\001 \001(\010\022\024\n\014error"
-    "Message\030\002 \001(\t\022\021\n\tsessionId\030\003 \001(\004\".\n\031CS_M"
-    "y_Player_Info_Request\022\021\n\tsessionId\030\001 \001(\004"
-    "\"A\n\032SC_My_Player_Info_Response\022#\n\nplayer"
-    "Info\030\001 \001(\0132\017.msgTest.Player\"-\n\033CS_Room_P"
-    "layer_List_Request\022\016\n\006roomId\030\001 \001(\005\"C\n\034SC"
-    "_Room_Player_List_Response\022#\n\nplayerList"
-    "\030\001 \003(\0132\017.msgTest.Player\"<\n\026CS_Create_Roo"
-    "m_Request\022\020\n\010roomName\030\001 \001(\t\022\020\n\010hostName\030"
-    "\002 \001(\t\"]\n\027SC_Create_Room_Response\022\017\n\007succ"
-    "ess\030\001 \001(\010\022\024\n\014errorMessage\030\002 \001(\t\022\033\n\004room\030"
-    "\003 \001(\0132\r.msgTest.Room\"\026\n\024CS_Room_List_Req"
-    "uest\"8\n\025SC_Room_List_Response\022\037\n\010roomLis"
-    "t\030\001 \003(\0132\r.msgTest.Room\"\'\n\025CS_Enter_Room_"
-    "Request\022\016\n\006roomId\030\001 \001(\005\"\207\001\n\026SC_Enter_Roo"
-    "m_Response\022\017\n\007success\030\001 \001(\010\022\024\n\014errorMess"
-    "age\030\002 \001(\t\022\033\n\004room\030\003 \001(\0132\r.msgTest.Room\022)"
-    "\n\020playerListInGrid\030\004 \003(\0132\017.msgTest.Playe"
-    "r\"\030\n\026CS_Enter_Room_Complete\"D\n!SC_Player"
-    "_Enter_Room_Notification\022\037\n\006player\030\001 \001(\013"
-    "2\017.msgTest.Player\"\?\n\026CS_Player_Move_Requ"
-    "est\022%\n\tmoveState\030\001 \001(\0132\022.msgTest.MoveSta"
-    "te\"E\n\033SC_Player_Move_Notification\022&\n\nmov"
-    "eStates\030\001 \003(\0132\022.msgTest.MoveState\"0\n\026SC_"
-    "Player_List_In_Grid\022\026\n\016playerNameList\030\001 "
-    "\003(\t\":\n!SC_Player_Leave_Grid_Notification"
-    "\022\025\n\rleavePlayerId\030\001 \001(\004\"I\n!SC_Player_Ent"
-    "er_Grid_Notification\022$\n\013enterPlayer\030\001 \001("
-    "\0132\017.msgTest.Player\"\240\001\n\014CS_Skill_Use\022\017\n\007s"
-    "killId\030\001 \001(\005\022%\n\tskillType\030\002 \001(\0162\022.msgTes"
-    "t.SkillType\022\"\n\tdirection\030\003 \001(\0132\017.msgTest"
-    ".Vector\022\"\n\ttargetPos\030\004 \001(\0132\017.msgTest.Vec"
-    "tor\022\020\n\010targetId\030\005 \001(\005\"\317\001\n\017SC_Skill_Resul"
-    "t\022\017\n\007success\030\001 \001(\010\022-\n\rskillFailType\030\002 \001("
-    "\0162\026.msgTest.SkillFailType\022\017\n\007skillId\030\003 \001"
-    "(\005\022\"\n\tdirection\030\004 \001(\0132\017.msgTest.Vector\022\""
-    "\n\ttargetPos\030\005 \001(\0132\017.msgTest.Vector\022\020\n\010ta"
-    "rgetId\030\006 \001(\005\022\021\n\ttimestamp\030\007 \001(\003\"\351\001\n\rSC_S"
-    "kill_Cast\022\020\n\010casterId\030\001 \001(\005\022\017\n\007skillId\030\002"
-    " \001(\005\022%\n\tskillType\030\003 \001(\0162\022.msgTest.SkillT"
-    "ype\022!\n\010startPos\030\004 \001(\0132\017.msgTest.Vector\022\""
-    "\n\tdirection\030\005 \001(\0132\017.msgTest.Vector\022\"\n\tta"
-    "rgetPos\030\006 \001(\0132\017.msgTest.Vector\022\020\n\010target"
-    "Id\030\007 \001(\005\022\021\n\ttimestamp\030\010 \001(\003*i\n\tSkillType"
-    "\022\026\n\022SKILL_TYPE_UNKNOWN\020\000\022\031\n\025SKILL_TYPE_P"
-    "ROJECTILE\020\001\022\022\n\016SKILL_TYPE_AOE\020\002\022\025\n\021SKILL"
-    "_TYPE_TARGET\020\003*,\n\rSkillFailType\022\033\n\027SKILL"
-    "_FAIL_TYPE_UNKNOWN\020\000b\006proto3"
+    "z\030\003 \001(\021\"\251\001\n\tMoveState\022\016\n\006roomId\030\001 \001(\005\022\020\n"
+    "\010playerId\030\002 \001(\004\022!\n\010position\030\003 \001(\0132\017.msgT"
+    "est.Vector\022!\n\010velocity\030\004 \001(\0132\017.msgTest.V"
+    "ector\022!\n\010rotation\030\005 \001(\0132\017.msgTest.Vector"
+    "\022\021\n\ttimestamp\030\006 \001(\003\"Z\n\006Player\022\020\n\010playerI"
+    "d\030\001 \001(\004\022\014\n\004name\030\002 \001(\t\022\r\n\005level\030\003 \001(\005\022!\n\010"
+    "position\030\004 \001(\0132\017.msgTest.Vector\"g\n\004Room\022"
+    "\016\n\006roomId\030\001 \001(\005\022\020\n\010roomName\030\002 \001(\t\022\026\n\016max"
+    "PlayerCount\030\003 \001(\005\022\023\n\013playerCount\030\004 \001(\005\022\020"
+    "\n\010hostName\030\005 \001(\t\"\034\n\007CS_Ping\022\021\n\ttimestamp"
+    "\030\001 \001(\003\"5\n\007SC_Pong\022\021\n\ttimestamp\030\001 \001(\003\022\027\n\017"
+    "serverTimestamp\030\002 \001(\003\"0\n\020CS_Login_Reques"
+    "t\022\n\n\002id\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\"M\n\021SC_Lo"
+    "gin_Response\022\017\n\007success\030\001 \001(\010\022\024\n\014errorMe"
+    "ssage\030\002 \001(\t\022\021\n\tsessionId\030\003 \001(\004\".\n\031CS_My_"
+    "Player_Info_Request\022\021\n\tsessionId\030\001 \001(\004\"A"
+    "\n\032SC_My_Player_Info_Response\022#\n\nplayerIn"
+    "fo\030\001 \001(\0132\017.msgTest.Player\"-\n\033CS_Room_Pla"
+    "yer_List_Request\022\016\n\006roomId\030\001 \001(\005\"C\n\034SC_R"
+    "oom_Player_List_Response\022#\n\nplayerList\030\001"
+    " \003(\0132\017.msgTest.Player\"<\n\026CS_Create_Room_"
+    "Request\022\020\n\010roomName\030\001 \001(\t\022\020\n\010hostName\030\002 "
+    "\001(\t\"]\n\027SC_Create_Room_Response\022\017\n\007succes"
+    "s\030\001 \001(\010\022\024\n\014errorMessage\030\002 \001(\t\022\033\n\004room\030\003 "
+    "\001(\0132\r.msgTest.Room\"\026\n\024CS_Room_List_Reque"
+    "st\"8\n\025SC_Room_List_Response\022\037\n\010roomList\030"
+    "\001 \003(\0132\r.msgTest.Room\"\'\n\025CS_Enter_Room_Re"
+    "quest\022\016\n\006roomId\030\001 \001(\005\"\207\001\n\026SC_Enter_Room_"
+    "Response\022\017\n\007success\030\001 \001(\010\022\024\n\014errorMessag"
+    "e\030\002 \001(\t\022\033\n\004room\030\003 \001(\0132\r.msgTest.Room\022)\n\020"
+    "playerListInGrid\030\004 \003(\0132\017.msgTest.Player\""
+    "\030\n\026CS_Enter_Room_Complete\"D\n!SC_Player_E"
+    "nter_Room_Notification\022\037\n\006player\030\001 \001(\0132\017"
+    ".msgTest.Player\"\?\n\026CS_Player_Move_Reques"
+    "t\022%\n\tmoveState\030\001 \001(\0132\022.msgTest.MoveState"
+    "\"E\n\033SC_Player_Move_Notification\022&\n\nmoveS"
+    "tates\030\001 \003(\0132\022.msgTest.MoveState\"=\n\026SC_Pl"
+    "ayer_List_In_Grid\022#\n\nplayerList\030\001 \003(\0132\017."
+    "msgTest.Player\":\n!SC_Player_Leave_Grid_N"
+    "otification\022\025\n\rleavePlayerId\030\001 \001(\004\"I\n!SC"
+    "_Player_Enter_Grid_Notification\022$\n\013enter"
+    "Player\030\001 \001(\0132\017.msgTest.Player\"\240\001\n\014CS_Ski"
+    "ll_Use\022\017\n\007skillId\030\001 \001(\005\022%\n\tskillType\030\002 \001"
+    "(\0162\022.msgTest.SkillType\022\"\n\tdirection\030\003 \001("
+    "\0132\017.msgTest.Vector\022\"\n\ttargetPos\030\004 \001(\0132\017."
+    "msgTest.Vector\022\020\n\010targetId\030\005 \001(\005\"\317\001\n\017SC_"
+    "Skill_Result\022\017\n\007success\030\001 \001(\010\022-\n\rskillFa"
+    "ilType\030\002 \001(\0162\026.msgTest.SkillFailType\022\017\n\007"
+    "skillId\030\003 \001(\005\022\"\n\tdirection\030\004 \001(\0132\017.msgTe"
+    "st.Vector\022\"\n\ttargetPos\030\005 \001(\0132\017.msgTest.V"
+    "ector\022\020\n\010targetId\030\006 \001(\005\022\021\n\ttimestamp\030\007 \001"
+    "(\003\"\351\001\n\rSC_Skill_Cast\022\020\n\010casterId\030\001 \001(\005\022\017"
+    "\n\007skillId\030\002 \001(\005\022%\n\tskillType\030\003 \001(\0162\022.msg"
+    "Test.SkillType\022!\n\010startPos\030\004 \001(\0132\017.msgTe"
+    "st.Vector\022\"\n\tdirection\030\005 \001(\0132\017.msgTest.V"
+    "ector\022\"\n\ttargetPos\030\006 \001(\0132\017.msgTest.Vecto"
+    "r\022\020\n\010targetId\030\007 \001(\005\022\021\n\ttimestamp\030\010 \001(\003*i"
+    "\n\tSkillType\022\026\n\022SKILL_TYPE_UNKNOWN\020\000\022\031\n\025S"
+    "KILL_TYPE_PROJECTILE\020\001\022\022\n\016SKILL_TYPE_AOE"
+    "\020\002\022\025\n\021SKILL_TYPE_TARGET\020\003*,\n\rSkillFailTy"
+    "pe\022\033\n\027SKILL_FAIL_TYPE_UNKNOWN\020\000b\006proto3"
 };
 static ::absl::once_flag descriptor_table_messageTest_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_messageTest_2eproto = {
     false,
     false,
-    2588,
+    2599,
     descriptor_table_protodef_messageTest_2eproto,
     "messageTest.proto",
     &descriptor_table_messageTest_2eproto_once,
@@ -1922,8 +1920,7 @@ inline PROTOBUF_NDEBUG_INLINE MoveState::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
     const Impl_& from, const ::msgTest::MoveState& from_msg)
       : _has_bits_{from._has_bits_},
-        _cached_size_{0},
-        playername_(arena, from.playername_) {}
+        _cached_size_{0} {}
 
 MoveState::MoveState(
     ::google::protobuf::Arena* arena,
@@ -1949,11 +1946,11 @@ MoveState::MoveState(
                               arena, *from._impl_.rotation_)
                         : nullptr;
   ::memcpy(reinterpret_cast<char *>(&_impl_) +
-               offsetof(Impl_, timestamp_),
+               offsetof(Impl_, playerid_),
            reinterpret_cast<const char *>(&from._impl_) +
-               offsetof(Impl_, timestamp_),
+               offsetof(Impl_, playerid_),
            offsetof(Impl_, roomid_) -
-               offsetof(Impl_, timestamp_) +
+               offsetof(Impl_, playerid_) +
                sizeof(Impl_::roomid_));
 
   // @@protoc_insertion_point(copy_constructor:msgTest.MoveState)
@@ -1961,8 +1958,7 @@ MoveState::MoveState(
 inline PROTOBUF_NDEBUG_INLINE MoveState::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* arena)
-      : _cached_size_{0},
-        playername_(arena) {}
+      : _cached_size_{0} {}
 
 inline void MoveState::SharedCtor(::_pb::Arena* arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
@@ -1981,7 +1977,6 @@ inline void MoveState::SharedDtor(MessageLite& self) {
   MoveState& this_ = static_cast<MoveState&>(self);
   this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   ABSL_DCHECK(this_.GetArena() == nullptr);
-  this_._impl_.playername_.Destroy();
   delete this_._impl_.position_;
   delete this_._impl_.velocity_;
   delete this_._impl_.rotation_;
@@ -1993,7 +1988,7 @@ inline void* MoveState::PlacementNew_(const void*, void* mem,
   return ::new (mem) MoveState(arena);
 }
 constexpr auto MoveState::InternalNewImpl_() {
-  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(MoveState),
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(MoveState),
                                             alignof(MoveState));
 }
 PROTOBUF_CONSTINIT
@@ -2024,7 +2019,7 @@ const ::google::protobuf::internal::ClassData* MoveState::GetClassData() const {
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<3, 6, 3, 36, 2> MoveState::_table_ = {
+const ::_pbi::TcParseTable<3, 6, 3, 0, 2> MoveState::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(MoveState, _impl_._has_bits_),
     0, // no _extensions_
@@ -2046,9 +2041,9 @@ const ::_pbi::TcParseTable<3, 6, 3, 36, 2> MoveState::_table_ = {
     // int32 roomId = 1;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(MoveState, _impl_.roomid_), 63>(),
      {8, 63, 0, PROTOBUF_FIELD_OFFSET(MoveState, _impl_.roomid_)}},
-    // string playerName = 2;
-    {::_pbi::TcParser::FastUS1,
-     {18, 63, 0, PROTOBUF_FIELD_OFFSET(MoveState, _impl_.playername_)}},
+    // uint64 playerId = 2;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(MoveState, _impl_.playerid_), 63>(),
+     {16, 63, 0, PROTOBUF_FIELD_OFFSET(MoveState, _impl_.playerid_)}},
     // .msgTest.Vector position = 3;
     {::_pbi::TcParser::FastMtS1,
      {26, 0, 0, PROTOBUF_FIELD_OFFSET(MoveState, _impl_.position_)}},
@@ -2068,9 +2063,9 @@ const ::_pbi::TcParseTable<3, 6, 3, 36, 2> MoveState::_table_ = {
     // int32 roomId = 1;
     {PROTOBUF_FIELD_OFFSET(MoveState, _impl_.roomid_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
-    // string playerName = 2;
-    {PROTOBUF_FIELD_OFFSET(MoveState, _impl_.playername_), -1, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    // uint64 playerId = 2;
+    {PROTOBUF_FIELD_OFFSET(MoveState, _impl_.playerid_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
     // .msgTest.Vector position = 3;
     {PROTOBUF_FIELD_OFFSET(MoveState, _impl_.position_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
@@ -2088,9 +2083,6 @@ const ::_pbi::TcParseTable<3, 6, 3, 36, 2> MoveState::_table_ = {
     {::_pbi::TcParser::GetTable<::msgTest::Vector>()},
     {::_pbi::TcParser::GetTable<::msgTest::Vector>()},
   }}, {{
-    "\21\0\12\0\0\0\0\0"
-    "msgTest.MoveState"
-    "playerName"
   }},
 };
 
@@ -2101,7 +2093,6 @@ PROTOBUF_NOINLINE void MoveState::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.playername_.ClearToEmpty();
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000007u) {
     if (cached_has_bits & 0x00000001u) {
@@ -2117,9 +2108,9 @@ PROTOBUF_NOINLINE void MoveState::Clear() {
       _impl_.rotation_->Clear();
     }
   }
-  ::memset(&_impl_.timestamp_, 0, static_cast<::size_t>(
+  ::memset(&_impl_.playerid_, 0, static_cast<::size_t>(
       reinterpret_cast<char*>(&_impl_.roomid_) -
-      reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.roomid_));
+      reinterpret_cast<char*>(&_impl_.playerid_)) + sizeof(_impl_.roomid_));
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
@@ -2146,12 +2137,11 @@ PROTOBUF_NOINLINE void MoveState::Clear() {
                     stream, this_._internal_roomid(), target);
           }
 
-          // string playerName = 2;
-          if (!this_._internal_playername().empty()) {
-            const std::string& _s = this_._internal_playername();
-            ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-                _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "msgTest.MoveState.playerName");
-            target = stream->WriteStringMaybeAliased(2, _s, target);
+          // uint64 playerId = 2;
+          if (this_._internal_playerid() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+                2, this_._internal_playerid(), target);
           }
 
           cached_has_bits = this_._impl_._has_bits_[0];
@@ -2207,13 +2197,6 @@ PROTOBUF_NOINLINE void MoveState::Clear() {
           (void)cached_has_bits;
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
-           {
-            // string playerName = 2;
-            if (!this_._internal_playername().empty()) {
-              total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
-                                              this_._internal_playername());
-            }
-          }
           cached_has_bits = this_._impl_._has_bits_[0];
           if (cached_has_bits & 0x00000007u) {
             // .msgTest.Vector position = 3;
@@ -2233,6 +2216,11 @@ PROTOBUF_NOINLINE void MoveState::Clear() {
             }
           }
            {
+            // uint64 playerId = 2;
+            if (this_._internal_playerid() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+                  this_._internal_playerid());
+            }
             // int64 timestamp = 6;
             if (this_._internal_timestamp() != 0) {
               total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(
@@ -2257,9 +2245,6 @@ void MoveState::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::googl
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (!from._internal_playername().empty()) {
-    _this->_internal_set_playername(from._internal_playername());
-  }
   cached_has_bits = from._impl_._has_bits_[0];
   if (cached_has_bits & 0x00000007u) {
     if (cached_has_bits & 0x00000001u) {
@@ -2290,6 +2275,9 @@ void MoveState::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::googl
       }
     }
   }
+  if (from._internal_playerid() != 0) {
+    _this->_impl_.playerid_ = from._impl_.playerid_;
+  }
   if (from._internal_timestamp() != 0) {
     _this->_impl_.timestamp_ = from._impl_.timestamp_;
   }
@@ -2310,11 +2298,8 @@ void MoveState::CopyFrom(const MoveState& from) {
 
 void MoveState::InternalSwap(MoveState* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* arena = GetArena();
-  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.playername_, &other->_impl_.playername_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(MoveState, _impl_.roomid_)
       + sizeof(MoveState::_impl_.roomid_)
@@ -7292,7 +7277,7 @@ SC_Player_List_In_Grid::SC_Player_List_In_Grid(::google::protobuf::Arena* arena)
 inline PROTOBUF_NDEBUG_INLINE SC_Player_List_In_Grid::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
     const Impl_& from, const ::msgTest::SC_Player_List_In_Grid& from_msg)
-      : playernamelist_{visibility, arena, from.playernamelist_},
+      : playerlist_{visibility, arena, from.playerlist_},
         _cached_size_{0} {}
 
 SC_Player_List_In_Grid::SC_Player_List_In_Grid(
@@ -7314,7 +7299,7 @@ SC_Player_List_In_Grid::SC_Player_List_In_Grid(
 inline PROTOBUF_NDEBUG_INLINE SC_Player_List_In_Grid::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* arena)
-      : playernamelist_{visibility, arena},
+      : playerlist_{visibility, arena},
         _cached_size_{0} {}
 
 inline void SC_Player_List_In_Grid::SharedCtor(::_pb::Arena* arena) {
@@ -7337,8 +7322,8 @@ inline void* SC_Player_List_In_Grid::PlacementNew_(const void*, void* mem,
 }
 constexpr auto SC_Player_List_In_Grid::InternalNewImpl_() {
   constexpr auto arena_bits = ::google::protobuf::internal::EncodePlacementArenaOffsets({
-      PROTOBUF_FIELD_OFFSET(SC_Player_List_In_Grid, _impl_.playernamelist_) +
-          decltype(SC_Player_List_In_Grid::_impl_.playernamelist_)::
+      PROTOBUF_FIELD_OFFSET(SC_Player_List_In_Grid, _impl_.playerlist_) +
+          decltype(SC_Player_List_In_Grid::_impl_.playerlist_)::
               InternalGetArenaOffset(
                   ::google::protobuf::Message::internal_visibility()),
   });
@@ -7379,7 +7364,7 @@ const ::google::protobuf::internal::ClassData* SC_Player_List_In_Grid::GetClassD
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 1, 0, 53, 2> SC_Player_List_In_Grid::_table_ = {
+const ::_pbi::TcParseTable<0, 1, 1, 0, 2> SC_Player_List_In_Grid::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
@@ -7388,8 +7373,8 @@ const ::_pbi::TcParseTable<0, 1, 0, 53, 2> SC_Player_List_In_Grid::_table_ = {
     4294967294,  // skipmap
     offsetof(decltype(_table_), field_entries),
     1,  // num_field_entries
-    0,  // num_aux_entries
-    offsetof(decltype(_table_), field_names),  // no aux_entries
+    1,  // num_aux_entries
+    offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
     nullptr,  // post_loop_handler
     ::_pbi::TcParser::GenericFallback,  // fallback
@@ -7397,21 +7382,18 @@ const ::_pbi::TcParseTable<0, 1, 0, 53, 2> SC_Player_List_In_Grid::_table_ = {
     ::_pbi::TcParser::GetTable<::msgTest::SC_Player_List_In_Grid>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // repeated string playerNameList = 1;
-    {::_pbi::TcParser::FastUR1,
-     {10, 63, 0, PROTOBUF_FIELD_OFFSET(SC_Player_List_In_Grid, _impl_.playernamelist_)}},
+    // repeated .msgTest.Player playerList = 1;
+    {::_pbi::TcParser::FastMtR1,
+     {10, 63, 0, PROTOBUF_FIELD_OFFSET(SC_Player_List_In_Grid, _impl_.playerlist_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // repeated string playerNameList = 1;
-    {PROTOBUF_FIELD_OFFSET(SC_Player_List_In_Grid, _impl_.playernamelist_), 0, 0,
-    (0 | ::_fl::kFcRepeated | ::_fl::kUtf8String | ::_fl::kRepSString)},
-  }},
-  // no aux_entries
-  {{
-    "\36\16\0\0\0\0\0\0"
-    "msgTest.SC_Player_List_In_Grid"
-    "playerNameList"
+    // repeated .msgTest.Player playerList = 1;
+    {PROTOBUF_FIELD_OFFSET(SC_Player_List_In_Grid, _impl_.playerlist_), 0, 0,
+    (0 | ::_fl::kFcRepeated | ::_fl::kMessage | ::_fl::kTvTable)},
+  }}, {{
+    {::_pbi::TcParser::GetTable<::msgTest::Player>()},
+  }}, {{
   }},
 };
 
@@ -7422,7 +7404,7 @@ PROTOBUF_NOINLINE void SC_Player_List_In_Grid::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.playernamelist_.Clear();
+  _impl_.playerlist_.Clear();
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
@@ -7441,12 +7423,15 @@ PROTOBUF_NOINLINE void SC_Player_List_In_Grid::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // repeated string playerNameList = 1;
-          for (int i = 0, n = this_._internal_playernamelist_size(); i < n; ++i) {
-            const auto& s = this_._internal_playernamelist().Get(i);
-            ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-                s.data(), static_cast<int>(s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "msgTest.SC_Player_List_In_Grid.playerNameList");
-            target = stream->WriteString(1, s, target);
+          // repeated .msgTest.Player playerList = 1;
+          for (unsigned i = 0, n = static_cast<unsigned>(
+                                   this_._internal_playerlist_size());
+               i < n; i++) {
+            const auto& repfield = this_._internal_playerlist().Get(i);
+            target =
+                ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                    1, repfield, repfield.GetCachedSize(),
+                    target, stream);
           }
 
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
@@ -7474,13 +7459,11 @@ PROTOBUF_NOINLINE void SC_Player_List_In_Grid::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // repeated string playerNameList = 1;
+            // repeated .msgTest.Player playerList = 1;
             {
-              total_size +=
-                  1 * ::google::protobuf::internal::FromIntSize(this_._internal_playernamelist().size());
-              for (int i = 0, n = this_._internal_playernamelist().size(); i < n; ++i) {
-                total_size += ::google::protobuf::internal::WireFormatLite::StringSize(
-                    this_._internal_playernamelist().Get(i));
+              total_size += 1UL * this_._internal_playerlist_size();
+              for (const auto& msg : this_._internal_playerlist()) {
+                total_size += ::google::protobuf::internal::WireFormatLite::MessageSize(msg);
               }
             }
           }
@@ -7496,7 +7479,8 @@ void SC_Player_List_In_Grid::MergeImpl(::google::protobuf::MessageLite& to_msg, 
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  _this->_internal_mutable_playernamelist()->MergeFrom(from._internal_playernamelist());
+  _this->_internal_mutable_playerlist()->MergeFrom(
+      from._internal_playerlist());
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -7511,7 +7495,7 @@ void SC_Player_List_In_Grid::CopyFrom(const SC_Player_List_In_Grid& from) {
 void SC_Player_List_In_Grid::InternalSwap(SC_Player_List_In_Grid* PROTOBUF_RESTRICT other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  _impl_.playernamelist_.InternalSwap(&other->_impl_.playernamelist_);
+  _impl_.playerlist_.InternalSwap(&other->_impl_.playerlist_);
 }
 
 ::google::protobuf::Metadata SC_Player_List_In_Grid::GetMetadata() const {
