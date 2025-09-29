@@ -240,7 +240,6 @@ void Room::BroadcastPlayerLeaveGrid(uint64 sessionId, const vector<uint64>& play
 		if (targetSessionId == sessionId) {
 			continue;
 		}
-		
 		msgTest::SC_Player_Leave_Grid_Notification sendPacketPlayerLeaveGriNotification;
 		sendPacketPlayerLeaveGriNotification.set_leaveplayerid(sessionId);
 
@@ -278,7 +277,7 @@ void Room::BroadcastPlayerEnterGrid(uint64 sessionId, const vector<uint64>& play
 	}
 }
 
-void Room::BroadcastGridChange(uint64 sessionId, Vector<int16> oldCell, Vector<int16> newCell){
+void Room::NotifyGridChange(uint64 sessionId, const Vector<int16>& oldCell, const Vector<int16>& newCell){
 
 	const vector<uint64> oldCellPlayers = _gridManager->GetPlayersAroundCell(oldCell);
 	const vector<uint64> newCellPlayers = _gridManager->GetPlayersAroundCell(newCell);
@@ -303,6 +302,7 @@ void Room::BroadcastGridChange(uint64 sessionId, Vector<int16> oldCell, Vector<i
 
 	BroadcastPlayerLeaveGrid(sessionId, playersToNotifyLeave);
 	BroadcastPlayerEnterGrid(sessionId, playersToNotifyEnter);
+	SendUpdatedPlayerListToSelf(sessionId, playersToNotifyLeave, playersToNotifyEnter);
 }
 
 void Room::BroadcastPlayerMovement() {
@@ -397,6 +397,11 @@ void Room::BroadcastPlayerInGrid(){
 	}
 }
 
+void Room::SendUpdatedPlayerListToSelf(uint64 sesssionId, const vector<uint64>& leavePlayers, const vector<uint64>& enterPlayers){
+
+
+}
+
 bool Room::EnterPlayer(const RoomPlayerData& playerData) {
 
 	_players[playerData._sessionId] = playerData;
@@ -457,7 +462,7 @@ void Room::MovePlayer(uint64 sessionId, const RoomPlayerData& roomPlayerData) {
 
 	if (result._cellChanged == true) {
 		
-		BroadcastGridChange(sessionId, result._oldCell, result._newCell);
+		NotifyGridChange(sessionId, result._oldCell, result._newCell);
 	}
 }
 
