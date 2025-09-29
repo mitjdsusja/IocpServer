@@ -280,8 +280,8 @@ void Room::BroadcastPlayerEnterGrid(uint64 sessionId, const vector<uint64>& play
 
 void Room::BroadcastGridChange(uint64 sessionId, Vector<int16> oldCell, Vector<int16> newCell){
 
-	const vector<uint64>& oldCellPlayers = _gridManager->GetPlayersAroundCell(oldCell);
-	const vector<uint64>& newCellPlayers = _gridManager->GetPlayersAroundCell(newCell);
+	const vector<uint64> oldCellPlayers = _gridManager->GetPlayersAroundCell(oldCell);
+	const vector<uint64> newCellPlayers = _gridManager->GetPlayersAroundCell(newCell);
 
 	unordered_set<uint64> oldCellPlayerSet(oldCellPlayers.begin(), oldCellPlayers.end());
 	unordered_set<uint64> newCellPlayerSet(newCellPlayers.begin(), newCellPlayers.end());
