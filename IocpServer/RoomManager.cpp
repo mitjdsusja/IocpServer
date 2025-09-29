@@ -14,7 +14,6 @@
 
 #include <boost/locale.hpp>
 
-
 Room::Room(const InitRoomInfo& initRoomInfo, const RoomPlayerData& hostPlayerData)
 	: _gridManager(make_shared<GridManager>(10)), _roomInfo({initRoomInfo, 0, hostPlayerData._gameState._name, hostPlayerData._sessionId}) , Actor(ActorType::ROOM_TYPE){
 
@@ -233,11 +232,9 @@ void Room::Broadcast(const vector<shared_ptr<Buffer>>& sendBuffer){
 	}
 }
 
-void Room::BroadcastPlayerLeaveGrid(uint64 sessionId, Vector<int16> oldCell){
+void Room::BroadcastPlayerLeaveGrid(uint64 sessionId, const vector<uint64>& playersToNotify){
 
-	vector<uint64> players =  _gridManager->GetPlayersInCell(oldCell);
-
-	for (uint64 targetSessionId : players) {
+	for (uint64 targetSessionId : playersToNotify) {
 
 		// 자기 자신에게는 보내지 않음
 		if (targetSessionId == sessionId) {
@@ -253,11 +250,9 @@ void Room::BroadcastPlayerLeaveGrid(uint64 sessionId, Vector<int16> oldCell){
 	}
 }
 
-void Room::BroadcastPlayerEnterGrid(uint64 sessionId, Vector<int16> newCell){
+void Room::BroadcastPlayerEnterGrid(uint64 sessionId, const vector<uint64>& playersToNotify){
 
-	vector<uint64> players = _gridManager->GetPlayersInCell(newCell);
-
-	for (uint64 targetSessionId : players) {
+	for (uint64 targetSessionId : playersToNotify) {
 
 		// 자기 자신에게는 보내지 않음
 		if (targetSessionId == sessionId) {
@@ -281,6 +276,33 @@ void Room::BroadcastPlayerEnterGrid(uint64 sessionId, Vector<int16> newCell){
 
 		GPlayerManager->PushJobSendData(targetSessionId, sendBuffer);
 	}
+}
+
+void Room::BroadcastGridChane(uint64 sessionId, Vector<int16> oldCell, Vector<int16> newCell){
+
+	const vector<uint64>& oldCellPlayers = _gridManager->GetPlayersInCell(oldCell);
+	const vector<uint64>& newCellPlayers = _gridManager->GetPlayersInCell(newCell);
+
+	unordered_set<uint64> oldCellPlayerSet(oldCellPlayers.begin(), oldCellPlayers.end());
+	unordered_set<uint64> newCellPlayerSet(newCellPlayers.begin(), newCellPlayers.end());
+
+	vector<uint64> playersToNotifyLeave;
+	vector<uint64> playersToNotifyEnter;
+
+	for(const uint64 playerId : oldCellPlayerSet) {
+		if (newCellPlayerSet.find(playerId) == newCellPlayerSet.end()) {
+			playersToNotifyLeave.push_back(playerId);
+		}
+	}
+
+	for(const uint64 playerId : newCellPlayerSet) {
+		if (oldCellPlayerSet.find(playerId) == oldCellPlayerSet.end()) {
+			playersToNotifyEnter.push_back(playerId);
+		}
+	}
+
+	BroadcastPlayerLeaveGrid(sessionId, playersToNotifyLeave);
+	BroadcastPlayerEnterGrid(sessionId, playersToNotifyEnter);
 }
 
 void Room::BroadcastPlayerMovement() {
@@ -435,8 +457,7 @@ void Room::MovePlayer(uint64 sessionId, const RoomPlayerData& roomPlayerData) {
 
 	if (result._cellChanged == true) {
 		
-		BroadcastPlayerLeaveGrid(sessionId, result._oldCell);
-		BroadcastPlayerEnterGrid(sessionId, result._newCell);
+		BroadcastGridChane(sessionId, result._oldCell, result._newCell);
 	}
 }
 
