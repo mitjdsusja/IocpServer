@@ -302,7 +302,7 @@ void Room::NotifyGridChange(uint64 sessionId, const Vector<int16>& oldCell, cons
 
 	BroadcastPlayerLeaveGrid(sessionId, playersToNotifyLeave);
 	BroadcastPlayerEnterGrid(sessionId, playersToNotifyEnter);
-	SendUpdatedPlayerListToSelf(sessionId, playersToNotifyLeave, playersToNotifyEnter);
+	SendPlayersInGrid(sessionId);
 }
 
 void Room::BroadcastPlayerMovement() {
@@ -397,9 +397,34 @@ void Room::BroadcastPlayerInGrid(){
 	}
 }
 
-void Room::SendUpdatedPlayerListToSelf(uint64 sesssionId, const vector<uint64>& leavePlayers, const vector<uint64>& enterPlayers){
+void Room::SendPlayersInGrid(uint64 sesssionId){
 
+	vector<uint64> playersInGrid = _gridManager->GetNearByPlayers(sesssionId);
 
+	msgTest::SC_Player_List_In_Grid sendPacketPlayerListInGrid;
+	
+	for(uint64 playerId : playersInGrid) {
+
+		// 자기 자신은 보내지 않음
+		if (playerId == sesssionId) {
+			continue;
+		}
+
+		const RoomPlayerData& roomPlayerData = GetRoomPlayerData(playerId);
+		msgTest::Player* player = sendPacketPlayerListInGrid.add_playerlist();
+		msgTest::Vector* position = player->mutable_position();
+
+		player->set_playerid(playerId);
+		player->set_name(boost::locale::conv::utf_to_utf<char>(roomPlayerData._gameState._name));
+		player->set_level(roomPlayerData._gameState._level);
+		position->set_x(roomPlayerData._gameState._position._x);
+		position->set_y(roomPlayerData._gameState._position._y);
+		position->set_z(roomPlayerData._gameState._position._z);
+	}
+
+	auto sendBuffer = PacketHandler::MakeSendBuffer(sendPacketPlayerListInGrid, PacketId::PKT_SC_PLAYER_LIST_IN_GRID);
+
+	GPlayerManager->PushJobSendData(sesssionId, sendBuffer);
 }
 
 bool Room::EnterPlayer(const RoomPlayerData& playerData) {

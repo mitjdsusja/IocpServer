@@ -87,9 +87,6 @@ extern CS_Skill_UseDefaultTypeInternal _CS_Skill_Use_default_instance_;
 class MoveState;
 struct MoveStateDefaultTypeInternal;
 extern MoveStateDefaultTypeInternal _MoveState_default_instance_;
-class PacketFrame;
-struct PacketFrameDefaultTypeInternal;
-extern PacketFrameDefaultTypeInternal _PacketFrame_default_instance_;
 class Player;
 struct PlayerDefaultTypeInternal;
 extern PlayerDefaultTypeInternal _Player_default_instance_;
@@ -280,7 +277,7 @@ class Vector final : public ::google::protobuf::Message
     return reinterpret_cast<const Vector*>(
         &_Vector_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 1;
+  static constexpr int kIndexInFileMessages = 0;
   friend void swap(Vector& a, Vector& b) { a.Swap(&b); }
   inline void Swap(Vector* other) {
     if (other == this) return;
@@ -494,7 +491,7 @@ class SC_Pong final : public ::google::protobuf::Message
     return reinterpret_cast<const SC_Pong*>(
         &_SC_Pong_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 6;
+  static constexpr int kIndexInFileMessages = 5;
   friend void swap(SC_Pong& a, SC_Pong& b) { a.Swap(&b); }
   inline void Swap(SC_Pong* other) {
     if (other == this) return;
@@ -696,7 +693,7 @@ class SC_Player_Leave_Grid_Notification final : public ::google::protobuf::Messa
     return reinterpret_cast<const SC_Player_Leave_Grid_Notification*>(
         &_SC_Player_Leave_Grid_Notification_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 24;
+  static constexpr int kIndexInFileMessages = 23;
   friend void swap(SC_Player_Leave_Grid_Notification& a, SC_Player_Leave_Grid_Notification& b) { a.Swap(&b); }
   inline void Swap(SC_Player_Leave_Grid_Notification* other) {
     if (other == this) return;
@@ -886,7 +883,7 @@ class SC_Login_Response final : public ::google::protobuf::Message
     return reinterpret_cast<const SC_Login_Response*>(
         &_SC_Login_Response_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 8;
+  static constexpr int kIndexInFileMessages = 7;
   friend void swap(SC_Login_Response& a, SC_Login_Response& b) { a.Swap(&b); }
   inline void Swap(SC_Login_Response* other) {
     if (other == this) return;
@@ -1106,7 +1103,7 @@ class Room final : public ::google::protobuf::Message
     return reinterpret_cast<const Room*>(
         &_Room_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 4;
+  static constexpr int kIndexInFileMessages = 3;
   friend void swap(Room& a, Room& b) { a.Swap(&b); }
   inline void Swap(Room* other) {
     if (other == this) return;
@@ -1297,238 +1294,6 @@ class Room final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
-class PacketFrame final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:msgTest.PacketFrame) */ {
- public:
-  inline PacketFrame() : PacketFrame(nullptr) {}
-  ~PacketFrame() PROTOBUF_FINAL;
-
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-  void operator delete(PacketFrame* msg, std::destroying_delete_t) {
-    SharedDtor(*msg);
-    ::google::protobuf::internal::SizedDelete(msg, sizeof(PacketFrame));
-  }
-#endif
-
-  template <typename = void>
-  explicit PROTOBUF_CONSTEXPR PacketFrame(
-      ::google::protobuf::internal::ConstantInitialized);
-
-  inline PacketFrame(const PacketFrame& from) : PacketFrame(nullptr, from) {}
-  inline PacketFrame(PacketFrame&& from) noexcept
-      : PacketFrame(nullptr, std::move(from)) {}
-  inline PacketFrame& operator=(const PacketFrame& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline PacketFrame& operator=(PacketFrame&& from) noexcept {
-    if (this == &from) return *this;
-    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::google::protobuf::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::google::protobuf::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const PacketFrame& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const PacketFrame* internal_default_instance() {
-    return reinterpret_cast<const PacketFrame*>(
-        &_PacketFrame_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages = 0;
-  friend void swap(PacketFrame& a, PacketFrame& b) { a.Swap(&b); }
-  inline void Swap(PacketFrame* other) {
-    if (other == this) return;
-    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
-      InternalSwap(other);
-    } else {
-      ::google::protobuf::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(PacketFrame* other) {
-    if (other == this) return;
-    ABSL_DCHECK(GetArena() == other->GetArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  PacketFrame* New(::google::protobuf::Arena* arena = nullptr) const {
-    return ::google::protobuf::Message::DefaultConstruct<PacketFrame>(arena);
-  }
-  using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const PacketFrame& from);
-  using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const PacketFrame& from) { PacketFrame::MergeImpl(*this, from); }
-
-  private:
-  static void MergeImpl(
-      ::google::protobuf::MessageLite& to_msg,
-      const ::google::protobuf::MessageLite& from_msg);
-
-  public:
-  bool IsInitialized() const {
-    return true;
-  }
-  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
-  #if defined(PROTOBUF_CUSTOM_VTABLE)
-  private:
-  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
-  static ::uint8_t* _InternalSerialize(
-      const MessageLite& msg, ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream);
-
-  public:
-  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
-    return _InternalSerialize(*this, target, stream);
-  }
-  #else   // PROTOBUF_CUSTOM_VTABLE
-  ::size_t ByteSizeLong() const final;
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
-  #endif  // PROTOBUF_CUSTOM_VTABLE
-  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::google::protobuf::Arena* arena);
-  static void SharedDtor(MessageLite& self);
-  void InternalSwap(PacketFrame* other);
- private:
-  template <typename T>
-  friend ::absl::string_view(
-      ::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "msgTest.PacketFrame"; }
-
- protected:
-  explicit PacketFrame(::google::protobuf::Arena* arena);
-  PacketFrame(::google::protobuf::Arena* arena, const PacketFrame& from);
-  PacketFrame(::google::protobuf::Arena* arena, PacketFrame&& from) noexcept
-      : PacketFrame(arena) {
-    *this = ::std::move(from);
-  }
-  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
-  static void* PlacementNew_(const void*, void* mem,
-                             ::google::protobuf::Arena* arena);
-  static constexpr auto InternalNewImpl_();
-  static const ::google::protobuf::internal::ClassDataFull _class_data_;
-
- public:
-  ::google::protobuf::Metadata GetMetadata() const;
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-  enum : int {
-    kPayloadFieldNumber = 4,
-    kMessageIdFieldNumber = 1,
-    kTotalFrameCountFieldNumber = 2,
-    kFrameIndexFieldNumber = 3,
-  };
-  // bytes payload = 4;
-  void clear_payload() ;
-  const std::string& payload() const;
-  template <typename Arg_ = const std::string&, typename... Args_>
-  void set_payload(Arg_&& arg, Args_... args);
-  std::string* mutable_payload();
-  PROTOBUF_NODISCARD std::string* release_payload();
-  void set_allocated_payload(std::string* value);
-
-  private:
-  const std::string& _internal_payload() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_payload(
-      const std::string& value);
-  std::string* _internal_mutable_payload();
-
-  public:
-  // int32 messageId = 1;
-  void clear_messageid() ;
-  ::int32_t messageid() const;
-  void set_messageid(::int32_t value);
-
-  private:
-  ::int32_t _internal_messageid() const;
-  void _internal_set_messageid(::int32_t value);
-
-  public:
-  // int32 totalFrameCount = 2;
-  void clear_totalframecount() ;
-  ::int32_t totalframecount() const;
-  void set_totalframecount(::int32_t value);
-
-  private:
-  ::int32_t _internal_totalframecount() const;
-  void _internal_set_totalframecount(::int32_t value);
-
-  public:
-  // int32 frameIndex = 3;
-  void clear_frameindex() ;
-  ::int32_t frameindex() const;
-  void set_frameindex(::int32_t value);
-
-  private:
-  ::int32_t _internal_frameindex() const;
-  void _internal_set_frameindex(::int32_t value);
-
-  public:
-  // @@protoc_insertion_point(class_scope:msgTest.PacketFrame)
- private:
-  class _Internal;
-  friend class ::google::protobuf::internal::TcParser;
-  static const ::google::protobuf::internal::TcParseTable<
-      2, 4, 0,
-      0, 2>
-      _table_;
-
-  friend class ::google::protobuf::MessageLite;
-  friend class ::google::protobuf::Arena;
-  template <typename T>
-  friend class ::google::protobuf::Arena::InternalHelper;
-  using InternalArenaConstructable_ = void;
-  using DestructorSkippable_ = void;
-  struct Impl_ {
-    inline explicit constexpr Impl_(
-        ::google::protobuf::internal::ConstantInitialized) noexcept;
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena);
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena, const Impl_& from,
-                          const PacketFrame& from_msg);
-    ::google::protobuf::internal::ArenaStringPtr payload_;
-    ::int32_t messageid_;
-    ::int32_t totalframecount_;
-    ::int32_t frameindex_;
-    ::google::protobuf::internal::CachedSize _cached_size_;
-    PROTOBUF_TSAN_DECLARE_MEMBER
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_messageTest_2eproto;
-};
-// -------------------------------------------------------------------
-
 class CS_Room_Player_List_Request final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:msgTest.CS_Room_Player_List_Request) */ {
  public:
@@ -1588,7 +1353,7 @@ class CS_Room_Player_List_Request final : public ::google::protobuf::Message
     return reinterpret_cast<const CS_Room_Player_List_Request*>(
         &_CS_Room_Player_List_Request_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 11;
+  static constexpr int kIndexInFileMessages = 10;
   friend void swap(CS_Room_Player_List_Request& a, CS_Room_Player_List_Request& b) { a.Swap(&b); }
   inline void Swap(CS_Room_Player_List_Request* other) {
     if (other == this) return;
@@ -1777,7 +1542,7 @@ class CS_Room_List_Request final : public ::google::protobuf::internal::ZeroFiel
     return reinterpret_cast<const CS_Room_List_Request*>(
         &_CS_Room_List_Request_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 15;
+  static constexpr int kIndexInFileMessages = 14;
   friend void swap(CS_Room_List_Request& a, CS_Room_List_Request& b) { a.Swap(&b); }
   inline void Swap(CS_Room_List_Request* other) {
     if (other == this) return;
@@ -1923,7 +1688,7 @@ class CS_Ping final : public ::google::protobuf::Message
     return reinterpret_cast<const CS_Ping*>(
         &_CS_Ping_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 5;
+  static constexpr int kIndexInFileMessages = 4;
   friend void swap(CS_Ping& a, CS_Ping& b) { a.Swap(&b); }
   inline void Swap(CS_Ping* other) {
     if (other == this) return;
@@ -2113,7 +1878,7 @@ class CS_My_Player_Info_Request final : public ::google::protobuf::Message
     return reinterpret_cast<const CS_My_Player_Info_Request*>(
         &_CS_My_Player_Info_Request_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 9;
+  static constexpr int kIndexInFileMessages = 8;
   friend void swap(CS_My_Player_Info_Request& a, CS_My_Player_Info_Request& b) { a.Swap(&b); }
   inline void Swap(CS_My_Player_Info_Request* other) {
     if (other == this) return;
@@ -2303,7 +2068,7 @@ class CS_Login_Request final : public ::google::protobuf::Message
     return reinterpret_cast<const CS_Login_Request*>(
         &_CS_Login_Request_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 7;
+  static constexpr int kIndexInFileMessages = 6;
   friend void swap(CS_Login_Request& a, CS_Login_Request& b) { a.Swap(&b); }
   inline void Swap(CS_Login_Request* other) {
     if (other == this) return;
@@ -2517,7 +2282,7 @@ class CS_Enter_Room_Request final : public ::google::protobuf::Message
     return reinterpret_cast<const CS_Enter_Room_Request*>(
         &_CS_Enter_Room_Request_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 17;
+  static constexpr int kIndexInFileMessages = 16;
   friend void swap(CS_Enter_Room_Request& a, CS_Enter_Room_Request& b) { a.Swap(&b); }
   inline void Swap(CS_Enter_Room_Request* other) {
     if (other == this) return;
@@ -2706,7 +2471,7 @@ class CS_Enter_Room_Complete final : public ::google::protobuf::internal::ZeroFi
     return reinterpret_cast<const CS_Enter_Room_Complete*>(
         &_CS_Enter_Room_Complete_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 19;
+  static constexpr int kIndexInFileMessages = 18;
   friend void swap(CS_Enter_Room_Complete& a, CS_Enter_Room_Complete& b) { a.Swap(&b); }
   inline void Swap(CS_Enter_Room_Complete* other) {
     if (other == this) return;
@@ -2852,7 +2617,7 @@ class CS_Create_Room_Request final : public ::google::protobuf::Message
     return reinterpret_cast<const CS_Create_Room_Request*>(
         &_CS_Create_Room_Request_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 13;
+  static constexpr int kIndexInFileMessages = 12;
   friend void swap(CS_Create_Room_Request& a, CS_Create_Room_Request& b) { a.Swap(&b); }
   inline void Swap(CS_Create_Room_Request* other) {
     if (other == this) return;
@@ -3066,7 +2831,7 @@ class SC_Skill_Result final : public ::google::protobuf::Message
     return reinterpret_cast<const SC_Skill_Result*>(
         &_SC_Skill_Result_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 27;
+  static constexpr int kIndexInFileMessages = 26;
   friend void swap(SC_Skill_Result& a, SC_Skill_Result& b) { a.Swap(&b); }
   inline void Swap(SC_Skill_Result* other) {
     if (other == this) return;
@@ -3339,7 +3104,7 @@ class SC_Skill_Cast final : public ::google::protobuf::Message
     return reinterpret_cast<const SC_Skill_Cast*>(
         &_SC_Skill_Cast_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 28;
+  static constexpr int kIndexInFileMessages = 27;
   friend void swap(SC_Skill_Cast& a, SC_Skill_Cast& b) { a.Swap(&b); }
   inline void Swap(SC_Skill_Cast* other) {
     if (other == this) return;
@@ -3629,7 +3394,7 @@ class SC_Room_List_Response final : public ::google::protobuf::Message
     return reinterpret_cast<const SC_Room_List_Response*>(
         &_SC_Room_List_Response_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 16;
+  static constexpr int kIndexInFileMessages = 15;
   friend void swap(SC_Room_List_Response& a, SC_Room_List_Response& b) { a.Swap(&b); }
   inline void Swap(SC_Room_List_Response* other) {
     if (other == this) return;
@@ -3826,7 +3591,7 @@ class SC_Create_Room_Response final : public ::google::protobuf::Message
     return reinterpret_cast<const SC_Create_Room_Response*>(
         &_SC_Create_Room_Response_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 14;
+  static constexpr int kIndexInFileMessages = 13;
   friend void swap(SC_Create_Room_Response& a, SC_Create_Room_Response& b) { a.Swap(&b); }
   inline void Swap(SC_Create_Room_Response* other) {
     if (other == this) return;
@@ -4052,7 +3817,7 @@ class Player final : public ::google::protobuf::Message
     return reinterpret_cast<const Player*>(
         &_Player_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 3;
+  static constexpr int kIndexInFileMessages = 2;
   friend void swap(Player& a, Player& b) { a.Swap(&b); }
   inline void Swap(Player* other) {
     if (other == this) return;
@@ -4290,7 +4055,7 @@ class MoveState final : public ::google::protobuf::Message
     return reinterpret_cast<const MoveState*>(
         &_MoveState_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 2;
+  static constexpr int kIndexInFileMessages = 1;
   friend void swap(MoveState& a, MoveState& b) { a.Swap(&b); }
   inline void Swap(MoveState* other) {
     if (other == this) return;
@@ -4556,7 +4321,7 @@ class CS_Skill_Use final : public ::google::protobuf::Message
     return reinterpret_cast<const CS_Skill_Use*>(
         &_CS_Skill_Use_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 26;
+  static constexpr int kIndexInFileMessages = 25;
   friend void swap(CS_Skill_Use& a, CS_Skill_Use& b) { a.Swap(&b); }
   inline void Swap(CS_Skill_Use* other) {
     if (other == this) return;
@@ -4805,7 +4570,7 @@ class SC_Room_Player_List_Response final : public ::google::protobuf::Message
     return reinterpret_cast<const SC_Room_Player_List_Response*>(
         &_SC_Room_Player_List_Response_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 12;
+  static constexpr int kIndexInFileMessages = 11;
   friend void swap(SC_Room_Player_List_Response& a, SC_Room_Player_List_Response& b) { a.Swap(&b); }
   inline void Swap(SC_Room_Player_List_Response* other) {
     if (other == this) return;
@@ -5002,7 +4767,7 @@ class SC_Player_Move_Notification final : public ::google::protobuf::Message
     return reinterpret_cast<const SC_Player_Move_Notification*>(
         &_SC_Player_Move_Notification_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 22;
+  static constexpr int kIndexInFileMessages = 21;
   friend void swap(SC_Player_Move_Notification& a, SC_Player_Move_Notification& b) { a.Swap(&b); }
   inline void Swap(SC_Player_Move_Notification* other) {
     if (other == this) return;
@@ -5199,7 +4964,7 @@ class SC_Player_List_In_Grid final : public ::google::protobuf::Message
     return reinterpret_cast<const SC_Player_List_In_Grid*>(
         &_SC_Player_List_In_Grid_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 23;
+  static constexpr int kIndexInFileMessages = 22;
   friend void swap(SC_Player_List_In_Grid& a, SC_Player_List_In_Grid& b) { a.Swap(&b); }
   inline void Swap(SC_Player_List_In_Grid* other) {
     if (other == this) return;
@@ -5396,7 +5161,7 @@ class SC_Player_Enter_Room_Notification final : public ::google::protobuf::Messa
     return reinterpret_cast<const SC_Player_Enter_Room_Notification*>(
         &_SC_Player_Enter_Room_Notification_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 20;
+  static constexpr int kIndexInFileMessages = 19;
   friend void swap(SC_Player_Enter_Room_Notification& a, SC_Player_Enter_Room_Notification& b) { a.Swap(&b); }
   inline void Swap(SC_Player_Enter_Room_Notification* other) {
     if (other == this) return;
@@ -5592,7 +5357,7 @@ class SC_Player_Enter_Grid_Notification final : public ::google::protobuf::Messa
     return reinterpret_cast<const SC_Player_Enter_Grid_Notification*>(
         &_SC_Player_Enter_Grid_Notification_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 25;
+  static constexpr int kIndexInFileMessages = 24;
   friend void swap(SC_Player_Enter_Grid_Notification& a, SC_Player_Enter_Grid_Notification& b) { a.Swap(&b); }
   inline void Swap(SC_Player_Enter_Grid_Notification* other) {
     if (other == this) return;
@@ -5788,7 +5553,7 @@ class SC_My_Player_Info_Response final : public ::google::protobuf::Message
     return reinterpret_cast<const SC_My_Player_Info_Response*>(
         &_SC_My_Player_Info_Response_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 10;
+  static constexpr int kIndexInFileMessages = 9;
   friend void swap(SC_My_Player_Info_Response& a, SC_My_Player_Info_Response& b) { a.Swap(&b); }
   inline void Swap(SC_My_Player_Info_Response* other) {
     if (other == this) return;
@@ -5984,7 +5749,7 @@ class SC_Enter_Room_Response final : public ::google::protobuf::Message
     return reinterpret_cast<const SC_Enter_Room_Response*>(
         &_SC_Enter_Room_Response_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 18;
+  static constexpr int kIndexInFileMessages = 17;
   friend void swap(SC_Enter_Room_Response& a, SC_Enter_Room_Response& b) { a.Swap(&b); }
   inline void Swap(SC_Enter_Room_Response* other) {
     if (other == this) return;
@@ -6229,7 +5994,7 @@ class CS_Player_Move_Request final : public ::google::protobuf::Message
     return reinterpret_cast<const CS_Player_Move_Request*>(
         &_CS_Player_Move_Request_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 21;
+  static constexpr int kIndexInFileMessages = 20;
   friend void swap(CS_Player_Move_Request& a, CS_Player_Move_Request& b) { a.Swap(&b); }
   inline void Swap(CS_Player_Move_Request* other) {
     if (other == this) return;
@@ -6377,124 +6142,6 @@ class CS_Player_Move_Request final : public ::google::protobuf::Message
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// -------------------------------------------------------------------
-
-// PacketFrame
-
-// int32 messageId = 1;
-inline void PacketFrame::clear_messageid() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.messageid_ = 0;
-}
-inline ::int32_t PacketFrame::messageid() const {
-  // @@protoc_insertion_point(field_get:msgTest.PacketFrame.messageId)
-  return _internal_messageid();
-}
-inline void PacketFrame::set_messageid(::int32_t value) {
-  _internal_set_messageid(value);
-  // @@protoc_insertion_point(field_set:msgTest.PacketFrame.messageId)
-}
-inline ::int32_t PacketFrame::_internal_messageid() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.messageid_;
-}
-inline void PacketFrame::_internal_set_messageid(::int32_t value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.messageid_ = value;
-}
-
-// int32 totalFrameCount = 2;
-inline void PacketFrame::clear_totalframecount() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.totalframecount_ = 0;
-}
-inline ::int32_t PacketFrame::totalframecount() const {
-  // @@protoc_insertion_point(field_get:msgTest.PacketFrame.totalFrameCount)
-  return _internal_totalframecount();
-}
-inline void PacketFrame::set_totalframecount(::int32_t value) {
-  _internal_set_totalframecount(value);
-  // @@protoc_insertion_point(field_set:msgTest.PacketFrame.totalFrameCount)
-}
-inline ::int32_t PacketFrame::_internal_totalframecount() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.totalframecount_;
-}
-inline void PacketFrame::_internal_set_totalframecount(::int32_t value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.totalframecount_ = value;
-}
-
-// int32 frameIndex = 3;
-inline void PacketFrame::clear_frameindex() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.frameindex_ = 0;
-}
-inline ::int32_t PacketFrame::frameindex() const {
-  // @@protoc_insertion_point(field_get:msgTest.PacketFrame.frameIndex)
-  return _internal_frameindex();
-}
-inline void PacketFrame::set_frameindex(::int32_t value) {
-  _internal_set_frameindex(value);
-  // @@protoc_insertion_point(field_set:msgTest.PacketFrame.frameIndex)
-}
-inline ::int32_t PacketFrame::_internal_frameindex() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.frameindex_;
-}
-inline void PacketFrame::_internal_set_frameindex(::int32_t value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.frameindex_ = value;
-}
-
-// bytes payload = 4;
-inline void PacketFrame::clear_payload() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.payload_.ClearToEmpty();
-}
-inline const std::string& PacketFrame::payload() const
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:msgTest.PacketFrame.payload)
-  return _internal_payload();
-}
-template <typename Arg_, typename... Args_>
-inline PROTOBUF_ALWAYS_INLINE void PacketFrame::set_payload(Arg_&& arg,
-                                                     Args_... args) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.payload_.SetBytes(static_cast<Arg_&&>(arg), args..., GetArena());
-  // @@protoc_insertion_point(field_set:msgTest.PacketFrame.payload)
-}
-inline std::string* PacketFrame::mutable_payload() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  std::string* _s = _internal_mutable_payload();
-  // @@protoc_insertion_point(field_mutable:msgTest.PacketFrame.payload)
-  return _s;
-}
-inline const std::string& PacketFrame::_internal_payload() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.payload_.Get();
-}
-inline void PacketFrame::_internal_set_payload(const std::string& value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.payload_.Set(value, GetArena());
-}
-inline std::string* PacketFrame::_internal_mutable_payload() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  return _impl_.payload_.Mutable( GetArena());
-}
-inline std::string* PacketFrame::release_payload() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:msgTest.PacketFrame.payload)
-  return _impl_.payload_.Release();
-}
-inline void PacketFrame::set_allocated_payload(std::string* value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.payload_.SetAllocated(value, GetArena());
-  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.payload_.IsDefault()) {
-    _impl_.payload_.Set("", GetArena());
-  }
-  // @@protoc_insertion_point(field_set_allocated:msgTest.PacketFrame.payload)
-}
-
 // -------------------------------------------------------------------
 
 // Vector

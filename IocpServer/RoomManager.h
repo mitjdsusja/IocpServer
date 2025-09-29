@@ -39,7 +39,7 @@ public:
 	void BroadcastPlayerEnterGrid(uint64 sessionId, const vector<uint64>& playersToNotify);
 	void BroadcastPlayerMovement();
 	void BroadcastPlayerInGrid();
-	void SendUpdatedPlayerListToSelf(uint64 sesssionId, const vector<uint64>& leavePlayers, const vector<uint64>& enterPlayers);
+	void SendPlayersInGrid(uint64 sesssionId);
 
 	bool EnterPlayer(const RoomPlayerData& initialPlayerData);
 	void EnterRoomComplete(uint64 sessionId);
