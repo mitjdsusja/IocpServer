@@ -25,6 +25,7 @@ public:
 	
 	vector<uint64> GetNearByPlayers(uint64 sessionId);
 	vector<uint64> GetPlayersInCell(Vector<int16> cell);
+	vector<uint64> GetPlayersAroundCell(Vector<int16> cell);
 
 private:
 	int16 GetCellCoord(int16 value) {

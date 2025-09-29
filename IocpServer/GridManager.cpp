@@ -114,4 +114,19 @@ vector<uint64> GridManager::GetPlayersInCell(Vector<int16> cell){
 	return playersInCell;
 }
 
+vector<uint64> GridManager::GetPlayersAroundCell(Vector<int16> cell){
+
+	vector<uint64> result;
+
+	for (int dx = -1; dx <= 1; ++dx) {
+		for (int dy = -1; dy <= 1; ++dy) {
+
+			const vector<uint64>& playerInCell = GetPlayersInCell(cell);
+			result.insert(result.end(), playerInCell.begin(), playerInCell.end());
+		}
+	}
+
+	return result;
+}
+
 
