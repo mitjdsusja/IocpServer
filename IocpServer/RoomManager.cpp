@@ -272,13 +272,13 @@ void Room::BroadcastPlayerEnterGrid(uint64 sessionId, const vector<uint64>& play
 		position->set_y(roomPlayerData._gameState._position._y);
 		position->set_z(roomPlayerData._gameState._position._z);
 
-		auto sendBuffer = PacketHandler::MakeSendBuffer(sendPacketPlayerEnterGriNotification, PacketId::PKT_SC_PLAYER_LEAVE_GRID_NOTIFICATION);
+		auto sendBuffer = PacketHandler::MakeSendBuffer(sendPacketPlayerEnterGriNotification, PacketId::PKT_SC_PLAYER_ENTER_GRID_NOTIFICATION);
 
 		GPlayerManager->PushJobSendData(targetSessionId, sendBuffer);
 	}
 }
 
-void Room::BroadcastGridChane(uint64 sessionId, Vector<int16> oldCell, Vector<int16> newCell){
+void Room::BroadcastGridChange(uint64 sessionId, Vector<int16> oldCell, Vector<int16> newCell){
 
 	const vector<uint64>& oldCellPlayers = _gridManager->GetPlayersInCell(oldCell);
 	const vector<uint64>& newCellPlayers = _gridManager->GetPlayersInCell(newCell);
@@ -457,7 +457,7 @@ void Room::MovePlayer(uint64 sessionId, const RoomPlayerData& roomPlayerData) {
 
 	if (result._cellChanged == true) {
 		
-		BroadcastGridChane(sessionId, result._oldCell, result._newCell);
+		BroadcastGridChange(sessionId, result._oldCell, result._newCell);
 	}
 }
 

@@ -37,7 +37,7 @@ public:
 	void Broadcast(const vector<shared_ptr<Buffer>>& sendBuffer);
 	void BroadcastPlayerLeaveGrid(uint64 sessionId, const vector<uint64>& playersToNotify);
 	void BroadcastPlayerEnterGrid(uint64 sessionId, const vector<uint64>& playersToNotify);
-	void BroadcastGridChane(uint64 sessionId, Vector<int16> oldCell, Vector<int16> newCell);
+	void BroadcastGridChange(uint64 sessionId, Vector<int16> oldCell, Vector<int16> newCell);
 	void BroadcastPlayerMovement();
 	void BroadcastPlayerInGrid();
 
