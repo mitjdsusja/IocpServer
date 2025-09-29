@@ -103,7 +103,6 @@ void Room::PushJobEnterPlayer(const RoomPlayerData& enterPlayerData, function<vo
 	unique_ptr<Job> job = make_unique<Job>([self, enterPlayerData, callback]() {
 
 		bool enterRoomflag = self->EnterPlayer(enterPlayerData);
-
 		RoomInfo roomInfo = self->GetRoomInfo();
 
 		PlayerPosition position;
@@ -418,12 +417,26 @@ void Room::LeavePlayer(uint64 sessionId) {
 
 void Room::MovePlayer(uint64 sessionId, const RoomPlayerData& roomPlayerData) {
 
-	_players[sessionId]._gameState = roomPlayerData._gameState;
+	const auto& roomPlayerIter = _players.find(sessionId);
+
+	if (roomPlayerIter == _players.end()) {
+		spdlog::info("[Room::MovePlayer] INVALID SESSION ID : " + to_string(sessionId));
+		return;
+	}
+	
+	auto& roomPlayer = roomPlayerIter->second;
+	roomPlayer._gameState._updatePosition = true;
+	roomPlayer._gameState._moveTimeStamp = roomPlayerData._gameState._moveTimeStamp;
+	roomPlayer._gameState._position = roomPlayerData._gameState._position;
+	roomPlayer._gameState._velocity = roomPlayerData._gameState._velocity;
+	roomPlayer._gameState._rotation = roomPlayerData._gameState._rotation;
 
 	GridMoveResult result =  _gridManager->MovePosition(sessionId, roomPlayerData._gameState._position);
 
 	if (result._cellChanged == true) {
 		
+		BroadcastPlayerLeaveGrid(sessionId, result._oldCell);
+		BroadcastPlayerEnterGrid(sessionId, result._newCell);
 	}
 }
 
