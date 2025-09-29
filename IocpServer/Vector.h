@@ -13,10 +13,10 @@ public:
 
 	}
 
-	Vector& operator+(const Vector& other) {
+	Vector operator+(const Vector& other) {
 		return Vector(_x + other._x, _y + other._y, _z + other._z);
 	}
-	Vector& operator-(const Vector& other) {
+	Vector operator-(const Vector& other) {
 		return Vector(_x - other._x, _y - other._y, _z - other._z);
 	}
 	bool operator!=(const Vector& other) {

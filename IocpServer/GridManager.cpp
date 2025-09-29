@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "GridManager.h"
 
-void GridManager::AddPlayer(uint64 sessionId, Vector<int16> position){
+void GridManager::AddPlayer(uint64 sessionId, const Vector<int16>& position){
 
 	int16 cellX = GetCellCoord(position._x / 100);
 	int16 cellY = GetCellCoord(position._y / 100);
@@ -25,7 +25,7 @@ void GridManager::RemovePlayer(uint64 sessionId){
 	}
 }
 
-GridMoveResult GridManager::MovePosition(uint64 sessionId, Vector<int16> newPosition){
+GridMoveResult GridManager::MovePosition(uint64 sessionId, const Vector<int16>& newPosition){
 
 	GridMoveResult result;
 
@@ -99,7 +99,7 @@ vector<uint64> GridManager::GetNearByPlayers(uint64 sessionId) {
 	return nearPlayers;
 }
 
-vector<uint64> GridManager::GetPlayersInCell(Vector<int16> cell){
+vector<uint64> GridManager::GetPlayersInCell(const Vector<int16>& cell){
 
 	vector<uint64> playersInCell;
 
@@ -114,14 +114,19 @@ vector<uint64> GridManager::GetPlayersInCell(Vector<int16> cell){
 	return playersInCell;
 }
 
-vector<uint64> GridManager::GetPlayersAroundCell(Vector<int16> cell){
+vector<uint64> GridManager::GetPlayersAroundCell(const Vector<int16>& cell){
 
 	vector<uint64> result;
 
-	for (int dx = -1; dx <= 1; ++dx) {
-		for (int dy = -1; dy <= 1; ++dy) {
+	for (int16 dx = -1; dx <= 1; ++dx) {
+		for (int16 dy = -1; dy <= 1; ++dy) {
 
-			const vector<uint64>& playerInCell = GetPlayersInCell(cell);
+			Vector<int16> neighborCell{ 
+				static_cast<int16>(cell._x + dx),
+				static_cast<int16>(cell._y + dy)
+			};
+
+			vector<uint64> playerInCell = GetPlayersInCell(neighborCell);
 			result.insert(result.end(), playerInCell.begin(), playerInCell.end());
 		}
 	}

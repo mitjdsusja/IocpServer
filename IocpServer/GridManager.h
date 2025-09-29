@@ -19,13 +19,13 @@ class GridManager{
 public:
 	GridManager(int32 cellSize) : _cellSize(cellSize) {}
 	
-	void AddPlayer(uint64 sessionId, Vector<int16> position);
+	void AddPlayer(uint64 sessionId, const Vector<int16>& position);
 	void RemovePlayer(uint64 sessionId);
-	GridMoveResult MovePosition(uint64 sessionId, Vector<int16> newPosition);
+	GridMoveResult MovePosition(uint64 sessionId, const Vector<int16>& newPosition);
 	
 	vector<uint64> GetNearByPlayers(uint64 sessionId);
-	vector<uint64> GetPlayersInCell(Vector<int16> cell);
-	vector<uint64> GetPlayersAroundCell(Vector<int16> cell);
+	vector<uint64> GetPlayersInCell(const Vector<int16>& cell);
+	vector<uint64> GetPlayersAroundCell(const Vector<int16>& cell);
 
 private:
 	int16 GetCellCoord(int16 value) {
