@@ -11,7 +11,9 @@
 ## 파일
 /IocpClient : 더미 클라이언트 코드 <br>
 /IocpServer : 서버 컨텐츠 코드<br>
+/LogMonitor : Job 처리 시간 모니터링 프로그램 <br>
 /ServerLib : 서버 코어 코드 (네트워크)<br>
+/protobuf : protobuf 파일 <br>
 
 ### 사용 기술
 - **언어**: C++
