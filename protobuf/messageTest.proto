@@ -130,19 +130,17 @@ message SC_Player_Enter_Grid_Notification{
 message CS_Skill_Use{
     int32 skillId = 1;
     SkillType skillType = 2;
-    Vector direction = 3;
-    Vector targetPos = 4;
-    int32 targetId = 5;
+    Vector startPos = 3;
+    Vector direction = 4;
+    Vector targetPos = 5;
+    int32 targetId = 6;
+    int64 timestamp = 7;
 }
 
 message SC_Skill_Result{
     bool success = 1;
     SkillFailType skillFailType = 2;
     int32 skillId = 3;
-    Vector direction = 4;
-    Vector targetPos = 5;
-    int32 targetId = 6;
-    int64 timestamp = 7;
 }
 
 message SC_Skill_Cast{
