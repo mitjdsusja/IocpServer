@@ -19,8 +19,8 @@ struct PlayerStats {
 	int32 _maxHp = 0;
 	int32 _mp = 0;
 	int32 _maxMp = 0;
-	int32 _exp = 0;
-	int32 _maxExp = 0;
+	int64 _exp = 0;
+	int64 _maxExp = 0;
 };
 struct PlayerData {
 	PlayerBaseInfo _baseInfo;

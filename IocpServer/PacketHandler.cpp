@@ -105,10 +105,6 @@ void PacketHandler::Handle_CS_Login_Request(shared_ptr<GameSession> session, sha
 	msgTest::CS_Login_Request recvLoginPacket;
 	recvLoginPacket.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
 
-	uint32 writeSize = dataBuffer->WriteSize();
-
-	BYTE* str = dataBuffer->GetBuffer();
-
 	string id = recvLoginPacket.id();
 	string pw = recvLoginPacket.password();
 	string errorMessage = "";
@@ -120,42 +116,52 @@ void PacketHandler::Handle_CS_Login_Request(shared_ptr<GameSession> session, sha
 		wstring wId(id.begin(), id.end());
 		wstring wPw(pw.begin(), pw.end());
 
-		std::wstring query = L"SELECT COUNT(*), usernum, level, name, pos_x, pos_y, pos_z FROM USERS WHERE id = '" + wId + L"' AND password_hash = '" + wPw + L"';";
-		//spdlog::info("SELECT COUNT(*), usernum, level, name, pos_x, pos_y, pos_z FROM USERS WHERE id = '{}' AND password_hash = '{}';", boost::locale::conv::utf_to_utf<char>(wId), boost::locale::conv::utf_to_utf<char>(wPw));
+		std::wstring query = L"SELECT "
+			L"c.character_id, c.account_id, c.name, c.level, c.exp, c.last_x, c.last_y, c.last_z,"
+			L"s.hp, s.max_hp, s.mp, s.max_mp, s.strength, s.dexterity, s.intelligence, s.vitality, "
+			L"s.defense, s.magic_def, s.crit_rate "
+			L"FROM accounts a "
+			L"JOIN characters c ON a.account_id = c.account_id "
+			L"LEFT JOIN stats s ON c.character_id = s.character_id "
+			L"WHERE a.login_id = '" + wId + L"' AND a.password = '" + wPw + L"';";
+		
+		//std::wstring query = L"SELECT COUNT(*), usernum, level, name, pos_x, pos_y, pos_z FROM USERS WHERE id = '" + wId + L"' AND password_hash = '" + wPw + L"';";
 		vector<vector<wstring>> result = LDBConnector->ExecuteSelectQuery(query);
 
 		if (!result.empty() && !result[0].empty()) {
-			int32 count = stoi(result[0][0]); // 문자열을 숫자로 변환
-			int32 userNum = stoi(result[0][1]);
-			int32 level = stoi(result[0][2]);
-			wstring name = result[0][3];
-			Vector<int16> parsePosition(stoi(result[0][4]), stoi(result[0][5]), stoi(result[0][6]));
 
-			if (count > 0) {
-				//wcout << L"User found!" << endl;
-				userExists = true;
-				
-				session->SetDbId(userNum);
+			userExists = true;
 
-				PlayerBaseInfo baseInfo;
-				PlayerTransform position;
-				PlayerStats stats;
+			int64 characterId = stoi(result[0][0]);
+			int64 accountId = stoi(result[0][1]);
+			wstring name = result[0][2];
+			int32 level = stoi(result[0][3]);
+			int64 exp = stoll(result[0][4]);
+			int32 last_x = stoi(result[0][5]);
+			int32 last_y = stoi(result[0][6]);
+			int32 last_z = stoi(result[0][7]);
 
-				stats._level = level;
-				baseInfo._sessionId = session->GetSessionId();
-				baseInfo._name = name;
-				position._position._x = parsePosition._x;
-				position._position._y = parsePosition._y;
-				position._position._z = parsePosition._z;
-				position._lastmoveTimestamp = 0;
+			PlayerBaseInfo baseInfo;
+			baseInfo._sessionId = session->GetSessionId();
+			baseInfo._name = name;
 
-				GPlayerManager->PushJobCreateAndPushPlayer(session, baseInfo, position, stats);
-			}
-			else {
-				errorMessage = "Invalid ID or password.";
-				spdlog::info("[PacketHandler::Handle_CS_Login_Request] Invalid ID or password. {}", boost::locale::conv::utf_to_utf<char>(wId));
-			}
+			PlayerTransform transform;
+			transform._position._x = last_x;
+			transform._position._y = last_y;
+			transform._position._z = last_z;
+			transform._lastmoveTimestamp = 0;
 
+			PlayerStats stats;
+			stats._level = level;
+			stats._hp = stoi(result[0][8]);
+			stats._maxHp = stoi(result[0][9]);
+			stats._mp = stoi(result[0][10]);
+			stats._maxMp = stoi(result[0][11]);
+			stats._exp = exp;
+			stats._maxExp = 1000; // temp
+			// 나머지 스탯은 추후에
+
+			GPlayerManager->PushJobCreateAndPushPlayer(session, baseInfo, transform, stats);
 			spdlog::info("[PacketHandler::Handle_CS_Login_Request] Client Login : {}", boost::locale::conv::utf_to_utf<char>(name));
 		}
 		else {
