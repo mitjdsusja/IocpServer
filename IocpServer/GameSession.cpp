@@ -35,7 +35,7 @@ void GameSession::OnDisconnect(){
 	//cout << "[GameSession::OnDisconnect] SessionId : " << sessionId << endl;
 
 	// player data 정리
-	GPlayerManager->PushJobGetPosition(sessionId, [sessionId](PlayerPosition position) {
+	GPlayerManager->PushJobGetPosition(sessionId, [sessionId](PlayerTransform position) {
 		
 		GRoomManager->PushJobLeaveRoom(position._roomId, sessionId);
 	});

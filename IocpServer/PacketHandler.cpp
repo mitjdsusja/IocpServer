@@ -138,7 +138,7 @@ void PacketHandler::Handle_CS_Login_Request(shared_ptr<GameSession> session, sha
 				session->SetDbId(userNum);
 
 				PlayerBaseInfo baseInfo;
-				PlayerPosition position;
+				PlayerTransform position;
 				PlayerStats stats;
 
 				stats._level = level;
@@ -147,7 +147,7 @@ void PacketHandler::Handle_CS_Login_Request(shared_ptr<GameSession> session, sha
 				position._position._x = parsePosition._x;
 				position._position._y = parsePosition._y;
 				position._position._z = parsePosition._z;
-				position._moveTimestamp = 0;
+				position._lastmoveTimestamp = 0;
 
 				GPlayerManager->PushJobCreateAndPushPlayer(session, baseInfo, position, stats);
 			}
@@ -263,14 +263,14 @@ void PacketHandler::Handle_CS_Room_Player_List_Request(shared_ptr<GameSession> s
 		for (const auto& roomPlayer : roomPlayerList) {
 			msgTest::Player* player = sendRoomPlayerListResponsePacket.add_playerlist();
 			msgTest::Vector* position = player->mutable_position();
-			string name = boost::locale::conv::utf_to_utf<char>(roomPlayer._gameState._name);
+			string name = boost::locale::conv::utf_to_utf<char>(roomPlayer._name);
 			
 			player->set_playerid(roomPlayer._sessionId);
 			player->set_name(name);
-			player->set_level(roomPlayer._gameState._level);
-			position->set_x(roomPlayer._gameState._position._x);
-			position->set_y(roomPlayer._gameState._position._y);
-			position->set_z(roomPlayer._gameState._position._z);
+			player->set_level(roomPlayer._stats._level);
+			position->set_x(roomPlayer._transform._position._x);
+			position->set_y(roomPlayer._transform._position._y);
+			position->set_z(roomPlayer._transform._position._z);
 		}
 
 		vector<shared_ptr<Buffer>> sendBuffer = MakeSendBuffer(sendRoomPlayerListResponsePacket, PacketId::PKT_SC_ROOM_PLAYER_LIST_RESPONSE);
@@ -293,7 +293,7 @@ void PacketHandler::Handle_CS_Create_Room_Request(shared_ptr<GameSession> sessio
 
 	RoomPlayerData hostPlayerData;
 	hostPlayerData._sessionId = session->GetSessionId();
-	hostPlayerData._gameState._name = hostName;
+	hostPlayerData._name = hostName;
 
 	GRoomManager->PushJobCreateAndPushRoom(initRoomInfo, hostPlayerData);
 }
@@ -305,15 +305,15 @@ void PacketHandler::Handle_CS_Enter_Room_Request(shared_ptr<GameSession> session
 
 	int32 _enterRoomId = recvEnterRoomRequestPacket.roomid();
 
-	GPlayerManager->PushJobGetRoomPlayer(session->GetSessionId(), [_enterRoomId](PlayerBaseInfo baseInfo, PlayerPosition position) {
+	GPlayerManager->PushJobGetRoomPlayer(session->GetSessionId(), [_enterRoomId](PlayerBaseInfo baseInfo, PlayerTransform position) {
 		
 		RoomPlayerData roomPlayer;
 		roomPlayer._sessionId = baseInfo._sessionId;
-		roomPlayer._gameState._moveTimeStamp = position._moveTimestamp;
-		roomPlayer._gameState._name = baseInfo._name;
-		roomPlayer._gameState._position = position._position;
-		roomPlayer._gameState._updatePosition = true;
-		roomPlayer._gameState._velocity = position._velocity;
+		roomPlayer._transform._moveTimeStamp = position._lastmoveTimestamp;
+		roomPlayer._name = baseInfo._name;
+		roomPlayer._transform._position = position._position;
+		roomPlayer._transform._updatePosition = true;
+		roomPlayer._transform._velocity = position._velocity;
 
 		GRoomManager->PushJobEnterRoom(_enterRoomId, roomPlayer);
 	});
@@ -327,11 +327,11 @@ void PacketHandler::Handle_CS_Player_Move_Request(shared_ptr<GameSession> sessio
 	msgTest::MoveState moveState = recvPlayerMoveReqeustPacket.movestate();
 	RoomPlayerData roomPlayerData;
 	roomPlayerData._sessionId = session->GetSessionId();
-	roomPlayerData._gameState._moveTimeStamp = moveState.timestamp();
-	roomPlayerData._gameState._position = { (int16)moveState.position().x(), (int16)moveState.position().y(), (int16)moveState.position().z() };
-	roomPlayerData._gameState._velocity = { (int16)moveState.velocity().x(), (int16)moveState.velocity().y(), (int16)moveState.velocity().z() };
-	roomPlayerData._gameState._rotation = { (int16)moveState.rotation().x(), (int16)moveState.rotation().y(), (int16)moveState.rotation().z() };
-	roomPlayerData._gameState._updatePosition = true;
+	roomPlayerData._transform._moveTimeStamp = moveState.timestamp();
+	roomPlayerData._transform._position = { (int16)moveState.position().x(), (int16)moveState.position().y(), (int16)moveState.position().z() };
+	roomPlayerData._transform._velocity = { (int16)moveState.velocity().x(), (int16)moveState.velocity().y(), (int16)moveState.velocity().z() };
+	roomPlayerData._transform._rotation = { (int16)moveState.rotation().x(), (int16)moveState.rotation().y(), (int16)moveState.rotation().z() };
+	roomPlayerData._transform._updatePosition = true;
 
 	GRoomManager->PushJobMovePlayer(moveState.roomid(), roomPlayerData);
 }
@@ -345,6 +345,8 @@ void PacketHandler::Handle_CS_Skill_Use(shared_ptr<GameSession> session, shared_
 
 	msgTest::CS_Skill_Use recvPacketSkillUse;
 	recvPacketSkillUse.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
+
+
 
 	GRoomManager->PushJobSkillUse();
 }

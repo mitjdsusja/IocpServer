@@ -186,6 +186,7 @@
     <ClInclude Include="MonitorManager.h" />
     <ClInclude Include="PacketHandler.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="PlayerData.h" />
     <ClInclude Include="PlayerManager.h" />
     <ClInclude Include="RoomInfo.h" />
     <ClInclude Include="RoomManager.h" />

@@ -29,7 +29,7 @@ void Player::ClearResource(){
 	_owner = nullptr;
 }
 
-void Player::InitPlayer(const PlayerBaseInfo& baseInfo, const PlayerPosition& position, const PlayerStats& stats){
+void Player::InitPlayer(const PlayerBaseInfo& baseInfo, const PlayerTransform& position, const PlayerStats& stats){
 
 	_info._baseInfo = baseInfo;
 	_info._position = position;
@@ -48,7 +48,7 @@ void Player::PushJobSendData(const shared_ptr<Buffer>& sendBuffer){
 	PushJob(move(job));
 }
 
-void Player::PushJobUpdatePosition(const PlayerPosition& newPosition){
+void Player::PushJobUpdatePosition(const PlayerTransform& newPosition){
 
 	const shared_ptr<Player>& self = static_pointer_cast<Player>(shared_from_this());
 
@@ -72,13 +72,13 @@ void Player::PushJobGetBaseInfo(function<void(PlayerBaseInfo)> func){
 	PushJob(move(job));
 }
 
-void Player::PushJobGetPosition(function<void(PlayerPosition)> func){
+void Player::PushJobGetPosition(function<void(PlayerTransform)> func){
 
 	shared_ptr<Player> self = static_pointer_cast<Player>(shared_from_this());
 
 	unique_ptr<Job> job = make_unique<Job>([self, func]() {
 
-		PlayerPosition position = self->GetPosition();
+		PlayerTransform position = self->GetPosition();
 		func(position);
 	});
 
@@ -98,7 +98,7 @@ void Player::PushJobGetStats(function<void(PlayerStats)> func){
 	PushJob(move(job));
 }
 
-void Player::PushJobSetPosition(const PlayerPosition& position){
+void Player::PushJobSetPosition(const PlayerTransform& position){
 
 	shared_ptr<Player> self = static_pointer_cast<Player>(shared_from_this());
 
@@ -115,7 +115,7 @@ void Player::SendData(const shared_ptr<Buffer>& sendBuffer){
 	_owner->Send(sendBuffer);
 }
 
-void Player::UpdatePosition(const PlayerPosition& newPosition){
+void Player::UpdatePosition(const PlayerTransform& newPosition){
 
 	_info._position = newPosition;
 }
@@ -125,7 +125,7 @@ PlayerBaseInfo Player::GetBaseInfo(){
 	return _info._baseInfo;
 }
 
-PlayerPosition Player::GetPosition(){
+PlayerTransform Player::GetPosition(){
 	
 	return _info._position;
 }
@@ -135,10 +135,10 @@ PlayerStats Player::GetStats(){
 	return _info._stats;
 }
 
-void Player::SetPosition(const PlayerPosition& position){
+void Player::SetPosition(const PlayerTransform& position){
 
 	if(position._roomId != 0) _info._position._roomId = position._roomId;
-	if(position._moveTimestamp != 0) _info._position._moveTimestamp = position._moveTimestamp;
+	if(position._lastmoveTimestamp != 0) _info._position._lastmoveTimestamp = position._lastmoveTimestamp;
 	if (position._position.IsZero() == false) {
 		_info._position._position = position._position;
 	}
@@ -185,7 +185,7 @@ void PlayerManager::PushJobSendData(uint64 sessionId, const vector<shared_ptr<Bu
 	PushJob(move(job));
 }
 
-void PlayerManager::PushJobCreateAndPushPlayer(const shared_ptr<GameSession>& ownerSession, const PlayerBaseInfo& baseInfo, const PlayerPosition& position, const PlayerStats& stats) {
+void PlayerManager::PushJobCreateAndPushPlayer(const shared_ptr<GameSession>& ownerSession, const PlayerBaseInfo& baseInfo, const PlayerTransform& position, const PlayerStats& stats) {
 
 	shared_ptr<PlayerManager> self = static_pointer_cast<PlayerManager>(shared_from_this());
 
@@ -207,7 +207,7 @@ void PlayerManager::PushJobRemovePlayer(uint64 sessionId){
 	PushJob(move(job));
 }
 
-void PlayerManager::PushJobGetRoomPlayer(uint64 sessionId, function<void(PlayerBaseInfo, PlayerPosition)> func){
+void PlayerManager::PushJobGetRoomPlayer(uint64 sessionId, function<void(PlayerBaseInfo, PlayerTransform)> func){
 
 	shared_ptr<PlayerManager> self = static_pointer_cast<PlayerManager>(shared_from_this());
 
@@ -223,7 +223,7 @@ void PlayerManager::PushJobGetRoomPlayer(uint64 sessionId, function<void(PlayerB
 
 		// 결과 저장용 변수
 		shared_ptr<PlayerBaseInfo> baseInfo = make_shared<PlayerBaseInfo>();
-		shared_ptr<PlayerPosition> position = make_shared<PlayerPosition>();
+		shared_ptr<PlayerTransform> position = make_shared<PlayerTransform>();
 		shared_ptr<atomic<int>> counter = make_shared<atomic<int>>(2);
 
 		// 두 작업이 모두 완료되었을 때 callback 호출
@@ -239,7 +239,7 @@ void PlayerManager::PushJobGetRoomPlayer(uint64 sessionId, function<void(PlayerB
 			done();
 		});
 
-		player->PushJobGetPosition([position, done](const PlayerPosition& pos) {
+		player->PushJobGetPosition([position, done](const PlayerTransform& pos) {
 			*position = pos;
 			done();
 		});
@@ -269,7 +269,7 @@ void PlayerManager::PushJobGetBaseInfo(uint64 sessionId, function<void(PlayerBas
 	PushJob(move(job));
 }
 
-void PlayerManager::PushJobGetPosition(uint64 sessionId, function<void(PlayerPosition)> func) {
+void PlayerManager::PushJobGetPosition(uint64 sessionId, function<void(PlayerTransform)> func) {
 
 	shared_ptr<PlayerManager> self = static_pointer_cast<PlayerManager>(shared_from_this());
 
@@ -313,7 +313,7 @@ void PlayerManager::PushJobGetstats(uint64 sessionId, function<void(PlayerStats)
 	PushJob(move(job));
 }
 
-void PlayerManager::PushJobSetPosition(uint64 sessionId, PlayerPosition position){
+void PlayerManager::PushJobSetPosition(uint64 sessionId, PlayerTransform position){
 
 	shared_ptr<PlayerManager> self = static_pointer_cast<PlayerManager>(shared_from_this());
 
@@ -340,7 +340,7 @@ void PlayerManager::SendData(uint64 sessionId, const shared_ptr<Buffer>& sendBuf
 	player->PushJobSendData(sendBuffer);
 }
 
-void PlayerManager::CreateAndPushPlayer(const shared_ptr<GameSession>& ownerSession, const PlayerBaseInfo& baseInfo, const PlayerPosition& position, const PlayerStats& stats){
+void PlayerManager::CreateAndPushPlayer(const shared_ptr<GameSession>& ownerSession, const PlayerBaseInfo& baseInfo, const PlayerTransform& position, const PlayerStats& stats){
 
 	shared_ptr<Player> player = make_shared<Player>(ownerSession);
 	player->SetActorId(GActorManager->RegisterActor(player));
@@ -371,7 +371,7 @@ void PlayerManager::RemovePlayer(uint64 sessionId) {
 	GActorManager->UnRegisterActor(player->GetActorId());
 }
 
-void PlayerManager::SetPosition(uint64 sessionId, const PlayerPosition& position){
+void PlayerManager::SetPosition(uint64 sessionId, const PlayerTransform& position){
 
 	const auto& p = _players.find(sessionId);
 	if (p == _players.end()) {

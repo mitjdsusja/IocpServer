@@ -88,7 +88,7 @@ uint64 Player::GetSessionId() {
 	return _owner->GetSessionId();
 }
 
-PlayerInfo Player::GetPlayerInfo(){
+PlayerData Player::GetPlayerInfo(){
 
 	return _playerInfo;
 }
@@ -149,7 +149,7 @@ void PlayerManager::RequestCreateRoom(int32 createRoomCount) {
 		if (createCount == createRoomCount) break;
 
 		auto& player = p.second;
-		const PlayerInfo& playerInfo = player->GetPlayerInfo();
+		const PlayerData& playerInfo = player->GetPlayerInfo();
 
 		sendPacketCreateRoomReqeust.set_hostname(playerInfo._name);
 		sendPacketCreateRoomReqeust.set_roomname("Room" + playerInfo._name);
@@ -197,7 +197,7 @@ void PlayerManager::AllPlayerSendMovePacket(){
 	for (auto& p : _players) {
 
 		auto& player = p.second;
-		PlayerInfo playerInfo = player->GetPlayerInfo();
+		PlayerData playerInfo = player->GetPlayerInfo();
 
 		moveState->set_roomid(playerInfo._enterRoomId);
 		moveState->set_playerid(player->GetSessionId());

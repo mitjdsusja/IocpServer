@@ -10,7 +10,7 @@ struct Acount {
 	string _pw;
 };
 
-struct PlayerInfo {
+struct PlayerData {
 
 	using TimePoint = chrono::system_clock::time_point;
 
@@ -32,7 +32,7 @@ public:
 	void SendData(const vector<shared_ptr<Buffer>>& sendBuffer);
 
 	uint64 GetSessionId();
-	PlayerInfo GetPlayerInfo();
+	PlayerData GetPlayerInfo();
 
 	void SetName(string name);
 	void SetEnterRoomId(int32 roomId);
@@ -40,7 +40,7 @@ public:
 private:
 	shared_ptr<Session> _owner;
 
-	PlayerInfo _playerInfo;
+	PlayerData _playerInfo;
 	Acount _acount;
 
 };

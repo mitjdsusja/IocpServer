@@ -15,7 +15,7 @@
 #include <boost/locale.hpp>
 
 Room::Room(const InitRoomInfo& initRoomInfo, const RoomPlayerData& hostPlayerData)
-	: _gridManager(make_shared<GridManager>(10)), _roomInfo({initRoomInfo, 0, hostPlayerData._gameState._name, hostPlayerData._sessionId}) , Actor(ActorType::ROOM_TYPE){
+	: _gridManager(make_shared<GridManager>(10)), _roomInfo({initRoomInfo, 0, hostPlayerData._name, hostPlayerData._sessionId}) , Actor(ActorType::ROOM_TYPE){
 
 	EnterPlayer(hostPlayerData);
 }
@@ -104,7 +104,7 @@ void Room::PushJobEnterPlayer(const RoomPlayerData& enterPlayerData, function<vo
 		bool enterRoomflag = self->EnterPlayer(enterPlayerData);
 		RoomInfo roomInfo = self->GetRoomInfo();
 
-		PlayerPosition position;
+		PlayerTransform position;
 		position._roomId = roomInfo._initRoomInfo._roomId;
 		GPlayerManager->PushJobSetPosition(enterPlayerData._sessionId, position);
 
@@ -265,11 +265,11 @@ void Room::BroadcastPlayerEnterGrid(uint64 sessionId, const vector<uint64>& play
 		msgTest::Vector* position = player->mutable_position();
 
 		player->set_playerid(sessionId);
-		player->set_name(boost::locale::conv::utf_to_utf<char>(roomPlayerData._gameState._name));
-		player->set_level(roomPlayerData._gameState._level);
-		position->set_x(roomPlayerData._gameState._position._x);
-		position->set_y(roomPlayerData._gameState._position._y);
-		position->set_z(roomPlayerData._gameState._position._z);
+		player->set_name(boost::locale::conv::utf_to_utf<char>(roomPlayerData._name));
+		player->set_level(roomPlayerData._stats._level);
+		position->set_x(roomPlayerData._transform._position._x);
+		position->set_y(roomPlayerData._transform._position._y);
+		position->set_z(roomPlayerData._transform._position._z);
 
 		auto sendBuffer = PacketHandler::MakeSendBuffer(sendPacketPlayerEnterGriNotification, PacketId::PKT_SC_PLAYER_ENTER_GRID_NOTIFICATION);
 
@@ -313,10 +313,10 @@ void Room::BroadcastPlayerMovement() {
 
 		auto& playerData = p.second;
 
-		if (playerData._gameState._updatePosition == false) {
+		if (playerData._transform._updatePosition == false) {
 			continue;
 		}
-		playerData._gameState._updatePosition = false;
+		playerData._transform._updatePosition = false;
 
 		msgTest::MoveState moveState;
 		msgTest::Vector* position = moveState.mutable_position();
@@ -324,17 +324,17 @@ void Room::BroadcastPlayerMovement() {
 		msgTest::Vector* rotation = moveState.mutable_rotation();
 
 		moveState.set_playerid(p.first);
-		position->set_x(playerData._gameState._position._x);
-		position->set_y(playerData._gameState._position._y);
-		position->set_z(playerData._gameState._position._z);
-		velocity->set_x(playerData._gameState._velocity._x);
-		velocity->set_y(playerData._gameState._velocity._y);
-		velocity->set_z(playerData._gameState._velocity._z);
-		rotation->set_x(playerData._gameState._rotation._x);
-		rotation->set_y(playerData._gameState._rotation._y);
-		rotation->set_z(playerData._gameState._rotation._z);
+		position->set_x(playerData._transform._position._x);
+		position->set_y(playerData._transform._position._y);
+		position->set_z(playerData._transform._position._z);
+		velocity->set_x(playerData._transform._velocity._x);
+		velocity->set_y(playerData._transform._velocity._y);
+		velocity->set_z(playerData._transform._velocity._z);
+		rotation->set_x(playerData._transform._rotation._x);
+		rotation->set_y(playerData._transform._rotation._y);
+		rotation->set_z(playerData._transform._rotation._z);
 		
-		moveState.set_timestamp(playerData._gameState._moveTimeStamp);
+		moveState.set_timestamp(playerData._transform._moveTimeStamp);
 
 		updatedMoveStates[p.first] = move(moveState);
 	}
@@ -415,11 +415,11 @@ void Room::SendPlayersInGrid(uint64 sesssionId){
 		msgTest::Vector* position = player->mutable_position();
 
 		player->set_playerid(playerId);
-		player->set_name(boost::locale::conv::utf_to_utf<char>(roomPlayerData._gameState._name));
-		player->set_level(roomPlayerData._gameState._level);
-		position->set_x(roomPlayerData._gameState._position._x);
-		position->set_y(roomPlayerData._gameState._position._y);
-		position->set_z(roomPlayerData._gameState._position._z);
+		player->set_name(boost::locale::conv::utf_to_utf<char>(roomPlayerData._name));
+		player->set_level(roomPlayerData._stats._level);
+		position->set_x(roomPlayerData._transform._position._x);
+		position->set_y(roomPlayerData._transform._position._y);
+		position->set_z(roomPlayerData._transform._position._z);
 	}
 
 	auto sendBuffer = PacketHandler::MakeSendBuffer(sendPacketPlayerListInGrid, PacketId::PKT_SC_PLAYER_LIST_IN_GRID);
@@ -432,7 +432,7 @@ bool Room::EnterPlayer(const RoomPlayerData& playerData) {
 	_players[playerData._sessionId] = playerData;
 	_roomInfo._curPlayerCount++;
 
-	_gridManager->AddPlayer(playerData._sessionId, playerData._gameState._position);
+	_gridManager->AddPlayer(playerData._sessionId, playerData._transform._position);
 
 	spdlog::info("[Room::EnterPlayer] roomId : {}", _roomInfo._initRoomInfo._roomId);
 	//wcout << L"[Room::EnterPlayer] roomId : " << _roomInfo._initRoomInfo._roomId << " EnterPlayer : " << playerData._gameState._name << endl;
@@ -477,13 +477,13 @@ void Room::MovePlayer(uint64 sessionId, const RoomPlayerData& roomPlayerData) {
 	}
 	
 	auto& roomPlayer = roomPlayerIter->second;
-	roomPlayer._gameState._updatePosition = true;
-	roomPlayer._gameState._moveTimeStamp = roomPlayerData._gameState._moveTimeStamp;
-	roomPlayer._gameState._position = roomPlayerData._gameState._position;
-	roomPlayer._gameState._velocity = roomPlayerData._gameState._velocity;
-	roomPlayer._gameState._rotation = roomPlayerData._gameState._rotation;
+	roomPlayer._transform._updatePosition = true;
+	roomPlayer._transform._moveTimeStamp = roomPlayerData._transform._moveTimeStamp;
+	roomPlayer._transform._position = roomPlayerData._transform._position;
+	roomPlayer._transform._velocity = roomPlayerData._transform._velocity;
+	roomPlayer._transform._rotation = roomPlayerData._transform._rotation;
 
-	GridMoveResult result =  _gridManager->MovePosition(sessionId, roomPlayerData._gameState._position);
+	GridMoveResult result =  _gridManager->MovePosition(sessionId, roomPlayerData._transform._position);
 
 	if (result._cellChanged == true) {
 		
@@ -530,7 +530,7 @@ void RoomManager::PushJobCreateAndPushRoom(const InitRoomInfo& initRoomInfo, con
 
 		if (roomId != 0) {
 
-			PlayerPosition position;
+			PlayerTransform position;
 			position._roomId = roomId;
 			GPlayerManager->PushJobSetPosition(hostPlayerData._sessionId, position);
 		}
@@ -720,7 +720,7 @@ int32 RoomManager::CreateAndPushRoom(const InitRoomInfo& initRoomInfo, const Roo
 	_rooms[roomId] = room;
 	_sessionToRoomMap[hostPlayerData._sessionId] = roomId;
 
-	spdlog::info("[RoomManager::CreateAndPushRoom] EnterRoom roomId : {} playerName : {}", roomId, boost::locale::conv::utf_to_utf<char>(hostPlayerData._gameState._name));
+	spdlog::info("[RoomManager::CreateAndPushRoom] EnterRoom roomId : {} playerName : {}", roomId, boost::locale::conv::utf_to_utf<char>(hostPlayerData._name));
 	//wcout << "[RoomManager::CreateAndPushRoom] EnterRoom roomId : " << roomId << " playerName : " << hostPlayerData._gameState._name << endl;
 
 	room->PushJobRegisterBroadcastPosition();
@@ -831,11 +831,11 @@ void RoomManager::EnterRoomResult(const RoomResult::EnterRoomResult& enterRoomRe
 				msgTest::Vector* position = player->mutable_position();
 
 				player->set_playerid(playerData._sessionId);
-				player->set_name(boost::locale::conv::utf_to_utf<char>(playerData._gameState._name));
-				player->set_level(playerData._gameState._level);
-				position->set_x(playerData._gameState._position._x);
-				position->set_y(playerData._gameState._position._y);
-				position->set_z(playerData._gameState._position._z);
+				player->set_name(boost::locale::conv::utf_to_utf<char>(playerData._name));
+				player->set_level(playerData._stats._level);
+				position->set_x(playerData._transform._position._x);
+				position->set_y(playerData._transform._position._y);
+				position->set_z(playerData._transform._position._z);
 			}
 		}
 		else {
@@ -855,11 +855,11 @@ void RoomManager::EnterRoomResult(const RoomResult::EnterRoomResult& enterRoomRe
 			msgTest::Vector* position = player->mutable_position();
 
 			player->set_playerid(enterRoomResult._enterPlayerInfo._sessionId);
-			player->set_name(boost::locale::conv::utf_to_utf<char>(enterRoomResult._enterPlayerInfo._gameState._name));
-			player->set_level(enterRoomResult._enterPlayerInfo._gameState._level);
-			position->set_x(enterRoomResult._enterPlayerInfo._gameState._position._x);
-			position->set_y(enterRoomResult._enterPlayerInfo._gameState._position._y);
-			position->set_z(enterRoomResult._enterPlayerInfo._gameState._position._z);
+			player->set_name(boost::locale::conv::utf_to_utf<char>(enterRoomResult._enterPlayerInfo._name));
+			player->set_level(enterRoomResult._enterPlayerInfo._stats._level);
+			position->set_x(enterRoomResult._enterPlayerInfo._transform._position._x);
+			position->set_y(enterRoomResult._enterPlayerInfo._transform._position._y);
+			position->set_z(enterRoomResult._enterPlayerInfo._transform._position._z);
 
 			vector<shared_ptr<Buffer>> sendBuffer = PacketHandler::MakeSendBuffer(sendPacketEnterRoomNotification, PacketId::PKT_SC_PLAYER_ENTER_ROOM_NOTIFICATION);
 
