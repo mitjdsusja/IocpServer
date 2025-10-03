@@ -27,11 +27,30 @@ enum SkillFailType{
     SKILL_FAIL_TYPE_UNKNOWN = 0;
 }
 
+message PlayerBaseInfo {
+	uint64 playerId = 1;
+	string name = 2;
+}
+message PlayerTransform {
+	int32 roomId = 1;
+	Vector position = 2;
+	Vector rotation = 3;
+	Vector velocity = 4;
+	int64 lastmoveTimestamp = 5;
+}
+message PlayerStats {
+	int32 level = 1;
+	int32 hp = 2;
+	int32 maxHp = 3;
+	int32 mp = 4;
+	int32 maxMp = 5;
+	int64 exp = 6;
+	int64 maxExp = 7; 
+}
 message Player{
-    uint64 playerId = 1;
-    string name = 2;
-    int32 level = 3;
-    Vector position = 4;
+    PlayerBaseInfo baseInfo = 1;
+    PlayerTransform transform = 2;
+    PlayerStats stats = 3;
 }
 
 message Room{

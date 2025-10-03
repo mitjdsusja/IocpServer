@@ -29,10 +29,10 @@ void Player::ClearResource(){
 	_owner = nullptr;
 }
 
-void Player::InitPlayer(const PlayerBaseInfo& baseInfo, const PlayerTransform& position, const PlayerStats& stats){
+void Player::InitPlayer(const PlayerBaseInfo& baseInfo, const PlayerTransform& transform, const PlayerStats& stats){
 
 	_info._baseInfo = baseInfo;
-	_info._position = position;
+	_info._transform = transform;
 	_info._stats = stats;
 }
 
@@ -53,7 +53,7 @@ void Player::PushJobUpdatePosition(const PlayerTransform& newPosition){
 	const shared_ptr<Player>& self = static_pointer_cast<Player>(shared_from_this());
 
 	unique_ptr<Job> job = make_unique<Job>([self, newPosition]() {
-		self->UpdatePosition(newPosition);
+		self->UpdateTransform(newPosition);
 	});
 
 	PushJob(move(job));
@@ -78,7 +78,7 @@ void Player::PushJobGetPosition(function<void(PlayerTransform)> func){
 
 	unique_ptr<Job> job = make_unique<Job>([self, func]() {
 
-		PlayerTransform position = self->GetPosition();
+		PlayerTransform position = self->GetTransform();
 		func(position);
 	});
 
@@ -104,7 +104,7 @@ void Player::PushJobSetPosition(const PlayerTransform& position){
 
 	unique_ptr<Job> job = make_unique<Job>([self, position]() {
 
-		self->SetPosition(position);
+		self->SetTransform(position);
 	});
 
 	this->PushJob(move(job));
@@ -115,9 +115,9 @@ void Player::SendData(const shared_ptr<Buffer>& sendBuffer){
 	_owner->Send(sendBuffer);
 }
 
-void Player::UpdatePosition(const PlayerTransform& newPosition){
+void Player::UpdateTransform(const PlayerTransform& newTransform){
 
-	_info._position = newPosition;
+	_info._transform = newTransform;
 }
 
 PlayerBaseInfo Player::GetBaseInfo(){
@@ -125,9 +125,9 @@ PlayerBaseInfo Player::GetBaseInfo(){
 	return _info._baseInfo;
 }
 
-PlayerTransform Player::GetPosition(){
+PlayerTransform Player::GetTransform(){
 	
-	return _info._position;
+	return _info._transform;
 }
 
 PlayerStats Player::GetStats(){
@@ -135,15 +135,15 @@ PlayerStats Player::GetStats(){
 	return _info._stats;
 }
 
-void Player::SetPosition(const PlayerTransform& position){
+void Player::SetTransform(const PlayerTransform& transform){
 
-	if(position._roomId != 0) _info._position._roomId = position._roomId;
-	if(position._lastmoveTimestamp != 0) _info._position._lastmoveTimestamp = position._lastmoveTimestamp;
-	if (position._position.IsZero() == false) {
-		_info._position._position = position._position;
+	if(transform._roomId != 0) _info._transform._roomId = transform._roomId;
+	if(transform._lastmoveTimestamp != 0) _info._transform._lastmoveTimestamp = transform._lastmoveTimestamp;
+	if (transform._position.IsZero() == false) {
+		_info._transform._position = transform._position;
 	}
-	if (position._velocity.IsZero() == false) {
-		_info._position._velocity = position._velocity;
+	if (transform._velocity.IsZero() == false) {
+		_info._transform._velocity = transform._velocity;
 	}
 }
 
@@ -204,6 +204,29 @@ void PlayerManager::PushJobRemovePlayer(uint64 sessionId){
 		self->RemovePlayer(sessionId);
 	});
 
+	PushJob(move(job));
+}
+
+void PlayerManager::PushJobGetPlayerData(uint64 sessionId, function<void(const PlayerData& playerData)> func){
+
+	shared_ptr<PlayerManager> self = static_pointer_cast<PlayerManager>(shared_from_this());
+	
+	unique_ptr<Job> job = make_unique<Job>([self, sessionId, func]() {
+
+		auto iter = self->_players.find(sessionId);
+		if (iter == self->_players.end()) {
+
+			spdlog::info("[PlayerManager::PushJobGetPlayerData] Invalid sessionId : {}", sessionId);
+			return;
+		}
+
+		const shared_ptr<Player>& player = iter->second;
+		PlayerData playerData;
+		playerData._baseInfo = player->GetBaseInfo();
+		playerData._transform = player->GetTransform();
+		playerData._stats = player->GetStats();
+		func(playerData);
+	});
 	PushJob(move(job));
 }
 
@@ -319,7 +342,7 @@ void PlayerManager::PushJobSetPosition(uint64 sessionId, PlayerTransform positio
 
 	unique_ptr<Job> job = make_unique<Job>([self, sessionId, position]() {
 		
-		self->SetPosition(sessionId, position);
+		self->SetTransform(sessionId, position);
 	});
 
 	this->PushJob(move(job));
@@ -371,7 +394,7 @@ void PlayerManager::RemovePlayer(uint64 sessionId) {
 	GActorManager->UnRegisterActor(player->GetActorId());
 }
 
-void PlayerManager::SetPosition(uint64 sessionId, const PlayerTransform& position){
+void PlayerManager::SetTransform(uint64 sessionId, const PlayerTransform& position){
 
 	const auto& p = _players.find(sessionId);
 	if (p == _players.end()) {

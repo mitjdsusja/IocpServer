@@ -11,7 +11,7 @@ public:
 	Player(shared_ptr<GameSession> owner);
 	~Player();
 
-	void InitPlayer(const PlayerBaseInfo& baseInfo, const PlayerTransform& position, const PlayerStats& stats);
+	void InitPlayer(const PlayerBaseInfo& baseInfo, const PlayerTransform& transform, const PlayerStats& stats);
 
 	void PushJobSendData(const shared_ptr<Buffer>& sendBuffer);
 	void PushJobUpdatePosition(const PlayerTransform& newPosition);
@@ -27,13 +27,13 @@ public:
 public:
 	// 외부에서 절대 사용 금지
 	void SendData(const shared_ptr<Buffer>& sendBuffer);
-	void UpdatePosition(const PlayerTransform& newPosition);
+	void UpdateTransform(const PlayerTransform& newPosition);
 
 	PlayerBaseInfo GetBaseInfo();
-	PlayerTransform GetPosition();
+	PlayerTransform GetTransform();
 	PlayerStats GetStats();
 
-	void SetPosition(const PlayerTransform& position);
+	void SetTransform(const PlayerTransform& transform);
 
 private:
 	void ClearResource();
@@ -69,7 +69,7 @@ public:
 	void CreateAndPushPlayer(const shared_ptr<GameSession>& ownerSession, const PlayerBaseInfo& baseInfo, const PlayerTransform& position, const PlayerStats& stats);
 	void RemovePlayer(uint64 sessionId);
 
-	void SetPosition(uint64 sessionId, const PlayerTransform& position);
+	void SetTransform(uint64 sessionId, const PlayerTransform& position);
 
 private:
 	mutex _playersMutex;

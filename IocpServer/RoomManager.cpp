@@ -262,14 +262,22 @@ void Room::BroadcastPlayerEnterGrid(uint64 sessionId, const vector<uint64>& play
 
 		msgTest::SC_Player_Enter_Grid_Notification sendPacketPlayerEnterGriNotification;
 		msgTest::Player* player = sendPacketPlayerEnterGriNotification.mutable_enterplayer();
-		msgTest::Vector* position = player->mutable_position();
+		msgTest::PlayerBaseInfo* baseInfo = player->mutable_baseinfo();
+		msgTest::PlayerTransform* transform = player->mutable_transform();
+		msgTest::PlayerStats* stats = player->mutable_stats();
 
-		player->set_playerid(sessionId);
-		player->set_name(boost::locale::conv::utf_to_utf<char>(roomPlayerData._name));
-		player->set_level(roomPlayerData._stats._level);
+		baseInfo->set_playerid(roomPlayerData._sessionId);
+		baseInfo->set_name(boost::locale::conv::utf_to_utf<char>(roomPlayerData._name));
+		
+		msgTest::Vector* position = transform->mutable_position();
 		position->set_x(roomPlayerData._transform._position._x);
 		position->set_y(roomPlayerData._transform._position._y);
 		position->set_z(roomPlayerData._transform._position._z);
+		transform->set_lastmovetimestamp(roomPlayerData._transform._moveTimeStamp);
+
+		stats->set_level(roomPlayerData._stats._level);
+		stats->set_hp(roomPlayerData._stats._hp);
+		stats->set_mp(roomPlayerData._stats._mp);
 
 		auto sendBuffer = PacketHandler::MakeSendBuffer(sendPacketPlayerEnterGriNotification, PacketId::PKT_SC_PLAYER_ENTER_GRID_NOTIFICATION);
 
@@ -412,14 +420,21 @@ void Room::SendPlayersInGrid(uint64 sesssionId){
 
 		const RoomPlayerData& roomPlayerData = GetRoomPlayerData(playerId);
 		msgTest::Player* player = sendPacketPlayerListInGrid.add_playerlist();
-		msgTest::Vector* position = player->mutable_position();
+		msgTest::PlayerBaseInfo* baseInfo = player->mutable_baseinfo();
+		msgTest::PlayerTransform* transform = player->mutable_transform();
+		msgTest::PlayerStats* stats = player->mutable_stats();
 
-		player->set_playerid(playerId);
-		player->set_name(boost::locale::conv::utf_to_utf<char>(roomPlayerData._name));
-		player->set_level(roomPlayerData._stats._level);
+		baseInfo->set_playerid(roomPlayerData._sessionId);
+		baseInfo->set_name(boost::locale::conv::utf_to_utf<char>(roomPlayerData._name));
+
+		msgTest::Vector* position = transform->mutable_position();
 		position->set_x(roomPlayerData._transform._position._x);
 		position->set_y(roomPlayerData._transform._position._y);
 		position->set_z(roomPlayerData._transform._position._z);
+
+		stats->set_level(roomPlayerData._stats._level);
+		stats->set_hp(roomPlayerData._stats._hp);
+		stats->set_mp(roomPlayerData._stats._mp);
 	}
 
 	auto sendBuffer = PacketHandler::MakeSendBuffer(sendPacketPlayerListInGrid, PacketId::PKT_SC_PLAYER_LIST_IN_GRID);
@@ -824,18 +839,26 @@ void RoomManager::EnterRoomResult(const RoomResult::EnterRoomResult& enterRoomRe
 			room->set_maxplayercount(enterRoomResult._roomInfo._initRoomInfo._maxPlayerCount);
 			room->set_playercount(enterRoomResult._roomInfo._curPlayerCount);
 			room->set_hostname(boost::locale::conv::utf_to_utf<char>(enterRoomResult._roomInfo._hostPlayerName));
+			
 			// 그리드 내부 플레이어 정보 추가 
 			for (const RoomPlayerData& playerData : enterRoomResult._playerListInGrid) {
 
 				msgTest::Player* player = sendPacketEnterRoomResponse.add_playerlistingrid();
-				msgTest::Vector* position = player->mutable_position();
+				msgTest::PlayerBaseInfo* baseInfo = player->mutable_baseinfo();
+				msgTest::PlayerTransform* transform = player->mutable_transform();
+				msgTest::PlayerStats* stats = player->mutable_stats();
 
-				player->set_playerid(playerData._sessionId);
-				player->set_name(boost::locale::conv::utf_to_utf<char>(playerData._name));
-				player->set_level(playerData._stats._level);
+				baseInfo->set_playerid(playerData._sessionId);
+				baseInfo->set_name(boost::locale::conv::utf_to_utf<char>(playerData._name));
+
+				msgTest::Vector* position = transform->mutable_position();
 				position->set_x(playerData._transform._position._x);
 				position->set_y(playerData._transform._position._y);
 				position->set_z(playerData._transform._position._z);
+				
+				stats->set_level(playerData._stats._level);
+				stats->set_hp(playerData._stats._hp);
+				stats->set_mp(playerData._stats._mp);
 			}
 		}
 		else {
@@ -852,14 +875,21 @@ void RoomManager::EnterRoomResult(const RoomResult::EnterRoomResult& enterRoomRe
 		if (enterRoomResult._success == true) {
 			msgTest::SC_Player_Enter_Room_Notification sendPacketEnterRoomNotification;
 			msgTest::Player* player = sendPacketEnterRoomNotification.mutable_player();
-			msgTest::Vector* position = player->mutable_position();
+			msgTest::PlayerBaseInfo* baseInfo = player->mutable_baseinfo();
+			msgTest::PlayerTransform* transform = player->mutable_transform();
+			msgTest::PlayerStats* stats = player->mutable_stats();
 
-			player->set_playerid(enterRoomResult._enterPlayerInfo._sessionId);
-			player->set_name(boost::locale::conv::utf_to_utf<char>(enterRoomResult._enterPlayerInfo._name));
-			player->set_level(enterRoomResult._enterPlayerInfo._stats._level);
+			baseInfo->set_playerid(enterRoomResult._enterPlayerInfo._sessionId);
+			baseInfo->set_name(boost::locale::conv::utf_to_utf<char>(enterRoomResult._enterPlayerInfo._name));
+
+			msgTest::Vector* position = transform->mutable_position();
 			position->set_x(enterRoomResult._enterPlayerInfo._transform._position._x);
 			position->set_y(enterRoomResult._enterPlayerInfo._transform._position._y);
 			position->set_z(enterRoomResult._enterPlayerInfo._transform._position._z);
+
+			stats->set_level(enterRoomResult._enterPlayerInfo._stats._level);
+			stats->set_hp(enterRoomResult._enterPlayerInfo._stats._hp);
+			stats->set_mp(enterRoomResult._enterPlayerInfo._stats._mp);
 
 			vector<shared_ptr<Buffer>> sendBuffer = PacketHandler::MakeSendBuffer(sendPacketEnterRoomNotification, PacketId::PKT_SC_PLAYER_ENTER_ROOM_NOTIFICATION);
 

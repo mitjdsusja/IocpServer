@@ -221,24 +221,30 @@ void PacketHandler::Handle_CS_Player_Info_Request(shared_ptr<GameSession> sessio
 
 	GPlayerManager->PushJobGetPlayerData(sessionId, [sessionId](const PlayerData& playerData) {
 
-		string name = boost::locale::conv::utf_to_utf<char>(playerData._baseInfo._name);
-		int32 level = playerData._stats._level;
-		int16 posX = playerData._transform._position._x;
-		int16 posY = playerData._transform._position._y;
-		int16 posZ = playerData._transform._position._z;
-
 		// sendPacket
 		{
 			msgTest::SC_My_Player_Info_Response sendPlayerInfoResponsePacket;
 			msgTest::Player* playerInfo = sendPlayerInfoResponsePacket.mutable_playerinfo();
-			msgTest::Vector* position = playerInfo->mutable_position();
+			msgTest::PlayerBaseInfo* baseInfo = playerInfo->mutable_baseinfo();
+			msgTest::PlayerTransform* transform = playerInfo->mutable_transform();
+			msgTest::PlayerStats* stats = playerInfo->mutable_stats();
 
-			playerInfo->set_playerid(playerData._baseInfo._sessionId);
-			playerInfo->set_level(level);
-			playerInfo->set_name(name);
-			position->set_x(posX);
-			position->set_y(posY);
-			position->set_z(posZ);
+			baseInfo->set_playerid(playerData._baseInfo._sessionId);
+			baseInfo->set_name(boost::locale::conv::utf_to_utf<char>(playerData._baseInfo._name));
+
+			msgTest::Vector* position = transform->mutable_position();
+			position->set_x(playerData._transform._position._x);
+			position->set_y(playerData._transform._position._y);
+			position->set_z(playerData._transform._position._z);
+
+			stats->set_level(playerData._stats._level);
+			stats->set_hp(playerData._stats._hp);
+			stats->set_maxhp(playerData._stats._maxHp);
+			stats->set_mp(playerData._stats._mp);
+			stats->set_maxmp(playerData._stats._maxMp);
+			stats->set_exp(playerData._stats._exp);
+			stats->set_maxexp(playerData._stats._maxExp);
+			// 나머지 스탯은 추후에
 
 			vector<shared_ptr<Buffer>> sendBuffer = MakeSendBuffer(sendPlayerInfoResponsePacket, PacketId::PKT_SC_MY_PLAYER_INFO_RESPONSE);
 
@@ -258,16 +264,24 @@ void PacketHandler::Handle_CS_Room_Player_List_Request(shared_ptr<GameSession> s
 
 		msgTest::SC_Room_Player_List_Response sendRoomPlayerListResponsePacket;
 		for (const auto& roomPlayer : roomPlayerList) {
-			msgTest::Player* player = sendRoomPlayerListResponsePacket.add_playerlist();
-			msgTest::Vector* position = player->mutable_position();
-			string name = boost::locale::conv::utf_to_utf<char>(roomPlayer._name);
 			
-			player->set_playerid(roomPlayer._sessionId);
-			player->set_name(name);
-			player->set_level(roomPlayer._stats._level);
+			msgTest::Player* playerInfo = sendRoomPlayerListResponsePacket.add_playerlist();
+			msgTest::PlayerBaseInfo* baseInfo = playerInfo->mutable_baseinfo();
+			msgTest::PlayerTransform* transform = playerInfo->mutable_transform();
+			msgTest::PlayerStats* stats = playerInfo->mutable_stats();
+
+			baseInfo->set_playerid(roomPlayer._sessionId);
+			baseInfo->set_name(boost::locale::conv::utf_to_utf<char>(roomPlayer._name));
+
+			msgTest::Vector* position = transform->mutable_position();
 			position->set_x(roomPlayer._transform._position._x);
 			position->set_y(roomPlayer._transform._position._y);
 			position->set_z(roomPlayer._transform._position._z);
+
+			stats->set_level(roomPlayer._stats._level);
+			stats->set_hp(roomPlayer._stats._hp);
+			stats->set_mp(roomPlayer._stats._mp);
+			// 나머지 스탯은 추후에
 		}
 
 		vector<shared_ptr<Buffer>> sendBuffer = MakeSendBuffer(sendRoomPlayerListResponsePacket, PacketId::PKT_SC_ROOM_PLAYER_LIST_RESPONSE);
