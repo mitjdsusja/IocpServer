@@ -55,6 +55,7 @@ public:
 	void PushJobCreateAndPushPlayer(const shared_ptr<GameSession>& ownerSession, const PlayerBaseInfo& baseInfo, const PlayerTransform& position, const PlayerStats& stats);
 	void PushJobRemovePlayer(uint64 sessionId);
 
+	void PushJobGetPlayerData(uint64 sessionId, function<void(const PlayerData& playerData)>);
 	void PushJobGetRoomPlayer(uint64 sessionId, function<void(PlayerBaseInfo, PlayerTransform)>);
 	void PushJobGetBaseInfo(uint64 sessionId, function<void(PlayerBaseInfo)> func);
 	void PushJobGetPosition(uint64 sessionId, function<void(PlayerTransform)> func);

@@ -24,6 +24,6 @@ struct PlayerStats {
 };
 struct PlayerData {
 	PlayerBaseInfo _baseInfo;
-	PlayerTransform _position;
+	PlayerTransform _transform;
 	PlayerStats _stats;
 };

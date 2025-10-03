@@ -219,41 +219,32 @@ void PacketHandler::Handle_CS_Player_Info_Request(shared_ptr<GameSession> sessio
 		return;
 	}
 
-	// database
-	wstring query = L"SELECT name, level, pos_x, pos_y, pos_z from users WHERE usernum = " + to_wstring(session->GetDbId()) + L";";
-	//wcout << query << endl;
-	vector<vector<wstring>> result = LDBConnector->ExecuteSelectQuery(query);
+	GPlayerManager->PushJobGetPlayerData(sessionId, [sessionId](const PlayerData& playerData) {
 
-	string name;
-	int32 level;
-	int16 posX, posY, posZ;
-	if (!result.empty() && !result[0].empty()) {
-		name = boost::locale::conv::utf_to_utf<char>(result[0][0]);
-		level = stoi(result[0][1]);
-		posX = stoi(result[0][2]);
-		posY = stoi(result[0][3]);
-		posZ = stoi(result[0][4]);
-	}
-	else {
-		spdlog::info("Query returned no results.");
-		return;
-	}
+		string name = boost::locale::conv::utf_to_utf<char>(playerData._baseInfo._name);
+		int32 level = playerData._stats._level;
+		int16 posX = playerData._transform._position._x;
+		int16 posY = playerData._transform._position._y;
+		int16 posZ = playerData._transform._position._z;
 
-	// send packet
-	msgTest::SC_My_Player_Info_Response sendPlayerInfoResponsePacket;
-	msgTest::Player* playerInfo = sendPlayerInfoResponsePacket.mutable_playerinfo();
-	msgTest::Vector* position = playerInfo->mutable_position();
-	
-	playerInfo->set_playerid(sessionId);
-	playerInfo->set_level(level);
-	playerInfo->set_name(name);
-	position->set_x(posX);
-	position->set_y(posY);
-	position->set_z(posZ);
+		// sendPacket
+		{
+			msgTest::SC_My_Player_Info_Response sendPlayerInfoResponsePacket;
+			msgTest::Player* playerInfo = sendPlayerInfoResponsePacket.mutable_playerinfo();
+			msgTest::Vector* position = playerInfo->mutable_position();
 
-	vector<shared_ptr<Buffer>> sendBuffer = MakeSendBuffer(sendPlayerInfoResponsePacket, PacketId::PKT_SC_MY_PLAYER_INFO_RESPONSE);
+			playerInfo->set_playerid(playerData._baseInfo._sessionId);
+			playerInfo->set_level(level);
+			playerInfo->set_name(name);
+			position->set_x(posX);
+			position->set_y(posY);
+			position->set_z(posZ);
 
-	GPlayerManager->PushJobSendData(session->GetSessionId(), sendBuffer);
+			vector<shared_ptr<Buffer>> sendBuffer = MakeSendBuffer(sendPlayerInfoResponsePacket, PacketId::PKT_SC_MY_PLAYER_INFO_RESPONSE);
+
+			GPlayerManager->PushJobSendData(sessionId, sendBuffer);
+		}
+	});
 }
 
 void PacketHandler::Handle_CS_Room_Player_List_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
