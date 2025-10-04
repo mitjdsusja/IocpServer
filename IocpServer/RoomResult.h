@@ -19,4 +19,12 @@ namespace RoomResult {
 		int32 _enterSessionId;
 		vector<RoomPlayerData> _playerListInGrid;
 	};
+
+	struct SkillUseResult {
+	
+		bool _success;
+		int16 _failReason;
+		int32 _skillId;
+		int64 _casterId;
+	};
 }

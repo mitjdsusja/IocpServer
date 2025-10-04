@@ -16,6 +16,7 @@
 #include "GameSession.h"
 #include "RoomManager.h"
 #include "Vector.h"
+#include "SkillData.h"
 
 void PacketHandler::RegisterPacketHandlers() {
 
@@ -187,7 +188,7 @@ void PacketHandler::Handle_CS_Login_Request(shared_ptr<GameSession> session, sha
 
 void PacketHandler::Handle_CS_Room_List_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 	
-	GRoomManager->PushJobGetRoomInfoList([session](vector<RoomInfo> roomInfoList) {
+	GRoomManager->PushJobGetRoomInfoList([session](const vector<RoomInfo>& roomInfoList) {
 
 		msgTest::SC_Room_List_Response roomListResponsePacket;
 		for (const auto& roomInfo : roomInfoList) {
@@ -357,9 +358,16 @@ void PacketHandler::Handle_CS_Skill_Use(shared_ptr<GameSession> session, shared_
 	msgTest::CS_Skill_Use recvPacketSkillUse;
 	recvPacketSkillUse.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
 
+	int32 skillId = recvPacketSkillUse.skillid();
+	int32 skillType = (int32)recvPacketSkillUse.skilltype();
+	Vector<int16> startPos = { (int16)recvPacketSkillUse.startpos().x(), (int16)recvPacketSkillUse.startpos().y(), (int16)recvPacketSkillUse.startpos().z()};
+	Vector<int16> direction = { (int16)recvPacketSkillUse.direction().x(), (int16)recvPacketSkillUse.direction().y(), (int16)recvPacketSkillUse.direction().z() };
+	Vector<int16> targetPos = { (int16)recvPacketSkillUse.targetpos().x(), (int16)recvPacketSkillUse.targetpos().y(), (int16)recvPacketSkillUse.targetpos().z() };
+	int64 targetId = recvPacketSkillUse.targetid();
+	int64 casterId = session->GetSessionId();
+	int64 timestamp = recvPacketSkillUse.timestamp();
 
-
-	GRoomManager->PushJobSkillUse();
+	GRoomManager->PushJobSkillUse(skillData);
 }
 
 

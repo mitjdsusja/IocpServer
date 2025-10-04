@@ -152,7 +152,7 @@ message CS_Skill_Use{
     Vector startPos = 3;
     Vector direction = 4;
     Vector targetPos = 5;
-    int32 targetId = 6;
+    int64 targetId = 6;
     int64 timestamp = 7;
 }
 

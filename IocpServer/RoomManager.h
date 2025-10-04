@@ -4,6 +4,7 @@
 #include "RoomInfo.h"
 #include "RoomResult.h"
 #include "RoomPlayerData.h"
+#include "SkillData.h"
 
 class GridManager;
 class Job;
@@ -23,6 +24,8 @@ public:
 	void PushJobEnterRoomComplete(uint64 sessionId);
 	void PushJobLeavePlayer(uint64 leavePlayerSessionId);
 	void PushJobMovePlayer(uint64 movePlayerSessionId, const RoomPlayerData& roomPlayerData);
+
+	void PushJobSkillUse(const SkillData& skillData, function<void(const RoomResult::SkillUseResult&)> callback);
 
 	void PushJobGetRoomInfo(function<void(RoomInfo& roomInfo)> func);
 	void PushJobGetRoomPlayerList(function<void(vector<RoomPlayerData>)> func);
@@ -47,6 +50,7 @@ public:
 	void MovePlayer(uint64 sessionId, const RoomPlayerData& roomPlayerData);
 	void NotifyGridChange(uint64 sessionId, const Vector<int16>& oldCell, const Vector<int16>& newCell);
 
+	RoomResult::SkillUseResult SkillUse(const SkillData& skillData);
 
 	RoomInfo GetRoomInfo();
 	RoomPlayerData GetRoomPlayerData(uint64 sessionId);
@@ -78,13 +82,14 @@ public:
 	void PushJobLeaveRoom(int32 roomId, uint64 sessionId);
 	void PushJobRemoveRoom(int32 roomId);
 	void PushJobMovePlayer(int32 roomId, const RoomPlayerData& roomPlayerData);
-	void PushJobSkillUse();
+	void PushJobSkillUse(const SkillData& skillData);
 
-	void PushJobGetRoomInfoList(function<void(vector<RoomInfo>)> func);
+	void PushJobGetRoomInfoList(function<void(const vector<RoomInfo>&)> func);
 	void PushJobGetRoomPlayerList(int32 roomId, function<void(vector<RoomPlayerData>)> func);
 
 	// Result
-	void PushJobEnterRoomResult(const RoomResult::EnterRoomResult enterRoomResult);
+	void PushJobEnterRoomResult(const RoomResult::EnterRoomResult& enterRoomResult);
+	void PushJobSkillUseResult(const RoomResult::SkillUseResult& skillUseResult);
 
 	void BroadcastToRoom(int32 roomId, shared_ptr<Buffer> sendBuffer);
 
@@ -95,8 +100,10 @@ public:
 	void RemoveRoom(int32 roomId);
 	void LeaveRoom(int32 roomid, uint64 sessionId);
 	void MovePlayer(int32 roomId, const RoomPlayerData& roomPlayerData);
+	void SkillUse(const SkillData& skillData);
 
 	void EnterRoomResult(const RoomResult::EnterRoomResult& enterRoomResult);
+	void SkillUseResult(const RoomResult::SkillUseResult& skillUseResult);
 
 private:
 	static shared_ptr<Room> MakeRoomPtr(const InitRoomInfo& initRoomInfo, const RoomPlayerData& hostPlayerData);
