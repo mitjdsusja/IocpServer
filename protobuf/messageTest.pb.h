@@ -81,9 +81,9 @@ extern CS_Room_List_RequestDefaultTypeInternal _CS_Room_List_Request_default_ins
 class CS_Room_Player_List_Request;
 struct CS_Room_Player_List_RequestDefaultTypeInternal;
 extern CS_Room_Player_List_RequestDefaultTypeInternal _CS_Room_Player_List_Request_default_instance_;
-class CS_Skill_Use;
-struct CS_Skill_UseDefaultTypeInternal;
-extern CS_Skill_UseDefaultTypeInternal _CS_Skill_Use_default_instance_;
+class CS_Skill_Cast;
+struct CS_Skill_CastDefaultTypeInternal;
+extern CS_Skill_CastDefaultTypeInternal _CS_Skill_Cast_default_instance_;
 class MoveState;
 struct MoveStateDefaultTypeInternal;
 extern MoveStateDefaultTypeInternal _MoveState_default_instance_;
@@ -138,9 +138,9 @@ extern SC_Room_List_ResponseDefaultTypeInternal _SC_Room_List_Response_default_i
 class SC_Room_Player_List_Response;
 struct SC_Room_Player_List_ResponseDefaultTypeInternal;
 extern SC_Room_Player_List_ResponseDefaultTypeInternal _SC_Room_Player_List_Response_default_instance_;
-class SC_Skill_Cast;
-struct SC_Skill_CastDefaultTypeInternal;
-extern SC_Skill_CastDefaultTypeInternal _SC_Skill_Cast_default_instance_;
+class SC_Skill_Cast_Notiification;
+struct SC_Skill_Cast_NotiificationDefaultTypeInternal;
+extern SC_Skill_Cast_NotiificationDefaultTypeInternal _SC_Skill_Cast_Notiification_default_instance_;
 class SC_Skill_Result;
 struct SC_Skill_ResultDefaultTypeInternal;
 extern SC_Skill_ResultDefaultTypeInternal _SC_Skill_Result_default_instance_;
@@ -3465,31 +3465,31 @@ class CS_Create_Room_Request final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
-class SC_Skill_Cast final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:msgTest.SC_Skill_Cast) */ {
+class SC_Skill_Cast_Notiification final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:msgTest.SC_Skill_Cast_Notiification) */ {
  public:
-  inline SC_Skill_Cast() : SC_Skill_Cast(nullptr) {}
-  ~SC_Skill_Cast() PROTOBUF_FINAL;
+  inline SC_Skill_Cast_Notiification() : SC_Skill_Cast_Notiification(nullptr) {}
+  ~SC_Skill_Cast_Notiification() PROTOBUF_FINAL;
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-  void operator delete(SC_Skill_Cast* msg, std::destroying_delete_t) {
+  void operator delete(SC_Skill_Cast_Notiification* msg, std::destroying_delete_t) {
     SharedDtor(*msg);
-    ::google::protobuf::internal::SizedDelete(msg, sizeof(SC_Skill_Cast));
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(SC_Skill_Cast_Notiification));
   }
 #endif
 
   template <typename = void>
-  explicit PROTOBUF_CONSTEXPR SC_Skill_Cast(
+  explicit PROTOBUF_CONSTEXPR SC_Skill_Cast_Notiification(
       ::google::protobuf::internal::ConstantInitialized);
 
-  inline SC_Skill_Cast(const SC_Skill_Cast& from) : SC_Skill_Cast(nullptr, from) {}
-  inline SC_Skill_Cast(SC_Skill_Cast&& from) noexcept
-      : SC_Skill_Cast(nullptr, std::move(from)) {}
-  inline SC_Skill_Cast& operator=(const SC_Skill_Cast& from) {
+  inline SC_Skill_Cast_Notiification(const SC_Skill_Cast_Notiification& from) : SC_Skill_Cast_Notiification(nullptr, from) {}
+  inline SC_Skill_Cast_Notiification(SC_Skill_Cast_Notiification&& from) noexcept
+      : SC_Skill_Cast_Notiification(nullptr, std::move(from)) {}
+  inline SC_Skill_Cast_Notiification& operator=(const SC_Skill_Cast_Notiification& from) {
     CopyFrom(from);
     return *this;
   }
-  inline SC_Skill_Cast& operator=(SC_Skill_Cast&& from) noexcept {
+  inline SC_Skill_Cast_Notiification& operator=(SC_Skill_Cast_Notiification&& from) noexcept {
     if (this == &from) return *this;
     if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
       InternalSwap(&from);
@@ -3517,16 +3517,16 @@ class SC_Skill_Cast final : public ::google::protobuf::Message
   static const ::google::protobuf::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const SC_Skill_Cast& default_instance() {
+  static const SC_Skill_Cast_Notiification& default_instance() {
     return *internal_default_instance();
   }
-  static inline const SC_Skill_Cast* internal_default_instance() {
-    return reinterpret_cast<const SC_Skill_Cast*>(
-        &_SC_Skill_Cast_default_instance_);
+  static inline const SC_Skill_Cast_Notiification* internal_default_instance() {
+    return reinterpret_cast<const SC_Skill_Cast_Notiification*>(
+        &_SC_Skill_Cast_Notiification_default_instance_);
   }
   static constexpr int kIndexInFileMessages = 30;
-  friend void swap(SC_Skill_Cast& a, SC_Skill_Cast& b) { a.Swap(&b); }
-  inline void Swap(SC_Skill_Cast* other) {
+  friend void swap(SC_Skill_Cast_Notiification& a, SC_Skill_Cast_Notiification& b) { a.Swap(&b); }
+  inline void Swap(SC_Skill_Cast_Notiification* other) {
     if (other == this) return;
     if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
       InternalSwap(other);
@@ -3534,7 +3534,7 @@ class SC_Skill_Cast final : public ::google::protobuf::Message
       ::google::protobuf::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(SC_Skill_Cast* other) {
+  void UnsafeArenaSwap(SC_Skill_Cast_Notiification* other) {
     if (other == this) return;
     ABSL_DCHECK(GetArena() == other->GetArena());
     InternalSwap(other);
@@ -3542,13 +3542,13 @@ class SC_Skill_Cast final : public ::google::protobuf::Message
 
   // implements Message ----------------------------------------------
 
-  SC_Skill_Cast* New(::google::protobuf::Arena* arena = nullptr) const {
-    return ::google::protobuf::Message::DefaultConstruct<SC_Skill_Cast>(arena);
+  SC_Skill_Cast_Notiification* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<SC_Skill_Cast_Notiification>(arena);
   }
   using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const SC_Skill_Cast& from);
+  void CopyFrom(const SC_Skill_Cast_Notiification& from);
   using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const SC_Skill_Cast& from) { SC_Skill_Cast::MergeImpl(*this, from); }
+  void MergeFrom(const SC_Skill_Cast_Notiification& from) { SC_Skill_Cast_Notiification::MergeImpl(*this, from); }
 
   private:
   static void MergeImpl(
@@ -3585,18 +3585,18 @@ class SC_Skill_Cast final : public ::google::protobuf::Message
   private:
   void SharedCtor(::google::protobuf::Arena* arena);
   static void SharedDtor(MessageLite& self);
-  void InternalSwap(SC_Skill_Cast* other);
+  void InternalSwap(SC_Skill_Cast_Notiification* other);
  private:
   template <typename T>
   friend ::absl::string_view(
       ::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "msgTest.SC_Skill_Cast"; }
+  static ::absl::string_view FullMessageName() { return "msgTest.SC_Skill_Cast_Notiification"; }
 
  protected:
-  explicit SC_Skill_Cast(::google::protobuf::Arena* arena);
-  SC_Skill_Cast(::google::protobuf::Arena* arena, const SC_Skill_Cast& from);
-  SC_Skill_Cast(::google::protobuf::Arena* arena, SC_Skill_Cast&& from) noexcept
-      : SC_Skill_Cast(arena) {
+  explicit SC_Skill_Cast_Notiification(::google::protobuf::Arena* arena);
+  SC_Skill_Cast_Notiification(::google::protobuf::Arena* arena, const SC_Skill_Cast_Notiification& from);
+  SC_Skill_Cast_Notiification(::google::protobuf::Arena* arena, SC_Skill_Cast_Notiification&& from) noexcept
+      : SC_Skill_Cast_Notiification(arena) {
     *this = ::std::move(from);
   }
   const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
@@ -3617,8 +3617,8 @@ class SC_Skill_Cast final : public ::google::protobuf::Message
     kCasterIdFieldNumber = 1,
     kSkillIdFieldNumber = 2,
     kSkillTypeFieldNumber = 3,
-    kTargetIdFieldNumber = 7,
     kTimestampFieldNumber = 8,
+    kTargetIdFieldNumber = 7,
   };
   // .msgTest.Vector startPos = 4;
   bool has_startpos() const;
@@ -3665,14 +3665,14 @@ class SC_Skill_Cast final : public ::google::protobuf::Message
   ::msgTest::Vector* _internal_mutable_targetpos();
 
   public:
-  // int32 casterId = 1;
+  // int64 casterId = 1;
   void clear_casterid() ;
-  ::int32_t casterid() const;
-  void set_casterid(::int32_t value);
+  ::int64_t casterid() const;
+  void set_casterid(::int64_t value);
 
   private:
-  ::int32_t _internal_casterid() const;
-  void _internal_set_casterid(::int32_t value);
+  ::int64_t _internal_casterid() const;
+  void _internal_set_casterid(::int64_t value);
 
   public:
   // int32 skillId = 2;
@@ -3695,16 +3695,6 @@ class SC_Skill_Cast final : public ::google::protobuf::Message
   void _internal_set_skilltype(::msgTest::SkillType value);
 
   public:
-  // int32 targetId = 7;
-  void clear_targetid() ;
-  ::int32_t targetid() const;
-  void set_targetid(::int32_t value);
-
-  private:
-  ::int32_t _internal_targetid() const;
-  void _internal_set_targetid(::int32_t value);
-
-  public:
   // int64 timestamp = 8;
   void clear_timestamp() ;
   ::int64_t timestamp() const;
@@ -3715,7 +3705,17 @@ class SC_Skill_Cast final : public ::google::protobuf::Message
   void _internal_set_timestamp(::int64_t value);
 
   public:
-  // @@protoc_insertion_point(class_scope:msgTest.SC_Skill_Cast)
+  // int32 targetId = 7;
+  void clear_targetid() ;
+  ::int32_t targetid() const;
+  void set_targetid(::int32_t value);
+
+  private:
+  ::int32_t _internal_targetid() const;
+  void _internal_set_targetid(::int32_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:msgTest.SC_Skill_Cast_Notiification)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
@@ -3737,17 +3737,17 @@ class SC_Skill_Cast final : public ::google::protobuf::Message
                           ::google::protobuf::Arena* arena);
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
-                          const SC_Skill_Cast& from_msg);
+                          const SC_Skill_Cast_Notiification& from_msg);
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::msgTest::Vector* startpos_;
     ::msgTest::Vector* direction_;
     ::msgTest::Vector* targetpos_;
-    ::int32_t casterid_;
+    ::int64_t casterid_;
     ::int32_t skillid_;
     int skilltype_;
-    ::int32_t targetid_;
     ::int64_t timestamp_;
+    ::int32_t targetid_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -4698,31 +4698,31 @@ class MoveState final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
-class CS_Skill_Use final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:msgTest.CS_Skill_Use) */ {
+class CS_Skill_Cast final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:msgTest.CS_Skill_Cast) */ {
  public:
-  inline CS_Skill_Use() : CS_Skill_Use(nullptr) {}
-  ~CS_Skill_Use() PROTOBUF_FINAL;
+  inline CS_Skill_Cast() : CS_Skill_Cast(nullptr) {}
+  ~CS_Skill_Cast() PROTOBUF_FINAL;
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-  void operator delete(CS_Skill_Use* msg, std::destroying_delete_t) {
+  void operator delete(CS_Skill_Cast* msg, std::destroying_delete_t) {
     SharedDtor(*msg);
-    ::google::protobuf::internal::SizedDelete(msg, sizeof(CS_Skill_Use));
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(CS_Skill_Cast));
   }
 #endif
 
   template <typename = void>
-  explicit PROTOBUF_CONSTEXPR CS_Skill_Use(
+  explicit PROTOBUF_CONSTEXPR CS_Skill_Cast(
       ::google::protobuf::internal::ConstantInitialized);
 
-  inline CS_Skill_Use(const CS_Skill_Use& from) : CS_Skill_Use(nullptr, from) {}
-  inline CS_Skill_Use(CS_Skill_Use&& from) noexcept
-      : CS_Skill_Use(nullptr, std::move(from)) {}
-  inline CS_Skill_Use& operator=(const CS_Skill_Use& from) {
+  inline CS_Skill_Cast(const CS_Skill_Cast& from) : CS_Skill_Cast(nullptr, from) {}
+  inline CS_Skill_Cast(CS_Skill_Cast&& from) noexcept
+      : CS_Skill_Cast(nullptr, std::move(from)) {}
+  inline CS_Skill_Cast& operator=(const CS_Skill_Cast& from) {
     CopyFrom(from);
     return *this;
   }
-  inline CS_Skill_Use& operator=(CS_Skill_Use&& from) noexcept {
+  inline CS_Skill_Cast& operator=(CS_Skill_Cast&& from) noexcept {
     if (this == &from) return *this;
     if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
       InternalSwap(&from);
@@ -4750,16 +4750,16 @@ class CS_Skill_Use final : public ::google::protobuf::Message
   static const ::google::protobuf::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const CS_Skill_Use& default_instance() {
+  static const CS_Skill_Cast& default_instance() {
     return *internal_default_instance();
   }
-  static inline const CS_Skill_Use* internal_default_instance() {
-    return reinterpret_cast<const CS_Skill_Use*>(
-        &_CS_Skill_Use_default_instance_);
+  static inline const CS_Skill_Cast* internal_default_instance() {
+    return reinterpret_cast<const CS_Skill_Cast*>(
+        &_CS_Skill_Cast_default_instance_);
   }
   static constexpr int kIndexInFileMessages = 28;
-  friend void swap(CS_Skill_Use& a, CS_Skill_Use& b) { a.Swap(&b); }
-  inline void Swap(CS_Skill_Use* other) {
+  friend void swap(CS_Skill_Cast& a, CS_Skill_Cast& b) { a.Swap(&b); }
+  inline void Swap(CS_Skill_Cast* other) {
     if (other == this) return;
     if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
       InternalSwap(other);
@@ -4767,7 +4767,7 @@ class CS_Skill_Use final : public ::google::protobuf::Message
       ::google::protobuf::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(CS_Skill_Use* other) {
+  void UnsafeArenaSwap(CS_Skill_Cast* other) {
     if (other == this) return;
     ABSL_DCHECK(GetArena() == other->GetArena());
     InternalSwap(other);
@@ -4775,13 +4775,13 @@ class CS_Skill_Use final : public ::google::protobuf::Message
 
   // implements Message ----------------------------------------------
 
-  CS_Skill_Use* New(::google::protobuf::Arena* arena = nullptr) const {
-    return ::google::protobuf::Message::DefaultConstruct<CS_Skill_Use>(arena);
+  CS_Skill_Cast* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<CS_Skill_Cast>(arena);
   }
   using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const CS_Skill_Use& from);
+  void CopyFrom(const CS_Skill_Cast& from);
   using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const CS_Skill_Use& from) { CS_Skill_Use::MergeImpl(*this, from); }
+  void MergeFrom(const CS_Skill_Cast& from) { CS_Skill_Cast::MergeImpl(*this, from); }
 
   private:
   static void MergeImpl(
@@ -4818,18 +4818,18 @@ class CS_Skill_Use final : public ::google::protobuf::Message
   private:
   void SharedCtor(::google::protobuf::Arena* arena);
   static void SharedDtor(MessageLite& self);
-  void InternalSwap(CS_Skill_Use* other);
+  void InternalSwap(CS_Skill_Cast* other);
  private:
   template <typename T>
   friend ::absl::string_view(
       ::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "msgTest.CS_Skill_Use"; }
+  static ::absl::string_view FullMessageName() { return "msgTest.CS_Skill_Cast"; }
 
  protected:
-  explicit CS_Skill_Use(::google::protobuf::Arena* arena);
-  CS_Skill_Use(::google::protobuf::Arena* arena, const CS_Skill_Use& from);
-  CS_Skill_Use(::google::protobuf::Arena* arena, CS_Skill_Use&& from) noexcept
-      : CS_Skill_Use(arena) {
+  explicit CS_Skill_Cast(::google::protobuf::Arena* arena);
+  CS_Skill_Cast(::google::protobuf::Arena* arena, const CS_Skill_Cast& from);
+  CS_Skill_Cast(::google::protobuf::Arena* arena, CS_Skill_Cast&& from) noexcept
+      : CS_Skill_Cast(arena) {
     *this = ::std::move(from);
   }
   const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
@@ -4849,8 +4849,8 @@ class CS_Skill_Use final : public ::google::protobuf::Message
     kTargetPosFieldNumber = 5,
     kSkillIdFieldNumber = 1,
     kSkillTypeFieldNumber = 2,
-    kTimestampFieldNumber = 7,
     kTargetIdFieldNumber = 6,
+    kTimestampFieldNumber = 7,
   };
   // .msgTest.Vector startPos = 3;
   bool has_startpos() const;
@@ -4917,6 +4917,16 @@ class CS_Skill_Use final : public ::google::protobuf::Message
   void _internal_set_skilltype(::msgTest::SkillType value);
 
   public:
+  // int64 targetId = 6;
+  void clear_targetid() ;
+  ::int64_t targetid() const;
+  void set_targetid(::int64_t value);
+
+  private:
+  ::int64_t _internal_targetid() const;
+  void _internal_set_targetid(::int64_t value);
+
+  public:
   // int64 timestamp = 7;
   void clear_timestamp() ;
   ::int64_t timestamp() const;
@@ -4927,17 +4937,7 @@ class CS_Skill_Use final : public ::google::protobuf::Message
   void _internal_set_timestamp(::int64_t value);
 
   public:
-  // int32 targetId = 6;
-  void clear_targetid() ;
-  ::int32_t targetid() const;
-  void set_targetid(::int32_t value);
-
-  private:
-  ::int32_t _internal_targetid() const;
-  void _internal_set_targetid(::int32_t value);
-
-  public:
-  // @@protoc_insertion_point(class_scope:msgTest.CS_Skill_Use)
+  // @@protoc_insertion_point(class_scope:msgTest.CS_Skill_Cast)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
@@ -4959,7 +4959,7 @@ class CS_Skill_Use final : public ::google::protobuf::Message
                           ::google::protobuf::Arena* arena);
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
-                          const CS_Skill_Use& from_msg);
+                          const CS_Skill_Cast& from_msg);
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::msgTest::Vector* startpos_;
@@ -4967,8 +4967,8 @@ class CS_Skill_Use final : public ::google::protobuf::Message
     ::msgTest::Vector* targetpos_;
     ::int32_t skillid_;
     int skilltype_;
+    ::int64_t targetid_;
     ::int64_t timestamp_;
-    ::int32_t targetid_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -9776,73 +9776,73 @@ inline void SC_Player_Enter_Grid_Notification::set_allocated_enterplayer(::msgTe
 
 // -------------------------------------------------------------------
 
-// CS_Skill_Use
+// CS_Skill_Cast
 
 // int32 skillId = 1;
-inline void CS_Skill_Use::clear_skillid() {
+inline void CS_Skill_Cast::clear_skillid() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.skillid_ = 0;
 }
-inline ::int32_t CS_Skill_Use::skillid() const {
-  // @@protoc_insertion_point(field_get:msgTest.CS_Skill_Use.skillId)
+inline ::int32_t CS_Skill_Cast::skillid() const {
+  // @@protoc_insertion_point(field_get:msgTest.CS_Skill_Cast.skillId)
   return _internal_skillid();
 }
-inline void CS_Skill_Use::set_skillid(::int32_t value) {
+inline void CS_Skill_Cast::set_skillid(::int32_t value) {
   _internal_set_skillid(value);
-  // @@protoc_insertion_point(field_set:msgTest.CS_Skill_Use.skillId)
+  // @@protoc_insertion_point(field_set:msgTest.CS_Skill_Cast.skillId)
 }
-inline ::int32_t CS_Skill_Use::_internal_skillid() const {
+inline ::int32_t CS_Skill_Cast::_internal_skillid() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.skillid_;
 }
-inline void CS_Skill_Use::_internal_set_skillid(::int32_t value) {
+inline void CS_Skill_Cast::_internal_set_skillid(::int32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.skillid_ = value;
 }
 
 // .msgTest.SkillType skillType = 2;
-inline void CS_Skill_Use::clear_skilltype() {
+inline void CS_Skill_Cast::clear_skilltype() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.skilltype_ = 0;
 }
-inline ::msgTest::SkillType CS_Skill_Use::skilltype() const {
-  // @@protoc_insertion_point(field_get:msgTest.CS_Skill_Use.skillType)
+inline ::msgTest::SkillType CS_Skill_Cast::skilltype() const {
+  // @@protoc_insertion_point(field_get:msgTest.CS_Skill_Cast.skillType)
   return _internal_skilltype();
 }
-inline void CS_Skill_Use::set_skilltype(::msgTest::SkillType value) {
+inline void CS_Skill_Cast::set_skilltype(::msgTest::SkillType value) {
   _internal_set_skilltype(value);
-  // @@protoc_insertion_point(field_set:msgTest.CS_Skill_Use.skillType)
+  // @@protoc_insertion_point(field_set:msgTest.CS_Skill_Cast.skillType)
 }
-inline ::msgTest::SkillType CS_Skill_Use::_internal_skilltype() const {
+inline ::msgTest::SkillType CS_Skill_Cast::_internal_skilltype() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return static_cast<::msgTest::SkillType>(_impl_.skilltype_);
 }
-inline void CS_Skill_Use::_internal_set_skilltype(::msgTest::SkillType value) {
+inline void CS_Skill_Cast::_internal_set_skilltype(::msgTest::SkillType value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.skilltype_ = value;
 }
 
 // .msgTest.Vector startPos = 3;
-inline bool CS_Skill_Use::has_startpos() const {
+inline bool CS_Skill_Cast::has_startpos() const {
   bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.startpos_ != nullptr);
   return value;
 }
-inline void CS_Skill_Use::clear_startpos() {
+inline void CS_Skill_Cast::clear_startpos() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.startpos_ != nullptr) _impl_.startpos_->Clear();
   _impl_._has_bits_[0] &= ~0x00000001u;
 }
-inline const ::msgTest::Vector& CS_Skill_Use::_internal_startpos() const {
+inline const ::msgTest::Vector& CS_Skill_Cast::_internal_startpos() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   const ::msgTest::Vector* p = _impl_.startpos_;
   return p != nullptr ? *p : reinterpret_cast<const ::msgTest::Vector&>(::msgTest::_Vector_default_instance_);
 }
-inline const ::msgTest::Vector& CS_Skill_Use::startpos() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:msgTest.CS_Skill_Use.startPos)
+inline const ::msgTest::Vector& CS_Skill_Cast::startpos() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:msgTest.CS_Skill_Cast.startPos)
   return _internal_startpos();
 }
-inline void CS_Skill_Use::unsafe_arena_set_allocated_startpos(::msgTest::Vector* value) {
+inline void CS_Skill_Cast::unsafe_arena_set_allocated_startpos(::msgTest::Vector* value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (GetArena() == nullptr) {
     delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.startpos_);
@@ -9853,9 +9853,9 @@ inline void CS_Skill_Use::unsafe_arena_set_allocated_startpos(::msgTest::Vector*
   } else {
     _impl_._has_bits_[0] &= ~0x00000001u;
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:msgTest.CS_Skill_Use.startPos)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:msgTest.CS_Skill_Cast.startPos)
 }
-inline ::msgTest::Vector* CS_Skill_Use::release_startpos() {
+inline ::msgTest::Vector* CS_Skill_Cast::release_startpos() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
 
   _impl_._has_bits_[0] &= ~0x00000001u;
@@ -9874,16 +9874,16 @@ inline ::msgTest::Vector* CS_Skill_Use::release_startpos() {
   }
   return released;
 }
-inline ::msgTest::Vector* CS_Skill_Use::unsafe_arena_release_startpos() {
+inline ::msgTest::Vector* CS_Skill_Cast::unsafe_arena_release_startpos() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:msgTest.CS_Skill_Use.startPos)
+  // @@protoc_insertion_point(field_release:msgTest.CS_Skill_Cast.startPos)
 
   _impl_._has_bits_[0] &= ~0x00000001u;
   ::msgTest::Vector* temp = _impl_.startpos_;
   _impl_.startpos_ = nullptr;
   return temp;
 }
-inline ::msgTest::Vector* CS_Skill_Use::_internal_mutable_startpos() {
+inline ::msgTest::Vector* CS_Skill_Cast::_internal_mutable_startpos() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.startpos_ == nullptr) {
     auto* p = ::google::protobuf::Message::DefaultConstruct<::msgTest::Vector>(GetArena());
@@ -9891,13 +9891,13 @@ inline ::msgTest::Vector* CS_Skill_Use::_internal_mutable_startpos() {
   }
   return _impl_.startpos_;
 }
-inline ::msgTest::Vector* CS_Skill_Use::mutable_startpos() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+inline ::msgTest::Vector* CS_Skill_Cast::mutable_startpos() ABSL_ATTRIBUTE_LIFETIME_BOUND {
   _impl_._has_bits_[0] |= 0x00000001u;
   ::msgTest::Vector* _msg = _internal_mutable_startpos();
-  // @@protoc_insertion_point(field_mutable:msgTest.CS_Skill_Use.startPos)
+  // @@protoc_insertion_point(field_mutable:msgTest.CS_Skill_Cast.startPos)
   return _msg;
 }
-inline void CS_Skill_Use::set_allocated_startpos(::msgTest::Vector* value) {
+inline void CS_Skill_Cast::set_allocated_startpos(::msgTest::Vector* value) {
   ::google::protobuf::Arena* message_arena = GetArena();
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (message_arena == nullptr) {
@@ -9915,30 +9915,30 @@ inline void CS_Skill_Use::set_allocated_startpos(::msgTest::Vector* value) {
   }
 
   _impl_.startpos_ = reinterpret_cast<::msgTest::Vector*>(value);
-  // @@protoc_insertion_point(field_set_allocated:msgTest.CS_Skill_Use.startPos)
+  // @@protoc_insertion_point(field_set_allocated:msgTest.CS_Skill_Cast.startPos)
 }
 
 // .msgTest.Vector direction = 4;
-inline bool CS_Skill_Use::has_direction() const {
+inline bool CS_Skill_Cast::has_direction() const {
   bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.direction_ != nullptr);
   return value;
 }
-inline void CS_Skill_Use::clear_direction() {
+inline void CS_Skill_Cast::clear_direction() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.direction_ != nullptr) _impl_.direction_->Clear();
   _impl_._has_bits_[0] &= ~0x00000002u;
 }
-inline const ::msgTest::Vector& CS_Skill_Use::_internal_direction() const {
+inline const ::msgTest::Vector& CS_Skill_Cast::_internal_direction() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   const ::msgTest::Vector* p = _impl_.direction_;
   return p != nullptr ? *p : reinterpret_cast<const ::msgTest::Vector&>(::msgTest::_Vector_default_instance_);
 }
-inline const ::msgTest::Vector& CS_Skill_Use::direction() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:msgTest.CS_Skill_Use.direction)
+inline const ::msgTest::Vector& CS_Skill_Cast::direction() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:msgTest.CS_Skill_Cast.direction)
   return _internal_direction();
 }
-inline void CS_Skill_Use::unsafe_arena_set_allocated_direction(::msgTest::Vector* value) {
+inline void CS_Skill_Cast::unsafe_arena_set_allocated_direction(::msgTest::Vector* value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (GetArena() == nullptr) {
     delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.direction_);
@@ -9949,9 +9949,9 @@ inline void CS_Skill_Use::unsafe_arena_set_allocated_direction(::msgTest::Vector
   } else {
     _impl_._has_bits_[0] &= ~0x00000002u;
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:msgTest.CS_Skill_Use.direction)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:msgTest.CS_Skill_Cast.direction)
 }
-inline ::msgTest::Vector* CS_Skill_Use::release_direction() {
+inline ::msgTest::Vector* CS_Skill_Cast::release_direction() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
 
   _impl_._has_bits_[0] &= ~0x00000002u;
@@ -9970,16 +9970,16 @@ inline ::msgTest::Vector* CS_Skill_Use::release_direction() {
   }
   return released;
 }
-inline ::msgTest::Vector* CS_Skill_Use::unsafe_arena_release_direction() {
+inline ::msgTest::Vector* CS_Skill_Cast::unsafe_arena_release_direction() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:msgTest.CS_Skill_Use.direction)
+  // @@protoc_insertion_point(field_release:msgTest.CS_Skill_Cast.direction)
 
   _impl_._has_bits_[0] &= ~0x00000002u;
   ::msgTest::Vector* temp = _impl_.direction_;
   _impl_.direction_ = nullptr;
   return temp;
 }
-inline ::msgTest::Vector* CS_Skill_Use::_internal_mutable_direction() {
+inline ::msgTest::Vector* CS_Skill_Cast::_internal_mutable_direction() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.direction_ == nullptr) {
     auto* p = ::google::protobuf::Message::DefaultConstruct<::msgTest::Vector>(GetArena());
@@ -9987,13 +9987,13 @@ inline ::msgTest::Vector* CS_Skill_Use::_internal_mutable_direction() {
   }
   return _impl_.direction_;
 }
-inline ::msgTest::Vector* CS_Skill_Use::mutable_direction() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+inline ::msgTest::Vector* CS_Skill_Cast::mutable_direction() ABSL_ATTRIBUTE_LIFETIME_BOUND {
   _impl_._has_bits_[0] |= 0x00000002u;
   ::msgTest::Vector* _msg = _internal_mutable_direction();
-  // @@protoc_insertion_point(field_mutable:msgTest.CS_Skill_Use.direction)
+  // @@protoc_insertion_point(field_mutable:msgTest.CS_Skill_Cast.direction)
   return _msg;
 }
-inline void CS_Skill_Use::set_allocated_direction(::msgTest::Vector* value) {
+inline void CS_Skill_Cast::set_allocated_direction(::msgTest::Vector* value) {
   ::google::protobuf::Arena* message_arena = GetArena();
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (message_arena == nullptr) {
@@ -10011,30 +10011,30 @@ inline void CS_Skill_Use::set_allocated_direction(::msgTest::Vector* value) {
   }
 
   _impl_.direction_ = reinterpret_cast<::msgTest::Vector*>(value);
-  // @@protoc_insertion_point(field_set_allocated:msgTest.CS_Skill_Use.direction)
+  // @@protoc_insertion_point(field_set_allocated:msgTest.CS_Skill_Cast.direction)
 }
 
 // .msgTest.Vector targetPos = 5;
-inline bool CS_Skill_Use::has_targetpos() const {
+inline bool CS_Skill_Cast::has_targetpos() const {
   bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.targetpos_ != nullptr);
   return value;
 }
-inline void CS_Skill_Use::clear_targetpos() {
+inline void CS_Skill_Cast::clear_targetpos() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.targetpos_ != nullptr) _impl_.targetpos_->Clear();
   _impl_._has_bits_[0] &= ~0x00000004u;
 }
-inline const ::msgTest::Vector& CS_Skill_Use::_internal_targetpos() const {
+inline const ::msgTest::Vector& CS_Skill_Cast::_internal_targetpos() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   const ::msgTest::Vector* p = _impl_.targetpos_;
   return p != nullptr ? *p : reinterpret_cast<const ::msgTest::Vector&>(::msgTest::_Vector_default_instance_);
 }
-inline const ::msgTest::Vector& CS_Skill_Use::targetpos() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:msgTest.CS_Skill_Use.targetPos)
+inline const ::msgTest::Vector& CS_Skill_Cast::targetpos() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:msgTest.CS_Skill_Cast.targetPos)
   return _internal_targetpos();
 }
-inline void CS_Skill_Use::unsafe_arena_set_allocated_targetpos(::msgTest::Vector* value) {
+inline void CS_Skill_Cast::unsafe_arena_set_allocated_targetpos(::msgTest::Vector* value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (GetArena() == nullptr) {
     delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.targetpos_);
@@ -10045,9 +10045,9 @@ inline void CS_Skill_Use::unsafe_arena_set_allocated_targetpos(::msgTest::Vector
   } else {
     _impl_._has_bits_[0] &= ~0x00000004u;
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:msgTest.CS_Skill_Use.targetPos)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:msgTest.CS_Skill_Cast.targetPos)
 }
-inline ::msgTest::Vector* CS_Skill_Use::release_targetpos() {
+inline ::msgTest::Vector* CS_Skill_Cast::release_targetpos() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
 
   _impl_._has_bits_[0] &= ~0x00000004u;
@@ -10066,16 +10066,16 @@ inline ::msgTest::Vector* CS_Skill_Use::release_targetpos() {
   }
   return released;
 }
-inline ::msgTest::Vector* CS_Skill_Use::unsafe_arena_release_targetpos() {
+inline ::msgTest::Vector* CS_Skill_Cast::unsafe_arena_release_targetpos() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:msgTest.CS_Skill_Use.targetPos)
+  // @@protoc_insertion_point(field_release:msgTest.CS_Skill_Cast.targetPos)
 
   _impl_._has_bits_[0] &= ~0x00000004u;
   ::msgTest::Vector* temp = _impl_.targetpos_;
   _impl_.targetpos_ = nullptr;
   return temp;
 }
-inline ::msgTest::Vector* CS_Skill_Use::_internal_mutable_targetpos() {
+inline ::msgTest::Vector* CS_Skill_Cast::_internal_mutable_targetpos() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.targetpos_ == nullptr) {
     auto* p = ::google::protobuf::Message::DefaultConstruct<::msgTest::Vector>(GetArena());
@@ -10083,13 +10083,13 @@ inline ::msgTest::Vector* CS_Skill_Use::_internal_mutable_targetpos() {
   }
   return _impl_.targetpos_;
 }
-inline ::msgTest::Vector* CS_Skill_Use::mutable_targetpos() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+inline ::msgTest::Vector* CS_Skill_Cast::mutable_targetpos() ABSL_ATTRIBUTE_LIFETIME_BOUND {
   _impl_._has_bits_[0] |= 0x00000004u;
   ::msgTest::Vector* _msg = _internal_mutable_targetpos();
-  // @@protoc_insertion_point(field_mutable:msgTest.CS_Skill_Use.targetPos)
+  // @@protoc_insertion_point(field_mutable:msgTest.CS_Skill_Cast.targetPos)
   return _msg;
 }
-inline void CS_Skill_Use::set_allocated_targetpos(::msgTest::Vector* value) {
+inline void CS_Skill_Cast::set_allocated_targetpos(::msgTest::Vector* value) {
   ::google::protobuf::Arena* message_arena = GetArena();
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (message_arena == nullptr) {
@@ -10107,49 +10107,49 @@ inline void CS_Skill_Use::set_allocated_targetpos(::msgTest::Vector* value) {
   }
 
   _impl_.targetpos_ = reinterpret_cast<::msgTest::Vector*>(value);
-  // @@protoc_insertion_point(field_set_allocated:msgTest.CS_Skill_Use.targetPos)
+  // @@protoc_insertion_point(field_set_allocated:msgTest.CS_Skill_Cast.targetPos)
 }
 
-// int32 targetId = 6;
-inline void CS_Skill_Use::clear_targetid() {
+// int64 targetId = 6;
+inline void CS_Skill_Cast::clear_targetid() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.targetid_ = 0;
+  _impl_.targetid_ = ::int64_t{0};
 }
-inline ::int32_t CS_Skill_Use::targetid() const {
-  // @@protoc_insertion_point(field_get:msgTest.CS_Skill_Use.targetId)
+inline ::int64_t CS_Skill_Cast::targetid() const {
+  // @@protoc_insertion_point(field_get:msgTest.CS_Skill_Cast.targetId)
   return _internal_targetid();
 }
-inline void CS_Skill_Use::set_targetid(::int32_t value) {
+inline void CS_Skill_Cast::set_targetid(::int64_t value) {
   _internal_set_targetid(value);
-  // @@protoc_insertion_point(field_set:msgTest.CS_Skill_Use.targetId)
+  // @@protoc_insertion_point(field_set:msgTest.CS_Skill_Cast.targetId)
 }
-inline ::int32_t CS_Skill_Use::_internal_targetid() const {
+inline ::int64_t CS_Skill_Cast::_internal_targetid() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.targetid_;
 }
-inline void CS_Skill_Use::_internal_set_targetid(::int32_t value) {
+inline void CS_Skill_Cast::_internal_set_targetid(::int64_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.targetid_ = value;
 }
 
 // int64 timestamp = 7;
-inline void CS_Skill_Use::clear_timestamp() {
+inline void CS_Skill_Cast::clear_timestamp() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.timestamp_ = ::int64_t{0};
 }
-inline ::int64_t CS_Skill_Use::timestamp() const {
-  // @@protoc_insertion_point(field_get:msgTest.CS_Skill_Use.timestamp)
+inline ::int64_t CS_Skill_Cast::timestamp() const {
+  // @@protoc_insertion_point(field_get:msgTest.CS_Skill_Cast.timestamp)
   return _internal_timestamp();
 }
-inline void CS_Skill_Use::set_timestamp(::int64_t value) {
+inline void CS_Skill_Cast::set_timestamp(::int64_t value) {
   _internal_set_timestamp(value);
-  // @@protoc_insertion_point(field_set:msgTest.CS_Skill_Use.timestamp)
+  // @@protoc_insertion_point(field_set:msgTest.CS_Skill_Cast.timestamp)
 }
-inline ::int64_t CS_Skill_Use::_internal_timestamp() const {
+inline ::int64_t CS_Skill_Cast::_internal_timestamp() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.timestamp_;
 }
-inline void CS_Skill_Use::_internal_set_timestamp(::int64_t value) {
+inline void CS_Skill_Cast::_internal_set_timestamp(::int64_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.timestamp_ = value;
 }
@@ -10226,95 +10226,95 @@ inline void SC_Skill_Result::_internal_set_skillid(::int32_t value) {
 
 // -------------------------------------------------------------------
 
-// SC_Skill_Cast
+// SC_Skill_Cast_Notiification
 
-// int32 casterId = 1;
-inline void SC_Skill_Cast::clear_casterid() {
+// int64 casterId = 1;
+inline void SC_Skill_Cast_Notiification::clear_casterid() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.casterid_ = 0;
+  _impl_.casterid_ = ::int64_t{0};
 }
-inline ::int32_t SC_Skill_Cast::casterid() const {
-  // @@protoc_insertion_point(field_get:msgTest.SC_Skill_Cast.casterId)
+inline ::int64_t SC_Skill_Cast_Notiification::casterid() const {
+  // @@protoc_insertion_point(field_get:msgTest.SC_Skill_Cast_Notiification.casterId)
   return _internal_casterid();
 }
-inline void SC_Skill_Cast::set_casterid(::int32_t value) {
+inline void SC_Skill_Cast_Notiification::set_casterid(::int64_t value) {
   _internal_set_casterid(value);
-  // @@protoc_insertion_point(field_set:msgTest.SC_Skill_Cast.casterId)
+  // @@protoc_insertion_point(field_set:msgTest.SC_Skill_Cast_Notiification.casterId)
 }
-inline ::int32_t SC_Skill_Cast::_internal_casterid() const {
+inline ::int64_t SC_Skill_Cast_Notiification::_internal_casterid() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.casterid_;
 }
-inline void SC_Skill_Cast::_internal_set_casterid(::int32_t value) {
+inline void SC_Skill_Cast_Notiification::_internal_set_casterid(::int64_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.casterid_ = value;
 }
 
 // int32 skillId = 2;
-inline void SC_Skill_Cast::clear_skillid() {
+inline void SC_Skill_Cast_Notiification::clear_skillid() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.skillid_ = 0;
 }
-inline ::int32_t SC_Skill_Cast::skillid() const {
-  // @@protoc_insertion_point(field_get:msgTest.SC_Skill_Cast.skillId)
+inline ::int32_t SC_Skill_Cast_Notiification::skillid() const {
+  // @@protoc_insertion_point(field_get:msgTest.SC_Skill_Cast_Notiification.skillId)
   return _internal_skillid();
 }
-inline void SC_Skill_Cast::set_skillid(::int32_t value) {
+inline void SC_Skill_Cast_Notiification::set_skillid(::int32_t value) {
   _internal_set_skillid(value);
-  // @@protoc_insertion_point(field_set:msgTest.SC_Skill_Cast.skillId)
+  // @@protoc_insertion_point(field_set:msgTest.SC_Skill_Cast_Notiification.skillId)
 }
-inline ::int32_t SC_Skill_Cast::_internal_skillid() const {
+inline ::int32_t SC_Skill_Cast_Notiification::_internal_skillid() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.skillid_;
 }
-inline void SC_Skill_Cast::_internal_set_skillid(::int32_t value) {
+inline void SC_Skill_Cast_Notiification::_internal_set_skillid(::int32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.skillid_ = value;
 }
 
 // .msgTest.SkillType skillType = 3;
-inline void SC_Skill_Cast::clear_skilltype() {
+inline void SC_Skill_Cast_Notiification::clear_skilltype() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.skilltype_ = 0;
 }
-inline ::msgTest::SkillType SC_Skill_Cast::skilltype() const {
-  // @@protoc_insertion_point(field_get:msgTest.SC_Skill_Cast.skillType)
+inline ::msgTest::SkillType SC_Skill_Cast_Notiification::skilltype() const {
+  // @@protoc_insertion_point(field_get:msgTest.SC_Skill_Cast_Notiification.skillType)
   return _internal_skilltype();
 }
-inline void SC_Skill_Cast::set_skilltype(::msgTest::SkillType value) {
+inline void SC_Skill_Cast_Notiification::set_skilltype(::msgTest::SkillType value) {
   _internal_set_skilltype(value);
-  // @@protoc_insertion_point(field_set:msgTest.SC_Skill_Cast.skillType)
+  // @@protoc_insertion_point(field_set:msgTest.SC_Skill_Cast_Notiification.skillType)
 }
-inline ::msgTest::SkillType SC_Skill_Cast::_internal_skilltype() const {
+inline ::msgTest::SkillType SC_Skill_Cast_Notiification::_internal_skilltype() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return static_cast<::msgTest::SkillType>(_impl_.skilltype_);
 }
-inline void SC_Skill_Cast::_internal_set_skilltype(::msgTest::SkillType value) {
+inline void SC_Skill_Cast_Notiification::_internal_set_skilltype(::msgTest::SkillType value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.skilltype_ = value;
 }
 
 // .msgTest.Vector startPos = 4;
-inline bool SC_Skill_Cast::has_startpos() const {
+inline bool SC_Skill_Cast_Notiification::has_startpos() const {
   bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.startpos_ != nullptr);
   return value;
 }
-inline void SC_Skill_Cast::clear_startpos() {
+inline void SC_Skill_Cast_Notiification::clear_startpos() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.startpos_ != nullptr) _impl_.startpos_->Clear();
   _impl_._has_bits_[0] &= ~0x00000001u;
 }
-inline const ::msgTest::Vector& SC_Skill_Cast::_internal_startpos() const {
+inline const ::msgTest::Vector& SC_Skill_Cast_Notiification::_internal_startpos() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   const ::msgTest::Vector* p = _impl_.startpos_;
   return p != nullptr ? *p : reinterpret_cast<const ::msgTest::Vector&>(::msgTest::_Vector_default_instance_);
 }
-inline const ::msgTest::Vector& SC_Skill_Cast::startpos() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:msgTest.SC_Skill_Cast.startPos)
+inline const ::msgTest::Vector& SC_Skill_Cast_Notiification::startpos() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:msgTest.SC_Skill_Cast_Notiification.startPos)
   return _internal_startpos();
 }
-inline void SC_Skill_Cast::unsafe_arena_set_allocated_startpos(::msgTest::Vector* value) {
+inline void SC_Skill_Cast_Notiification::unsafe_arena_set_allocated_startpos(::msgTest::Vector* value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (GetArena() == nullptr) {
     delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.startpos_);
@@ -10325,9 +10325,9 @@ inline void SC_Skill_Cast::unsafe_arena_set_allocated_startpos(::msgTest::Vector
   } else {
     _impl_._has_bits_[0] &= ~0x00000001u;
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:msgTest.SC_Skill_Cast.startPos)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:msgTest.SC_Skill_Cast_Notiification.startPos)
 }
-inline ::msgTest::Vector* SC_Skill_Cast::release_startpos() {
+inline ::msgTest::Vector* SC_Skill_Cast_Notiification::release_startpos() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
 
   _impl_._has_bits_[0] &= ~0x00000001u;
@@ -10346,16 +10346,16 @@ inline ::msgTest::Vector* SC_Skill_Cast::release_startpos() {
   }
   return released;
 }
-inline ::msgTest::Vector* SC_Skill_Cast::unsafe_arena_release_startpos() {
+inline ::msgTest::Vector* SC_Skill_Cast_Notiification::unsafe_arena_release_startpos() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:msgTest.SC_Skill_Cast.startPos)
+  // @@protoc_insertion_point(field_release:msgTest.SC_Skill_Cast_Notiification.startPos)
 
   _impl_._has_bits_[0] &= ~0x00000001u;
   ::msgTest::Vector* temp = _impl_.startpos_;
   _impl_.startpos_ = nullptr;
   return temp;
 }
-inline ::msgTest::Vector* SC_Skill_Cast::_internal_mutable_startpos() {
+inline ::msgTest::Vector* SC_Skill_Cast_Notiification::_internal_mutable_startpos() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.startpos_ == nullptr) {
     auto* p = ::google::protobuf::Message::DefaultConstruct<::msgTest::Vector>(GetArena());
@@ -10363,13 +10363,13 @@ inline ::msgTest::Vector* SC_Skill_Cast::_internal_mutable_startpos() {
   }
   return _impl_.startpos_;
 }
-inline ::msgTest::Vector* SC_Skill_Cast::mutable_startpos() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+inline ::msgTest::Vector* SC_Skill_Cast_Notiification::mutable_startpos() ABSL_ATTRIBUTE_LIFETIME_BOUND {
   _impl_._has_bits_[0] |= 0x00000001u;
   ::msgTest::Vector* _msg = _internal_mutable_startpos();
-  // @@protoc_insertion_point(field_mutable:msgTest.SC_Skill_Cast.startPos)
+  // @@protoc_insertion_point(field_mutable:msgTest.SC_Skill_Cast_Notiification.startPos)
   return _msg;
 }
-inline void SC_Skill_Cast::set_allocated_startpos(::msgTest::Vector* value) {
+inline void SC_Skill_Cast_Notiification::set_allocated_startpos(::msgTest::Vector* value) {
   ::google::protobuf::Arena* message_arena = GetArena();
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (message_arena == nullptr) {
@@ -10387,30 +10387,30 @@ inline void SC_Skill_Cast::set_allocated_startpos(::msgTest::Vector* value) {
   }
 
   _impl_.startpos_ = reinterpret_cast<::msgTest::Vector*>(value);
-  // @@protoc_insertion_point(field_set_allocated:msgTest.SC_Skill_Cast.startPos)
+  // @@protoc_insertion_point(field_set_allocated:msgTest.SC_Skill_Cast_Notiification.startPos)
 }
 
 // .msgTest.Vector direction = 5;
-inline bool SC_Skill_Cast::has_direction() const {
+inline bool SC_Skill_Cast_Notiification::has_direction() const {
   bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.direction_ != nullptr);
   return value;
 }
-inline void SC_Skill_Cast::clear_direction() {
+inline void SC_Skill_Cast_Notiification::clear_direction() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.direction_ != nullptr) _impl_.direction_->Clear();
   _impl_._has_bits_[0] &= ~0x00000002u;
 }
-inline const ::msgTest::Vector& SC_Skill_Cast::_internal_direction() const {
+inline const ::msgTest::Vector& SC_Skill_Cast_Notiification::_internal_direction() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   const ::msgTest::Vector* p = _impl_.direction_;
   return p != nullptr ? *p : reinterpret_cast<const ::msgTest::Vector&>(::msgTest::_Vector_default_instance_);
 }
-inline const ::msgTest::Vector& SC_Skill_Cast::direction() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:msgTest.SC_Skill_Cast.direction)
+inline const ::msgTest::Vector& SC_Skill_Cast_Notiification::direction() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:msgTest.SC_Skill_Cast_Notiification.direction)
   return _internal_direction();
 }
-inline void SC_Skill_Cast::unsafe_arena_set_allocated_direction(::msgTest::Vector* value) {
+inline void SC_Skill_Cast_Notiification::unsafe_arena_set_allocated_direction(::msgTest::Vector* value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (GetArena() == nullptr) {
     delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.direction_);
@@ -10421,9 +10421,9 @@ inline void SC_Skill_Cast::unsafe_arena_set_allocated_direction(::msgTest::Vecto
   } else {
     _impl_._has_bits_[0] &= ~0x00000002u;
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:msgTest.SC_Skill_Cast.direction)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:msgTest.SC_Skill_Cast_Notiification.direction)
 }
-inline ::msgTest::Vector* SC_Skill_Cast::release_direction() {
+inline ::msgTest::Vector* SC_Skill_Cast_Notiification::release_direction() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
 
   _impl_._has_bits_[0] &= ~0x00000002u;
@@ -10442,16 +10442,16 @@ inline ::msgTest::Vector* SC_Skill_Cast::release_direction() {
   }
   return released;
 }
-inline ::msgTest::Vector* SC_Skill_Cast::unsafe_arena_release_direction() {
+inline ::msgTest::Vector* SC_Skill_Cast_Notiification::unsafe_arena_release_direction() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:msgTest.SC_Skill_Cast.direction)
+  // @@protoc_insertion_point(field_release:msgTest.SC_Skill_Cast_Notiification.direction)
 
   _impl_._has_bits_[0] &= ~0x00000002u;
   ::msgTest::Vector* temp = _impl_.direction_;
   _impl_.direction_ = nullptr;
   return temp;
 }
-inline ::msgTest::Vector* SC_Skill_Cast::_internal_mutable_direction() {
+inline ::msgTest::Vector* SC_Skill_Cast_Notiification::_internal_mutable_direction() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.direction_ == nullptr) {
     auto* p = ::google::protobuf::Message::DefaultConstruct<::msgTest::Vector>(GetArena());
@@ -10459,13 +10459,13 @@ inline ::msgTest::Vector* SC_Skill_Cast::_internal_mutable_direction() {
   }
   return _impl_.direction_;
 }
-inline ::msgTest::Vector* SC_Skill_Cast::mutable_direction() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+inline ::msgTest::Vector* SC_Skill_Cast_Notiification::mutable_direction() ABSL_ATTRIBUTE_LIFETIME_BOUND {
   _impl_._has_bits_[0] |= 0x00000002u;
   ::msgTest::Vector* _msg = _internal_mutable_direction();
-  // @@protoc_insertion_point(field_mutable:msgTest.SC_Skill_Cast.direction)
+  // @@protoc_insertion_point(field_mutable:msgTest.SC_Skill_Cast_Notiification.direction)
   return _msg;
 }
-inline void SC_Skill_Cast::set_allocated_direction(::msgTest::Vector* value) {
+inline void SC_Skill_Cast_Notiification::set_allocated_direction(::msgTest::Vector* value) {
   ::google::protobuf::Arena* message_arena = GetArena();
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (message_arena == nullptr) {
@@ -10483,30 +10483,30 @@ inline void SC_Skill_Cast::set_allocated_direction(::msgTest::Vector* value) {
   }
 
   _impl_.direction_ = reinterpret_cast<::msgTest::Vector*>(value);
-  // @@protoc_insertion_point(field_set_allocated:msgTest.SC_Skill_Cast.direction)
+  // @@protoc_insertion_point(field_set_allocated:msgTest.SC_Skill_Cast_Notiification.direction)
 }
 
 // .msgTest.Vector targetPos = 6;
-inline bool SC_Skill_Cast::has_targetpos() const {
+inline bool SC_Skill_Cast_Notiification::has_targetpos() const {
   bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.targetpos_ != nullptr);
   return value;
 }
-inline void SC_Skill_Cast::clear_targetpos() {
+inline void SC_Skill_Cast_Notiification::clear_targetpos() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.targetpos_ != nullptr) _impl_.targetpos_->Clear();
   _impl_._has_bits_[0] &= ~0x00000004u;
 }
-inline const ::msgTest::Vector& SC_Skill_Cast::_internal_targetpos() const {
+inline const ::msgTest::Vector& SC_Skill_Cast_Notiification::_internal_targetpos() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   const ::msgTest::Vector* p = _impl_.targetpos_;
   return p != nullptr ? *p : reinterpret_cast<const ::msgTest::Vector&>(::msgTest::_Vector_default_instance_);
 }
-inline const ::msgTest::Vector& SC_Skill_Cast::targetpos() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:msgTest.SC_Skill_Cast.targetPos)
+inline const ::msgTest::Vector& SC_Skill_Cast_Notiification::targetpos() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:msgTest.SC_Skill_Cast_Notiification.targetPos)
   return _internal_targetpos();
 }
-inline void SC_Skill_Cast::unsafe_arena_set_allocated_targetpos(::msgTest::Vector* value) {
+inline void SC_Skill_Cast_Notiification::unsafe_arena_set_allocated_targetpos(::msgTest::Vector* value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (GetArena() == nullptr) {
     delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.targetpos_);
@@ -10517,9 +10517,9 @@ inline void SC_Skill_Cast::unsafe_arena_set_allocated_targetpos(::msgTest::Vecto
   } else {
     _impl_._has_bits_[0] &= ~0x00000004u;
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:msgTest.SC_Skill_Cast.targetPos)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:msgTest.SC_Skill_Cast_Notiification.targetPos)
 }
-inline ::msgTest::Vector* SC_Skill_Cast::release_targetpos() {
+inline ::msgTest::Vector* SC_Skill_Cast_Notiification::release_targetpos() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
 
   _impl_._has_bits_[0] &= ~0x00000004u;
@@ -10538,16 +10538,16 @@ inline ::msgTest::Vector* SC_Skill_Cast::release_targetpos() {
   }
   return released;
 }
-inline ::msgTest::Vector* SC_Skill_Cast::unsafe_arena_release_targetpos() {
+inline ::msgTest::Vector* SC_Skill_Cast_Notiification::unsafe_arena_release_targetpos() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:msgTest.SC_Skill_Cast.targetPos)
+  // @@protoc_insertion_point(field_release:msgTest.SC_Skill_Cast_Notiification.targetPos)
 
   _impl_._has_bits_[0] &= ~0x00000004u;
   ::msgTest::Vector* temp = _impl_.targetpos_;
   _impl_.targetpos_ = nullptr;
   return temp;
 }
-inline ::msgTest::Vector* SC_Skill_Cast::_internal_mutable_targetpos() {
+inline ::msgTest::Vector* SC_Skill_Cast_Notiification::_internal_mutable_targetpos() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.targetpos_ == nullptr) {
     auto* p = ::google::protobuf::Message::DefaultConstruct<::msgTest::Vector>(GetArena());
@@ -10555,13 +10555,13 @@ inline ::msgTest::Vector* SC_Skill_Cast::_internal_mutable_targetpos() {
   }
   return _impl_.targetpos_;
 }
-inline ::msgTest::Vector* SC_Skill_Cast::mutable_targetpos() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+inline ::msgTest::Vector* SC_Skill_Cast_Notiification::mutable_targetpos() ABSL_ATTRIBUTE_LIFETIME_BOUND {
   _impl_._has_bits_[0] |= 0x00000004u;
   ::msgTest::Vector* _msg = _internal_mutable_targetpos();
-  // @@protoc_insertion_point(field_mutable:msgTest.SC_Skill_Cast.targetPos)
+  // @@protoc_insertion_point(field_mutable:msgTest.SC_Skill_Cast_Notiification.targetPos)
   return _msg;
 }
-inline void SC_Skill_Cast::set_allocated_targetpos(::msgTest::Vector* value) {
+inline void SC_Skill_Cast_Notiification::set_allocated_targetpos(::msgTest::Vector* value) {
   ::google::protobuf::Arena* message_arena = GetArena();
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (message_arena == nullptr) {
@@ -10579,49 +10579,49 @@ inline void SC_Skill_Cast::set_allocated_targetpos(::msgTest::Vector* value) {
   }
 
   _impl_.targetpos_ = reinterpret_cast<::msgTest::Vector*>(value);
-  // @@protoc_insertion_point(field_set_allocated:msgTest.SC_Skill_Cast.targetPos)
+  // @@protoc_insertion_point(field_set_allocated:msgTest.SC_Skill_Cast_Notiification.targetPos)
 }
 
 // int32 targetId = 7;
-inline void SC_Skill_Cast::clear_targetid() {
+inline void SC_Skill_Cast_Notiification::clear_targetid() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.targetid_ = 0;
 }
-inline ::int32_t SC_Skill_Cast::targetid() const {
-  // @@protoc_insertion_point(field_get:msgTest.SC_Skill_Cast.targetId)
+inline ::int32_t SC_Skill_Cast_Notiification::targetid() const {
+  // @@protoc_insertion_point(field_get:msgTest.SC_Skill_Cast_Notiification.targetId)
   return _internal_targetid();
 }
-inline void SC_Skill_Cast::set_targetid(::int32_t value) {
+inline void SC_Skill_Cast_Notiification::set_targetid(::int32_t value) {
   _internal_set_targetid(value);
-  // @@protoc_insertion_point(field_set:msgTest.SC_Skill_Cast.targetId)
+  // @@protoc_insertion_point(field_set:msgTest.SC_Skill_Cast_Notiification.targetId)
 }
-inline ::int32_t SC_Skill_Cast::_internal_targetid() const {
+inline ::int32_t SC_Skill_Cast_Notiification::_internal_targetid() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.targetid_;
 }
-inline void SC_Skill_Cast::_internal_set_targetid(::int32_t value) {
+inline void SC_Skill_Cast_Notiification::_internal_set_targetid(::int32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.targetid_ = value;
 }
 
 // int64 timestamp = 8;
-inline void SC_Skill_Cast::clear_timestamp() {
+inline void SC_Skill_Cast_Notiification::clear_timestamp() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.timestamp_ = ::int64_t{0};
 }
-inline ::int64_t SC_Skill_Cast::timestamp() const {
-  // @@protoc_insertion_point(field_get:msgTest.SC_Skill_Cast.timestamp)
+inline ::int64_t SC_Skill_Cast_Notiification::timestamp() const {
+  // @@protoc_insertion_point(field_get:msgTest.SC_Skill_Cast_Notiification.timestamp)
   return _internal_timestamp();
 }
-inline void SC_Skill_Cast::set_timestamp(::int64_t value) {
+inline void SC_Skill_Cast_Notiification::set_timestamp(::int64_t value) {
   _internal_set_timestamp(value);
-  // @@protoc_insertion_point(field_set:msgTest.SC_Skill_Cast.timestamp)
+  // @@protoc_insertion_point(field_set:msgTest.SC_Skill_Cast_Notiification.timestamp)
 }
-inline ::int64_t SC_Skill_Cast::_internal_timestamp() const {
+inline ::int64_t SC_Skill_Cast_Notiification::_internal_timestamp() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.timestamp_;
 }
-inline void SC_Skill_Cast::_internal_set_timestamp(::int64_t value) {
+inline void SC_Skill_Cast_Notiification::_internal_set_timestamp(::int64_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.timestamp_ = value;
 }

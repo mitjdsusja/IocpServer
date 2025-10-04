@@ -36,7 +36,7 @@ void PacketHandler::RegisterPacketHandlers() {
 	packetHandleArray[PKT_CS_CREATE_ROOM_REQUEST] = Handle_CS_Create_Room_Request;
 	packetHandleArray[PKT_CS_PLAYER_MOVE_REQUEST] = Handle_CS_Player_Move_Request;
 	packetHandleArray[PKT_CS_PING] = Handle_CS_Ping;
-	packetHandleArray[PKT_CS_SKILL_USE] = Handle_CS_Skill_Use;
+	packetHandleArray[PKT_CS_SKILL_CAST] = Handle_CS_Skill_Cast;
 
 
 	/*------------
@@ -48,7 +48,7 @@ void PacketHandler::RegisterPacketHandlers() {
 	packetHandleArray[PKT_SC_ROOM_PLAYER_LIST_RESPONSE] = Handle_SC_Player_Move_Notification;
 	packetHandleArray[PKT_SC_ENTER_ROOM_RESPONSE] = Handle_SC_Player_List_In_Grid;
 	packetHandleArray[PKT_SC_SKILL_RESULT] = Handle_SC_Skill_Result;
-	packetHandleArray[PKT_SC_SKILL_CAST] = Handle_SC_Skill_Cast;
+	packetHandleArray[PKT_SC_SKILL_CAST_NOTIFICATION] = Handle_SC_Skill_Cast_Notification;
 }
 
 void PacketHandler::HandlePacket(shared_ptr<GameSession> session, PacketHeader* dataBuffer, Service* service) {
@@ -353,19 +353,20 @@ void PacketHandler::Handle_CS_Enter_Room_Complete(shared_ptr<GameSession> sessio
 	GRoomManager->PushJobEnterRoomComplete(session->GetSessionId());
 }
 
-void PacketHandler::Handle_CS_Skill_Use(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service){
+void PacketHandler::Handle_CS_Skill_Cast(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service){
 
-	msgTest::CS_Skill_Use recvPacketSkillUse;
+	msgTest::CS_Skill_Cast recvPacketSkillUse;
 	recvPacketSkillUse.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
 
-	int32 skillId = recvPacketSkillUse.skillid();
-	int32 skillType = (int32)recvPacketSkillUse.skilltype();
-	Vector<int16> startPos = { (int16)recvPacketSkillUse.startpos().x(), (int16)recvPacketSkillUse.startpos().y(), (int16)recvPacketSkillUse.startpos().z()};
-	Vector<int16> direction = { (int16)recvPacketSkillUse.direction().x(), (int16)recvPacketSkillUse.direction().y(), (int16)recvPacketSkillUse.direction().z() };
-	Vector<int16> targetPos = { (int16)recvPacketSkillUse.targetpos().x(), (int16)recvPacketSkillUse.targetpos().y(), (int16)recvPacketSkillUse.targetpos().z() };
-	int64 targetId = recvPacketSkillUse.targetid();
-	int64 casterId = session->GetSessionId();
-	int64 timestamp = recvPacketSkillUse.timestamp();
+	SkillData skillData;
+	skillData.skillId = recvPacketSkillUse.skillid();
+	skillData.skillType = (int32)recvPacketSkillUse.skilltype();
+	skillData.startPos = { (int16)recvPacketSkillUse.startpos().x(), (int16)recvPacketSkillUse.startpos().y(), (int16)recvPacketSkillUse.startpos().z() };
+	skillData.direction = { (int16)recvPacketSkillUse.direction().x(), (int16)recvPacketSkillUse.direction().y(), (int16)recvPacketSkillUse.direction().z() };
+	skillData.targetPos = { (int16)recvPacketSkillUse.targetpos().x(), (int16)recvPacketSkillUse.targetpos().y(), (int16)recvPacketSkillUse.targetpos().z() };
+	skillData.targetId = recvPacketSkillUse.targetid();
+	skillData.casterId = session->GetSessionId();
+	skillData.castTime = recvPacketSkillUse.timestamp();
 
 	GRoomManager->PushJobSkillUse(skillData);
 }
@@ -418,7 +419,7 @@ void PacketHandler::Handle_SC_Skill_Result(shared_ptr<GameSession> session, shar
 
 }
 
-void PacketHandler::Handle_SC_Skill_Cast(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
+void PacketHandler::Handle_SC_Skill_Cast_Notification(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
 
 
 }

@@ -55,6 +55,21 @@ void Room::PushJobBroadcastPosition(){
 	});
 }
 
+void Room::PushJobBroadcastNearByPlayer(uint64 sessionId, const vector<shared_ptr<Buffer>>& sendBuffer){
+
+	shared_ptr<Room> self = static_pointer_cast<Room>(shared_from_this());
+
+	unique_ptr<Job> job = make_unique<Job>([self, sessionId, sendBuffer]() {
+
+		const vector<uint64>& nearByPlayers = self->_gridManager->GetNearByPlayers(sessionId);
+		
+		for (uint64 nearByPlayerId : nearByPlayers) {
+
+			GPlayerManager->PushJobSendData(nearByPlayerId, sendBuffer);
+		}
+	});
+}
+
 void Room::PushJobRegisterBroadcastPosition(){
 
 	shared_ptr<Room> self = static_pointer_cast<Room>(shared_from_this());
@@ -522,7 +537,11 @@ RoomResult::SkillUseResult Room::SkillUse(const SkillData& skillData) {
 
 	RoomResult::SkillUseResult skillUseResult;
 
+	skillUseResult._success = true;
+	skillUseResult._failReason = 0;
+	skillUseResult._skillData = skillData;
 
+	return skillUseResult;
 }
 
 RoomInfo Room::GetRoomInfo() {
@@ -741,19 +760,16 @@ void RoomManager::PushJobSkillUseResult(const RoomResult::SkillUseResult& skillU
 	PushJob(move(job));
 }
 
-void RoomManager::BroadcastToRoom(int32 roomId, shared_ptr<Buffer> sendBuffer){
+void RoomManager::BroadcastToRoom(int32 roomId, const vector<shared_ptr<Buffer>>& sendBuffer){
 
-	shared_ptr<Room> room;
-	{
-		lock_guard<mutex> lock(_roomsMutex);
+	for (auto& iter : _rooms) {
 
-		room = _rooms[roomId];
-		if (room == nullptr) {
-			//cout << "[INVALID ROOM] roomId : " << roomId << endl;
-			return;
+		if (iter.first == roomId) {
+
+			iter.second->PushJobBroadcast(sendBuffer);
+			break;
 		}
 	}
-	room->Broadcast(sendBuffer);
 }
 
 int32 RoomManager::CreateAndPushRoom(const InitRoomInfo& initRoomInfo, const RoomPlayerData& hostPlayerData){
@@ -973,11 +989,61 @@ void RoomManager::SkillUseResult(const RoomResult::SkillUseResult& skillUseResul
 			// 실패 사유 매핑
 
 		}
-		sendPacketSkillResult.set_skillid(skillUseResult._skillId);
+		sendPacketSkillResult.set_skillid(skillUseResult._skillData.skillId);
 
 		vector<shared_ptr<Buffer>> sendBuffer = PacketHandler::MakeSendBuffer(sendPacketSkillResult, PacketId::PKT_SC_SKILL_RESULT);
 		
-		GPlayerManager->PushJobSendData(skillUseResult._casterId, sendBuffer);
+		GPlayerManager->PushJobSendData(skillUseResult._skillData.casterId, sendBuffer);
+	}
+
+	if(skillUseResult._success == false) {
+		return;
+	}
+
+	// Notify To Room
+	{
+		msgTest::SC_Skill_Cast_Notiification sendPacketSkillCastNotification;
+
+		sendPacketSkillCastNotification.set_casterid(skillUseResult._skillData.casterId);
+		sendPacketSkillCastNotification.set_skillid(skillUseResult._skillData.skillId);
+		sendPacketSkillCastNotification.set_skilltype((msgTest::SkillType)skillUseResult._skillData.skillType);
+		
+		msgTest::Vector* startPos = sendPacketSkillCastNotification.mutable_startpos();
+		startPos->set_x(skillUseResult._skillData.startPos._x);
+		startPos->set_y(skillUseResult._skillData.startPos._y);
+		startPos->set_z(skillUseResult._skillData.startPos._z);
+
+		msgTest::Vector* direction = sendPacketSkillCastNotification.mutable_direction();
+		direction->set_x(skillUseResult._skillData.direction._x);
+		direction->set_y(skillUseResult._skillData.direction._y);
+		direction->set_z(skillUseResult._skillData.direction._z);
+
+		msgTest::Vector& targetPos = *sendPacketSkillCastNotification.mutable_targetpos();
+		targetPos.set_x(skillUseResult._skillData.targetPos._x);
+		targetPos.set_y(skillUseResult._skillData.targetPos._y);
+		targetPos.set_z(skillUseResult._skillData.targetPos._z);
+
+		sendPacketSkillCastNotification.set_targetid(skillUseResult._skillData.targetId);
+		sendPacketSkillCastNotification.set_timestamp(skillUseResult._skillData.castTime);
+
+		auto sendBuffers = PacketHandler::MakeSendBuffer(sendPacketSkillCastNotification, PacketId::PKT_SC_SKILL_CAST_NOTIFICATION);
+	
+		const auto& iter = _sessionToRoomMap.find(skillUseResult._skillData.casterId);
+		if (iter == _sessionToRoomMap.end()) {
+			spdlog::info("[RoomManager::SkillUseResult] Invalid Session : {}", skillUseResult._skillData.casterId);
+			return;
+		}
+		int64 roomId = iter->second;
+
+		const auto& roomIter = _rooms.find(roomId);
+		if (roomIter == _rooms.end()) {
+
+			spdlog::info("[RoomManager::SkillUseResult] Invalid Room : {}", roomId);
+			return;
+		}
+		shared_ptr<Room>& room = roomIter->second;
+
+		room->PushJobBroadcastNearByPlayer(skillUseResult._skillData.casterId, sendBuffers);
 	}
 }
 

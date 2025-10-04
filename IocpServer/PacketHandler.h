@@ -26,7 +26,7 @@ enum PacketId {
 	PKT_CS_PLAYER_MOVE_REQUEST = 1203,
 	PKT_CS_ENTER_ROOM_COMPLETE = 1204,
 
-	PKT_CS_SKILL_USE = 1300,
+	PKT_CS_SKILL_CAST = 1300,
 
 
 
@@ -52,7 +52,7 @@ enum PacketId {
 	PKT_SC_PLAYER_ENTER_GRID_NOTIFICATION = 2110,
 
 	PKT_SC_SKILL_RESULT = 2200,
-	PKT_SC_SKILL_CAST = 2201,
+	PKT_SC_SKILL_CAST_NOTIFICATION = 2201,
 
 };
 
@@ -83,7 +83,7 @@ private:
 	static void Handle_CS_Enter_Room_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
 	static void Handle_CS_Player_Move_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
 	static void Handle_CS_Enter_Room_Complete(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
-	static void Handle_CS_Skill_Use(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
+	static void Handle_CS_Skill_Cast(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service);
 
 	/*------------
 		S -> C
@@ -99,7 +99,7 @@ private:
 	static void Handle_SC_Player_Move_Notification(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* serviec);
 	static void Handle_SC_Player_List_In_Grid(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* serviec);
 	static void Handle_SC_Skill_Result(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* serviec);
-	static void Handle_SC_Skill_Cast(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* serviec);
+	static void Handle_SC_Skill_Cast_Notification(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* serviec);
 };
 
 //template<typename T>

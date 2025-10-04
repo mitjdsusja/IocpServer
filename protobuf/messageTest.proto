@@ -146,7 +146,7 @@ message SC_Player_Enter_Grid_Notification{
     Player enterPlayer = 1;
 }
 
-message CS_Skill_Use{
+message CS_Skill_Cast{
     int32 skillId = 1;
     SkillType skillType = 2;
     Vector startPos = 3;
@@ -162,8 +162,8 @@ message SC_Skill_Result{
     int32 skillId = 3;
 }
 
-message SC_Skill_Cast{
-    int32 casterId = 1;
+message SC_Skill_Cast_Notiification{
+    int64 casterId = 1;
     int32 skillId = 2;
     SkillType skillType = 3;
     Vector startPos = 4;

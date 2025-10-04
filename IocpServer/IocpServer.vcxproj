@@ -191,6 +191,8 @@
     <ClInclude Include="RoomInfo.h" />
     <ClInclude Include="RoomManager.h" />
     <ClInclude Include="RoomPlayerData.h" />
+    <ClInclude Include="SkillData.h" />
+    <ClInclude Include="SkillManager.h" />
     <ClInclude Include="TimedJob.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="RoomResult.h" />
@@ -220,6 +222,7 @@
     <ClCompile Include="PlayerManager.cpp" />
     <ClCompile Include="RoomManager.cpp" />
     <ClCompile Include="ServerMain.cpp" />
+    <ClCompile Include="SkillManager.cpp" />
     <ClCompile Include="TimedJob.cpp" />
     <ClCompile Include="Vector.cpp" />
   </ItemGroup>

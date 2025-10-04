@@ -75,6 +75,12 @@
     <ClInclude Include="PlayerData.h">
       <Filter>Content</Filter>
     </ClInclude>
+    <ClInclude Include="SkillManager.h">
+      <Filter>Content</Filter>
+    </ClInclude>
+    <ClInclude Include="SkillData.h">
+      <Filter>Content</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ServerMain.cpp">
@@ -124,6 +130,9 @@
     </ClCompile>
     <ClCompile Include="TimedJob.cpp">
       <Filter>Job</Filter>
+    </ClCompile>
+    <ClCompile Include="SkillManager.cpp">
+      <Filter>Content</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

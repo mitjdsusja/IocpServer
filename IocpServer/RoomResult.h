@@ -2,6 +2,7 @@
 #include "pch.h"
 #include "RoomInfo.h"
 #include "RoomPlayerData.h"
+#include "SkillData.h"
 
 namespace RoomResult {
 
@@ -24,7 +25,6 @@ namespace RoomResult {
 	
 		bool _success;
 		int16 _failReason;
-		int32 _skillId;
-		int64 _casterId;
+		SkillData _skillData;
 	};
 }
