@@ -184,7 +184,9 @@ void Room::PushJobSkillUse(const SkillData& skillData, function<void(const RoomR
 
 	unique_ptr<Job> job = make_unique<Job>([self, skillData, callback]() {
 
-		self->SkillUse(skillData);
+		RoomResult::SkillUseResult skillResult = self->SkillUse(skillData);
+
+		callback(skillResult);
 	});
 
 	PushJob(move(job));
