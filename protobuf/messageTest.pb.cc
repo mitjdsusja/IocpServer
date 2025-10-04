@@ -457,8 +457,8 @@ inline constexpr SC_Skill_Cast_Notiification::Impl_::Impl_(
         casterid_{::int64_t{0}},
         skillid_{0},
         skilltype_{static_cast< ::msgTest::SkillType >(0)},
-        timestamp_{::int64_t{0}},
-        targetid_{0} {}
+        targetid_{::int64_t{0}},
+        timestamp_{::int64_t{0}} {}
 
 template <typename>
 PROTOBUF_CONSTEXPR SC_Skill_Cast_Notiification::SC_Skill_Cast_Notiification(::_pbi::ConstantInitialized)
@@ -1365,7 +1365,7 @@ const char descriptor_table_protodef_messageTest_2eproto[] ABSL_ATTRIBUTE_SECTIO
     "st.SkillType\022!\n\010startPos\030\004 \001(\0132\017.msgTest"
     ".Vector\022\"\n\tdirection\030\005 \001(\0132\017.msgTest.Vec"
     "tor\022\"\n\ttargetPos\030\006 \001(\0132\017.msgTest.Vector\022"
-    "\020\n\010targetId\030\007 \001(\005\022\021\n\ttimestamp\030\010 \001(\003*i\n\t"
+    "\020\n\010targetId\030\007 \001(\003\022\021\n\ttimestamp\030\010 \001(\003*i\n\t"
     "SkillType\022\026\n\022SKILL_TYPE_UNKNOWN\020\000\022\031\n\025SKI"
     "LL_TYPE_PROJECTILE\020\001\022\022\n\016SKILL_TYPE_AOE\020\002"
     "\022\025\n\021SKILL_TYPE_TARGET\020\003*,\n\rSkillFailType"
@@ -9466,9 +9466,9 @@ SC_Skill_Cast_Notiification::SC_Skill_Cast_Notiification(
                offsetof(Impl_, casterid_),
            reinterpret_cast<const char *>(&from._impl_) +
                offsetof(Impl_, casterid_),
-           offsetof(Impl_, targetid_) -
+           offsetof(Impl_, timestamp_) -
                offsetof(Impl_, casterid_) +
-               sizeof(Impl_::targetid_));
+               sizeof(Impl_::timestamp_));
 
   // @@protoc_insertion_point(copy_constructor:msgTest.SC_Skill_Cast_Notiification)
 }
@@ -9482,9 +9482,9 @@ inline void SC_Skill_Cast_Notiification::SharedCtor(::_pb::Arena* arena) {
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, startpos_),
            0,
-           offsetof(Impl_, targetid_) -
+           offsetof(Impl_, timestamp_) -
                offsetof(Impl_, startpos_) +
-               sizeof(Impl_::targetid_));
+               sizeof(Impl_::timestamp_));
 }
 SC_Skill_Cast_Notiification::~SC_Skill_Cast_Notiification() {
   // @@protoc_insertion_point(destructor:msgTest.SC_Skill_Cast_Notiification)
@@ -9575,8 +9575,8 @@ const ::_pbi::TcParseTable<3, 8, 3, 0, 2> SC_Skill_Cast_Notiification::_table_ =
     // .msgTest.Vector targetPos = 6;
     {::_pbi::TcParser::FastMtS1,
      {50, 2, 2, PROTOBUF_FIELD_OFFSET(SC_Skill_Cast_Notiification, _impl_.targetpos_)}},
-    // int32 targetId = 7;
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(SC_Skill_Cast_Notiification, _impl_.targetid_), 63>(),
+    // int64 targetId = 7;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(SC_Skill_Cast_Notiification, _impl_.targetid_), 63>(),
      {56, 63, 0, PROTOBUF_FIELD_OFFSET(SC_Skill_Cast_Notiification, _impl_.targetid_)}},
   }}, {{
     65535, 65535
@@ -9599,9 +9599,9 @@ const ::_pbi::TcParseTable<3, 8, 3, 0, 2> SC_Skill_Cast_Notiification::_table_ =
     // .msgTest.Vector targetPos = 6;
     {PROTOBUF_FIELD_OFFSET(SC_Skill_Cast_Notiification, _impl_.targetpos_), _Internal::kHasBitsOffset + 2, 2,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
-    // int32 targetId = 7;
+    // int64 targetId = 7;
     {PROTOBUF_FIELD_OFFSET(SC_Skill_Cast_Notiification, _impl_.targetid_), -1, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
+    (0 | ::_fl::kFcSingular | ::_fl::kInt64)},
     // int64 timestamp = 8;
     {PROTOBUF_FIELD_OFFSET(SC_Skill_Cast_Notiification, _impl_.timestamp_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt64)},
@@ -9636,8 +9636,8 @@ PROTOBUF_NOINLINE void SC_Skill_Cast_Notiification::Clear() {
     }
   }
   ::memset(&_impl_.casterid_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.targetid_) -
-      reinterpret_cast<char*>(&_impl_.casterid_)) + sizeof(_impl_.targetid_));
+      reinterpret_cast<char*>(&_impl_.timestamp_) -
+      reinterpret_cast<char*>(&_impl_.casterid_)) + sizeof(_impl_.timestamp_));
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
@@ -9700,10 +9700,10 @@ PROTOBUF_NOINLINE void SC_Skill_Cast_Notiification::Clear() {
                 stream);
           }
 
-          // int32 targetId = 7;
+          // int64 targetId = 7;
           if (this_._internal_targetid() != 0) {
             target = ::google::protobuf::internal::WireFormatLite::
-                WriteInt32ToArrayWithField<7>(
+                WriteInt64ToArrayWithField<7>(
                     stream, this_._internal_targetid(), target);
           }
 
@@ -9772,15 +9772,15 @@ PROTOBUF_NOINLINE void SC_Skill_Cast_Notiification::Clear() {
               total_size += 1 +
                             ::_pbi::WireFormatLite::EnumSize(this_._internal_skilltype());
             }
+            // int64 targetId = 7;
+            if (this_._internal_targetid() != 0) {
+              total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(
+                  this_._internal_targetid());
+            }
             // int64 timestamp = 8;
             if (this_._internal_timestamp() != 0) {
               total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(
                   this_._internal_timestamp());
-            }
-            // int32 targetId = 7;
-            if (this_._internal_targetid() != 0) {
-              total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
-                  this_._internal_targetid());
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -9835,11 +9835,11 @@ void SC_Skill_Cast_Notiification::MergeImpl(::google::protobuf::MessageLite& to_
   if (from._internal_skilltype() != 0) {
     _this->_impl_.skilltype_ = from._impl_.skilltype_;
   }
-  if (from._internal_timestamp() != 0) {
-    _this->_impl_.timestamp_ = from._impl_.timestamp_;
-  }
   if (from._internal_targetid() != 0) {
     _this->_impl_.targetid_ = from._impl_.targetid_;
+  }
+  if (from._internal_timestamp() != 0) {
+    _this->_impl_.timestamp_ = from._impl_.timestamp_;
   }
   _this->_impl_._has_bits_[0] |= cached_has_bits;
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
@@ -9858,8 +9858,8 @@ void SC_Skill_Cast_Notiification::InternalSwap(SC_Skill_Cast_Notiification* PROT
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(SC_Skill_Cast_Notiification, _impl_.targetid_)
-      + sizeof(SC_Skill_Cast_Notiification::_impl_.targetid_)
+      PROTOBUF_FIELD_OFFSET(SC_Skill_Cast_Notiification, _impl_.timestamp_)
+      + sizeof(SC_Skill_Cast_Notiification::_impl_.timestamp_)
       - PROTOBUF_FIELD_OFFSET(SC_Skill_Cast_Notiification, _impl_.startpos_)>(
           reinterpret_cast<char*>(&_impl_.startpos_),
           reinterpret_cast<char*>(&other->_impl_.startpos_));

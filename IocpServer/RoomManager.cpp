@@ -65,6 +65,8 @@ void Room::PushJobBroadcastNearByPlayer(uint64 sessionId, const vector<shared_pt
 		
 		for (uint64 nearByPlayerId : nearByPlayers) {
 
+			if (nearByPlayerId == sessionId) continue;
+
 			GPlayerManager->PushJobSendData(nearByPlayerId, sendBuffer);
 		}
 	});

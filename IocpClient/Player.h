@@ -51,7 +51,7 @@ public:
 	void RequestRoomList();
 	void RequestEnterRoom(uint64 sessionId, uint32 roomId);
 	void RequestCreateRoom(int32 createRoomCount);
-	void AllPlayerRequestEnterRoom(uint64 roomId);
+	void AllPlayerRequestEnterRoom(uint32 roomId);
 	void AllPlayerRandomMove();
 	void AllPlayerSendMovePacket();
 	void SendPingPacketToFirstPlayer();

@@ -162,7 +162,7 @@ void PlayerManager::RequestCreateRoom(int32 createRoomCount) {
 	}
 }
 
-void PlayerManager::AllPlayerRequestEnterRoom(uint64 roomId){
+void PlayerManager::AllPlayerRequestEnterRoom(uint32 roomId){
 
 	msgTest::CS_Enter_Room_Request sendPacketEnterRoomReqeust;
 	sendPacketEnterRoomReqeust.set_roomid(roomId);

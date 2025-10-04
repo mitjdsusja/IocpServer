@@ -169,6 +169,6 @@ message SC_Skill_Cast_Notiification{
     Vector startPos = 4;
     Vector direction = 5;
     Vector targetPos = 6;
-    int32 targetId = 7;
+    int64 targetId = 7;
     int64 timestamp = 8;
 }

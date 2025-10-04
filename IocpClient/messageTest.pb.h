@@ -3617,8 +3617,8 @@ class SC_Skill_Cast_Notiification final : public ::google::protobuf::Message
     kCasterIdFieldNumber = 1,
     kSkillIdFieldNumber = 2,
     kSkillTypeFieldNumber = 3,
-    kTimestampFieldNumber = 8,
     kTargetIdFieldNumber = 7,
+    kTimestampFieldNumber = 8,
   };
   // .msgTest.Vector startPos = 4;
   bool has_startpos() const;
@@ -3695,6 +3695,16 @@ class SC_Skill_Cast_Notiification final : public ::google::protobuf::Message
   void _internal_set_skilltype(::msgTest::SkillType value);
 
   public:
+  // int64 targetId = 7;
+  void clear_targetid() ;
+  ::int64_t targetid() const;
+  void set_targetid(::int64_t value);
+
+  private:
+  ::int64_t _internal_targetid() const;
+  void _internal_set_targetid(::int64_t value);
+
+  public:
   // int64 timestamp = 8;
   void clear_timestamp() ;
   ::int64_t timestamp() const;
@@ -3703,16 +3713,6 @@ class SC_Skill_Cast_Notiification final : public ::google::protobuf::Message
   private:
   ::int64_t _internal_timestamp() const;
   void _internal_set_timestamp(::int64_t value);
-
-  public:
-  // int32 targetId = 7;
-  void clear_targetid() ;
-  ::int32_t targetid() const;
-  void set_targetid(::int32_t value);
-
-  private:
-  ::int32_t _internal_targetid() const;
-  void _internal_set_targetid(::int32_t value);
 
   public:
   // @@protoc_insertion_point(class_scope:msgTest.SC_Skill_Cast_Notiification)
@@ -3746,8 +3746,8 @@ class SC_Skill_Cast_Notiification final : public ::google::protobuf::Message
     ::int64_t casterid_;
     ::int32_t skillid_;
     int skilltype_;
+    ::int64_t targetid_;
     ::int64_t timestamp_;
-    ::int32_t targetid_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -10582,24 +10582,24 @@ inline void SC_Skill_Cast_Notiification::set_allocated_targetpos(::msgTest::Vect
   // @@protoc_insertion_point(field_set_allocated:msgTest.SC_Skill_Cast_Notiification.targetPos)
 }
 
-// int32 targetId = 7;
+// int64 targetId = 7;
 inline void SC_Skill_Cast_Notiification::clear_targetid() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.targetid_ = 0;
+  _impl_.targetid_ = ::int64_t{0};
 }
-inline ::int32_t SC_Skill_Cast_Notiification::targetid() const {
+inline ::int64_t SC_Skill_Cast_Notiification::targetid() const {
   // @@protoc_insertion_point(field_get:msgTest.SC_Skill_Cast_Notiification.targetId)
   return _internal_targetid();
 }
-inline void SC_Skill_Cast_Notiification::set_targetid(::int32_t value) {
+inline void SC_Skill_Cast_Notiification::set_targetid(::int64_t value) {
   _internal_set_targetid(value);
   // @@protoc_insertion_point(field_set:msgTest.SC_Skill_Cast_Notiification.targetId)
 }
-inline ::int32_t SC_Skill_Cast_Notiification::_internal_targetid() const {
+inline ::int64_t SC_Skill_Cast_Notiification::_internal_targetid() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.targetid_;
 }
-inline void SC_Skill_Cast_Notiification::_internal_set_targetid(::int32_t value) {
+inline void SC_Skill_Cast_Notiification::_internal_set_targetid(::int64_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.targetid_ = value;
 }
