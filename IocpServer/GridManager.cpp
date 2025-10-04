@@ -64,7 +64,7 @@ vector<uint64> GridManager::GetNearByPlayers(uint64 sessionId) {
 	vector<uint64> nearPlayers;
 	if (_players.count(sessionId) == false) {
 
-		spdlog::info("GridManager GetNearByPlayers invalid sessionId");
+		spdlog::info("[GridManager::GetNearByPlayers] invalid sessionId");
 		//cout << "GridManager GetNearByPlayers invalid sessionId" << endl;
 		return nearPlayers;
 	}
@@ -89,12 +89,6 @@ vector<uint64> GridManager::GetNearByPlayers(uint64 sessionId) {
 			}
 		}
 	}
-
-	//cout << sessionId << " Near Players : " << nearPlayers.size() << endl;
-	//for (uint64 nearPlayerSessionId : nearPlayers) {
-	//	cout << nearPlayerSessionId << ", ";
-	//}
-	//cout << endl;
 
 	return nearPlayers;
 }

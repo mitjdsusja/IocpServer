@@ -70,6 +70,8 @@ void Room::PushJobBroadcastNearByPlayer(uint64 sessionId, const vector<shared_pt
 			GPlayerManager->PushJobSendData(nearByPlayerId, sendBuffer);
 		}
 	});
+
+	PushJob(move(job));
 }
 
 void Room::PushJobRegisterBroadcastPosition(){
