@@ -8,9 +8,9 @@ struct PlayerBaseInfo {
 };
 struct PlayerTransform {
 	int32 _roomId = 0;
-	Vector<int16> _position;
-	Vector<int16> _rotation;
-	Vector<int16> _velocity;
+	Vector<int32> _position;
+	Vector<int32> _rotation;
+	Vector<int32> _velocity;
 	int64 _lastmoveTimestamp = 0;
 };
 struct PlayerStats {

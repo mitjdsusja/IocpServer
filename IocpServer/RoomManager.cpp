@@ -78,6 +78,7 @@ void Room::PushJobRegisterBroadcastPosition(){
 	shared_ptr<Room> self = static_pointer_cast<Room>(shared_from_this());
 
 	shared_ptr<ScheduledTimedJob> scheduledTimedJob = make_shared<ScheduledTimedJob>();
+	
 	scheduledTimedJob->_timedJobRef = make_unique<TimedJob>(100, [self]() {
 
 		self->BroadcastPlayerMovement();
@@ -124,7 +125,7 @@ void Room::PushJobEnterPlayer(const RoomPlayerData& enterPlayerData, function<vo
 
 		PlayerTransform position;
 		position._roomId = roomInfo._initRoomInfo._roomId;
-		GPlayerManager->PushJobSetPosition(enterPlayerData._baseInfo._sessionId, position);
+		GPlayerManager->PushJobSetTransform(enterPlayerData._baseInfo._sessionId, position);
 
 		RoomResult::EnterRoomResult enterRoomResult;
 		enterRoomResult._success = enterRoomflag;
@@ -168,12 +169,13 @@ void Room::PushJobLeavePlayer(uint64 leavePlayerSessionId){
 	PushJob(move(job));
 }
 
-void Room::PushJobMovePlayer(uint64 movePlayerSessionId, const RoomPlayerData& roomPlayerData){
+void Room::PushJobMovePlayer(uint64 movePlayerSessionId, const RoomPlayerTransform& roomPlayerTransform){
 
 	shared_ptr<Room> self = static_pointer_cast<Room>(shared_from_this());
 
-	unique_ptr<Job> job = make_unique<Job>([self, movePlayerSessionId, roomPlayerData]() {
-		self->MovePlayer(movePlayerSessionId, roomPlayerData);
+	unique_ptr<Job> job = make_unique<Job>([self, movePlayerSessionId, roomPlayerTransform]() {
+		
+		self->MovePlayer(movePlayerSessionId, roomPlayerTransform);
 	});
 
 	PushJob(move(job));
@@ -317,7 +319,7 @@ void Room::BroadcastPlayerEnterGrid(uint64 sessionId, const vector<uint64>& play
 	}
 }
 
-void Room::NotifyGridChange(uint64 sessionId, const Vector<int16>& oldCell, const Vector<int16>& newCell){
+void Room::NotifyGridChange(uint64 sessionId, const Vector<int32>& oldCell, const Vector<int32>& newCell){
 
 	const vector<uint64> oldCellPlayers = _gridManager->GetPlayersAroundCell(oldCell);
 	const vector<uint64> newCellPlayers = _gridManager->GetPlayersAroundCell(newCell);
@@ -514,7 +516,7 @@ void Room::LeavePlayer(uint64 sessionId) {
 	}
 }
 
-void Room::MovePlayer(uint64 sessionId, const RoomPlayerData& roomPlayerData) {
+void Room::MovePlayer(uint64 sessionId, const RoomPlayerTransform& roomPlayerTransform) {
 
 	const auto& roomPlayerIter = _players.find(sessionId);
 
@@ -525,12 +527,12 @@ void Room::MovePlayer(uint64 sessionId, const RoomPlayerData& roomPlayerData) {
 	
 	auto& roomPlayer = roomPlayerIter->second;
 	roomPlayer._transform._updatePosition = true;
-	roomPlayer._transform._moveTimeStamp = roomPlayerData._transform._moveTimeStamp;
-	roomPlayer._transform._position = roomPlayerData._transform._position;
-	roomPlayer._transform._velocity = roomPlayerData._transform._velocity;
-	roomPlayer._transform._rotation = roomPlayerData._transform._rotation;
+	roomPlayer._transform._moveTimeStamp = roomPlayerTransform._moveTimeStamp;
+	roomPlayer._transform._position = roomPlayerTransform._position;
+	roomPlayer._transform._velocity = roomPlayerTransform._velocity;
+	roomPlayer._transform._rotation = roomPlayerTransform._rotation;
 
-	GridMoveResult result =  _gridManager->MovePosition(sessionId, roomPlayerData._transform._position);
+	GridMoveResult result =  _gridManager->MovePosition(sessionId, roomPlayerTransform._position);
 
 	if (result._cellChanged == true) {
 		
@@ -643,7 +645,15 @@ void RoomManager::PushJobLeaveRoom(int32 roomId, uint64 sessionId){
 	shared_ptr<RoomManager> self = static_pointer_cast<RoomManager>(shared_from_this());
 
 	unique_ptr<Job> job = make_unique<Job>([self, roomId, sessionId]() {
-		self->LeaveRoom(roomId, sessionId);
+
+		const auto& iter = self->_sessionToRoomMap.find(sessionId);
+		if (iter == self->_sessionToRoomMap.end()) {
+
+			spdlog::info("[RoomManager::PushJobLeaveRoom] Invalid SessionId : {}", sessionId);
+			return;
+		}
+
+		self->LeaveRoom(iter->second, sessionId);
 	});
 
 	PushJob(move(job));
@@ -660,13 +670,13 @@ void RoomManager::PushJobRemoveRoom(int32 roomId){
 	PushJob(move(job));
 }
 
-void RoomManager::PushJobMovePlayer(int32 roomId, const RoomPlayerData& roomPlayerData){
+void RoomManager::PushJobMovePlayer(uint64 playerId, const RoomPlayerTransform& roomPlayerTransform){
 
 	shared_ptr<RoomManager> self = static_pointer_cast<RoomManager>(shared_from_this());
 
-	unique_ptr<Job> job = make_unique<Job>([self, roomId, roomPlayerData]() {
+	unique_ptr<Job> job = make_unique<Job>([self, playerId, roomPlayerTransform]() {
 
-		self->MovePlayer(roomId, roomPlayerData);
+		self->MovePlayer(playerId, roomPlayerTransform);
 	});
 
 	PushJob(move(job));
@@ -864,18 +874,24 @@ void RoomManager::RemoveRoom(int32 roomId) {
 	}
 }
 
-void RoomManager::MovePlayer(int32 roomId, const RoomPlayerData& roomPlayerData){
+void RoomManager::MovePlayer(uint64 playerId, const RoomPlayerTransform& roomPlayerTransform){
 
-	const auto& iter = _rooms.find(roomId);
-	if (iter == _rooms.end()) {
+	const auto& iter = _sessionToRoomMap.find(playerId);
+	if (iter == _sessionToRoomMap.end()) {
 
-		spdlog::info("[RoomManager::MovePlayer] Invalid Room : {}", roomId);
-		//cout << "[RoomManager::MovePlayer] Invalid Room : " << roomId << endl;
+		spdlog::info("[RoomManager::MovePlayer] Invalid PlayerId : {}", playerId);
 		return;
 	}
-	shared_ptr<Room>& room = iter->second;
 
-	room->PushJobMovePlayer(roomPlayerData._baseInfo._sessionId, roomPlayerData);
+	const auto& roomIter = _rooms.find(iter->second);
+	if (roomIter == _rooms.end()) {
+
+		spdlog::info("[RoomManager::MovePlayer] Invalid Room : {}", iter->second);
+		return;
+	}
+	shared_ptr<Room>& room = roomIter->second;
+
+	room->PushJobMovePlayer(playerId, roomPlayerTransform);
 }
 
 void RoomManager::SkillUse(const SkillData& skillData){
@@ -886,12 +902,12 @@ void RoomManager::SkillUse(const SkillData& skillData){
 		spdlog::info("[RoomManager::SkillUse] Invalid Session : {}", skillData.casterId);
 		return;
 	}
-	int64 casterId = iter->second;
+	int32 roomId = iter->second;
 
-	const auto& roomIter = _rooms.find(casterId);
+	const auto& roomIter = _rooms.find(roomId);
 	if (roomIter == _rooms.end()) {
 
-		spdlog::info("[RoomManager::SkillUse] Invalid Room : {}", casterId);
+		spdlog::info("[RoomManager::SkillUse] Invalid Room : {}", roomId);
 		return;
 	}
 	shared_ptr<Room>& room = roomIter->second;
@@ -1039,7 +1055,7 @@ void RoomManager::SkillUseResult(const RoomResult::SkillUseResult& skillUseResul
 			spdlog::info("[RoomManager::SkillUseResult] Invalid Session : {}", skillUseResult._skillData.casterId);
 			return;
 		}
-		int64 roomId = iter->second;
+		int32 roomId = iter->second;
 
 		const auto& roomIter = _rooms.find(roomId);
 		if (roomIter == _rooms.end()) {

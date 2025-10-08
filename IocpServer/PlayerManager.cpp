@@ -29,11 +29,9 @@ void Player::ClearResource(){
 	_owner = nullptr;
 }
 
-void Player::InitPlayer(const PlayerBaseInfo& baseInfo, const PlayerTransform& transform, const PlayerStats& stats){
+void Player::InitPlayer(const PlayerData& playerData){
 
-	_playerData._baseInfo = baseInfo;
-	_playerData._transform = transform;
-	_playerData._stats = stats;
+	_playerData = playerData;
 }
 
 void Player::PushJobSendData(const shared_ptr<Buffer>& sendBuffer){
@@ -111,13 +109,21 @@ void Player::PushJobGetStats(function<void(PlayerStats)> func){
 	PushJob(move(job));
 }
 
-void Player::PushJobSetPosition(const PlayerTransform& position){
+void Player::PushJobSetTransform(const PlayerTransform& transform){
 
 	shared_ptr<Player> self = static_pointer_cast<Player>(shared_from_this());
 
-	unique_ptr<Job> job = make_unique<Job>([self, position]() {
+	unique_ptr<Job> job = make_unique<Job>([self, transform]() {
 
-		self->SetTransform(position);
+		self->SetTransform(transform);
+
+		RoomPlayerTransform roomPlayerTransform;
+		roomPlayerTransform._position = self->_playerData._transform._position;
+		roomPlayerTransform._rotation = self->_playerData._transform._rotation;
+		roomPlayerTransform._velocity = self->_playerData._transform._velocity;
+		roomPlayerTransform._moveTimeStamp = self->_playerData._transform._lastmoveTimestamp;
+
+		GRoomManager->PushJobMovePlayer(self->GetBaseInfo()._sessionId, roomPlayerTransform);
 	});
 
 	this->PushJob(move(job));
@@ -150,14 +156,7 @@ PlayerStats Player::GetStats(){
 
 void Player::SetTransform(const PlayerTransform& transform){
 
-	if(transform._roomId != 0) _playerData._transform._roomId = transform._roomId;
-	if(transform._lastmoveTimestamp != 0) _playerData._transform._lastmoveTimestamp = transform._lastmoveTimestamp;
-	if (transform._position.IsZero() == false) {
-		_playerData._transform._position = transform._position;
-	}
-	if (transform._velocity.IsZero() == false) {
-		_playerData._transform._velocity = transform._velocity;
-	}
+	_playerData._transform = transform;
 }
 
 /*-------------------
@@ -198,12 +197,13 @@ void PlayerManager::PushJobSendData(uint64 sessionId, const vector<shared_ptr<Bu
 	PushJob(move(job));
 }
 
-void PlayerManager::PushJobCreateAndPushPlayer(const shared_ptr<GameSession>& ownerSession, const PlayerBaseInfo& baseInfo, const PlayerTransform& position, const PlayerStats& stats) {
+void PlayerManager::PushJobCreateAndPushPlayer(const shared_ptr<GameSession>& ownerSession, const PlayerData& playerData) {
 
 	shared_ptr<PlayerManager> self = static_pointer_cast<PlayerManager>(shared_from_this());
 
-	unique_ptr<Job> job = make_unique<Job>([self, ownerSession, baseInfo, position, stats]() {
-		self->CreateAndPushPlayer(ownerSession, baseInfo, position, stats);
+	unique_ptr<Job> job = make_unique<Job>([self, ownerSession, playerData]() {
+		
+		self->CreateAndPushPlayer(ownerSession, playerData);
 	});
 
 	PushJob(move(job));
@@ -345,16 +345,16 @@ void PlayerManager::PushJobGetstats(uint64 sessionId, function<void(PlayerStats)
 	PushJob(move(job));
 }
 
-void PlayerManager::PushJobSetPosition(uint64 sessionId, PlayerTransform position){
+void PlayerManager::PushJobSetTransform(uint64 sessionId, const PlayerTransform& transform){
 
 	shared_ptr<PlayerManager> self = static_pointer_cast<PlayerManager>(shared_from_this());
 
-	unique_ptr<Job> job = make_unique<Job>([self, sessionId, position]() {
+	unique_ptr<Job> job = make_unique<Job>([self, sessionId, transform]() {
 		
-		self->SetTransform(sessionId, position);
+		self->SetTransform(sessionId, transform);
 	});
 
-	this->PushJob(move(job));
+	PushJob(move(job));
 }
 
 void PlayerManager::SendData(uint64 sessionId, const shared_ptr<Buffer>& sendBuffer) {
@@ -372,16 +372,15 @@ void PlayerManager::SendData(uint64 sessionId, const shared_ptr<Buffer>& sendBuf
 	player->PushJobSendData(sendBuffer);
 }
 
-void PlayerManager::CreateAndPushPlayer(const shared_ptr<GameSession>& ownerSession, const PlayerBaseInfo& baseInfo, const PlayerTransform& position, const PlayerStats& stats){
+void PlayerManager::CreateAndPushPlayer(const shared_ptr<GameSession>& ownerSession, const PlayerData& playerData){
 
 	shared_ptr<Player> player = make_shared<Player>(ownerSession);
 	player->SetActorId(GActorManager->RegisterActor(player));
-	player->InitPlayer(baseInfo, position, stats);
+	player->InitPlayer(playerData);
 
-	_players.insert({ baseInfo._sessionId, player });
+	_players.insert({ playerData._baseInfo._sessionId, player });
 
-	spdlog::info("[PlayerManager::CreateAndPushPlayer] Create Player : {}", boost::locale::conv::utf_to_utf<char>(baseInfo._name));
-	//wcout << L"[PlayerManager::CreateAndPushPlayer] Create Player : " << baseInfo._name << endl;
+	spdlog::info("[PlayerManager::CreateAndPushPlayer] Create Player : {}", boost::locale::conv::utf_to_utf<char>(playerData._baseInfo._name));
 }
 
 void PlayerManager::RemovePlayer(uint64 sessionId) {
@@ -403,19 +402,18 @@ void PlayerManager::RemovePlayer(uint64 sessionId) {
 	GActorManager->UnRegisterActor(player->GetActorId());
 }
 
-void PlayerManager::SetTransform(uint64 sessionId, const PlayerTransform& position){
+void PlayerManager::SetTransform(uint64 sessionId, const PlayerTransform& transform){
 
 	const auto& p = _players.find(sessionId);
 	if (p == _players.end()) {
 
-		spdlog::info("[PlayerManager::SetPosition] Invalid sessionId : {}", sessionId);
-		//wcout << "[PlayerManager::SetPosition] Invalid sessionId : " << sessionId << endl;
+		spdlog::info("[PlayerManager::SetTransform] Invalid sessionId : {}", sessionId);
 		return;
 	}
 
 	const shared_ptr<Player>& player = p->second;
 
-	player->PushJobSetPosition(position);
+	player->PushJobSetTransform(transform);
 }
 
 

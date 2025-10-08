@@ -11,7 +11,7 @@ public:
 	Player(shared_ptr<GameSession> owner);
 	~Player();
 
-	void InitPlayer(const PlayerBaseInfo& baseInfo, const PlayerTransform& transform, const PlayerStats& stats);
+	void InitPlayer(const PlayerData& playerData);
 
 	void PushJobSendData(const shared_ptr<Buffer>& sendBuffer);
 	void PushJobUpdatePosition(const PlayerTransform& newPosition);
@@ -21,7 +21,7 @@ public:
 	void PushJobGetPosition(function<void(PlayerTransform)> func);
 	void PushJobGetStats(function<void(PlayerStats)> func);
 
-	void PushJobSetPosition(const PlayerTransform& position);
+	void PushJobSetTransform(const PlayerTransform& transform);
 
 	shared_ptr<GameSession>& GetOwnerSession() { return _owner; }
 
@@ -41,7 +41,6 @@ private:
 
 private:
 	shared_ptr<GameSession> _owner = nullptr;
-	mutex _playerMutex;
 
 	PlayerData _playerData;
 };
@@ -53,7 +52,7 @@ public:
 
 	void PushJobSendData(uint64 sessionId, const shared_ptr<Buffer>& sendBuffer);
 	void PushJobSendData(uint64 sessionId, const vector<shared_ptr<Buffer>>& sendBuffer);
-	void PushJobCreateAndPushPlayer(const shared_ptr<GameSession>& ownerSession, const PlayerBaseInfo& baseInfo, const PlayerTransform& position, const PlayerStats& stats);
+	void PushJobCreateAndPushPlayer(const shared_ptr<GameSession>& ownerSession, const PlayerData& playerData);
 	void PushJobRemovePlayer(uint64 sessionId);
 
 	void PushJobGetPlayerData(uint64 sessionId, function<void(const PlayerData& playerData)>);
@@ -62,19 +61,17 @@ public:
 	void PushJobGetPosition(uint64 sessionId, function<void(PlayerTransform)> func);
 	void PushJobGetstats(uint64 sessionId, function<void(PlayerStats)> func);
 
-	void PushJobSetPosition(uint64 sessionId, PlayerTransform position);
+	void PushJobSetTransform(uint64 sessionId, const PlayerTransform& transform);
 
 public:
 	// 외부에서 절대 사용 금지
 	void SendData(uint64 sessionId, const shared_ptr<Buffer>& sendBuffer);
-	void CreateAndPushPlayer(const shared_ptr<GameSession>& ownerSession, const PlayerBaseInfo& baseInfo, const PlayerTransform& position, const PlayerStats& stats);
+	void CreateAndPushPlayer(const shared_ptr<GameSession>& ownerSession, const PlayerData& playerData);
 	void RemovePlayer(uint64 sessionId);
 
 	void SetTransform(uint64 sessionId, const PlayerTransform& position);
 
 private:
-	mutex _playersMutex;
-
 	map<uint64, shared_ptr<Player>> _players;
 
 };

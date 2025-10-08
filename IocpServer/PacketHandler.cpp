@@ -142,27 +142,25 @@ void PacketHandler::Handle_CS_Login_Request(shared_ptr<GameSession> session, sha
 			int32 last_y = stoi(result[0][6]);
 			int32 last_z = stoi(result[0][7]);
 
-			PlayerBaseInfo baseInfo;
-			baseInfo._sessionId = session->GetSessionId();
-			baseInfo._name = name;
+			PlayerData playerData;
+			playerData._baseInfo._sessionId = session->GetSessionId();
+			playerData._baseInfo._name = name;
 
-			PlayerTransform transform;
-			transform._position._x = last_x;
-			transform._position._y = last_y;
-			transform._position._z = last_z;
-			transform._lastmoveTimestamp = 0;
+			playerData._transform._position._x = last_x;
+			playerData._transform._position._y = last_y;
+			playerData._transform._position._z = last_z;
+			playerData._transform._lastmoveTimestamp = 0;
 
-			PlayerStats stats;
-			stats._level = level;
-			stats._hp = stoi(result[0][8]);
-			stats._maxHp = stoi(result[0][9]);
-			stats._mp = stoi(result[0][10]);
-			stats._maxMp = stoi(result[0][11]);
-			stats._exp = exp;
-			stats._maxExp = 1000; // temp
+			playerData._stats._level = level;
+			playerData._stats._hp = stoi(result[0][8]);
+			playerData._stats._maxHp = stoi(result[0][9]);
+			playerData._stats._mp = stoi(result[0][10]);
+			playerData._stats._maxMp = stoi(result[0][11]);
+			playerData._stats._exp = exp;
+			playerData._stats._maxExp = 1000; // temp
 			// 나머지 스탯은 추후에
 
-			GPlayerManager->PushJobCreateAndPushPlayer(session, baseInfo, transform, stats);
+			GPlayerManager->PushJobCreateAndPushPlayer(session, playerData);
 			spdlog::info("[PacketHandler::Handle_CS_Login_Request] Client Login : {}", boost::locale::conv::utf_to_utf<char>(name));
 		}
 		else {
@@ -363,15 +361,14 @@ void PacketHandler::Handle_CS_Player_Move_Request(shared_ptr<GameSession> sessio
 	recvPlayerMoveReqeustPacket.ParseFromArray(dataBuffer->GetBuffer(), dataBuffer->WriteSize());
 
 	msgTest::MoveState moveState = recvPlayerMoveReqeustPacket.movestate();
-	RoomPlayerData roomPlayerData;
-	roomPlayerData._baseInfo._sessionId = session->GetSessionId();
-	roomPlayerData._transform._moveTimeStamp = moveState.timestamp();
-	roomPlayerData._transform._position = { (int16)moveState.position().x(), (int16)moveState.position().y(), (int16)moveState.position().z() };
-	roomPlayerData._transform._velocity = { (int16)moveState.velocity().x(), (int16)moveState.velocity().y(), (int16)moveState.velocity().z() };
-	roomPlayerData._transform._rotation = { (int16)moveState.rotation().x(), (int16)moveState.rotation().y(), (int16)moveState.rotation().z() };
-	roomPlayerData._transform._updatePosition = true;
 
-	GRoomManager->PushJobMovePlayer(moveState.roomid(), roomPlayerData);
+	PlayerTransform playerTransform;
+	playerTransform._position = { moveState.position().x(), moveState.position().y(), moveState.position().z() };
+	playerTransform._velocity = { moveState.velocity().x(), moveState.velocity().y(), moveState.velocity().z() };
+	playerTransform._rotation = { moveState.rotation().x(), moveState.rotation().y(), moveState.rotation().z() };
+	playerTransform._lastmoveTimestamp = moveState.timestamp();
+
+	GPlayerManager->PushJobSetTransform(session->GetSessionId(), playerTransform);
 }
 
 void PacketHandler::Handle_CS_Enter_Room_Complete(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service){

@@ -17,7 +17,7 @@ namespace RoomResult {
 		FailReason _failReason;
 		RoomInfo _roomInfo;
 		RoomPlayerData _enterPlayerInfo;
-		int32 _enterSessionId;
+		uint64 _enterSessionId;
 		vector<RoomPlayerData> _playerListInGrid;
 	};
 

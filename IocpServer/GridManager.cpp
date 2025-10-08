@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "GridManager.h"
 
-void GridManager::AddPlayer(uint64 sessionId, const Vector<int16>& position){
+void GridManager::AddPlayer(uint64 sessionId, const Vector<int32>& position){
 
 	int16 cellX = GetCellCoord(position._x / 100);
 	int16 cellY = GetCellCoord(position._y / 100);
@@ -25,7 +25,7 @@ void GridManager::RemovePlayer(uint64 sessionId){
 	}
 }
 
-GridMoveResult GridManager::MovePosition(uint64 sessionId, const Vector<int16>& newPosition){
+GridMoveResult GridManager::MovePosition(uint64 sessionId, const Vector<int32>& newPosition){
 
 	GridMoveResult result;
 
@@ -38,7 +38,7 @@ GridMoveResult GridManager::MovePosition(uint64 sessionId, const Vector<int16>& 
 
 	//cout << "new Position : " << newPosition._x/100 << " " << newPosition._z/100 << endl;
 	GridPlayer& p = _players[sessionId];
-	Vector<int16> newCell;
+	Vector<int32> newCell;
 	newCell._x = GetCellCoord(newPosition._x / 100);
 	newCell._y = GetCellCoord(newPosition._z / 100);
 
@@ -93,7 +93,7 @@ vector<uint64> GridManager::GetNearByPlayers(uint64 sessionId) {
 	return nearPlayers;
 }
 
-vector<uint64> GridManager::GetPlayersInCell(const Vector<int16>& cell){
+vector<uint64> GridManager::GetPlayersInCell(const Vector<int32>& cell){
 
 	vector<uint64> playersInCell;
 
@@ -108,16 +108,16 @@ vector<uint64> GridManager::GetPlayersInCell(const Vector<int16>& cell){
 	return playersInCell;
 }
 
-vector<uint64> GridManager::GetPlayersAroundCell(const Vector<int16>& cell){
+vector<uint64> GridManager::GetPlayersAroundCell(const Vector<int32>& cell){
 
 	vector<uint64> result;
 
-	for (int16 dx = -1; dx <= 1; ++dx) {
-		for (int16 dy = -1; dy <= 1; ++dy) {
+	for (int32 dx = -1; dx <= 1; ++dx) {
+		for (int32 dy = -1; dy <= 1; ++dy) {
 
-			Vector<int16> neighborCell{ 
-				static_cast<int16>(cell._x + dx),
-				static_cast<int16>(cell._y + dy)
+			Vector<int32> neighborCell{
+				static_cast<int32>(cell._x + dx),
+				static_cast<int32>(cell._y + dy)
 			};
 
 			vector<uint64> playerInCell = GetPlayersInCell(neighborCell);

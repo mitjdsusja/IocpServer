@@ -24,7 +24,7 @@ public:
 	void PushJobEnterPlayer(const RoomPlayerData& initialPlayerData, function<void(const RoomResult::EnterRoomResult&)> callback);
 	void PushJobEnterRoomComplete(uint64 sessionId);
 	void PushJobLeavePlayer(uint64 leavePlayerSessionId);
-	void PushJobMovePlayer(uint64 movePlayerSessionId, const RoomPlayerData& roomPlayerData);
+	void PushJobMovePlayer(uint64 movePlayerSessionId, const RoomPlayerTransform& roomPlayerTransform);
 
 	void PushJobSkillUse(const SkillData& skillData, function<void(const RoomResult::SkillUseResult&)> callback);
 
@@ -48,8 +48,8 @@ public:
 	bool EnterPlayer(const RoomPlayerData& initialPlayerData);
 	void EnterRoomComplete(uint64 sessionId);
 	void LeavePlayer(uint64 sessionId);
-	void MovePlayer(uint64 sessionId, const RoomPlayerData& roomPlayerData);
-	void NotifyGridChange(uint64 sessionId, const Vector<int16>& oldCell, const Vector<int16>& newCell);
+	void MovePlayer(uint64 sessionId, const RoomPlayerTransform& roomPlayerTransform);
+	void NotifyGridChange(uint64 sessionId, const Vector<int32>& oldCell, const Vector<int32>& newCell);
 
 	RoomResult::SkillUseResult SkillUse(const SkillData& skillData);
 
@@ -82,7 +82,7 @@ public:
 	void PushJobEnterRoomComplete(uint64 sessionId);
 	void PushJobLeaveRoom(int32 roomId, uint64 sessionId);
 	void PushJobRemoveRoom(int32 roomId);
-	void PushJobMovePlayer(int32 roomId, const RoomPlayerData& roomPlayerData);
+	void PushJobMovePlayer(uint64 playerId, const RoomPlayerTransform& roomPlayerTransform);
 	void PushJobSkillUse(const SkillData& skillData);
 
 	void PushJobGetRoomInfoList(function<void(const vector<RoomInfo>&)> func);
@@ -100,7 +100,7 @@ public:
 	void EnterRoomComplete(uint64 sessionId);
 	void RemoveRoom(int32 roomId);
 	void LeaveRoom(int32 roomid, uint64 sessionId);
-	void MovePlayer(int32 roomId, const RoomPlayerData& roomPlayerData);
+	void MovePlayer(uint64 playerId, const RoomPlayerTransform& roomPlayerTransform);
 	void SkillUse(const SkillData& skillData);
 
 	void EnterRoomResult(const RoomResult::EnterRoomResult& enterRoomResult);

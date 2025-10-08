@@ -4,31 +4,31 @@
 struct GridPlayer {
 
 	uint64 _sessionId;
-	Vector<int16> _position;
-	Vector<int16> _cell;
+	Vector<int32> _position;
+	Vector<int32> _cell;
 };
 
 struct GridMoveResult {
 
 	bool _cellChanged = false;
-	Vector<int16> _oldCell;
-	Vector<int16> _newCell;
+	Vector<int32> _oldCell;
+	Vector<int32> _newCell;
 };
 
 class GridManager{
 public:
 	GridManager(int32 cellSize) : _cellSize(cellSize) {}
 	
-	void AddPlayer(uint64 sessionId, const Vector<int16>& position);
+	void AddPlayer(uint64 sessionId, const Vector<int32>& position);
 	void RemovePlayer(uint64 sessionId);
-	GridMoveResult MovePosition(uint64 sessionId, const Vector<int16>& newPosition);
+	GridMoveResult MovePosition(uint64 sessionId, const Vector<int32>& newPosition);
 	
 	vector<uint64> GetNearByPlayers(uint64 sessionId);
-	vector<uint64> GetPlayersInCell(const Vector<int16>& cell);
-	vector<uint64> GetPlayersAroundCell(const Vector<int16>& cell);
+	vector<uint64> GetPlayersInCell(const Vector<int32>& cell);
+	vector<uint64> GetPlayersAroundCell(const Vector<int32>& cell);
 
 private:
-	int16 GetCellCoord(int16 value) {
+	int32 GetCellCoord(int32 value) {
 
 		return (value >= 0) ? (value / _cellSize) : ((value - _cellSize + 1) / _cellSize);
 	}
@@ -40,7 +40,7 @@ private:
 	};
 
 private:
-	int16 _cellSize;
+	int32 _cellSize;
 	unordered_map<uint64, GridPlayer> _players;
 	unordered_map<pair<int, int>, unordered_set<uint64>, CellHash> _grid;
 

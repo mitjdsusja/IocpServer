@@ -10,9 +10,9 @@ struct RoomPlayerBaseInfo {
 
 struct RoomPlayerTransform {
 	
-	Vector<int16> _position;
-	Vector<int16> _velocity;
-	Vector<int16> _rotation;
+	Vector<int32> _position;
+	Vector<int32> _velocity;
+	Vector<int32> _rotation;
 	uint64 _moveTimeStamp;
 	bool _updatePosition;
 };
