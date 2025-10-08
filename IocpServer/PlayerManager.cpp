@@ -20,7 +20,7 @@ Player::Player(shared_ptr<GameSession> owner)
 
 Player::~Player() {
 
-	spdlog::info("[Player::~Player] name : {}", boost::locale::conv::utf_to_utf<char>(_info._baseInfo._name));
+	spdlog::info("[Player::~Player] name : {}", boost::locale::conv::utf_to_utf<char>(_playerData._baseInfo._name));
 	ClearResource();
 }
 
@@ -31,9 +31,9 @@ void Player::ClearResource(){
 
 void Player::InitPlayer(const PlayerBaseInfo& baseInfo, const PlayerTransform& transform, const PlayerStats& stats){
 
-	_info._baseInfo = baseInfo;
-	_info._transform = transform;
-	_info._stats = stats;
+	_playerData._baseInfo = baseInfo;
+	_playerData._transform = transform;
+	_playerData._stats = stats;
 }
 
 void Player::PushJobSendData(const shared_ptr<Buffer>& sendBuffer){
@@ -54,6 +54,19 @@ void Player::PushJobUpdatePosition(const PlayerTransform& newPosition){
 
 	unique_ptr<Job> job = make_unique<Job>([self, newPosition]() {
 		self->UpdateTransform(newPosition);
+	});
+
+	PushJob(move(job));
+}
+
+void Player::PushJobGetPlayerData(function<void(const PlayerData& playerData)> func){
+
+	shared_ptr<Player> self = static_pointer_cast<Player>(shared_from_this());
+
+	unique_ptr<Job> job = make_unique<Job>([self, func]() {
+
+		const PlayerData& playerData = self->_playerData;
+		func(playerData);
 	});
 
 	PushJob(move(job));
@@ -117,33 +130,33 @@ void Player::SendData(const shared_ptr<Buffer>& sendBuffer){
 
 void Player::UpdateTransform(const PlayerTransform& newTransform){
 
-	_info._transform = newTransform;
+	_playerData._transform = newTransform;
 }
 
 PlayerBaseInfo Player::GetBaseInfo(){
 
-	return _info._baseInfo;
+	return _playerData._baseInfo;
 }
 
 PlayerTransform Player::GetTransform(){
 	
-	return _info._transform;
+	return _playerData._transform;
 }
 
 PlayerStats Player::GetStats(){
 	
-	return _info._stats;
+	return _playerData._stats;
 }
 
 void Player::SetTransform(const PlayerTransform& transform){
 
-	if(transform._roomId != 0) _info._transform._roomId = transform._roomId;
-	if(transform._lastmoveTimestamp != 0) _info._transform._lastmoveTimestamp = transform._lastmoveTimestamp;
+	if(transform._roomId != 0) _playerData._transform._roomId = transform._roomId;
+	if(transform._lastmoveTimestamp != 0) _playerData._transform._lastmoveTimestamp = transform._lastmoveTimestamp;
 	if (transform._position.IsZero() == false) {
-		_info._transform._position = transform._position;
+		_playerData._transform._position = transform._position;
 	}
 	if (transform._velocity.IsZero() == false) {
-		_info._transform._velocity = transform._velocity;
+		_playerData._transform._velocity = transform._velocity;
 	}
 }
 
@@ -221,11 +234,7 @@ void PlayerManager::PushJobGetPlayerData(uint64 sessionId, function<void(const P
 		}
 
 		const shared_ptr<Player>& player = iter->second;
-		PlayerData playerData;
-		playerData._baseInfo = player->GetBaseInfo();
-		playerData._transform = player->GetTransform();
-		playerData._stats = player->GetStats();
-		func(playerData);
+		player->PushJobGetPlayerData(func);
 	});
 	PushJob(move(job));
 }

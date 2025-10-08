@@ -16,6 +16,7 @@ public:
 	void PushJobSendData(const shared_ptr<Buffer>& sendBuffer);
 	void PushJobUpdatePosition(const PlayerTransform& newPosition);
 
+	void PushJobGetPlayerData(function<void(const PlayerData& playerData)> func);
 	void PushJobGetBaseInfo(function<void(PlayerBaseInfo)> func);
 	void PushJobGetPosition(function<void(PlayerTransform)> func);
 	void PushJobGetStats(function<void(PlayerStats)> func);
@@ -42,7 +43,7 @@ private:
 	shared_ptr<GameSession> _owner = nullptr;
 	mutex _playerMutex;
 
-	PlayerData _info;
+	PlayerData _playerData;
 };
 
 class PlayerManager : public Actor {

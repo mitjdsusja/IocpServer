@@ -271,8 +271,8 @@ void PacketHandler::Handle_CS_Room_Player_List_Request(shared_ptr<GameSession> s
 			msgTest::PlayerTransform* transform = playerInfo->mutable_transform();
 			msgTest::PlayerStats* stats = playerInfo->mutable_stats();
 
-			baseInfo->set_playerid(roomPlayer._sessionId);
-			baseInfo->set_name(boost::locale::conv::utf_to_utf<char>(roomPlayer._name));
+			baseInfo->set_playerid(roomPlayer._baseInfo._sessionId);
+			baseInfo->set_name(boost::locale::conv::utf_to_utf<char>(roomPlayer._baseInfo._name));
 
 			msgTest::Vector* position = transform->mutable_position();
 			position->set_x(roomPlayer._transform._position._x);
@@ -299,15 +299,32 @@ void PacketHandler::Handle_CS_Create_Room_Request(shared_ptr<GameSession> sessio
 	wstring roomName = boost::locale::conv::utf_to_utf<wchar_t>(recvCreateRoomPacket.roomname());
 	wstring hostName = boost::locale::conv::utf_to_utf<wchar_t>(recvCreateRoomPacket.hostname());
 
-	InitRoomInfo initRoomInfo;
-	initRoomInfo._roomName = roomName;
-	initRoomInfo._maxPlayerCount = 100;
+	GPlayerManager->PushJobGetPlayerData(session->GetSessionId(), [roomName](const PlayerData& playerData) {
+		
+		InitRoomInfo initRoomInfo;
+		initRoomInfo._roomName = roomName;
+		initRoomInfo._maxPlayerCount = 1000;
 
-	RoomPlayerData hostPlayerData;
-	hostPlayerData._sessionId = session->GetSessionId();
-	hostPlayerData._name = hostName;
+		RoomPlayerData hostPlayerData;
+		hostPlayerData._baseInfo._sessionId = playerData._baseInfo._sessionId;
+		hostPlayerData._baseInfo._name = playerData._baseInfo._name;
 
-	GRoomManager->PushJobCreateAndPushRoom(initRoomInfo, hostPlayerData);
+		hostPlayerData._transform._position = playerData._transform._position;
+		hostPlayerData._transform._velocity = playerData._transform._velocity;
+		hostPlayerData._transform._rotation = playerData._transform._rotation;
+		hostPlayerData._transform._moveTimeStamp = playerData._transform._lastmoveTimestamp;
+		hostPlayerData._transform._updatePosition = true;
+
+		hostPlayerData._stats._level = playerData._stats._level;
+		hostPlayerData._stats._hp = playerData._stats._hp;
+		hostPlayerData._stats._maxHp = playerData._stats._maxHp;
+		hostPlayerData._stats._mp = playerData._stats._mp;
+		hostPlayerData._stats._maxMp = playerData._stats._maxMp;
+		hostPlayerData._stats._exp = playerData._stats._exp;
+		hostPlayerData._stats._maxExp = playerData._stats._maxExp;
+
+		GRoomManager->PushJobCreateAndPushRoom(initRoomInfo, hostPlayerData);
+	});
 }
 
 void PacketHandler::Handle_CS_Enter_Room_Request(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* service) {
@@ -317,15 +334,24 @@ void PacketHandler::Handle_CS_Enter_Room_Request(shared_ptr<GameSession> session
 
 	int32 _enterRoomId = recvEnterRoomRequestPacket.roomid();
 
-	GPlayerManager->PushJobGetRoomPlayer(session->GetSessionId(), [_enterRoomId](PlayerBaseInfo baseInfo, PlayerTransform position) {
+	GPlayerManager->PushJobGetPlayerData(session->GetSessionId(), [_enterRoomId](const PlayerData& playerData) {
 		
 		RoomPlayerData roomPlayer;
-		roomPlayer._sessionId = baseInfo._sessionId;
-		roomPlayer._transform._moveTimeStamp = position._lastmoveTimestamp;
-		roomPlayer._name = baseInfo._name;
-		roomPlayer._transform._position = position._position;
+		roomPlayer._baseInfo._sessionId = playerData._baseInfo._sessionId;
+		roomPlayer._baseInfo._name = playerData._baseInfo._name;
+
+		roomPlayer._transform._position = playerData._transform._position;
+		roomPlayer._transform._velocity = playerData._transform._velocity;
+		roomPlayer._transform._moveTimeStamp = playerData._transform._lastmoveTimestamp;
 		roomPlayer._transform._updatePosition = true;
-		roomPlayer._transform._velocity = position._velocity;
+
+		roomPlayer._stats._level = playerData._stats._level;
+		roomPlayer._stats._hp = playerData._stats._hp;
+		roomPlayer._stats._maxHp = playerData._stats._maxHp;
+		roomPlayer._stats._mp = playerData._stats._mp;
+		roomPlayer._stats._maxMp = playerData._stats._maxMp;
+		roomPlayer._stats._exp = playerData._stats._exp;
+		roomPlayer._stats._maxExp = playerData._stats._maxExp;
 
 		GRoomManager->PushJobEnterRoom(_enterRoomId, roomPlayer);
 	});
@@ -338,7 +364,7 @@ void PacketHandler::Handle_CS_Player_Move_Request(shared_ptr<GameSession> sessio
 
 	msgTest::MoveState moveState = recvPlayerMoveReqeustPacket.movestate();
 	RoomPlayerData roomPlayerData;
-	roomPlayerData._sessionId = session->GetSessionId();
+	roomPlayerData._baseInfo._sessionId = session->GetSessionId();
 	roomPlayerData._transform._moveTimeStamp = moveState.timestamp();
 	roomPlayerData._transform._position = { (int16)moveState.position().x(), (int16)moveState.position().y(), (int16)moveState.position().z() };
 	roomPlayerData._transform._velocity = { (int16)moveState.velocity().x(), (int16)moveState.velocity().y(), (int16)moveState.velocity().z() };

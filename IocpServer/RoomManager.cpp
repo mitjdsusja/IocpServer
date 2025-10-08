@@ -15,9 +15,8 @@
 #include <boost/locale.hpp>
 
 Room::Room(const InitRoomInfo& initRoomInfo, const RoomPlayerData& hostPlayerData)
-	: _gridManager(make_shared<GridManager>(10)), _roomInfo({initRoomInfo, 0, hostPlayerData._name, hostPlayerData._sessionId}) , Actor(ActorType::ROOM_TYPE){
+	: _gridManager(make_shared<GridManager>(10)), _roomInfo({initRoomInfo, 0, hostPlayerData._baseInfo._name, hostPlayerData._baseInfo._sessionId}) , Actor(ActorType::ROOM_TYPE){
 
-	EnterPlayer(hostPlayerData);
 }
 
 Room::~Room() {
@@ -125,16 +124,16 @@ void Room::PushJobEnterPlayer(const RoomPlayerData& enterPlayerData, function<vo
 
 		PlayerTransform position;
 		position._roomId = roomInfo._initRoomInfo._roomId;
-		GPlayerManager->PushJobSetPosition(enterPlayerData._sessionId, position);
+		GPlayerManager->PushJobSetPosition(enterPlayerData._baseInfo._sessionId, position);
 
 		RoomResult::EnterRoomResult enterRoomResult;
 		enterRoomResult._success = enterRoomflag;
 		enterRoomResult._failReason = RoomResult::EnterRoomResult::FailReason::UNKNOWN;
 		enterRoomResult._roomInfo = roomInfo;
 		enterRoomResult._enterPlayerInfo = enterPlayerData;
-		enterRoomResult._enterSessionId = enterPlayerData._sessionId;
+		enterRoomResult._enterSessionId = enterPlayerData._baseInfo._sessionId;
 
-		const vector<uint64>& nearPlayerList = self->_gridManager->GetNearByPlayers(enterPlayerData._sessionId);
+		const vector<uint64>& nearPlayerList = self->_gridManager->GetNearByPlayers(enterPlayerData._baseInfo._sessionId);
 		for (uint64 nearPlayerId : nearPlayerList) {
 
 			const RoomPlayerData& roomPlayerData = self->GetRoomPlayerData(nearPlayerId);
@@ -299,8 +298,8 @@ void Room::BroadcastPlayerEnterGrid(uint64 sessionId, const vector<uint64>& play
 		msgTest::PlayerTransform* transform = player->mutable_transform();
 		msgTest::PlayerStats* stats = player->mutable_stats();
 
-		baseInfo->set_playerid(roomPlayerData._sessionId);
-		baseInfo->set_name(boost::locale::conv::utf_to_utf<char>(roomPlayerData._name));
+		baseInfo->set_playerid(roomPlayerData._baseInfo._sessionId);
+		baseInfo->set_name(boost::locale::conv::utf_to_utf<char>(roomPlayerData._baseInfo._name));
 		
 		msgTest::Vector* position = transform->mutable_position();
 		position->set_x(roomPlayerData._transform._position._x);
@@ -408,7 +407,7 @@ void Room::BroadcastPlayerMovement() {
 
 		auto sendBuffer = PacketHandler::MakeSendBuffer(sendPlayerMoveNotificationPacket, PacketId::PKT_SC_PLAYER_MOVE_NOTIFICATION);
 
-		GPlayerManager->PushJobSendData(playerData._sessionId, sendBuffer);
+		GPlayerManager->PushJobSendData(playerData._baseInfo._sessionId, sendBuffer);
 	}
 }
 
@@ -457,8 +456,8 @@ void Room::SendPlayersInGrid(uint64 sesssionId){
 		msgTest::PlayerTransform* transform = player->mutable_transform();
 		msgTest::PlayerStats* stats = player->mutable_stats();
 
-		baseInfo->set_playerid(roomPlayerData._sessionId);
-		baseInfo->set_name(boost::locale::conv::utf_to_utf<char>(roomPlayerData._name));
+		baseInfo->set_playerid(roomPlayerData._baseInfo._sessionId);
+		baseInfo->set_name(boost::locale::conv::utf_to_utf<char>(roomPlayerData._baseInfo._name));
 
 		msgTest::Vector* position = transform->mutable_position();
 		position->set_x(roomPlayerData._transform._position._x);
@@ -477,10 +476,10 @@ void Room::SendPlayersInGrid(uint64 sesssionId){
 
 bool Room::EnterPlayer(const RoomPlayerData& playerData) {
 
-	_players[playerData._sessionId] = playerData;
+	_players[playerData._baseInfo._sessionId] = playerData;
 	_roomInfo._curPlayerCount++;
 
-	_gridManager->AddPlayer(playerData._sessionId, playerData._transform._position);
+	_gridManager->AddPlayer(playerData._baseInfo._sessionId, playerData._transform._position);
 
 	spdlog::info("[Room::EnterPlayer] roomId : {}", _roomInfo._initRoomInfo._roomId);
 	//wcout << L"[Room::EnterPlayer] roomId : " << _roomInfo._initRoomInfo._roomId << " EnterPlayer : " << playerData._gameState._name << endl;
@@ -585,13 +584,12 @@ void RoomManager::PushJobCreateAndPushRoom(const InitRoomInfo& initRoomInfo, con
 	shared_ptr<RoomManager> self = static_pointer_cast<RoomManager>(shared_from_this());
 
 	unique_ptr<Job> job = make_unique<Job>([self, initRoomInfo, hostPlayerData]() {
+		
 		int32 roomId = self->CreateAndPushRoom(initRoomInfo, hostPlayerData);
 
 		if (roomId != 0) {
 
-			PlayerTransform position;
-			position._roomId = roomId;
-			GPlayerManager->PushJobSetPosition(hostPlayerData._sessionId, position);
+			self->EnterRoom(roomId, hostPlayerData);
 		}
 
 		msgTest::SC_Create_Room_Response createRoomResponsePacket;
@@ -612,7 +610,7 @@ void RoomManager::PushJobCreateAndPushRoom(const InitRoomInfo& initRoomInfo, con
 
 		vector<shared_ptr<Buffer>> sendBuffer = PacketHandler::MakeSendBuffer(createRoomResponsePacket, PacketId::PKT_SC_CREATE_ROOM_RESPONSE);
 
-		GPlayerManager->PushJobSendData(hostPlayerData._sessionId, sendBuffer);
+		GPlayerManager->PushJobSendData(hostPlayerData._baseInfo._sessionId, sendBuffer);
 	});
 
 	PushJob(move(job));
@@ -793,9 +791,9 @@ int32 RoomManager::CreateAndPushRoom(const InitRoomInfo& initRoomInfo, const Roo
 	room->SetActorId(GActorManager->RegisterActor(room));
 
 	_rooms[roomId] = room;
-	_sessionToRoomMap[hostPlayerData._sessionId] = roomId;
+	_sessionToRoomMap[hostPlayerData._baseInfo._sessionId] = roomId;
 
-	spdlog::info("[RoomManager::CreateAndPushRoom] EnterRoom roomId : {} playerName : {}", roomId, boost::locale::conv::utf_to_utf<char>(hostPlayerData._name));
+	spdlog::info("[RoomManager::CreateAndPushRoom] EnterRoom roomId : {} playerName : {}", roomId, boost::locale::conv::utf_to_utf<char>(hostPlayerData._baseInfo._name));
 	//wcout << "[RoomManager::CreateAndPushRoom] EnterRoom roomId : " << roomId << " playerName : " << hostPlayerData._gameState._name << endl;
 
 	room->PushJobRegisterBroadcastPosition();
@@ -877,7 +875,7 @@ void RoomManager::MovePlayer(int32 roomId, const RoomPlayerData& roomPlayerData)
 	}
 	shared_ptr<Room>& room = iter->second;
 
-	room->PushJobMovePlayer(roomPlayerData._sessionId, roomPlayerData);
+	room->PushJobMovePlayer(roomPlayerData._baseInfo._sessionId, roomPlayerData);
 }
 
 void RoomManager::SkillUse(const SkillData& skillData){
@@ -932,8 +930,8 @@ void RoomManager::EnterRoomResult(const RoomResult::EnterRoomResult& enterRoomRe
 				msgTest::PlayerTransform* transform = player->mutable_transform();
 				msgTest::PlayerStats* stats = player->mutable_stats();
 
-				baseInfo->set_playerid(playerData._sessionId);
-				baseInfo->set_name(boost::locale::conv::utf_to_utf<char>(playerData._name));
+				baseInfo->set_playerid(playerData._baseInfo._sessionId);
+				baseInfo->set_name(boost::locale::conv::utf_to_utf<char>(playerData._baseInfo._name));
 
 				msgTest::Vector* position = transform->mutable_position();
 				position->set_x(playerData._transform._position._x);
@@ -943,6 +941,8 @@ void RoomManager::EnterRoomResult(const RoomResult::EnterRoomResult& enterRoomRe
 				stats->set_level(playerData._stats._level);
 				stats->set_hp(playerData._stats._hp);
 				stats->set_mp(playerData._stats._mp);
+				stats->set_maxhp(playerData._stats._maxHp);
+				stats->set_maxmp(playerData._stats._maxMp);
 			}
 		}
 		else {
@@ -951,7 +951,7 @@ void RoomManager::EnterRoomResult(const RoomResult::EnterRoomResult& enterRoomRe
 
 		vector<shared_ptr<Buffer>> sendBuffer = PacketHandler::MakeSendBuffer(sendPacketEnterRoomResponse, PacketId::PKT_SC_ENTER_ROOM_RESPONSE);
 
-		GPlayerManager->PushJobSendData(enterRoomResult._enterPlayerInfo._sessionId, sendBuffer);
+		GPlayerManager->PushJobSendData(enterRoomResult._enterPlayerInfo._baseInfo._sessionId, sendBuffer);
 	}
 
 	// Notify Enter 
@@ -963,8 +963,8 @@ void RoomManager::EnterRoomResult(const RoomResult::EnterRoomResult& enterRoomRe
 			msgTest::PlayerTransform* transform = player->mutable_transform();
 			msgTest::PlayerStats* stats = player->mutable_stats();
 
-			baseInfo->set_playerid(enterRoomResult._enterPlayerInfo._sessionId);
-			baseInfo->set_name(boost::locale::conv::utf_to_utf<char>(enterRoomResult._enterPlayerInfo._name));
+			baseInfo->set_playerid(enterRoomResult._enterPlayerInfo._baseInfo._sessionId);
+			baseInfo->set_name(boost::locale::conv::utf_to_utf<char>(enterRoomResult._enterPlayerInfo._baseInfo._name));
 
 			msgTest::Vector* position = transform->mutable_position();
 			position->set_x(enterRoomResult._enterPlayerInfo._transform._position._x);
