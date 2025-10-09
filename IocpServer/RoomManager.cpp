@@ -309,9 +309,18 @@ void Room::BroadcastPlayerEnterGrid(uint64 sessionId, const vector<uint64>& play
 		position->set_z(roomPlayerData._transform._position._z);
 		transform->set_lastmovetimestamp(roomPlayerData._transform._moveTimeStamp);
 
+		msgTest::Vector* rotation = transform->mutable_rotation();
+		rotation->set_x(roomPlayerData._transform._rotation._x);
+		rotation->set_y(roomPlayerData._transform._rotation._y);
+		rotation->set_z(roomPlayerData._transform._rotation._z);
+
 		stats->set_level(roomPlayerData._stats._level);
 		stats->set_hp(roomPlayerData._stats._hp);
 		stats->set_mp(roomPlayerData._stats._mp);
+		stats->set_maxhp(roomPlayerData._stats._maxHp);
+		stats->set_maxmp(roomPlayerData._stats._maxMp);
+		stats->set_exp(roomPlayerData._stats._exp);
+		stats->set_maxexp(roomPlayerData._stats._maxExp);
 
 		auto sendBuffer = PacketHandler::MakeSendBuffer(sendPacketPlayerEnterGriNotification, PacketId::PKT_SC_PLAYER_ENTER_GRID_NOTIFICATION);
 
@@ -466,9 +475,18 @@ void Room::SendPlayersInGrid(uint64 sesssionId){
 		position->set_y(roomPlayerData._transform._position._y);
 		position->set_z(roomPlayerData._transform._position._z);
 
+		msgTest::Vector* rotation = transform->mutable_rotation();
+		rotation->set_x(roomPlayerData._transform._rotation._x);
+		rotation->set_y(roomPlayerData._transform._rotation._y);
+		rotation->set_z(roomPlayerData._transform._rotation._z);
+
 		stats->set_level(roomPlayerData._stats._level);
 		stats->set_hp(roomPlayerData._stats._hp);
 		stats->set_mp(roomPlayerData._stats._mp);
+		stats->set_maxhp(roomPlayerData._stats._maxHp);	
+		stats->set_maxmp(roomPlayerData._stats._maxMp);
+		stats->set_exp(roomPlayerData._stats._exp);
+		stats->set_maxexp(roomPlayerData._stats._maxExp);
 	}
 
 	auto sendBuffer = PacketHandler::MakeSendBuffer(sendPacketPlayerListInGrid, PacketId::PKT_SC_PLAYER_LIST_IN_GRID);
