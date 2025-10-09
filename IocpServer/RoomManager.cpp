@@ -1008,6 +1008,8 @@ void RoomManager::EnterRoomResult(const RoomResult::EnterRoomResult& enterRoomRe
 			stats->set_level(enterRoomResult._enterPlayerInfo._stats._level);
 			stats->set_hp(enterRoomResult._enterPlayerInfo._stats._hp);
 			stats->set_mp(enterRoomResult._enterPlayerInfo._stats._mp);
+			stats->set_maxhp(enterRoomResult._enterPlayerInfo._stats._maxHp);
+			stats->set_maxmp(enterRoomResult._enterPlayerInfo._stats._maxMp);
 
 			vector<shared_ptr<Buffer>> sendBuffer = PacketHandler::MakeSendBuffer(sendPacketEnterRoomNotification, PacketId::PKT_SC_PLAYER_ENTER_ROOM_NOTIFICATION);
 
