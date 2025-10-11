@@ -5,6 +5,7 @@
 #include "RoomResult.h"
 #include "RoomPlayerData.h"
 #include "SkillData.h"
+#include "MapLoader.h"
 
 class GridManager;
 class Job;
@@ -64,7 +65,8 @@ private:
 
 	shared_ptr<GridManager> _gridManager;
 
-	map<uint64, RoomPlayerData> _players;
+	unordered_map<uint64, RoomPlayerData> _players;
+	const MapData* _mapData;
 };
 
 /*-----------------

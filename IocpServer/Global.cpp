@@ -29,6 +29,7 @@ public :
 		GPlayerManager = make_shared<PlayerManager>();
 
 		GMapManager = make_shared<MapManager>();	
+		GMapManager->InitializeMaps();
 
 		GRoomManager->SetActorId(GActorManager->RegisterActor(GRoomManager));
 		GPlayerManager->SetActorId(GActorManager->RegisterActor(GPlayerManager));

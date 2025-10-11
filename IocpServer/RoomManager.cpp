@@ -11,11 +11,14 @@
 #include "GridManager.h"
 #include "PlayerManager.h"
 #include "ActorManager.h"
+#include "MapManager.h"
 
 #include <boost/locale.hpp>
 
 Room::Room(const InitRoomInfo& initRoomInfo, const RoomPlayerData& hostPlayerData)
-	: _gridManager(make_shared<GridManager>(10)), _roomInfo({initRoomInfo, 0, hostPlayerData._baseInfo._name, hostPlayerData._baseInfo._sessionId}) , Actor(ActorType::ROOM_TYPE){
+	: _gridManager(make_shared<GridManager>(10)), _roomInfo({initRoomInfo, 0, hostPlayerData._baseInfo._name, hostPlayerData._baseInfo._sessionId}) , Actor(ActorType::ROOM_TYPE)
+	, _mapData(&(GMapManager->GetMapData(initRoomInfo._mapId)))
+{
 
 }
 
@@ -542,6 +545,7 @@ void Room::MovePlayer(uint64 sessionId, const RoomPlayerTransform& roomPlayerTra
 		spdlog::info("[Room::MovePlayer] INVALID SESSION ID : " + to_string(sessionId));
 		return;
 	}
+
 	
 	auto& roomPlayer = roomPlayerIter->second;
 	roomPlayer._transform._updatePosition = true;

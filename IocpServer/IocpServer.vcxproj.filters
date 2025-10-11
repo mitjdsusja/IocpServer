@@ -84,7 +84,9 @@
     <ClInclude Include="MapLoader.h">
       <Filter>Content</Filter>
     </ClInclude>
-    <ClInclude Include="MapManager.h" />
+    <ClInclude Include="MapManager.h">
+      <Filter>Content</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ServerMain.cpp">
@@ -141,6 +143,8 @@
     <ClCompile Include="MapLoader.cpp">
       <Filter>Content</Filter>
     </ClCompile>
-    <ClCompile Include="MapManager.cpp" />
+    <ClCompile Include="MapManager.cpp">
+      <Filter>Content</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
