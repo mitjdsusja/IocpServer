@@ -10,14 +10,16 @@ enum MapTile {
 
 struct MapData {
 	int32 mapId;
+	int32 minX;
+	int32 minZ;
 	int32 width;
 	int32 height;
 	int32 cellSize;
 	vector<uint8> grid;
 
-	bool IsWalkable(int32 worldX, int32 worldY) const {
+	bool IsWalkable(int32 worldX, int32 worldZ) const {
 
-		Vector<int32> gridPoint = WorldToGrid(worldX, worldY);
+		Vector<int32> gridPoint = WorldToGrid(worldX, worldZ);
 
 		if (gridPoint._x < 0 || gridPoint._x >= width || gridPoint._y < 0 || gridPoint._y >= height) {
 
@@ -28,10 +30,10 @@ struct MapData {
 		return grid[index] == WALKABLE;
 	};
 
-	Vector<int32> WorldToGrid(int32 worldX, int32 worldY) const {
+	Vector<int32> WorldToGrid(int32 worldX, int32 worldZ) const {
 
-		int32 gridX = (worldX / cellSize);
-		int32 gridY = (worldY / cellSize);
+		int32 gridX = ((worldX - minX) / cellSize);
+		int32 gridY = ((worldZ - minZ) / cellSize);
 		return { gridX, gridY };
 	}
 };

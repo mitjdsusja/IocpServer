@@ -11,6 +11,8 @@ MapData MapLoader::LoadMap(const string& path) {
 		return mapData;
 	}
 	file.read(reinterpret_cast<char*>(&mapData.mapId), sizeof(mapData.mapId));
+	file.read(reinterpret_cast<char*>(&mapData.minX), sizeof(mapData.minX));
+	file.read(reinterpret_cast<char*>(&mapData.minZ), sizeof(mapData.minZ));
 	file.read(reinterpret_cast<char*>(&mapData.width), sizeof(mapData.width));
 	file.read(reinterpret_cast<char*>(&mapData.height), sizeof(mapData.height));
 	file.read(reinterpret_cast<char*>(&mapData.cellSize), sizeof(mapData.cellSize));
