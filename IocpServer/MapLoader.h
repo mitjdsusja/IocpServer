@@ -1,5 +1,6 @@
 #pragma once
 #include <fstream>
+#include "Vector.h"
 
 enum MapTile {
 
@@ -8,18 +9,30 @@ enum MapTile {
 };;
 
 struct MapData {
-
 	int32 mapId;
-	int64 width;
-	int64 height;
+	int32 width;
+	int32 height;
+	int32 cellSize;
 	vector<uint8> grid;
 
-	bool IsWalkable(uint64 x, uint64 y) const {
+	bool IsWalkable(int32 worldX, int32 worldY) const {
 
-		if (x < 0 || x >= width || y < 0 || y >= height) {
+		Vector<int32> gridPoint = WorldToGrid(worldX, worldY);
+
+		if (gridPoint._x < 0 || gridPoint._x >= width || gridPoint._y < 0 || gridPoint._y >= height) {
+
 			return false;
 		}
-		return grid[y * width + x] == WALKABLE; // 0 = walkable, 1 = blocked
+
+		int64 index = gridPoint._y * width + gridPoint._x;
+		return grid[index] == WALKABLE;
+	};
+
+	Vector<int32> WorldToGrid(int32 worldX, int32 worldY) const {
+
+		int32 gridX = (worldX / cellSize);
+		int32 gridY = (worldY / cellSize);
+		return { gridX, gridY };
 	}
 };
 

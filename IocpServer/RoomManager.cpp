@@ -546,7 +546,12 @@ void Room::MovePlayer(uint64 sessionId, const RoomPlayerTransform& roomPlayerTra
 		return;
 	}
 
-	
+	bool isWalkable = _mapData->IsWalkable(roomPlayerTransform._position._x / 100, roomPlayerTransform._position._z / 100);
+	if (isWalkable == false) {
+
+		return;
+	}
+
 	auto& roomPlayer = roomPlayerIter->second;
 	roomPlayer._transform._updatePosition = true;
 	roomPlayer._transform._moveTimeStamp = roomPlayerTransform._moveTimeStamp;

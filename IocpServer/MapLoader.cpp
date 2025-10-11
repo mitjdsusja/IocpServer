@@ -13,7 +13,8 @@ MapData MapLoader::LoadMap(const string& path) {
 	file.read(reinterpret_cast<char*>(&mapData.mapId), sizeof(mapData.mapId));
 	file.read(reinterpret_cast<char*>(&mapData.width), sizeof(mapData.width));
 	file.read(reinterpret_cast<char*>(&mapData.height), sizeof(mapData.height));
-	
+	file.read(reinterpret_cast<char*>(&mapData.cellSize), sizeof(mapData.cellSize));
+
 	uint64 gridSize = mapData.width * mapData.height;
 	mapData.grid.resize(gridSize);
 	file.read(reinterpret_cast<char*>(mapData.grid.data()), gridSize);
