@@ -72,7 +72,7 @@ void ActorManager::RequestAllLatencyAndSendToMonitor(){
 			
 			if (actorCount->fetch_add(1) + 1 == expectedActorCount) {
 
-				int32 latencySum = 0;
+				uint64 latencySum = 0;
 				ActorInfo topLatencyActorInfo;
 				for (auto& actorInfo : *actorInfoVectorRef) {
 
