@@ -19,7 +19,9 @@ MapData MapLoader::LoadMap(const string& path) {
 	mapData.grid.resize(gridSize);
 	file.read(reinterpret_cast<char*>(mapData.grid.data()), gridSize);
 
-	spdlog::info("MapLoader::LoadMap - Loaded map: {} ({}x{}, cell size: {})", path, mapData.width, mapData.height, mapData.cellSize);)
+	spdlog::info("MapLoader::LoadMap - Loaded map: {} ({}x{}, cell size: {})", path, mapData.width, mapData.height, mapData.cellSize);
+
+	file.close();
 
 	return mapData;
 }
