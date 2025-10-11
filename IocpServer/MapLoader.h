@@ -11,15 +11,6 @@ struct MapData {
 
 class MapLoader{
 public:
-	MapData LoadMap(const string& path) {
-
-		std::ifstream file(path, std::ios::binary);
-		MapData mapData;
-		if (!file) {
-			
-		}
-
-		file.read(reinterpret_cast<char*>(&mapData.mapId), sizeof(mapData.mapId));
-	}
+	static MapData LoadMap(const string& path);
 };
 
