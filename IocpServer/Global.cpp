@@ -5,12 +5,16 @@
 #include "RoomManager.h"
 #include "PlayerManager.h"
 
+#include "MapManager.h"
+
 #include "JobScheduler.h"
 #include "MonitorManager.h"
 
 shared_ptr<RoomManager> GRoomManager = nullptr;
 shared_ptr<PlayerManager> GPlayerManager = nullptr;
 shared_ptr<ActorManager> GActorManager = nullptr;
+
+shared_ptr<MapManager> GMapManager = nullptr;
 
 shared_ptr<JobScheduler> GJobScheduler = nullptr;
 shared_ptr<MonitorManager> GMonitorManager = nullptr;
@@ -23,6 +27,8 @@ public :
 		GActorManager = make_shared<ActorManager>();
 		GRoomManager = make_shared<RoomManager>();
 		GPlayerManager = make_shared<PlayerManager>();
+
+		GMapManager = make_shared<MapManager>();	
 
 		GRoomManager->SetActorId(GActorManager->RegisterActor(GRoomManager));
 		GPlayerManager->SetActorId(GActorManager->RegisterActor(GPlayerManager));
