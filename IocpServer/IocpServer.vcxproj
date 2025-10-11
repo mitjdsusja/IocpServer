@@ -182,6 +182,8 @@
     <ClInclude Include="GridManager.h" />
     <ClInclude Include="Job.h" />
     <ClInclude Include="JobScheduler.h" />
+    <ClInclude Include="MapLoader.h" />
+    <ClInclude Include="MapManager.h" />
     <ClInclude Include="messageTest.pb.h" />
     <ClInclude Include="MonitorManager.h" />
     <ClInclude Include="PacketHandler.h" />
@@ -205,6 +207,8 @@
     <ClCompile Include="GridManager.cpp" />
     <ClCompile Include="Job.cpp" />
     <ClCompile Include="JobScheduler.cpp" />
+    <ClCompile Include="MapLoader.cpp" />
+    <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="messageTest.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>

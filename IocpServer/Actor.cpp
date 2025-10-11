@@ -72,7 +72,7 @@ void Actor::SetActorId(uint64 actorId) {
 	_actorId = actorId;
 }
 
-int64 Actor::GetAvgJobLatency() {
+uint64 Actor::GetAvgJobLatency() {
 
 	if (_latencyQueue.empty()) return 0;
 	return _latencySum / _latencyQueue.size();

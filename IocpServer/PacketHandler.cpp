@@ -300,6 +300,8 @@ void PacketHandler::Handle_CS_Create_Room_Request(shared_ptr<GameSession> sessio
 	GPlayerManager->PushJobGetPlayerData(session->GetSessionId(), [roomName](const PlayerData& playerData) {
 		
 		InitRoomInfo initRoomInfo;
+		initRoomInfo._roomId = 0; // RoomManager에서 할당
+		initRoomInfo._mapId = 1; // temp
 		initRoomInfo._roomName = roomName;
 		initRoomInfo._maxPlayerCount = 1000;
 

@@ -14,7 +14,7 @@ public:
 
 	ActorType GetActorType();
 	uint64 GetActorId() { return _actorId; }
-	int64 GetAvgJobLatency();
+	uint64 GetAvgJobLatency();
 
 	void SetActorId(uint64 actorId);
 

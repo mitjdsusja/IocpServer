@@ -59,6 +59,7 @@ message Room{
     int32 maxPlayerCount = 3;
     int32 playerCount = 4;
     string hostName = 5;
+    int32 mapId = 6;
 }
 
 message CS_Ping{

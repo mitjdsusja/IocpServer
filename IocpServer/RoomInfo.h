@@ -3,6 +3,7 @@
 
 struct InitRoomInfo {
 	int32 _roomId;
+	int32 _mapId;
 	int32 _maxPlayerCount;
 	wstring _roomName;
 };
