@@ -22,6 +22,10 @@ MapData MapLoader::LoadMap(const string& path) {
 	file.read(reinterpret_cast<char*>(mapData.grid.data()), gridSize);
 
 	spdlog::info("MapLoader::LoadMap - Loaded map: {} ({}x{}, cell size: {})", path, mapData.width, mapData.height, mapData.cellSize);
+	
+	int32 testX = mapData.minX;
+	int32 testZ = mapData.minZ;
+	spdlog::info("InWalkable Test : {}, {} = {}", testX, testZ, mapData.IsWalkable(testX, testZ));
 
 	return mapData;
 }
