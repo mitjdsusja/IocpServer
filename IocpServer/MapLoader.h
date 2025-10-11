@@ -4,8 +4,8 @@
 
 enum MapTile {
 
-	WALKABLE = 0,
-	BLOCKED = 1,
+	BLOCKED = 0,
+	WALKABLE = 1,
 };;
 
 struct MapData {

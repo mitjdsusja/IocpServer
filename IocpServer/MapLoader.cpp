@@ -21,7 +21,5 @@ MapData MapLoader::LoadMap(const string& path) {
 
 	spdlog::info("MapLoader::LoadMap - Loaded map: {} ({}x{}, cell size: {})", path, mapData.width, mapData.height, mapData.cellSize);
 
-	file.close();
-
 	return mapData;
 }

@@ -549,6 +549,7 @@ void Room::MovePlayer(uint64 sessionId, const RoomPlayerTransform& roomPlayerTra
 	bool isWalkable = _mapData->IsWalkable(roomPlayerTransform._position._x / 100, roomPlayerTransform._position._z / 100);
 	if (isWalkable == false) {
 
+		spdlog::info("[Room::MovePlayer] NOT WALKABLE POSITION : " + to_string(sessionId) + " pos : " + to_string(roomPlayerTransform._position._x / 100) + ", " + to_string(roomPlayerTransform._position._z / 100));
 		return;
 	}
 
