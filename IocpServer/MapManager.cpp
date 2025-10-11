@@ -3,5 +3,5 @@
 
 void MapManager::InitializeMaps(){
 
-	maps.insert({ 1, mapLoader.LoadMap("NavMeshGrid.bin") });
+	maps.insert({ 1, mapLoader.LoadMap("../mapData/NavMeshGrid.bin") });
 }

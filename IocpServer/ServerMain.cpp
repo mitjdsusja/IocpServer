@@ -34,7 +34,7 @@ int main() {
 
 	SYSTEM_INFO sysInfo;
 	GetSystemInfo(&sysInfo);
-	
+
 	//ServerService* serverService = new ServerService(NetAddress(L"127.0.0.1", 7777), 100);
 	ServerService* serverService = new ServerService(NetAddress(L"192.168.0.14", 7777), 10, []() { return make_shared<GameSession>(nullptr); });
 	PacketHandler::RegisterPacketHandlers();
