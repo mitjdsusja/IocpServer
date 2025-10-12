@@ -25,7 +25,7 @@ struct MapData {
 
 			return false;
 		}
-		spdlog::info("MapData::IsWalkable - World({}, {}) -> Grid({}, {})", worldX, worldZ, gridPoint._x, gridPoint._y);
+		//spdlog::info("MapData::IsWalkable - World({}, {}) -> Grid({}, {})", worldX, worldZ, gridPoint._x, gridPoint._y);
 		int64 index = gridPoint._y * width + gridPoint._x;
 		return grid[index] == WALKABLE;
 	};
