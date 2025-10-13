@@ -14,6 +14,8 @@
 /LogMonitor : Job 처리 시간 모니터링 프로그램 <br>
 /ServerLib : 서버 코어 코드 (네트워크)<br>
 /protobuf : protobuf 파일 <br>
+/MapData : 맵 데이터 <br>
+/MapViewer : 맵 데이터 시각화 프로그램 <br>
 
 ### 사용 기술
 - **언어**: C++
