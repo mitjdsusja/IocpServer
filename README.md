@@ -1,6 +1,7 @@
 # 실시간 게임 서버
 
 시연 영상 : https://youtu.be/UtUiSn3o3l4 <br>
+최신 버전 시연 영상 : https://youtu.be/DS1PhOJrZ1c <br>
 주요 코드 설명 : https://www.notion.so/MMO-26a1e89d067180c493f1c9343960055f?source=copy_link <br>
 
 ### 주요 내용
