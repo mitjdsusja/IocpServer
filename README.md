@@ -38,5 +38,5 @@
 ![Grid 기반 위치 동기화1](./images/Slide15.jpg)
 ![Grid 기반 위치 동기화2](./images/Slide16.jpg)
 ![패킷 분할 전송](./images/패킷분할전송1.jpg)
-![서버 이동 판정](./images/PPT-서버 이동 판정.png)
+![서버 이동 판정](./images/PPT-서버이동판정.png)
 
