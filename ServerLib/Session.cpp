@@ -1,6 +1,8 @@
 ﻿#include "pch.h"
 #include "Session.h"
 #include "PacketHeader.h"
+#include "PacketFrame.h"
+#include "PacketContext.h"
 #include "Service.h"
 
 
@@ -294,19 +296,19 @@ int32 Session::OnRecv(BYTE* recvBuffer, int32 dataSize){
 
 		if (_recvFrameCounts[framePacketId] == totalFrameCount) {
 			
-			vector<BYTE> finalPacket(sizeof(PacketHeader));
+			PacketContext packetContext = {};
 
-			PacketHeader* finalHeader = (PacketHeader*)finalPacket.data();
-			
-			finalHeader->packetId = headerPacketId;
-			finalHeader->packetSize = headerPacketSize;
+			packetContext.header.packetId = headerPacketId;
+			packetContext.header.packetSize = 0;	// 임시 값
 			
 			for (int32 i = 0; i < totalFrameCount; ++i) {
 
 				auto& part = _recvFrames[framePacketId][i];
-				finalPacket.insert(finalPacket.end(), part.begin(), part.end());
+				packetContext.dataVector.insert(packetContext.dataVector.end(), part.begin(), part.end());
 			}
-			OnRecvPacket(finalPacket.data(), finalPacket.size());
+			packetContext.header.packetSize = sizeof(PacketHeader) + (int32)packetContext.dataVector.size();
+
+			OnRecvPacket(packetContext, packetContext.header.packetSize);
 
 			_recvFrames.erase(framePacketId);
 			_recvFrameCounts.erase(framePacketId);

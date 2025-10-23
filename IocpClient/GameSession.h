@@ -8,7 +8,7 @@ public:
 
 	virtual void OnConnect() override;
 	virtual void OnSend(int32 sendBytes) override;
-	virtual void OnRecvPacket(BYTE* recvBuffer, int32 recvBytes) override;
+	virtual void OnRecvPacket(const PacketContext& packetContext, int32 recvBytes) override;
 
 };
 

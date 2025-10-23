@@ -54,6 +54,7 @@
     <ClInclude Include="Mecro.h" />
     <ClInclude Include="NetAddress.h" />
     <ClInclude Include="OverlappedEvent.h" />
+    <ClInclude Include="PacketContext.h" />
     <ClInclude Include="PacketFrame.h" />
     <ClInclude Include="PacketHeader.h" />
     <ClInclude Include="pch.h" />
