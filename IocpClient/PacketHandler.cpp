@@ -39,6 +39,7 @@ void PacketHandler::RegisterPacketHandlers() {
 	-------------*/
 	packetHandleArray[PKT_SC_LOGIN_RESPONSE] = Handle_SC_Login_Response;
 	packetHandleArray[PKT_SC_PONG] = Handle_SC_Pong;
+
 	packetHandleArray[PKT_SC_ROOM_LIST_RESPONSE] = Handle_SC_Room_List_Response;
 	packetHandleArray[PKT_SC_MY_PLAYER_INFO_RESPONSE] = Handle_SC_Player_Info_Response;
 	packetHandleArray[PKT_SC_ROOM_PLAYER_LIST_RESPONSE] = Handle_SC_Player_List_Response;
@@ -141,7 +142,7 @@ void PacketHandler::Handle_SC_Login_Response(shared_ptr<GameSession> session, sh
 	if (recvLoginResponsePacket.success() == true) {
 
 		GPlayerManager->CreatePlayerAndAdd(session, session->GetSessionId());
-		//spdlog::info("[PacketHandler::Handle_SC_Login_Response] Login Success ");
+		spdlog::info("[PacketHandler::Handle_SC_Login_Response] Login Success : bot" + to_string(session->GetSessionId()));
 	}
 	else {
 
@@ -188,6 +189,18 @@ void PacketHandler::Handle_SC_Enter_Room_Response(shared_ptr<GameSession> sessio
 	GPlayerManager->SetEnterRoomId(session->GetSessionId(), roomId);
 	GGameManager->AddEnterPlayerCount();
 	//spdlog::info("Cur Enter Player Count : {}", GGameManager->GetEnteredPlayerCount());
+
+	// Ready to Move
+	{
+		msgTest::CS_Enter_Room_Complete sendPacketEnterRoomComplete;
+		
+		auto sendBuffers = PacketHandler::MakeSendBuffer(sendPacketEnterRoomComplete, PKT_CS_ENTER_ROOM_COMPLETE);
+
+		for (auto& buffer : sendBuffers) {
+
+			session->Send(buffer);
+		}
+	}
 }
 
 void PacketHandler::Handle_SC_Create_Room_Response(shared_ptr<GameSession> session, shared_ptr<Buffer> dataBuffer, Service* serviec) {

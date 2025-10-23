@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "새 프로필",
+    "Projects": [
+      {
+        "Path": "IocpClient\\IocpClient.vcxproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "IocpServer\\IocpServer.vcxproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
