@@ -25,8 +25,7 @@ public:
 
 	shared_ptr<GameSession>& GetOwnerSession() { return _owner; }
 
-public:
-	// 외부에서 절대 사용 금지
+private:
 	void SendData(const shared_ptr<Buffer>& sendBuffer);
 	void UpdateTransform(const PlayerTransform& newPosition);
 
@@ -63,8 +62,7 @@ public:
 
 	void PushJobSetTransform(uint64 sessionId, const PlayerTransform& transform);
 
-public:
-	// 외부에서 절대 사용 금지
+private:
 	void SendData(uint64 sessionId, const shared_ptr<Buffer>& sendBuffer);
 	void CreateAndPushPlayer(const shared_ptr<GameSession>& ownerSession, const PlayerData& playerData);
 	void RemovePlayer(uint64 sessionId);
