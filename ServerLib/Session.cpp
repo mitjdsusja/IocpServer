@@ -116,24 +116,30 @@ void Session::RegisterSend(){
 		}
 	}
 
-	// Packet Header Check
-	/*for (auto& buffer : sendBuffers) {
-
-		PacketHeader* header = (PacketHeader*)buffer->GetBuffer();
-		spdlog::info("[Session::RegisterSend] Send to {} Header ID {} size {} ",GetSessionId(), ntohl(header->packetId), ntohl(header->packetSize));
-	}*/
-
 	_sendEvent._eventStartTimePoint = chrono::steady_clock::now();
 
 	DWORD bytes = 0;
 	if (false == SocketManager::Send(_peerSocket, sendBuffers, &_sendEvent)) {
-		// TODO : failed send data Process 
-		//		  Push SendQueue - RESEND
+		
+		// Send 실패 시 큐에 다시 넣기
+		{
+			lock_guard<mutex> _lock(_sendQueueMutex);
 
-		_sendEvent._sendBuffers.clear();
-		for (int32 i = 0;i < bufferCount;i++) {
-			Send(sendBuffers[i]);
+			// TODO : 
+			// 실패 시 Queue에 Push함.
+			// Push전에 다른 스레드가 Queue에 넣었을 수도 있으므로 순서 주의
+			// Dequeue로 수정하여 front에 붙이도록 수정 필요
+			// 혹은 실패 시 연결 종료
+			for (int32 i = 0; i < bufferCount; i++) {
+				_sendQueue.push(sendBuffers[i]);
+			}
+
+			_sendRegistered = false;
 		}
+		
+		_sendEvent._sendBuffers.clear();
+
+		RegisterSend();
 	}
 }
 
