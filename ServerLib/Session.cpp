@@ -228,99 +228,67 @@ void Session::CleanResource(){
 
 int32 Session::OnRecv(BYTE* recvBuffer, int32 dataSize){
 
-	if (dataSize < sizeof(PacketHeader)) {
-		ASSERT_CRASH(false);
-	}
-
 	int32 processLen = 0;
 
 	while (true) {
 
-		BYTE* buffer = recvBuffer + processLen;
-		// header만큼 recv안됨.
-		if (dataSize - processLen < sizeof(PacketHeader)) {
+		BYTE* cur = recvBuffer + processLen;
+		int32 remainSize = dataSize - processLen;
+
+		// --------데이터 파싱---------
+		PacketHeader::View headerView = {};
+		if (PacketHeader::TryParse(cur, remainSize, headerView) == false)  {
 			break;
 		}
 
-		PacketHeader* header = (PacketHeader*)buffer;
-		int32 headerPacketId = ntohl(header->packetId);
-		int32 headerPacketSize = ntohl(header->packetSize);
+		if (headerView.bodySize < 0) {
+			return -1;	// Disconnect
+		}
 
-		// headerId Error
-		if (headerPacketId < 0) {
-
-			spdlog::info("[Session::OnRecv] HeaderId Error : {}", headerPacketId);
+		PacketFrame::View frameView = {};
+		if(PacketFrame::TryParse(cur + sizeof(PacketHeader), headerView.bodySize, frameView) == false) {
 			break;
 		}
 
-		// 전체 packet이 안옴.
-		if (dataSize - processLen < headerPacketSize) {
-			break;
+		if(frameView.totalFrameCount <= 0 || frameView.frameIndex < 0 || frameView.frameIndex >= frameView.totalFrameCount) {
+			return -1;	// Disconnect
 		}
 
-		// Parse Frame
-		PacketFrame* frame = (PacketFrame*)((BYTE*)header + sizeof(PacketHeader));
+		// ---------Frame 조립---------
+		
+		// 기존에 존재하지 않는 FrameId인 경우 저장소 새로 생성
+		if (_recvFrames.find(frameView.frameId) == _recvFrames.end()) {
 
-		int32 framePacketId = ntohl(frame->packetId);
-		int32 totalFrameCount = ntohl(frame->totalFrameCount);
-		int32 frameIndex = ntohl(frame->frameIndex);
-
-		if (frameIndex < 0 || frameIndex >= totalFrameCount) {
-
-			spdlog::info("[Session:OnRecv] INVALID FRAME  Frame: {} / {}", frameIndex, totalFrameCount);
-			//wcout << "INVALID FRAME  Frame: " << frameIndex << "/" << totalFrameCount << endl;
-			break;
+			_recvFrames[frameView.frameId] = vector<vector<BYTE>>(frameView.totalFrameCount);
+			_recvFrameCounts[frameView.frameId] = 0;
 		}
 
-		// packetSize 최소 길이 검증
-		if (headerPacketSize < sizeof(PacketHeader) + sizeof(PacketFrame)) {
+		vector<BYTE> data(frameView.payload, frameView.payload + frameView.payloadSize);
+		_recvFrames[frameView.frameId][frameView.frameIndex] = std::move(data);
+		_recvFrameCounts[frameView.frameId]++;
 
-			spdlog::error("[Session:OnRecv] Invalid packet size : {}", headerPacketSize);
-			break;
-		}
-
-		BYTE* payload = (BYTE*)(frame + 1);
-		int32 payloadSize = headerPacketSize - sizeof(PacketHeader) - sizeof(PacketFrame);
-
-		// payloadSize 음수, 너무 큼 방지
-		if (payloadSize < 0 || payloadSize >(dataSize - processLen - sizeof(PacketHeader) - sizeof(PacketFrame))) {
-
-			spdlog::error("[Session:OnRecv] Packet : {} {} Invalid payload size : {}", headerPacketId, headerPacketSize, payloadSize);
-			break;
-		}
-
-		vector<BYTE> data(payload, payload + payloadSize);
-
-		if (_recvFrames.find(framePacketId) == _recvFrames.end()) {
-
-			_recvFrames[framePacketId] = vector<vector<BYTE>>(totalFrameCount);
-			_recvFrameCounts[framePacketId] = 0;
-		}
-
-		_recvFrames[framePacketId][frameIndex] = std::move(data);
-		_recvFrameCounts[framePacketId]++;
-
-		if (_recvFrameCounts[framePacketId] == totalFrameCount) {
+		// 모든 frame이 도착한 경우 패킷 조립
+		if (_recvFrameCounts[frameView.frameId] == frameView.totalFrameCount) {
 			
 			PacketContext packetContext = {};
 
-			packetContext.header.packetId = headerPacketId;
+			packetContext.header.packetId = headerView.id;
 			packetContext.header.packetSize = 0;	// 임시 값
 			
-			for (int32 i = 0; i < totalFrameCount; ++i) {
+			for (int32 curFrameIndex = 0; curFrameIndex < frameView.totalFrameCount; ++curFrameIndex) {
 
-				auto& part = _recvFrames[framePacketId][i];
+				auto& part = _recvFrames[frameView.frameId][curFrameIndex];
 				packetContext.dataVector.insert(packetContext.dataVector.end(), part.begin(), part.end());
 			}
-			packetContext.header.packetSize = sizeof(PacketHeader) + (int32)packetContext.dataVector.size();
+			packetContext.header.packetSize = sizeof(PacketHeader) + static_cast<int32>(packetContext.dataVector.size());
 
 			OnRecvPacket(packetContext, packetContext.header.packetSize);
 
-			_recvFrames.erase(framePacketId);
-			_recvFrameCounts.erase(framePacketId);
+			_recvFrames.erase(frameView.frameId);
+			_recvFrameCounts.erase(frameView.frameId);
 		}
 
-		processLen += headerPacketSize;
+		processLen += headerView.size;
 		if (processLen >= dataSize) {
 			break;
 		}
