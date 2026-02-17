@@ -37,6 +37,20 @@ public:
 		return count;
 	}
 
+	bool TryPop(T& item) {
+
+		lock_guard<mutex> lock(_queueMutex);
+
+		if (_items.empty() == true) {
+
+			return false;
+		}
+		item = move(_items.front());
+		_items.pop();
+
+		return true;
+	}
+
 	bool Empty() {
 		
 		lock_guard<mutex> lock(_queueMutex);
