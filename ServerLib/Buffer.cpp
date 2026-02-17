@@ -3,7 +3,7 @@
 
 Buffer::Buffer(uint32 bufferSize) : _capacity(bufferSize){
 
-	_buffer = new BYTE[_capacity];
+	_buffer = new BYTE[bufferSize];
 }
 
 Buffer::~Buffer(){
@@ -16,7 +16,7 @@ Buffer::~Buffer(){
 
 bool Buffer::Write(uint32 writeSize){
 
-	if (_capacity - _writePos < writeSize) {
+	if(_writePos + writeSize > _capacity) {
 		return false;
 	}
 	_writePos += writeSize;

@@ -1,173 +1,158 @@
 ﻿#include "pch.h"
 #include "BufferPool.h"
 
-
-BufferPool::BufferPool(){
-
-	for (int32 i = 0; i < BUFFER_COUNT; i++) {
-		
-		Buffer* buffer = new Buffer(BUFFER_SIZE);
-		buffer->SetOwnerBufferPool(this);
-		_buffers.push_back(buffer);
-	}
-
-	_bufferCount = BUFFER_COUNT;
-	_remainedCount = BUFFER_COUNT;
-}
-
 BufferPool::~BufferPool(){
 
-	for (Buffer* buffer : _buffers) {
-		delete buffer;
-	}
+	for (auto& pair : _pool) {
 
-	_bufferCount = 0;
+		for(Buffer* buffer : pair.second) {
+
+			delete buffer;
+		}
+	}
+	_pool.clear();
 }
 
-Buffer* BufferPool::Pop(){
+Buffer* BufferPool::Pop(uint32 requiredSize){
 
-	if (_buffers.empty() == true) {
-		_bufferCount++;
-		cout << "Total Buffer Count : " << _bufferCount << endl;
-		
-		Buffer* buffer = new Buffer(BUFFER_SIZE);
+	Buffer* buffer = nullptr;
+	const uint32 cap = RoundUpBucket(requiredSize);
+
+	auto& bufferList = _pool[cap];
+	if (bufferList.empty()) {
+
+		buffer = new Buffer(cap);
 		buffer->SetOwnerBufferPool(this);
-		buffer->Clear();
-
-		return buffer;
 	}
-	Buffer* buffer = _buffers.back();
-	_buffers.pop_back();
-	_remainedCount--;
-
-	//spdlog::info("thread({})BufferPool::Pop() TotalBufferCount : {} , RemainedBufferCount : {}", hash<thread::id>{}(this_thread::get_id()), _bufferCount, _remainedCount);
-	//cout << this_thread::get_id() << "<POP> Remained Buffer : " << _remainedCount << endl;
+	else {
+		buffer = bufferList.back();
+		bufferList.pop_back();
+	}
 	buffer->Clear();
+
 	return buffer;
 }
 
-void BufferPool::Push(Buffer* buffer){
+void BufferPool::Push(Buffer* buffer) {
 
 	buffer->Clear();
-	_buffers.push_back(buffer);
-	_remainedCount++;
-
-	//spdlog::info("thread({})BufferPool::Push() TotalBufferCount : {} , RemainedBufferCount : {}", hash<thread::id>{}(this_thread::get_id()), _bufferCount, _remainedCount);
-	//cout << this_thread::get_id() << "<PUSH> Remained Buffer : " << _remainedCount << endl;
-}
-
-LockBufferPool::LockBufferPool(){
-
-	for (int32 i = 0; i < BUFFER_COUNT; i++) {
-
-		Buffer* buffer = new Buffer(BUFFER_SIZE);
-		buffer->SetOwnerBufferPool(this);
-		_buffers.push_back(buffer);
-	}
-	_bufferCount = BUFFER_COUNT;
-	_remainedCount = BUFFER_COUNT;
+	_pool[buffer->Capacity()].push_back(buffer);
 }
 
 LockBufferPool::~LockBufferPool(){
 
-	for (Buffer* buffer : _buffers) {
-		delete buffer;
-	}
+	lock_guard<mutex> lock(_poolMutex);
 
-	_bufferCount = 0;
+	for (auto& pair : _pool) {
+
+		for (Buffer* buffer : pair.second) {
+
+			delete buffer;
+		}
+	}
+	_pool.clear();
 }
 
-Buffer* LockBufferPool::Pop(){
+Buffer* LockBufferPool::Pop(uint32 requiredSize){
 
-	lock_guard<mutex> lock(_buffersMutex);
+	Buffer* buffer = nullptr;
+	const uint32 cap = RoundUpBucket(requiredSize);
 
-	if (_buffers.empty() == true) {
-		_bufferCount++;
-		spdlog::info("Total Buffer Count : {}", _bufferCount);
-		//cout << "Total Buffer Count : " << _bufferCount << endl;
-		
-		Buffer* buffer = new Buffer(BUFFER_SIZE);
-		buffer->SetOwnerBufferPool(this);
+	{
+		lock_guard<mutex> lock(_poolMutex);
+
+		auto& bufferList = _pool[cap];
+		if (bufferList.empty()) {
+
+			buffer = new Buffer(cap);
+			buffer->SetOwnerBufferPool(this);
+		}
+		else {
+			buffer = bufferList.back();
+			bufferList.pop_back();
+		}
 		buffer->Clear();
-
-		return buffer;
 	}
-	Buffer* buffer = _buffers.back();
-	_buffers.pop_back();
-	_remainedCount--;
 
-	//spdlog::info("Pop - Remained BUFFER Count : {}", _remainedCount);
-	//cout << this_thread::get_id() << "<POP> Remained Buffer : " << _remainedCount << endl;
-	buffer->Clear();
 	return buffer;
 }
 
 void LockBufferPool::Push(Buffer* buffer){
 
-	lock_guard<mutex> lock(_buffersMutex);
-
 	buffer->Clear();
-	_buffers.push_back(buffer);
-	_remainedCount++;
 
-	//spdlog::info("Push - Remained BUFFER Count : {}", _remainedCount);
+	{
+		lock_guard<mutex> lock(_poolMutex);
 
-	//cout << this_thread::get_id() << "<PUSH> Remained Buffer : " << _remainedCount << endl;
-}
-
-ThreadLocalBufferPool::ThreadLocalBufferPool(){
-
-	for (int32 i = 0; i < BUFFER_COUNT; i++) {
-
-		Buffer* buffer = new Buffer(BUFFER_SIZE);
-		buffer->SetOwnerBufferPool(this);
-		_buffers.push_back(buffer);
+		_pool[buffer->Capacity()].push_back(buffer);
 	}
-
-	_bufferCount = BUFFER_COUNT;
-	_remainedCount = BUFFER_COUNT;
 }
 
 ThreadLocalBufferPool::~ThreadLocalBufferPool(){
 
-	for (Buffer* buffer : _buffers) {
-		delete buffer;
-	}
+	for (auto& pair : _pool) {
 
-	_bufferCount = 0;
+		for (Buffer* buffer : pair.second) {
+
+			delete buffer;
+		}
+	}
+	_pool.clear();
+
+	vector<Buffer*> buffers;
+	int32 count = _bufferReturnQueue.PopAll(buffers);
+	for(int32 i =0; i < buffers.size(); i++) {
+
+		if(buffers[i] != nullptr) {
+
+			delete buffers[i];
+		}
+	}	
+	buffers.clear();
 }
 
-Buffer* ThreadLocalBufferPool::Pop(){
+Buffer* ThreadLocalBufferPool::Pop(uint32 requiredSize){
 
-	// 버퍼가 없으면 반환된 버퍼큐에서 먼저 흡수
-	if (_buffers.empty() == true) {
+	uint32 cap = RoundUpBucket(requiredSize);
+
+	// 남은 버퍼가 없으면 반환된 버퍼큐에서 먼저 흡수
+	if (_pool.empty() == true) {
 	
-		_remainedCount += _bufferReturnQueue.PopAll(_buffers);
+		DrainReturnQueue();
 	}
 
+	Buffer* buffer = nullptr;
 	// 하나도 없으면 생성
-	if (_buffers.empty() == true) {
+	if (_pool.empty() == true) {
 
-		_bufferCount++;
-		cout << "Total Buffer Count : " << _bufferCount << endl;
-
-		Buffer* buffer = new Buffer(BUFFER_SIZE);
+		buffer = new Buffer(cap);
 		buffer->SetOwnerBufferPool(this);
-		buffer->Clear();
 
 		return buffer;
 	}
-	Buffer* buffer = _buffers.back();
-	_buffers.pop_back();
-	_remainedCount--;
-
-	//spdlog::info("thread({})BufferPool::Pop() TotalBufferCount : {} , RemainedBufferCount : {}", hash<thread::id>{}(this_thread::get_id()), _bufferCount, _remainedCount);
-	//cout << this_thread::get_id() << "<POP> Remained Buffer : " << _remainedCount << endl;
+	else {
+		buffer = _pool[cap].back();
+		_pool[cap].pop_back();
+	}
 	buffer->Clear();
+
 	return buffer;
 }
 
 void ThreadLocalBufferPool::Push(Buffer* buffer){
 
+	buffer->Clear();
 	_bufferReturnQueue.Push(buffer);
+}
+
+void ThreadLocalBufferPool::DrainReturnQueue(){
+
+	vector<Buffer*> buffers;
+	int32 bufferCount = _bufferReturnQueue.PopAll(buffers);
+
+	for(int i=0; i < bufferCount; i++) {
+
+		Buffer* buffer = buffers[i];
+		_pool[buffer->Capacity()].push_back(buffer);
+	}
 }

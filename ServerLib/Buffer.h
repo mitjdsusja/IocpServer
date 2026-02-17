@@ -18,7 +18,7 @@ public:
 	void ReturnToOwner();
 
 private:
-	BYTE* _buffer;
+	BYTE* _buffer = nullptr;
 
 	uint32 _capacity = 0;
 	uint32 _writePos = 0;
