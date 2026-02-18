@@ -55,3 +55,4 @@ struct PacketFrame {
 		return true;
 	}
 };
+#pragma pack(pop)

@@ -7,6 +7,7 @@
 #include "GameManager.h"
 
 #include "messageTest.pb.h"
+#include <random>
 
 const float MAP_MIN_X = -20.0f;
 const float MAP_MAX_X = 20.0f;
