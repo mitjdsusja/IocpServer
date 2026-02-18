@@ -2,7 +2,6 @@
 #include <functional>
 #include "PacketHeader.h"
 #include "PacketFrame.h"
-#include "PacketContext.h"
 #include "GameSession.h"
 
 enum PacketId {
@@ -57,48 +56,48 @@ enum PacketId {
 
 };
 
-static function<void(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* service)> packetHandleArray[UINT16_MAX];
+static function<void(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* service)> packetHandleArray[UINT16_MAX];
 
 class PacketHandler {
 public:
 	static void RegisterPacketHandlers();
 public:
-	static void HandlePacket(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* service);
+	static void HandlePacket(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* service);
 
 	template<typename T>
 	static shared_ptr<Buffer> MakeSendBuffer(const T& packet, PacketId packetId);
 
 private:
-	static void Handle_Invalid(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* service);
+	static void Handle_Invalid(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* service);
 
 	/*------------
 		C -> S
 	-------------*/
 	// static void Handle_CS_(shared_ptr<Session> session, shared_ptr<Buffer> dataBuffer, Service* service);
-	static void Handle_CS_Ping(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* service);
-	static void Handle_CS_Login_Request(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* service);
-	static void Handle_CS_Room_List_Request(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* service);
-	static void Handle_CS_Player_Info_Request(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* service);
-	static void Handle_CS_Room_Player_List_Request(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* service);
-	static void Handle_CS_Create_Room_Request(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* service);
-	static void Handle_CS_Enter_Room_Request(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* service);
-	static void Handle_CS_Player_Move_Request(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* service);
+	static void Handle_CS_Ping(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* service);
+	static void Handle_CS_Login_Request(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* service);
+	static void Handle_CS_Room_List_Request(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* service);
+	static void Handle_CS_Player_Info_Request(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* service);
+	static void Handle_CS_Room_Player_List_Request(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* service);
+	static void Handle_CS_Create_Room_Request(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* service);
+	static void Handle_CS_Enter_Room_Request(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* service);
+	static void Handle_CS_Player_Move_Request(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* service);
 
 	/*------------
 		S -> C
 	-------------*/
-	static void Handle_SC_Pong(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* service);
-	static void Handle_SC_Login_Response(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* service);
-	static void Handle_SC_Room_List_Response(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* service);
-	static void Handle_SC_Player_Info_Response(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* service);
-	static void Handle_SC_Player_List_Response(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* service);
-	static void Handle_SC_Enter_Room_Response(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* service);
-	static void Handle_SC_Create_Room_Response(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* serviec);
-	static void Handle_SC_Player_Enter_Room_Notification(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* serviec);
-	static void Handle_SC_Player_Move_Notification(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* serviec);
-	static void Handle_SC_Player_List_In_Grid(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* serviec);
-	static void Handle_SC_Player_Leave_Grid_Notification(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* serviec);
-	static void Handle_SC_Player_Enter_Grid_Notification(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* serviec);
+	static void Handle_SC_Pong(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* service);
+	static void Handle_SC_Login_Response(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* service);
+	static void Handle_SC_Room_List_Response(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* service);
+	static void Handle_SC_Player_Info_Response(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* service);
+	static void Handle_SC_Player_List_Response(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* service);
+	static void Handle_SC_Enter_Room_Response(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* service);
+	static void Handle_SC_Create_Room_Response(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* serviec);
+	static void Handle_SC_Player_Enter_Room_Notification(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* serviec);
+	static void Handle_SC_Player_Move_Notification(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* serviec);
+	static void Handle_SC_Player_List_In_Grid(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* serviec);
+	static void Handle_SC_Player_Leave_Grid_Notification(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* serviec);
+	static void Handle_SC_Player_Enter_Grid_Notification(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* serviec);
 };
 
 template<typename T>

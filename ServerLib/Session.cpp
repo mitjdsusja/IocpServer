@@ -2,7 +2,6 @@
 #include "Session.h"
 #include "PacketHeader.h"
 #include "PacketFrame.h"
-#include "PacketContext.h"
 #include "Service.h"
 
 
@@ -245,48 +244,7 @@ int32 Session::OnRecv(BYTE* recvBuffer, int32 dataSize){
 			return -1;	// Disconnect
 		}
 
-		PacketFrame::View frameView = {};
-		if(PacketFrame::TryParse(cur + sizeof(PacketHeader), headerView.bodySize, frameView) == false) {
-			break;
-		}
-
-		if(frameView.totalFrameCount <= 0 || frameView.frameIndex < 0 || frameView.frameIndex >= frameView.totalFrameCount) {
-			return -1;	// Disconnect
-		}
-
-		// ---------Frame 조립---------
-		
-		// 기존에 존재하지 않는 FrameId인 경우 저장소 새로 생성
-		if (_recvFrames.find(frameView.frameId) == _recvFrames.end()) {
-
-			_recvFrames[frameView.frameId] = vector<vector<BYTE>>(frameView.totalFrameCount);
-			_recvFrameCounts[frameView.frameId] = 0;
-		}
-
-		vector<BYTE> data(frameView.payload, frameView.payload + frameView.payloadSize);
-		_recvFrames[frameView.frameId][frameView.frameIndex] = std::move(data);
-		_recvFrameCounts[frameView.frameId]++;
-
-		// 모든 frame이 도착한 경우 패킷 조립
-		if (_recvFrameCounts[frameView.frameId] == frameView.totalFrameCount) {
-			
-			PacketContext packetContext = {};
-
-			packetContext.header.packetId = headerView.id;
-			packetContext.header.packetSize = 0;	// 임시 값
-			
-			for (int32 curFrameIndex = 0; curFrameIndex < frameView.totalFrameCount; ++curFrameIndex) {
-
-				auto& part = _recvFrames[frameView.frameId][curFrameIndex];
-				packetContext.dataVector.insert(packetContext.dataVector.end(), part.begin(), part.end());
-			}
-			packetContext.header.packetSize = sizeof(PacketHeader) + static_cast<int32>(packetContext.dataVector.size());
-
-			OnRecvPacket(packetContext, packetContext.header.packetSize);
-
-			_recvFrames.erase(frameView.frameId);
-			_recvFrameCounts.erase(frameView.frameId);
-		}
+		OnRecvPacket(headerView, headerView.size);
 
 		processLen += headerView.size;
 		if (processLen >= dataSize) {

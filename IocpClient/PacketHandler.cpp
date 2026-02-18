@@ -52,14 +52,14 @@ void PacketHandler::RegisterPacketHandlers() {
 	packetHandleArray[PKT_SC_PLAYER_ENTER_GRID_NOTIFICATION] = Handle_SC_Player_Enter_Grid_Notification;
 }
 
-void PacketHandler::HandlePacket(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* service) {
+void PacketHandler::HandlePacket(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* service) {
 
-	packetHandleArray[packetContext.header.packetId](session, packetContext, service);
+	packetHandleArray[packetHeaderView.id](session, packetHeaderView, service);
 }
 
-void PacketHandler::Handle_Invalid(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* service) {
+void PacketHandler::Handle_Invalid(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* service) {
 
-	spdlog::info("[PacketHandler::Handle_Invalid] INVALID PACKET - packetId : {}", packetContext.header.packetId);
+	spdlog::info("[PacketHandler::Handle_Invalid] INVALID PACKET - packetId : {}", packetHeaderView.id);
 }
 
 
@@ -68,28 +68,28 @@ void PacketHandler::Handle_Invalid(shared_ptr<GameSession> session, const Packet
 /*------------
 	C -> S
 -------------*/
-void PacketHandler::Handle_CS_Ping(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* service) {
+void PacketHandler::Handle_CS_Ping(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* service) {
 }
 
-void PacketHandler::Handle_CS_Login_Request(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* service) {
+void PacketHandler::Handle_CS_Login_Request(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* service) {
 }
 
-void PacketHandler::Handle_CS_Room_List_Request(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* service) {
+void PacketHandler::Handle_CS_Room_List_Request(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* service) {
 }
 
-void PacketHandler::Handle_CS_Player_Info_Request(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* service) {
+void PacketHandler::Handle_CS_Player_Info_Request(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* service) {
 }
 
-void PacketHandler::Handle_CS_Room_Player_List_Request(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* service) {
+void PacketHandler::Handle_CS_Room_Player_List_Request(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* service) {
 }
 
-void PacketHandler::Handle_CS_Create_Room_Request(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* service) {
+void PacketHandler::Handle_CS_Create_Room_Request(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* service) {
 }
 
-void PacketHandler::Handle_CS_Enter_Room_Request(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* service) {
+void PacketHandler::Handle_CS_Enter_Room_Request(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* service) {
 }
 
-void PacketHandler::Handle_CS_Player_Move_Request(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* service) {
+void PacketHandler::Handle_CS_Player_Move_Request(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* service) {
 }
 
 
@@ -97,10 +97,10 @@ void PacketHandler::Handle_CS_Player_Move_Request(shared_ptr<GameSession> sessio
 /*------------
 	S -> C
 -------------*/
-void PacketHandler::Handle_SC_Pong(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* service) {
+void PacketHandler::Handle_SC_Pong(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* service) {
 
 	msgTest::SC_Pong recvPacketPong;
-	recvPacketPong.ParseFromArray(packetContext.GetDataPtr(), packetContext.GetDataSize());
+	recvPacketPong.ParseFromArray(packetHeaderView.body, packetHeaderView.bodySize);
 
 	uint64 pingSendTime = recvPacketPong.timestamp();
 	uint64 serverTimestampMs = recvPacketPong.servertimestamp();
@@ -120,10 +120,10 @@ void PacketHandler::Handle_SC_Pong(shared_ptr<GameSession> session, const Packet
 	spdlog::info("RTT : {}, Cur ServerTime: {}", rtt, GGameManager->GetNowServerTimeMs());
 }
 
-void PacketHandler::Handle_SC_Login_Response(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* service) {
+void PacketHandler::Handle_SC_Login_Response(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* service) {
 
 	msgTest::SC_Login_Response recvLoginResponsePacket;
-	recvLoginResponsePacket.ParseFromArray(packetContext.GetDataPtr(), packetContext.GetDataSize());
+	recvLoginResponsePacket.ParseFromArray(packetHeaderView.body, packetHeaderView.bodySize);
 
 	if (recvLoginResponsePacket.success() == true) {
 
@@ -136,10 +136,10 @@ void PacketHandler::Handle_SC_Login_Response(shared_ptr<GameSession> session, co
 	}
 }
 
-void PacketHandler::Handle_SC_Room_List_Response(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* service) {
+void PacketHandler::Handle_SC_Room_List_Response(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* service) {
 
 	msgTest::SC_Room_List_Response recvRoomListResponse;
-	recvRoomListResponse.ParseFromArray(packetContext.GetDataPtr(), packetContext.GetDataSize());
+	recvRoomListResponse.ParseFromArray(packetHeaderView.body, packetHeaderView.bodySize);
 
 	vector<RoomInfo> roomList(recvRoomListResponse.roomlist_size());
 	spdlog::info("Recv Room List : {}", recvRoomListResponse.roomlist_size());
@@ -153,20 +153,20 @@ void PacketHandler::Handle_SC_Room_List_Response(shared_ptr<GameSession> session
 	GGameManager->SetEnterableRoomList(roomList);
 }
 
-void PacketHandler::Handle_SC_Player_Info_Response(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* service) {
+void PacketHandler::Handle_SC_Player_Info_Response(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* service) {
 
 
 }
 
-void PacketHandler::Handle_SC_Player_List_Response(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* service) {
+void PacketHandler::Handle_SC_Player_List_Response(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* service) {
 
 
 }
 
-void PacketHandler::Handle_SC_Enter_Room_Response(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* service) {
+void PacketHandler::Handle_SC_Enter_Room_Response(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* service) {
 
 	msgTest::SC_Enter_Room_Response recvPacketEnterRoomResponse;
-	recvPacketEnterRoomResponse.ParseFromArray(packetContext.GetDataPtr(), packetContext.GetDataSize());
+	recvPacketEnterRoomResponse.ParseFromArray(packetHeaderView.body, packetHeaderView.bodySize);
 	
 	msgTest::Room room = recvPacketEnterRoomResponse.room();
 	int32 roomId = room.roomid();
@@ -186,10 +186,10 @@ void PacketHandler::Handle_SC_Enter_Room_Response(shared_ptr<GameSession> sessio
 	}
 }
 
-void PacketHandler::Handle_SC_Create_Room_Response(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* serviec) {
+void PacketHandler::Handle_SC_Create_Room_Response(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* serviec) {
 
 	msgTest::SC_Create_Room_Response recvPacketCreateRoomResponse;
-	recvPacketCreateRoomResponse.ParseFromArray(packetContext.GetDataPtr(), packetContext.GetDataSize());
+	recvPacketCreateRoomResponse.ParseFromArray(packetHeaderView.body, packetHeaderView.bodySize);
 
 	bool success = recvPacketCreateRoomResponse.success();
 
@@ -205,22 +205,22 @@ void PacketHandler::Handle_SC_Create_Room_Response(shared_ptr<GameSession> sessi
 	GGameManager->_createRoomPlayerSessionCount.fetch_add(1);
 }
 
-void PacketHandler::Handle_SC_Player_Enter_Room_Notification(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* serviec) {
+void PacketHandler::Handle_SC_Player_Enter_Room_Notification(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* serviec) {
 
 }
 
-void PacketHandler::Handle_SC_Player_Move_Notification(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* serviec) {
+void PacketHandler::Handle_SC_Player_Move_Notification(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* serviec) {
 
 }
 
-void PacketHandler::Handle_SC_Player_List_In_Grid(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* serviec) {
+void PacketHandler::Handle_SC_Player_List_In_Grid(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* serviec) {
 
 }
 
-void PacketHandler::Handle_SC_Player_Leave_Grid_Notification(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* serviec){
+void PacketHandler::Handle_SC_Player_Leave_Grid_Notification(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* serviec){
 
 }
 
-void PacketHandler::Handle_SC_Player_Enter_Grid_Notification(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* serviec) {
+void PacketHandler::Handle_SC_Player_Enter_Grid_Notification(shared_ptr<GameSession> session, const PacketHeader::View& packetHeaderView, Service* serviec) {
 
 }

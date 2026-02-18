@@ -22,9 +22,9 @@ void GameSession::OnSend(int32 sendBytes){
 	// cout << "Send : " << sendBytes << endl;
 }
 
-void GameSession::OnRecvPacket(const PacketContext& packetContext, int32 recvBytes){
+void GameSession::OnRecvPacket(const PacketHeader::View& packetHeaderView, int32 recvBytes){
 
-	PacketHandler::HandlePacket(static_pointer_cast<GameSession>(shared_from_this()), packetContext, GetOwner());
+	PacketHandler::HandlePacket(static_pointer_cast<GameSession>(shared_from_this()), packetHeaderView, GetOwner());
 }
 
 void GameSession::OnDisconnect(){

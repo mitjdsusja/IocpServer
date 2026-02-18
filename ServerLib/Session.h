@@ -1,6 +1,6 @@
 #pragma once
 #include "SocketEntity.h"
-#include "PacketContext.h"
+#include "PacketHeader.h"
 
 class Service;
 
@@ -35,7 +35,7 @@ public:
 	int32 OnRecv(BYTE* recvBuffer, int32 dataSize);
 	virtual void OnConnect() {};
 	virtual void OnSend(int32 sendBytes) {}
-	virtual void OnRecvPacket(const PacketContext& recvPacketContext, int32 recvBytes) { ErrorHandler::HandleError(L"Session OnRecvPacket()"); };
+	virtual void OnRecvPacket(const PacketHeader::View& recvPacketHeader, int32 recvBytes) { ErrorHandler::HandleError(L"Session OnRecvPacket()"); };
 	virtual void OnDisconnect() {};
 
 private:

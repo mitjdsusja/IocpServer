@@ -116,14 +116,14 @@ Buffer* ThreadLocalBufferPool::Pop(uint32 requiredSize){
 	uint32 cap = RoundUpBucket(requiredSize);
 
 	// 남은 버퍼가 없으면 반환된 버퍼큐에서 먼저 흡수
-	if (_pool.empty() == true) {
+	if (_pool[cap].empty() == true) {
 	
 		DrainReturnQueue();
 	}
 
 	Buffer* buffer = nullptr;
 	// 하나도 없으면 생성
-	if (_pool.empty() == true) {
+	if (_pool[cap].empty() == true) {
 
 		buffer = new Buffer(cap);
 		buffer->SetOwnerBufferPool(this);
