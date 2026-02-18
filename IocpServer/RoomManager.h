@@ -15,10 +15,9 @@ public:
 	Room(const InitRoomInfo& initRoomInfo, const RoomPlayerData& hostPlayerData);
 	~Room();
 
-	void PushJobBroadcast(shared_ptr<Buffer> sendBuffer);
-	void PushJobBroadcast(const vector<shared_ptr<Buffer>>& sendBuffer);
+	void PushJobBroadcast(const shared_ptr<Buffer>& sendBuffer);
 	void PushJobBroadcastPosition();
-	void PushJobBroadcastNearByPlayer(uint64 sessionId, const vector<shared_ptr<Buffer>>& sendBuffer);
+	void PushJobBroadcastNearByPlayer(uint64 sessionId, const shared_ptr<Buffer>& sendBuffer);
 	void PushJobRegisterBroadcastPosition();
 	void PushJobRegisterBroadcastPlayerInGrid();
 
@@ -39,7 +38,6 @@ public:
 
 public:
 	void Broadcast(const shared_ptr<Buffer>& sendBuffer);
-	void Broadcast(const vector<shared_ptr<Buffer>>& sendBuffer);
 	void BroadcastPlayerLeaveGrid(uint64 sessionId, const vector<uint64>& playersToNotify);
 	void BroadcastPlayerEnterGrid(uint64 sessionId, const vector<uint64>& playersToNotify);
 	void BroadcastPlayerMovement();
@@ -94,7 +92,7 @@ public:
 	void PushJobEnterRoomResult(const RoomResult::EnterRoomResult& enterRoomResult);
 	void PushJobSkillUseResult(const RoomResult::SkillUseResult& skillUseResult);
 
-	void BroadcastToRoom(int32 roomId, const vector<shared_ptr<Buffer>>& sendBuffer);
+	void BroadcastToRoom(int32 roomId, const shared_ptr<Buffer>& sendBuffer);
 
 public:
 	int32 CreateAndPushRoom(const InitRoomInfo& initRoomInfo, const RoomPlayerData& hostPlayerData);

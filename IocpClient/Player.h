@@ -29,7 +29,7 @@ public:
 	Player(const shared_ptr<Session>& owner);
 
 	void RandomMove();
-	void SendData(const vector<shared_ptr<Buffer>>& sendBuffer);
+	void SendData(const shared_ptr<Buffer>& sendBuffer);
 
 	uint64 GetSessionId();
 	PlayerData GetPlayerInfo();
@@ -55,7 +55,7 @@ public:
 	void AllPlayerRandomMove();
 	void AllPlayerSendMovePacket();
 	void SendPingPacketToFirstPlayer();
-	void SendMsg(uint64 userId, vector<shared_ptr<Buffer>> sendBuffers);
+	void SendMsg(uint64 userId, shared_ptr<Buffer> sendBuffer);
 
 	uint32 GetPlayerCount() { return _playerCount; }
 

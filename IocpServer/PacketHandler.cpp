@@ -88,12 +88,9 @@ void PacketHandler::Handle_CS_Ping(shared_ptr<GameSession> session, const Packet
 	sendPongPacket.set_timestamp(recvPingPacket.timestamp());
 	sendPongPacket.set_servertimestamp(serverTimestamp);
 
-	vector<shared_ptr<Buffer>> sendBuffer = MakeSendBuffer(sendPongPacket, PacketId::PKT_SC_PONG);
+	shared_ptr<Buffer> sendBuffer = MakeSendBuffer(sendPongPacket, PacketId::PKT_SC_PONG);
 	
-	for (auto& buffer : sendBuffer) {
-		session->Send(buffer);
-	}
-	//GPlayerManager->PushJobSendData(session->GetSessionId(), sendBuffer);
+	session->Send(sendBuffer);
 }
 
 void PacketHandler::Handle_CS_Login_Request(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* service) {
@@ -175,7 +172,7 @@ void PacketHandler::Handle_CS_Login_Request(shared_ptr<GameSession> session, con
 		sendLoginResponsePacket.set_success(false);
 		sendLoginResponsePacket.set_errormessage(errorMessage);
 	}
-	vector<shared_ptr<Buffer>> sendBuffer = PacketHandler::MakeSendBuffer(sendLoginResponsePacket, PacketId::PKT_SC_LOGIN_RESPONSE);
+	shared_ptr<Buffer> sendBuffer = PacketHandler::MakeSendBuffer(sendLoginResponsePacket, PacketId::PKT_SC_LOGIN_RESPONSE);
 	
 	GPlayerManager->PushJobSendData(session->GetSessionId(), sendBuffer);
 }
@@ -197,7 +194,7 @@ void PacketHandler::Handle_CS_Room_List_Request(shared_ptr<GameSession> session,
 			room->set_hostname(hostPlayerName);
 		}
 
-		vector<shared_ptr<Buffer>> sendBuffer = PacketHandler::MakeSendBuffer(roomListResponsePacket, PacketId::PKT_SC_ROOM_LIST_RESPONSE);
+		shared_ptr<Buffer> sendBuffer = PacketHandler::MakeSendBuffer(roomListResponsePacket, PacketId::PKT_SC_ROOM_LIST_RESPONSE);
 		
 		GPlayerManager->PushJobSendData(session->GetSessionId(), sendBuffer);
 	});
@@ -241,7 +238,7 @@ void PacketHandler::Handle_CS_Player_Info_Request(shared_ptr<GameSession> sessio
 			stats->set_maxexp(playerData._stats._maxExp);
 			// 나머지 스탯은 추후에
 
-			vector<shared_ptr<Buffer>> sendBuffer = MakeSendBuffer(sendPlayerInfoResponsePacket, PacketId::PKT_SC_MY_PLAYER_INFO_RESPONSE);
+			shared_ptr<Buffer> sendBuffer = MakeSendBuffer(sendPlayerInfoResponsePacket, PacketId::PKT_SC_MY_PLAYER_INFO_RESPONSE);
 
 			GPlayerManager->PushJobSendData(sessionId, sendBuffer);
 		}
@@ -279,7 +276,7 @@ void PacketHandler::Handle_CS_Room_Player_List_Request(shared_ptr<GameSession> s
 			// 나머지 스탯은 추후에
 		}
 
-		vector<shared_ptr<Buffer>> sendBuffer = MakeSendBuffer(sendRoomPlayerListResponsePacket, PacketId::PKT_SC_ROOM_PLAYER_LIST_RESPONSE);
+		shared_ptr<Buffer> sendBuffer = MakeSendBuffer(sendRoomPlayerListResponsePacket, PacketId::PKT_SC_ROOM_PLAYER_LIST_RESPONSE);
 
 		GPlayerManager->PushJobSendData(session->GetSessionId(), sendBuffer);
 	});

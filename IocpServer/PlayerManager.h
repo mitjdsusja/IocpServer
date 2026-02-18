@@ -50,7 +50,6 @@ public:
 	~PlayerManager();
 
 	void PushJobSendData(uint64 sessionId, const shared_ptr<Buffer>& sendBuffer);
-	void PushJobSendData(uint64 sessionId, const vector<shared_ptr<Buffer>>& sendBuffer);
 	void PushJobCreateAndPushPlayer(const shared_ptr<GameSession>& ownerSession, const PlayerData& playerData);
 	void PushJobRemovePlayer(uint64 sessionId);
 

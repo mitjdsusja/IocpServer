@@ -24,12 +24,9 @@ void DummyClientService::LoginAllSession(){
 		
 		spdlog::info("Request Login : bot{}", to_string(session->GetSessionId() + 1));
 
-		const vector<shared_ptr<Buffer>> sendBuffer = PacketHandler::MakeSendBuffer(sendPacketLoginrequest, PacketId::PKT_CS_LOGIN_REQUEST);
+		const shared_ptr<Buffer> sendBuffer = PacketHandler::MakeSendBuffer(sendPacketLoginrequest, PacketId::PKT_CS_LOGIN_REQUEST);
 
-		for (auto& buffer : sendBuffer) {
-
-			session->Send(buffer);
-		}
+		session->Send(sendBuffer);
 	}
 }
 

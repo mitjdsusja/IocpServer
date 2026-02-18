@@ -58,8 +58,6 @@ private:
 
 	queue<shared_ptr<Buffer>> _sendQueue;
 	RecvBuffer* _recvBuffer = nullptr;
-	map<int32, vector<vector<BYTE>>> _recvFrames;
-	map<int32, int32> _recvFrameCounts;
 
 	atomic<bool> _isConnected = true;
 	bool _sendRegistered = false;

@@ -180,12 +180,9 @@ void PacketHandler::Handle_SC_Enter_Room_Response(shared_ptr<GameSession> sessio
 	{
 		msgTest::CS_Enter_Room_Complete sendPacketEnterRoomComplete;
 		
-		auto sendBuffers = PacketHandler::MakeSendBuffer(sendPacketEnterRoomComplete, PKT_CS_ENTER_ROOM_COMPLETE);
+		auto sendBuffer = PacketHandler::MakeSendBuffer(sendPacketEnterRoomComplete, PKT_CS_ENTER_ROOM_COMPLETE);
 
-		for (auto& buffer : sendBuffers) {
-
-			session->Send(buffer);
-		}
+		session->Send(sendBuffer);
 	}
 }
 

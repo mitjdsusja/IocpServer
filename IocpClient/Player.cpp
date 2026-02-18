@@ -76,12 +76,9 @@ void Player::RandomMove() {
 	_playerInfo._position._z = newZ;
 }
 
-void Player::SendData(const vector<shared_ptr<Buffer>>& sendBuffer) {
+void Player::SendData(const shared_ptr<Buffer>& sendBuffer) {
 
-	for (auto& buffer : sendBuffer) {
-
-		_owner->Send(buffer);
-	}
+	_owner->Send(sendBuffer);
 }
 
 uint64 Player::GetSessionId() {
@@ -125,9 +122,8 @@ void PlayerManager::RequestRoomList(){
 	const auto& iter = _players.begin();
 	auto& playerRef = iter->second;
 
-	vector<shared_ptr<Buffer>> buffer = PacketHandler::MakeSendBuffer(sendPacketRoomListRequest, PacketId::PKT_CS_ROOM_LIST_REQUEST);
-	//spdlog::info("Buffer : {}", buffer.size());
-	playerRef->SendData(buffer);
+	shared_ptr<Buffer> sendBuffer = PacketHandler::MakeSendBuffer(sendPacketRoomListRequest, PacketId::PKT_CS_ROOM_LIST_REQUEST);
+	playerRef->SendData(sendBuffer);
 }
 
 void PlayerManager::RequestEnterRoom(uint64 sessionId, uint32 roomId) {
@@ -168,12 +164,12 @@ void PlayerManager::AllPlayerRequestEnterRoom(uint32 roomId){
 	msgTest::CS_Enter_Room_Request sendPacketEnterRoomReqeust;
 	sendPacketEnterRoomReqeust.set_roomid(roomId);
 
-	vector<shared_ptr<Buffer>> sendBuffers = PacketHandler::MakeSendBuffer(sendPacketEnterRoomReqeust, PacketId::PKT_CS_ENTER_ROOM_REQUEST);
+	shared_ptr<Buffer> sendBuffer = PacketHandler::MakeSendBuffer(sendPacketEnterRoomReqeust, PacketId::PKT_CS_ENTER_ROOM_REQUEST);
 
 	for (auto& p : _players) {
 		auto& player = p.second;
 
-		player->SendData(sendBuffers);
+		player->SendData(sendBuffer);
 	}
 }
 
@@ -214,9 +210,9 @@ void PlayerManager::AllPlayerSendMovePacket(){
 		//spdlog::info("Send bot{} roomId{} Position ({},{},{}), MoveTime : {}", to_string(player->GetSessionId()), playerInfo._enterRoomId, playerInfo._position._x, playerInfo._position._y, playerInfo._position._z, GGameManager->GetNowServerTimeMs());
 		moveState->set_timestamp(GGameManager->GetNowServerTimeMs());
 
-		vector<shared_ptr<Buffer>> sendBuffers = PacketHandler::MakeSendBuffer(sendPacketPlayerMoveRequest, PacketId::PKT_CS_PLAYER_MOVE_REQUEST);
+		shared_ptr<Buffer> sendBuffer = PacketHandler::MakeSendBuffer(sendPacketPlayerMoveRequest, PacketId::PKT_CS_PLAYER_MOVE_REQUEST);
 
-		player->SendData(sendBuffers);
+		player->SendData(sendBuffer);
 	}
 }
 
@@ -234,12 +230,12 @@ void PlayerManager::SendPingPacketToFirstPlayer() {
 	uint64 timestamp = GGameManager->GetNowClientTimeMs();
 	sendPacketPing.set_timestamp(timestamp);
 
-	vector<shared_ptr<Buffer>> sendBuffers = PacketHandler::MakeSendBuffer(sendPacketPing, PacketId::PKT_CS_PING);
+	shared_ptr<Buffer> sendBuffer = PacketHandler::MakeSendBuffer(sendPacketPing, PacketId::PKT_CS_PING);
 
-	SendMsg(p->first, sendBuffers);
+	SendMsg(p->first, sendBuffer);
 }
 
-void PlayerManager::SendMsg(uint64 userId, vector<shared_ptr<Buffer>> sendBuffers){
+void PlayerManager::SendMsg(uint64 userId, shared_ptr<Buffer> sendBuffers){
 
 	const auto& iter = _players.find(userId);
 	shared_ptr<Player>& player = iter->second;

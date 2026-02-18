@@ -27,16 +27,7 @@ Room::~Room() {
 	cout << "[Room::~Room] roomId : " << _roomInfo._initRoomInfo._roomId << endl;
 }
 
-void Room::PushJobBroadcast(shared_ptr<Buffer> originSendBuffer){
-
-	shared_ptr<Room> self = static_pointer_cast<Room>(shared_from_this());
-
-	unique_ptr<Job> job = make_unique<Job>([self]() {
-		
-	});
-}
-
-void Room::PushJobBroadcast(const vector<shared_ptr<Buffer>>& sendBuffer){
+void Room::PushJobBroadcast(const shared_ptr<Buffer>& sendBuffer){
 
 	shared_ptr<Room> self = static_pointer_cast<Room>(shared_from_this());
 
@@ -57,7 +48,7 @@ void Room::PushJobBroadcastPosition(){
 	});
 }
 
-void Room::PushJobBroadcastNearByPlayer(uint64 sessionId, const vector<shared_ptr<Buffer>>& sendBuffer){
+void Room::PushJobBroadcastNearByPlayer(uint64 sessionId, const shared_ptr<Buffer>& sendBuffer){
 
 	shared_ptr<Room> self = static_pointer_cast<Room>(shared_from_this());
 
@@ -259,16 +250,6 @@ void Room::Broadcast(const shared_ptr<Buffer>& sendBuffer){
 	}
 }
 
-void Room::Broadcast(const vector<shared_ptr<Buffer>>& sendBuffer){
-
-	for (const auto& p : _players) {
-
-		uint64 sessionId = p.first;
-
-		GPlayerManager->PushJobSendData(sessionId, sendBuffer);
-	}
-}
-
 void Room::BroadcastPlayerLeaveGrid(uint64 sessionId, const vector<uint64>& playersToNotify){
 
 	for (uint64 targetSessionId : playersToNotify) {
@@ -445,7 +426,7 @@ void Room::BroadcastPlayerInGrid(){
 		for (auto& sessionId : sessionIdInGrid) {
 		}
 
-		vector<shared_ptr<Buffer>> sendBuffer = PacketHandler::MakeSendBuffer(sendPlayerListInGridPacket, PacketId::PKT_SC_PLAYER_LIST_IN_GRID);
+		shared_ptr<Buffer> sendBuffer = PacketHandler::MakeSendBuffer(sendPlayerListInGridPacket, PacketId::PKT_SC_PLAYER_LIST_IN_GRID);
 
 		GPlayerManager->PushJobSendData(sessionId, sendBuffer);
 	}
@@ -638,7 +619,7 @@ void RoomManager::PushJobCreateAndPushRoom(const InitRoomInfo& initRoomInfo, con
 			createRoomResponsePacket.set_errormessage("FAIL ENTER ROOM");
 		}
 
-		vector<shared_ptr<Buffer>> sendBuffer = PacketHandler::MakeSendBuffer(createRoomResponsePacket, PacketId::PKT_SC_CREATE_ROOM_RESPONSE);
+		shared_ptr<Buffer> sendBuffer = PacketHandler::MakeSendBuffer(createRoomResponsePacket, PacketId::PKT_SC_CREATE_ROOM_RESPONSE);
 
 		GPlayerManager->PushJobSendData(hostPlayerData._baseInfo._sessionId, sendBuffer);
 	});
@@ -802,7 +783,7 @@ void RoomManager::PushJobSkillUseResult(const RoomResult::SkillUseResult& skillU
 	PushJob(move(job));
 }
 
-void RoomManager::BroadcastToRoom(int32 roomId, const vector<shared_ptr<Buffer>>& sendBuffer){
+void RoomManager::BroadcastToRoom(int32 roomId, const shared_ptr<Buffer>& sendBuffer){
 
 	for (auto& iter : _rooms) {
 
@@ -993,7 +974,7 @@ void RoomManager::EnterRoomResult(const RoomResult::EnterRoomResult& enterRoomRe
 			sendPacketEnterRoomResponse.set_errormessage("ENTER ROOM FAIL");
 		}
 
-		vector<shared_ptr<Buffer>> sendBuffer = PacketHandler::MakeSendBuffer(sendPacketEnterRoomResponse, PacketId::PKT_SC_ENTER_ROOM_RESPONSE);
+		shared_ptr<Buffer> sendBuffer = PacketHandler::MakeSendBuffer(sendPacketEnterRoomResponse, PacketId::PKT_SC_ENTER_ROOM_RESPONSE);
 
 		GPlayerManager->PushJobSendData(enterRoomResult._enterPlayerInfo._baseInfo._sessionId, sendBuffer);
 	}
@@ -1021,7 +1002,7 @@ void RoomManager::EnterRoomResult(const RoomResult::EnterRoomResult& enterRoomRe
 			stats->set_maxhp(enterRoomResult._enterPlayerInfo._stats._maxHp);
 			stats->set_maxmp(enterRoomResult._enterPlayerInfo._stats._maxMp);
 
-			vector<shared_ptr<Buffer>> sendBuffer = PacketHandler::MakeSendBuffer(sendPacketEnterRoomNotification, PacketId::PKT_SC_PLAYER_ENTER_ROOM_NOTIFICATION);
+			shared_ptr<Buffer> sendBuffer = PacketHandler::MakeSendBuffer(sendPacketEnterRoomNotification, PacketId::PKT_SC_PLAYER_ENTER_ROOM_NOTIFICATION);
 
 			_rooms[enterRoomResult._roomInfo._initRoomInfo._roomId]->PushJobBroadcast(sendBuffer);
 		}
@@ -1043,7 +1024,7 @@ void RoomManager::SkillUseResult(const RoomResult::SkillUseResult& skillUseResul
 		}
 		sendPacketSkillResult.set_skillid(skillUseResult._skillData.skillId);
 
-		vector<shared_ptr<Buffer>> sendBuffer = PacketHandler::MakeSendBuffer(sendPacketSkillResult, PacketId::PKT_SC_SKILL_RESULT);
+		shared_ptr<Buffer> sendBuffer = PacketHandler::MakeSendBuffer(sendPacketSkillResult, PacketId::PKT_SC_SKILL_RESULT);
 		
 		GPlayerManager->PushJobSendData(skillUseResult._skillData.casterId, sendBuffer);
 	}

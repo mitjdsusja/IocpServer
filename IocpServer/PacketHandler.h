@@ -67,7 +67,7 @@ public:
 	static void HandlePacket(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* service);
 
 	template<typename T>
-	static vector<shared_ptr<Buffer>> MakeSendBuffer(const T& packet, PacketId packetId);
+	static shared_ptr<Buffer> MakeSendBuffer(const T& packet, PacketId packetId);
 
 private:
 	static void Handle_Invalid(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* service);
@@ -104,107 +104,36 @@ private:
 	static void Handle_SC_Skill_Cast_Notification(shared_ptr<GameSession> session, const PacketContext& packetContext, Service* serviec);
 };
 
-//template<typename T>
-//shared_ptr<Buffer> PacketHandler::MakeSendBuffer(T& packet, PacketId packetId) {
-//	shared_ptr<Buffer> sendBuffer = shared_ptr<Buffer>(GSendBufferPool->Pop(), [](Buffer* buffer) { GSendBufferPool->Push(buffer); });
-//	PacketHeader* header = (PacketHeader*)sendBuffer->GetBuffer();
-//
-//	int32 dataSize = (int32)packet.ByteSizeLong();
-//	int32 packetSize = sizeof(PacketHeader) + dataSize;
-//
-//	header->packetId = htonl(packetId);
-//	header->packetSize = htonl(packetSize);
-//
-//	packet.SerializeToArray(((BYTE*)header + sizeof(PacketHeader)), dataSize);
-//
-//	sendBuffer->Write(packetSize);
-//	return sendBuffer;
-//}
-
 template<typename T>
-vector<shared_ptr<Buffer>> PacketHandler::MakeSendBuffer(const T& packet, PacketId packetId) {
+shared_ptr<Buffer> PacketHandler::MakeSendBuffer(const T& packet, PacketId packetId) {
 
-	vector<shared_ptr<Buffer>> sendBuffers;
+	shared_ptr<Buffer> sendBuffer = nullptr;
 
 	string serializedData;
 	if (!packet.SerializeToString(&serializedData)) {
 		spdlog::error("Failed to serialize packetId: {}", (int32)packetId);
-		return sendBuffers; // 빈 벡터 반환
+		return sendBuffer; // 빈 벡터 반환
 	}
 
 	const int32 headerSize = sizeof(PacketHeader);
-	const int32 frameSize = sizeof(PacketFrame);
+	const int32 dataSize = static_cast<int32>(serializedData.size());
 
-	int32 totalDataSize = static_cast<int32>(serializedData.size());
-	int32 offset = 0;
-	int32 frameCount = 0;
+	sendBuffer = shared_ptr<Buffer>(LSendBufferPool->Pop(headerSize + dataSize), [](Buffer* buffer) { buffer->ReturnToOwner(); });
 
-	// 최소 한 프레임은 만들어야 하므로, totalDataSize == 0도 처리
-	do {
-		Buffer* buffer = LSendBufferPool->Pop();
-		shared_ptr<Buffer> sendBuffer = shared_ptr<Buffer>(buffer, [](Buffer* buffer) { buffer->ReturnToOwner(); });
-
-		if (sendBuffer->WriteSize() != 0) {
-			spdlog::info("[PacketHandler::MakeSendBuffer] SendBuffer Write Size Not Zero - BufferWriteSize {}, ", sendBuffer->WriteSize());
-			__debugbreak();
-		}
-		const int32 bufferCapacity = sendBuffer->Capacity();
-
-		// 버퍼 크기가 헤더+프레임 크기보다 작으면
-		if (bufferCapacity <= headerSize + frameSize) {
-			spdlog::error("Buffer capacity ({}) too small for headers", bufferCapacity);
-			break;
-		}
-
-		const int32 maxPayloadSize = bufferCapacity - headerSize - frameSize;
-
-		// payloadSize는 남은 데이터 크기와 maxPayloadSize 중 작은 값
-		int32 payloadSize = std::min(maxPayloadSize, totalDataSize - offset);
-
-		// payloadSize가 음수면 종료
-		if (payloadSize < 0) {
-			spdlog::error("Negative payload size calculated: {}", payloadSize);
-			break;
-		}
-
-		int32 packetSize = headerSize + frameSize + payloadSize;
-
-		// packetSize가 버퍼 용량 초과하지 않는지 검사
-		if (packetSize > bufferCapacity) {
-			spdlog::error("Packet size ({}) exceeds buffer capacity ({})", packetSize, bufferCapacity);
-			break;
-		}
-
-		PacketHeader* header = reinterpret_cast<PacketHeader*>(sendBuffer->GetBuffer());
-		header->packetId = htonl(packetId);
-		header->packetSize = htonl(packetSize);
-
-		PacketFrame* frame = reinterpret_cast<PacketFrame*>((BYTE*)header + headerSize);
-		frame->packetId = htonl(packetId);
-		frame->frameIndex = htonl(frameCount);
-
-		BYTE* payloadPtr = reinterpret_cast<BYTE*>(frame) + frameSize;
-		if (payloadSize > 0)
-			memcpy(payloadPtr, serializedData.data() + offset, payloadSize);
-
-		sendBuffer->Write(packetSize);
-		if (sendBuffer->WriteSize() != packetSize) {
-
-			spdlog::info("[PacketHandler::MakeSendBuffer] INVALID PACKET - WriteSize {}, PacketSIze {} ", sendBuffer->WriteSize(), packetSize);
-			__debugbreak();
-		}
-		//spdlog::info("Make Buffer HeaderId {}, PacketSize {},  Size : {}", ntohl(header->packetId), ntohl(header->packetSize), sendBuffer->WriteSize());
-		sendBuffers.push_back(move(sendBuffer));
-
-		offset += payloadSize;
-		frameCount++;
-
-	} while (offset < totalDataSize || frameCount == 0);
-
-	for (auto& buffer : sendBuffers) {
-		PacketFrame* frame = reinterpret_cast<PacketFrame*>(buffer->GetBuffer() + sizeof(PacketHeader));
-		frame->totalFrameCount = htonl(frameCount);
+	if (sendBuffer->WriteSize() != 0) {
+		spdlog::info("[PacketHandler::MakeSendBuffer] SendBuffer Write Size Not Zero - BufferWriteSize {}, ", sendBuffer->WriteSize());
+		return sendBuffer; // 빈 벡터 반환		
+	}
+	if (static_cast<int32>(sendBuffer->Capacity()) < headerSize + dataSize) {
+		spdlog::error("Buffer capacity ({}) too small for packetId {} with data size {}", sendBuffer->Capacity(), (int32)packetId, dataSize);
+		return sendBuffer; // 빈 벡터 반환
 	}
 
-	return sendBuffers;
+	PacketHeader* header = reinterpret_cast<PacketHeader*>(sendBuffer->GetBuffer());
+	header->packetId = htonl(packetId);
+	header->packetSize = htonl(headerSize + dataSize);
+
+	memcpy(header + 1, serializedData.data(), dataSize);
+
+	return sendBuffer;
 }
