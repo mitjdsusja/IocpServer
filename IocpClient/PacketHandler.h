@@ -130,6 +130,7 @@ shared_ptr<Buffer> PacketHandler::MakeSendBuffer(const T& packet, PacketId packe
 	header->packetSize = htonl(headerSize + dataSize);
 
 	memcpy(header + 1, serializedData.data(), dataSize);
+	sendBuffer->Write(headerSize + dataSize);
 
 	return sendBuffer;
 }
